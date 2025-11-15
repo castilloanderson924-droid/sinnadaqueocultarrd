@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Diario Urbano — Periódico Digital</title>
+  <style>
+    /* --- estilos base, ticker, feed, modal artículo (igual que antes) --- */
+    body { margin:0; font-family:system-ui; background:var(--bg); color:var(--text) }
+    /* Switch */
+    .switch { position:relative; display:inline-block; width:54px; height:28px }
+    .switch input { opacity:0; width:0; height:0 }
+    .slider { position:absolute; inset:0; cursor:pointer; background:var(--muted); border-radius:28px; transition:.25s }
+    .slider:before { content:""; position:absolute; height:22px; width:22px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.25s }
+    input:checked + .slider { background:var(--brand) }
+    input:checked + .slider:before { transform:translateX(26px) }
+    /* Modal genérico */
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:100 }
+    .modal.open { display:flex }
+    .modal-content { background:#fff; color:#000; border-radius:12px; padding:20px; width:90%; max-width:400px }
+    .modal-content h2 { margin-top:0 }
+    .modal-content form { display:grid; gap:10px }
+    .modal-content input { padding:8px; border:1px solid #ccc; border-radius:8px }
+    .modal-content button { padding:10px; border:none; border-radius:8px; background:#1e67ff; color:#fff; cursor:pointer }
+  </style>
+</head>
+<body>
+  <!-- Barra superior -->
+  <header>
+    <div class="topbar">
+      <div class="brand">El Diario Urbano</div>
+      <div class="actions">
+        <label class="switch">
+          <input type="checkbox" id="themeSwitch" />
+          <span class="slider"></span>
+        </label>
+        <button id="authBtn">Registrarse / Iniciar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Feed -->
+  <main class="container">
+    <section id="feed"></section>
+  </main>
+
+  <!-- Modal de autenticación -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <h2>Registro / Inicio de sesión</h2>
+      <form id="authForm">
+        <input type="text" id="name" placeholder="Nombre completo" required />
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <input type="password" id="password2" placeholder="Repite la contraseña" required />
+        <input type="file" id="photo" accept="image/*" />
+        <button type="submit">Enviar</button>
+      </form>
+      <button onclick="closeAuth()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+
+  <script>
+    // Configuración Firebase (reemplaza con tus credenciales)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROJECT.firebaseapp.com",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_PROJECT.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // Abrir/cerrar modal
+    const authModal = document.getElementById("authModal");
+    document.getElementById("authBtn").onclick = () => authModal.classList.add("open");
+    function closeAuth(){ authModal.classList.remove("open") }
+
+    // Registro / login
+    document.getElementById("authForm").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      const pass2 = document.getElementById("password2").value;
+      const photoFile = document.getElementById("photo").files[0];
+      if(pass!==pass2){ alert("Las contraseñas no coinciden"); return; }
+      try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, pass);
+        const uid = userCred.user.uid;
+        let photoURL = "";
+        if(photoFile){
+          const ref = storage.ref().child("profiles/"+uid);
+          await ref.put(photoFile);
+          photoURL = await ref.getDownloadURL();
+        }
+        await db.collection("users").doc(uid).set({ name, email, photoURL });
+        alert("Usuario registrado correctamente");
+        closeAuth();
+      } catch(err){
+        alert("Error: "+err.message);
+      }
+    });
+
+    // Switch de tema
+    const themeSwitch = document.getElementById("themeSwitch");
+    themeSwitch.addEventListener("change", e=>{
+      document.documentElement.setAttribute("data-theme", e.target.checked?"dark":"light");
+    });
+  </script>
+</body>
+</html>
