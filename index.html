@@ -119,7 +119,7 @@
       .layout{padding:12px; gap:12px; padding-bottom:92px}
     }
 
-    /* Ticket News (centered) */
+    /* Ticket News */
     .ticket{margin:16px auto; padding:0 16px}
     .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden; text-align:center}
     .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--headline)}
@@ -137,19 +137,21 @@
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Right column cards - left aligned on desktop; centered on mobile */
+    /* Right column cards */
     .right-col .card{
       background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px;
-      text-align:left;
-    }
-    .list-row{display:flex;align-items:center;justify-content:flex-start;gap:10px;margin-bottom:8px}
-    .list-left{display:flex;align-items:center;gap:8px}
-    @media(max-width:640px){
-      .right-col .card{ text-align:center; padding-left:16px; padding-right:16px; }
-      .right-col .card .list-row{ justify-content:center; }
     }
     .card h4{margin:0 0 8px;color:var(--text)}
+    .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
+
+    /* Force left alignment for specific cards on all breakpoints */
+    .card.left-list { text-align:left; }
+    .card.left-list .list-row { justify-content:flex-start; }
+    .card.left-list #topAuthors,
+    .card.left-list #topPosts,
+    .card.left-list #topTags { text-align:left; }
 
     /* Ad box */
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
@@ -169,13 +171,13 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Featured YouTube large on desktop */
+    /* Featured YouTube */
     .post .featured-video{
       width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9; border-radius:14px; border:2px solid var(--border); background:#000;
     }
     @media(max-width:980px){ .post .featured-video{ max-width:100% } }
 
-    /* Gallery: images + big YouTube */
+    /* Gallery */
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
     @media(max-width:980px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:640px){.post-gallery{grid-template-columns:1fr}}
@@ -214,10 +216,6 @@
     .comment-text{color:var(--text);font-size:14px;line-height:1.5}
     .comment-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
     .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer;white-space:nowrap}
-    .comment-like.active{background:var(--accent);color:#fff;border-color:transparent}
-    .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:2px}
-    .icon-btn:hover{color:var(--danger)}
-    .icon-24{width:18px;height:18px;display:inline-block}
 
     .replies-wrap{margin-top:8px}
     .reply-item{display:flex;gap:10px;margin-top:8px}
@@ -263,12 +261,8 @@
       box-shadow:0 8px 20px rgba(59,130,246,.35);
     }
     .progress-pill .pct{font-variant-numeric:tabular-nums}
-    .progress-pill .bar{
-      position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden;
-    }
-    .progress-pill .bar > span{
-      position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px;
-    }
+    .progress-pill .bar{ position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden; }
+    .progress-pill .bar > span{ position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px; }
 
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
@@ -281,7 +275,7 @@
     .footer-inner{padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     .footer a{color:var(--muted)}
 
-    /* Dashboard structured styles (no inline) */
+    /* Dashboard clean styles */
     .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
     @media(max-width:900px){ .dash-grid{grid-template-columns:1fr} }
     .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -427,15 +421,15 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card left-list">
         <h4>Destacados</h4>
         <div id="topAuthors"></div>
       </div>
-      <div class="card">
+      <div class="card left-list">
         <h4>Posts con más likes</h4>
         <div id="topPosts"></div>
       </div>
-      <div class="card">
+      <div class="card left-list">
         <h4>Tags frecuentes</h4>
         <div id="topTags"></div>
       </div>
@@ -699,6 +693,8 @@
     /* Body lock helpers */
     function lockBody(){ document.body.style.overflow='hidden'; }
     function unlockBody(){ document.body.style.overflow=''; }
+    function openNotifSheet(){ notifSheet.style.display='block'; lockBody(); }
+    function closeNotifSheet(){ notifSheet.style.display='none'; unlockBody(); }
 
     /* Composer modal */
     const composerModal = document.getElementById('composerModal');
@@ -946,9 +942,13 @@
       topTags.innerHTML = '';
       sortedTags.forEach(([t,c])=>{
         const row = document.createElement('div'); row.className='list-row';
-        const left = document.createElement('div'); left.innerHTML = `<strong>#${escapeHtml(t)}</strong>`;
+        const left = document.createElement('div'); left.className='list-left';
+        const label = document.createElement('div'); label.innerHTML = `<strong>#${escapeHtml(t)}</strong>`;
         const right = document.createElement('div'); right.className='panel-sub'; right.textContent = `${c} apariciones`;
-        row.appendChild(left); row.appendChild(right); topTags.appendChild(row);
+        left.appendChild(label);
+        row.appendChild(left);
+        row.appendChild(right);
+        topTags.appendChild(row);
       });
     }
 
@@ -1494,13 +1494,6 @@
     function activateTab(btn){
       document.querySelectorAll('.mobile-tab').forEach(b=> b.classList.remove('active'));
       btn.classList.add('active');
-    }
-
-    function openNotifSheet(){
-      notifSheet.style.display='block'; lockBody();
-    }
-    function closeNotifSheet(){
-      notifSheet.style.display='none'; unlockBody();
     }
 
     tabHome.addEventListener('click', ()=>{
