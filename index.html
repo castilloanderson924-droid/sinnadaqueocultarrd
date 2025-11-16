@@ -7,83 +7,95 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
+    /* THEME */
     :root{
-      --bg:#0b0e14; --panel:#121825; --panel-2:#182235; --border:#24314a; --text:#eef2f7; --muted:#9fb0c7;
-      --accent:#2ac3ff; --ok:#22c55e;
+      --bg:#0b0e14; --panel:#121825; --panel-2:#182235; --border:#24314a;
+      --text:#eef2f7; --muted:#9fb0c7; --accent:#2ac3ff; --headline:#2ac3ff;
+      --danger:#ef4444; --ok:#22c55e; --shadow:0 10px 25px rgba(0,0,0,.28);
     }
     body.light{
-      --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f2f5f9; --border:#e5e7eb; --text:#0f172a; --muted:#64748b;
-      --accent:#2563eb; --ok:#16a34a;
+      --bg:#e6f0fa; --panel:#ffffff; --panel-2:#f0f7ff; --border:#cbd5e1;
+      --text:#0f172a; --muted:#475569; --accent:#2563eb; --headline:#2563eb;
+      --danger:#dc2626; --ok:#16a34a; --shadow:0 14px 30px rgba(16,24,40,.10);
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
+    .fade-in{animation:fade .4s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .float-up{animation:fu .6s ease both}
+    @keyframes fu{from{opacity:.0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-    /* Header */
-    .header{position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:1px solid var(--border)}
-    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px 16px}
+    /* HEADER / EPIC MENU */
+    .header{position:sticky;top:0;z-index:90;background:linear-gradient(180deg,var(--panel) 0%,rgba(18,24,37,.95) 100%);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand-logo{width:46px;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0c1018;display:grid;place-items:center}
+    .brand-logo{width:48px;height:48px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0c1018;display:grid;place-items:center;box-shadow:var(--shadow)}
     .brand-logo img{width:40px;height:40px;object-fit:contain}
     .brand-title{line-height:1}
     .brand-title h1{font-family:"Playfair Display",serif;font-size:22px;margin:0}
-    .brand-title .slogan{color:var(--muted);font-size:12px;margin-top:2px}
+    .slogan{color:var(--muted);font-size:12px;margin-top:2px}
     .spacer{flex:1}
-    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
-    .btn:hover{border-color:#334155;background:var(--panel)}
-    .btn-accent{background:var(--accent);color:#061218;border-color:transparent}
+
+    .menu{display:flex;align-items:center;gap:8px}
+    .menu .btn{padding:8px 12px}
+    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:800;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    /* Switch (tema) */
+    /* Switch */
     .switch{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2)}
     .switch label{font-size:12px;color:var(--muted);font-weight:800}
-    .switch input{width:48px;height:24px;appearance:none;background:#475569;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
+    .switch input{width:52px;height:28px;appearance:none;background:#475569;border-radius:999px;position:relative;cursor:pointer;outline:none;border:1px solid var(--border)}
     .switch input:checked{background:var(--accent)}
-    .switch input::before{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;top:1.5px;left:2px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}
+    .switch input::before{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:1.5px;left:1.5px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}
     .switch input:checked::before{transform:translateX(24px)}
 
-    /* Ticket News (headlines rail) */
-    .ticket{max-width:1100px;margin:12px auto;padding:0 16px}
-    .ticket-card{overflow:hidden;border:1px dashed var(--border);border-radius:16px;background:linear-gradient(120deg,var(--panel),var(--panel) 55%,var(--panel-2) 100%);display:grid;grid-template-columns:1.2fr 280px}
-    .ticket-left{padding:18px 20px}
-    .ticket-title{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-    .ticket-tag{font-size:12px;color:#061218;background:#ffd166;padding:6px 10px;border-radius:999px;font-weight:800}
-    .ticker{border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);padding:8px 0;margin-top:10px;overflow:hidden}
-    .marquee{display:flex;gap:24px;white-space:nowrap;animation:marq 28s linear infinite}
-    @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .headline{display:inline-flex;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--border);padding:6px 10px;border-radius:999px}
-    .headline .title{font-weight:800}
-    .headline .tags{font-size:12px;color:var(--muted)}
-    .ticket-right{display:flex;align-items:center;justify-content:center;padding:16px}
-    .ticket-logo{width:180px;height:180px;border-radius:16px;border:1px solid var(--border);background:#0b0d12;display:grid;place-items:center}
-    .ticket-logo img{width:140px;height:140px;object-fit:contain}
-
-    /* Main layout */
-    .container{max-width:1100px;margin:0 auto;padding:16px}
-    .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
+    /* LAYOUT */
+    .layout{max-width:1200px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+    @media (max-width:980px){.layout{grid-template-columns:1fr}}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 12px;font-size:18px}
-    .empty{color:var(--muted);text-align:center;padding:20px}
 
-    /* Forum-style post card */
-    .post{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px}
+    /* TICKET NEWS — one single marquee */
+    .ticket{max-width:1200px;margin:16px auto;padding:0 16px}
+    .ticket-rail{background:var(--accent);color:#fff;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;border:1px solid transparent}
+    .ticket-head{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.12)}
+    .ticket-head .label{font-weight:900;letter-spacing:.4px}
+    .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
+    .marquee{display:inline-block;animation:marq 28s linear infinite}
+    @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+    .headline{display:inline-flex;align-items:center;gap:10px;margin-right:28px}
+    .headline .tag{background:rgba(255,255,255,.18);padding:4px 8px;border-radius:999px;font-weight:800}
+    .headline .title{font-weight:900}
+
+    /* FEED — forum style */
+    .post{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;transition:transform .2s ease, box-shadow .2s ease}
+    .post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
     .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0}
     .post-meta{font-size:12px;color:var(--muted)}
     .post-desc{color:var(--muted);font-size:14px;margin:8px 0}
     .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
-    .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);font-weight:700}
+    .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;color:var(--text);background:var(--panel-2);font-weight:700}
     .post-content{margin-top:8px}
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
     @media (max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:520px){.post-gallery{grid-template-columns:1fr}}
     .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer}
+
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
     .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer}
-    .like-btn.active{background:#102334;border-color:#2b405e}
+    .like-btn.active{background:#1e40af;border-color:#1e3a8a;color:#fff}
     .counts{font-size:12px;color:var(--muted)}
+    .author-actions{margin-left:auto;display:flex;gap:6px}
+    .btn-mini{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer;font-weight:800}
+    .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
+    .btn-mini:hover{transform:translateY(-1px)}
 
-    /* Comments */
+    /* COMMENTS */
     .comments{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
     .comment{display:flex;gap:8px;margin-bottom:8px}
     .comment .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:8px 10px;flex:1}
@@ -91,9 +103,16 @@
     .comment-form{display:flex;gap:8px;margin-top:8px}
     .comment-form input{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
 
-    /* Composer modal */
-    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:80}
-    .modal{width:clamp(360px,80vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    /* RIGHT SIDEBAR */
+    .sidebar-section{margin-bottom:16px}
+    .list{display:grid;gap:10px}
+    .list-item{display:flex;align-items:center;gap:10px}
+    .list-item .avatar{width:28px;height:28px}
+    .list-item .meta{font-size:12px;color:var(--muted)}
+
+    /* MODALS */
+    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100}
+    .modal{width:clamp(360px,80vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800}
     .modal-body{padding:16px}
@@ -108,20 +127,20 @@
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
     .media-thumb video{width:100%;height:100%;object-fit:cover}
 
-    /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:90}
+    /* LIGHTBOX */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:110}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header / Epic menu -->
   <header class="header">
     <nav class="nav">
       <div class="brand">
         <div class="brand-logo">
-          <img alt="Logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
+          <img alt="Logo SNQO" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
         </div>
         <div class="brand-title">
           <h1>SIN NADA QUE OCULTAR</h1>
@@ -129,10 +148,6 @@
         </div>
       </div>
       <div class="spacer"></div>
-      <div class="switch">
-        <label for="themeToggle">Tema</label>
-        <input type="checkbox" id="themeToggle">
-      </div>
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
       <button id="googleBtn" class="btn">Iniciar con Google</button>
       <div id="userChip" style="display:none;align-items:center;gap:8px">
@@ -140,36 +155,54 @@
         <span id="userName" style="font-weight:800"></span>
         <button id="logoutBtn" class="btn">Salir</button>
       </div>
+      <div class="switch">
+        <label for="themeToggle">Tema</label>
+        <input type="checkbox" id="themeToggle">
+      </div>
     </nav>
   </header>
 
-  <!-- Ticket News with headlines -->
+  <!-- Ticket News (single rail) -->
   <section class="ticket">
-    <div class="ticket-card">
-      <div class="ticket-left">
-        <div class="ticket-title">
-          <span class="ticket-tag">Ticket News</span>
-          <h2>Titulares de la comunidad</h2>
-        </div>
-        <div class="ticker"><div id="marqueeA" class="marquee"></div></div>
-        <div class="ticker"><div id="marqueeB" class="marquee"></div></div>
+    <div class="ticket-rail float-up">
+      <div class="ticket-head">
+        <span class="label">Últimas noticias</span>
       </div>
-      <div class="ticket-right">
-        <div class="ticket-logo">
-          <img alt="Logo principal" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
-        </div>
+      <div class="ticker">
+        <div id="marquee" class="marquee"></div>
       </div>
     </div>
   </section>
 
-  <!-- Feed -->
-  <main class="container">
-    <section id="feed" class="panel">
+  <!-- Main layout -->
+  <section class="layout">
+    <!-- Left: Feed -->
+    <div class="panel fade-in">
       <h3>Feed</h3>
       <div id="posts"></div>
-      <div id="emptyFeed" class="empty">Aún no hay publicaciones.</div>
-    </section>
-  </main>
+      <div id="emptyFeed" class="empty" style="color:var(--muted)">Aún no hay publicaciones.</div>
+    </div>
+
+    <!-- Right: Sidebar -->
+    <aside class="panel fade-in">
+      <h3>Relevante ahora</h3>
+
+      <div class="sidebar-section">
+        <h4 style="margin:0 0 8px">Autores destacados</h4>
+        <div id="topAuthors" class="list"></div>
+      </div>
+
+      <div class="sidebar-section">
+        <h4 style="margin:0 0 8px">Posts con más likes</h4>
+        <div id="topPosts" class="list"></div>
+      </div>
+
+      <div class="sidebar-section">
+        <h4 style="margin:0 0 8px">Tags frecuentes</h4>
+        <div id="topTags" class="list"></div>
+      </div>
+    </aside>
+  </section>
 
   <!-- Composer modal -->
   <div id="composerModal" class="backdrop">
@@ -182,7 +215,7 @@
         <div class="inputs">
           <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
           <textarea id="descInput" placeholder="Descripción breve (aparecerá en la tarjeta del feed)" rows="3" maxlength="280"></textarea>
-          <input id="tagsInput" type="text" placeholder="Etiquetas (separadas por comas, ej: política, sociedad)">
+          <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad, tecnología)">
           <select id="contentType">
             <option value="texto">Texto</option>
             <option value="imagen">Imágenes</option>
@@ -216,6 +249,27 @@
     </div>
   </div>
 
+  <!-- Edit modal -->
+  <div id="editModal" class="backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">Editar publicación</div>
+        <button class="close-x" id="closeEdit">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="inputs">
+          <input id="editTitle" type="text">
+          <textarea id="editDesc" rows="3"></textarea>
+          <input id="editTags" type="text">
+        </div>
+        <div id="editEditor" class="editor" contenteditable="true"></div>
+      </div>
+      <div class="modal-actions">
+        <button id="saveEditBtn" class="btn btn-accent">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
@@ -228,7 +282,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase config (tu proyecto)
+    /* Firebase config (tu proyecto) */
     const firebaseConfig = {
       apiKey: "AIzaSyBWqJI7OKZcEjN2CeTZxPi8pWzo8rBMIkI",
       authDomain: "nearmemarketplace-ce82b.firebaseapp.com",
@@ -242,12 +296,12 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    // Cloudinary config (unsigned)
+    /* Cloudinary (unsigned) */
     const CLOUDINARY_CLOUD_NAME = "dxbahdjk1";
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-    // Tema (switch persistente)
+    /* Theme switch (persistente y coordinado) */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
     if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; }
@@ -257,7 +311,7 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
-    // Auth UI
+    /* Auth UI */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
@@ -282,41 +336,30 @@
       }
     });
 
-    // Composer modal
+    /* Composer modal */
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
-    const publishBtn = document.getElementById('publishBtn');
-    const resetBtn = document.getElementById('resetBtn');
-
     function showComposer(){ composerModal.style.display = 'flex'; }
     function hideComposer(){ composerModal.style.display = 'none'; }
-
-    openComposer.addEventListener('click', () => {
-      if (!auth.currentUser) { alert('Inicia sesión con Google para crear una publicación.'); return; }
-      showComposer();
-    });
+    openComposer.addEventListener('click', () => { if (!auth.currentUser) { alert('Inicia sesión con Google para publicar.'); return; } showComposer(); });
     closeComposer.addEventListener('click', hideComposer);
     composerModal.addEventListener('click', (e) => { if (e.target === composerModal) hideComposer(); });
 
-    // Editor
+    /* Editor toolbar */
     const editor = document.getElementById('editor');
     document.querySelectorAll('.tool').forEach(btn => {
       const cmd = btn.dataset.cmd;
       const val = btn.dataset.value;
-      if (cmd && cmd !== 'formatBlock') {
-        btn.addEventListener('click', () => document.execCommand(cmd, false, null));
-      } else if (cmd === 'formatBlock') {
-        btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
-      }
+      if (cmd && cmd !== 'formatBlock') btn.addEventListener('click', () => document.execCommand(cmd, false, null));
+      else if (cmd === 'formatBlock') btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
     });
     document.getElementById('linkBtn').addEventListener('click', () => {
-      const url = prompt('URL del enlace:');
-      if (url) document.execCommand('createLink', false, url);
+      const url = prompt('URL del enlace:'); if (url) document.execCommand('createLink', false, url);
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    // Media preview
+    /* Media preview */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -335,7 +378,7 @@
       });
     });
 
-    // Upload to Cloudinary
+    /* Upload Cloudinary */
     async function uploadToCloudinary(files, uid){
       const items = [];
       for (const file of files) {
@@ -346,20 +389,18 @@
         const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
         if (!res.ok) throw new Error('Falló la subida a Cloudinary');
         const data = await res.json();
-        items.push({
-          url: data.secure_url,
-          type: data.resource_type === 'video' ? 'video' : 'image',
-          public_id: data.public_id
-        });
+        items.push({ url: data.secure_url, type: data.resource_type === 'video' ? 'video' : 'image', public_id: data.public_id });
       }
       return items;
     }
 
-    // Publicar
+    /* Publicar */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
     const contentType = document.getElementById('contentType');
+    const publishBtn = document.getElementById('publishBtn');
+    const resetBtn = document.getElementById('resetBtn');
 
     publishBtn.addEventListener('click', async () => {
       const user = auth.currentUser;
@@ -371,16 +412,15 @@
       const type = contentType.value; // texto | imagen | video
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
       if ((type === 'imagen' || type === 'video') && selectedFiles.length === 0) {
-        const proceed = confirm('Seleccionaste tipo "'+type+'", pero no adjuntaste archivos. ¿Publicar de todas formas?');
-        if (!proceed) return;
+        const proceed = confirm(`Seleccionaste tipo "${type}", pero no adjuntaste archivos. ¿Publicar de todas formas?`); if (!proceed) return;
       }
+
       publishBtn.disabled = true; const originalLabel = publishBtn.textContent;
       publishBtn.textContent = 'Publicando…';
       try {
         const mediaItems = selectedFiles.length ? await uploadToCloudinary(selectedFiles, user.uid) : [];
         await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags,
-          type,
+          title, desc, bodyHtml, tags, type,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           media: mediaItems,
@@ -388,15 +428,9 @@
           likedBy: []
         });
 
-        // Reset
-        titleInput.value = '';
-        descInput.value = '';
-        tagsInput.value = '';
-        contentType.value = 'texto';
+        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         editor.innerHTML = '<p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>';
-        mediaInput.value = '';
-        selectedFiles = [];
-        mediaPreview.innerHTML = '';
+        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
 
         publishBtn.textContent = 'Publicado ✔';
         setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; hideComposer(); }, 800);
@@ -408,70 +442,96 @@
     });
 
     resetBtn.addEventListener('click', () => {
-      titleInput.value = '';
-      descInput.value = '';
-      tagsInput.value = '';
-      contentType.value = 'texto';
-      editor.innerHTML = '';
-      mediaInput.value = '';
-      selectedFiles = [];
-      mediaPreview.innerHTML = '';
+      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
+      editor.innerHTML = ''; mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
     });
 
-    // Feed en tiempo real + titulares
+    /* FEED + Ticket headlines + Sidebar */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
+    const marquee = document.getElementById('marquee');
+
+    let postsCache = [];
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsContainer.innerHTML = '';
-      if (snap.empty) {
-        emptyFeed.style.display = 'block';
-        document.getElementById('marqueeA').innerHTML = '';
-        document.getElementById('marqueeB').innerHTML = '';
-        return;
-      }
+      postsCache = [];
+      if (snap.empty) { emptyFeed.style.display = 'block'; marquee.innerHTML = ''; renderSidebar([]); return; }
       emptyFeed.style.display = 'none';
 
-      const all = [];
       snap.forEach(doc => {
         const d = doc.data();
         let createdText = '—'; try { if (d.createdAt?.toDate) createdText = d.createdAt.toDate().toLocaleString(); } catch(e){}
-        all.push({ id: doc.id, data: { ...d, createdText } });
+        postsCache.push({ id: doc.id, data: { ...d, createdText } });
       });
 
-      // Render feed
-      all.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
-
-      // Render titulares
-      renderTicker(all.slice(0, 14));
+      postsCache.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
+      renderHeadlines(postsCache.slice(0, 30));
+      renderSidebar(postsCache);
     });
 
-    // Titulares (Ticket News)
-    function renderTicker(posts){
-      const list = [...posts, ...posts]; // duplicamos para un loop continuo
-      const marqueeA = document.getElementById('marqueeA');
-      const marqueeB = document.getElementById('marqueeB');
-      marqueeA.innerHTML = ''; marqueeB.innerHTML = '';
-      list.forEach(p => {
+    function renderHeadlines(list){
+      marquee.innerHTML = '';
+      const seq = [...list, ...list];
+      seq.forEach(p => {
         const d = p.data;
         const pill = document.createElement('span'); pill.className = 'headline';
         const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
-        pill.innerHTML = `<span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span> <span class="tags">(${tags})</span>`;
-        marqueeA.appendChild(pill.cloneNode(true));
-        marqueeB.appendChild(pill);
+        pill.innerHTML = `<span class="tag">${tags}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`;
+        marquee.appendChild(pill);
       });
     }
 
-    // Render card (foro) con likes, comentarios y lightbox
+    function renderSidebar(list){
+      // Top authors by total likes
+      const topAuthors = document.getElementById('topAuthors');
+      const authorMap = {};
+      list.forEach(p => {
+        const uid = p.data.author?.uid || 'anon';
+        authorMap[uid] = authorMap[uid] || { uid, name: p.data.author?.name || 'Usuario', avatar: p.data.author?.avatar || null, likes: 0 };
+        authorMap[uid].likes += (p.data.likesCount || 0);
+      });
+      const sortedAuthors = Object.values(authorMap).sort((a,b)=>b.likes-a.likes).slice(0,6);
+      topAuthors.innerHTML = '';
+      sortedAuthors.forEach(a=>{
+        const li = document.createElement('div'); li.className='list-item';
+        const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name));
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="meta">${a.likes} likes acumulados</div>`;
+        li.appendChild(av); li.appendChild(txt); topAuthors.appendChild(li);
+      });
+
+      // Top posts by likes
+      const topPosts = document.getElementById('topPosts');
+      const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6);
+      topPosts.innerHTML = '';
+      sortedPosts.forEach(p=>{
+        const li = document.createElement('div'); li.className='list-item';
+        const av = document.createElement('img'); av.className='avatar'; av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Usuario'));
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong><div class="meta">${p.data.likesCount||0} likes • ${escapeHtml(p.data.author?.name||'Usuario')}</div>`;
+        li.appendChild(av); li.appendChild(txt); topPosts.appendChild(li);
+      });
+
+      // Top tags
+      const tagCounts = {};
+      list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
+      const topTags = document.getElementById('topTags');
+      const sortedTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+      topTags.innerHTML = '';
+      sortedTags.forEach(([t,c])=>{
+        const li = document.createElement('div'); li.className='list-item';
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>#${escapeHtml(t)}</strong><div class="meta">${c} apariciones</div>`;
+        li.appendChild(txt); topTags.appendChild(li);
+      });
+    }
+
+    /* Render post card with likes, comments, edit/delete, lightbox */
     function renderPostCard(id, p){
       const user = auth.currentUser;
-
-      const card = document.createElement('article'); card.className = 'post';
+      const card = document.createElement('article'); card.className = 'post fade-in';
 
       // Head
       const head = document.createElement('div'); head.className = 'post-head';
-      const avatar = document.createElement('img'); avatar.className = 'avatar';
-      avatar.alt = p.author?.name || 'autor';
+      const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor';
       avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
 
       const metaWrap = document.createElement('div');
@@ -503,7 +563,7 @@
         }
       });
 
-      // Actions: Like + counts
+      // Actions: Like + counts + author actions
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
       const liked = user && (p.likedBy || []).includes(user.uid);
@@ -532,12 +592,30 @@
       actions.appendChild(likeBtn);
       actions.appendChild(counts);
 
+      // Author-only: edit & delete
+      if (user && user.uid === p.author?.uid) {
+        const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
+        const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
+        const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
+
+        editBtn.addEventListener('click', () => openEditModal(id, p));
+        deleteBtn.addEventListener('click', async () => {
+          const ok = confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.');
+          if (!ok) return;
+          try { await firestore.collection('posts').doc(id).delete(); }
+          catch(e){ alert('Error eliminando: ' + e.message); }
+        });
+
+        authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
+        actions.appendChild(authorActions);
+      }
+
       // Comments
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
       const commentForm = document.createElement('div'); commentForm.className = 'comment-form';
       const commentInput = document.createElement('input'); commentInput.placeholder = 'Escribe un comentario…';
-      const commentBtn = document.createElement('button'); commentBtn.className = 'btn'; commentBtn.textContent = 'Comentar';
+      const commentBtn = document.createElement('button'); commentBtn.className = 'btn-mini'; commentBtn.textContent = 'Comentar';
 
       commentBtn.addEventListener('click', async () => {
         const u = auth.currentUser;
@@ -558,9 +636,9 @@
       commentForm.appendChild(commentInput); commentForm.appendChild(commentBtn);
       commentsWrap.appendChild(commentsList); commentsWrap.appendChild(commentForm);
 
-      // Suscripciones en tiempo real
+      // Subscriptions
       firestore.collection('posts').doc(id).onSnapshot(s => {
-        const d = s.data();
+        const d = s.data(); if (!d) return;
         counts.textContent = ` ${d.likesCount || 0} likes`;
         if (auth.currentUser) {
           const isLiked = (d.likedBy || []).includes(auth.currentUser.uid);
@@ -598,7 +676,45 @@
       return card;
     }
 
-    // Lightbox
+    /* Edit modal handlers */
+    const editModal = document.getElementById('editModal');
+    const closeEdit = document.getElementById('closeEdit');
+    const editTitle = document.getElementById('editTitle');
+    const editDesc = document.getElementById('editDesc');
+    const editTags = document.getElementById('editTags');
+    const editEditor = document.getElementById('editEditor');
+    const saveEditBtn = document.getElementById('saveEditBtn');
+
+    let editingPostId = null;
+    function openEditModal(id, p){
+      editingPostId = id;
+      editTitle.value = p.title || '';
+      editDesc.value = p.desc || '';
+      editTags.value = (p.tags || []).join(', ');
+      editEditor.innerHTML = p.bodyHtml || '';
+      editModal.style.display = 'flex';
+    }
+    closeEdit.addEventListener('click', () => { editModal.style.display = 'none'; editingPostId = null; });
+    editModal.addEventListener('click', (e) => { if (e.target === editModal) { editModal.style.display = 'none'; editingPostId = null; } });
+
+    saveEditBtn.addEventListener('click', async () => {
+      if (!editingPostId) return;
+      const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+      const postRef = firestore.collection('posts').doc(editingPostId);
+      try {
+        await postRef.update({
+          title: editTitle.value.trim(),
+          desc: editDesc.value.trim(),
+          bodyHtml: editEditor.innerHTML.trim(),
+          tags: editTags.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        editModal.style.display = 'none';
+        editingPostId = null;
+      } catch(e){ alert('Error guardando: ' + e.message); }
+    });
+
+    /* Lightbox */
     const lightbox = document.getElementById('lightbox');
     const lightboxContent = document.querySelector('.lightbox-content');
     const lightboxClose = document.getElementById('lightboxClose');
@@ -614,7 +730,7 @@
     lightboxClose.addEventListener('click', () => lightbox.style.display = 'none');
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; });
 
-    // Helpers
+    /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
   </script>
 </body>
