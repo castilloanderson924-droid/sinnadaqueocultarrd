@@ -108,7 +108,7 @@
     .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
     .post-gallery video{
       width:100%;
-      height:300px; /* más grande y protagonista */
+      height:320px; /* grande, decorado */
       object-fit:cover;
       border-radius:14px;
       border:2px solid var(--border);
@@ -199,6 +199,7 @@
     /* Publish progress */
     .progress-btn{position:relative;overflow:hidden}
     .progress-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0%}
+    .progress-label{position:absolute;right:10px;bottom:6px;font-size:11px;color:#fff;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px}
 
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
@@ -307,16 +308,6 @@
       </div>
 
       <div class="card">
-        <h4>Siguiendo</h4>
-        <div id="followingList"></div>
-      </div>
-
-      <div class="card">
-        <h4>Te siguen</h4>
-        <div id="followersList"></div>
-      </div>
-
-      <div class="card">
         <h4>Anuncio</h4>
         <div class="ad-box">
           <div class="ad-content">
@@ -385,7 +376,7 @@
         </div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          <span class="panel-sub">Máx 6 archivos.</span>
+          <span class="panel-sub">Sin límite de tamaño (sube cualquier video).</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
@@ -393,6 +384,7 @@
         <button id="publishBtn" class="btn btn-accent progress-btn">
           Publicar
           <span class="progress-bar" id="publishProgress"></span>
+          <span class="progress-label" id="publishLabel">0%</span>
         </button>
         <button id="resetBtn" class="btn">Reset</button>
       </div>
@@ -412,7 +404,14 @@
           <div class="panel-2 side-card"><div class="panel-sub">Likes acumulados</div><div style="font-weight:900;font-size:20px" id="dashStatLikes">0</div></div>
           <div class="panel-2 side-card"><div class="panel-sub">Donación</div><div style="font-weight:900;font-size:20px" id="dashStatDonation">OFF</div></div>
         </div>
-        <h4>Tus posts</h4>
+
+        <h4>Siguiendo (<span id="countFollowing">0</span>)</h4>
+        <div id="dashFollowing"></div>
+
+        <h4>Te siguen (<span id="countFollowers">0</span>)</h4>
+        <div id="dashFollowers"></div>
+
+        <h4 style="margin-top:12px">Tus posts</h4>
         <div id="dashPosts"></div>
       </div>
     </div>
@@ -480,7 +479,7 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones (solo "Eliminar todas") */
+    /* Notificaciones */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
@@ -551,7 +550,7 @@
       computeDonationEligibility();
       subscribeNotificationsForMyPosts();
       loadRightColumnStats();
-      loadFollowData();
+      // Siguiendo/Te siguen ahora solo en Dashboard
     });
 
     /* Composer */
@@ -577,12 +576,12 @@
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    /* Media preview */
+    /* Media preview (sin límite de tamaño) */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
     mediaInput.addEventListener('change', () => {
-      selectedFiles = Array.from(mediaInput.files).slice(0, 6);
+      selectedFiles = Array.from(mediaInput.files);
       mediaPreview.innerHTML = '';
       selectedFiles.forEach(file => {
         const div = document.createElement('div'); div.className = 'media-thumb';
@@ -595,7 +594,7 @@
       });
     });
 
-    /* Guardar media inline para visualización inmediata (Data URLs) */
+    /* Conversión a Data URLs (vista inmediata) */
     function readFilesAsDataUrls(files){
       return Promise.all(files.map(f => new Promise(res=>{
         const reader = new FileReader();
@@ -610,7 +609,14 @@
     const contentType = document.getElementById('contentType');
     const publishBtn = document.getElementById('publishBtn');
     const publishProgress = document.getElementById('publishProgress');
+    const publishLabel = document.getElementById('publishLabel');
     const resetBtn = document.getElementById('resetBtn');
+
+    function setProgress(pct){
+      const v = Math.max(0, Math.min(100, pct));
+      publishProgress.style.width = v + '%';
+      publishLabel.textContent = v + '%';
+    }
 
     publishBtn.addEventListener('click', async () => {
       const user = auth.currentUser;
@@ -623,14 +629,26 @@
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
       publishBtn.disabled = true;
-      publishProgress.style.width = '20%';
+      setProgress(5);
 
       try {
         let mediaItems = [];
         if (selectedFiles.length){
-          mediaItems = await readFilesAsDataUrls(selectedFiles);
+          // Progreso simulado por etapas durante lectura
+          const total = selectedFiles.length;
+          let done = 0;
+          mediaItems = await Promise.all(selectedFiles.map(f => new Promise(res=>{
+            const reader = new FileReader();
+            reader.onload = () => {
+              done++;
+              setProgress(5 + Math.round(60*(done/total))); // hasta 65% al terminar lectura
+              res({ url: reader.result, type: f.type.startsWith('video/') ? 'video' : 'image' });
+            };
+            reader.readAsDataURL(f);
+          })));
         }
 
+        setProgress(75);
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
           media: mediaItems,
@@ -639,15 +657,15 @@
           likesCount: 0, likedBy: [],
           donationEnabled: false
         });
+        setProgress(100);
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-        publishProgress.style.width = '100%';
-        setTimeout(()=>{ publishBtn.disabled=false; publishProgress.style.width='0%'; }, 600);
+        setTimeout(()=>{ publishBtn.disabled=false; setProgress(0); }, 800);
       } catch (e) {
         alert('Error publicando: ' + e.message);
-        publishBtn.disabled=false; publishProgress.style.width='0%';
+        publishBtn.disabled=false; setProgress(0);
       }
     });
 
@@ -655,7 +673,7 @@
       titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       editor.innerHTML = '';
       mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-      publishProgress.style.width = '0%';
+      setProgress(0);
       publishBtn.disabled = false;
     });
 
@@ -686,7 +704,6 @@
       computeDonationEligibility();
       subscribeNotificationsForMyPosts();
       loadRightColumnStats();
-      loadFollowData();
     });
 
     function renderHeadlines(list){
@@ -805,7 +822,7 @@
       });
     }
 
-    /* Follow system sin duplicados y botón dinámico */
+    /* Follow system (botón dinámico) */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
@@ -836,47 +853,6 @@
           btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
         }
       });
-
-      loadFollowData();
-    }
-
-    async function loadFollowData(){
-      const u = auth.currentUser; if (!u) return;
-      const meSnap = await firestore.collection('users').doc(u.uid).get();
-      const data = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
-
-      const uniqueFollowing = Array.from(new Set(data.following || []));
-      const uniqueFollowers = Array.from(new Set(data.followers || []));
-
-      const followingList = document.getElementById('followingList');
-      const followersList = document.getElementById('followersList');
-      followingList.innerHTML = '';
-      followersList.innerHTML = '';
-
-      for (const uid of uniqueFollowing){
-        const us = await firestore.collection('users').doc(uid).get();
-        const ud = us.exists ? us.data() : {};
-        const row = document.createElement('div'); row.className='list-row';
-        const left = document.createElement('div'); left.className='list-left';
-        const av = document.createElement('img'); av.className='avatar'; av.src = ud.avatar || 'https://ui-avatars.com/api/?name='+encodeURIComponent(ud.name||'Usuario');
-        const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(ud.name||'Usuario')}</strong>`;
-        left.appendChild(av); left.appendChild(nm);
-        const btn = document.createElement('button'); btn.className='btn-following'; btn.textContent='Siguiendo';
-        btn.addEventListener('click',()=> toggleFollow(uid, ud.name, ud.avatar, btn));
-        row.appendChild(left); row.appendChild(btn);
-        followingList.appendChild(row);
-      }
-      for (const uid of uniqueFollowers){
-        const us = await firestore.collection('users').doc(uid).get();
-        const ud = us.exists ? us.data() : {};
-        const row = document.createElement('div'); row.className='list-row';
-        const left = document.createElement('div'); left.className='list-left';
-        const av = document.createElement('img'); av.className='avatar'; av.src = ud.avatar || 'https://ui-avatars.com/api/?name='+encodeURIComponent(ud.name||'Usuario');
-        const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(ud.name||'Usuario')}</strong>`;
-        left.appendChild(av); left.appendChild(nm);
-        row.appendChild(left);
-        followersList.appendChild(row);
-      }
     }
 
     function loadRightColumnStats(){
@@ -993,7 +969,7 @@
         computeDonationEligibility();
       });
 
-      /* Comments block (compact) */
+      /* Comments block */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1308,6 +1284,8 @@
     async function loadDashboard(){
       const u = auth.currentUser;
       if (!u){ alert('Inicia sesión'); return; }
+
+      // Stats de posts/likes/donación
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
       let totalPosts=0, totalLikes=0, donationFlag=false;
       const items = [];
@@ -1318,6 +1296,46 @@
       dashStatPosts.textContent = totalPosts;
       dashStatLikes.textContent = totalLikes;
       dashStatDonation.textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
+
+      // Siguiendo / Te siguen (numérico y sin duplicados)
+      const meSnap = await firestore.collection('users').doc(u.uid).get();
+      const userDoc = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
+      const following = Array.from(new Set(userDoc.following || []));
+      const followers = Array.from(new Set(userDoc.followers || []));
+
+      document.getElementById('countFollowing').textContent = following.length;
+      document.getElementById('countFollowers').textContent = followers.length;
+
+      const dashFollowing = document.getElementById('dashFollowing');
+      const dashFollowers = document.getElementById('dashFollowers');
+      dashFollowing.innerHTML = '';
+      dashFollowers.innerHTML = '';
+
+      for (const uid of following){
+        const us = await firestore.collection('users').doc(uid).get();
+        const name = us.exists ? (us.data()?.name || 'Usuario') : 'Usuario';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const av = document.createElement('img'); av.className='avatar'; av.src = (us.data()?.avatar) || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name));
+        const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(name)}</strong>`;
+        left.appendChild(av); left.appendChild(nm);
+        row.appendChild(left);
+        dashFollowing.appendChild(row);
+      }
+
+      for (const uid of followers){
+        const us = await firestore.collection('users').doc(uid).get();
+        const name = us.exists ? (us.data()?.name || 'Usuario') : 'Usuario';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const av = document.createElement('img'); av.className='avatar'; av.src = (us.data()?.avatar) || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name));
+        const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(name)}</strong>`;
+        left.appendChild(av); left.appendChild(nm);
+        row.appendChild(left);
+        dashFollowers.appendChild(row);
+      }
+
+      // Tus posts
       dashPosts.innerHTML = '';
       items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
       items.forEach(p=>{
@@ -1329,6 +1347,7 @@
         row.appendChild(left);
         dashPosts.appendChild(row);
       });
+
       openDashboardModal();
     }
 
