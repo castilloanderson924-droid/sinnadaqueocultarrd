@@ -99,7 +99,7 @@
     @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
     .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
-    .post-gallery iframe{width:600%;height:600px;border-radius:14px;border:1px solid var(--border);background:#000}
+    .post-gallery iframe{width:100%;aspect-ratio: 1 / 1;height:auto;border-radius:16px;border:2px solid var(--border);background:#000}
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
     .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;color:var(--text)}
@@ -1439,6 +1439,7 @@
   </script>
 </body>
 </html>
+
 
 
 
