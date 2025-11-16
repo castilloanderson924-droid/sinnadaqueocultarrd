@@ -7,123 +7,104 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Tema oscuro */
     :root{
-      --bg:#0b0e14;
-      --panel:#121825;
-      --panel-2:#1a2234;
-      --border:#24314a;
-      --text:#ecf2f9;
-      --muted:#9fb0c7;
-      --accent:#2b8ef7;       /* azul sobrio */
-      --headline:#2b8ef7;
-      --danger:#ef4444;
-      --ok:#22c55e;
-      --shadow:0 10px 25px rgba(0,0,0,.25);
+      --bg:#0b0e14; --panel:#121825; --panel-2:#1a2234; --border:#24314a;
+      --text:#ecf2f9; --muted:#9fb0c7; --accent:#2b8ef7; --headline:#2b8ef7;
+      --danger:#ef4444; --ok:#22c55e;
     }
-    /* Tema claro azul suave coordinado */
     body.light{
-      --bg:#f3f7fc;
-      --panel:#ffffff;
-      --panel-2:#edf4fc;      /* suave, no gris */
-      --border:#d7e2ef;
-      --text:#0f172a;
-      --muted:#4b5b70;
-      --accent:#2b8ef7;       /* mismo acento */
-      --headline:#2b8ef7;
-      --danger:#dc2626;
-      --ok:#16a34a;
-      --shadow:0 12px 28px rgba(16,24,40,.10);
+      --bg:#f3f7fc; --panel:#ffffff; --panel-2:#edf4fc; --border:#d7e2ef;
+      --text:#0f172a; --muted:#4b5b70; --accent:#2b8ef7; --headline:#2b8ef7;
+      --danger:#dc2626; --ok:#16a34a;
     }
-
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
 
-    /* Header — sobrio */
-    .header{position:sticky;top:0;z-index:100;background:var(--panel);border-bottom:1px solid var(--border)}
-    .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand-logo{width:46px;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
-    .brand-logo img{width:38px;height:38px;object-fit:contain}
-    .brand-title{line-height:1}
-    .brand-title h1{font-family:"Playfair Display",serif;font-size:22px;margin:0}
-    .brand-title .slogan{color:var(--muted);font-size:12px;margin-top:2px}
+    /* Header */
+    .header{position:sticky;top:0;z-index:120;background:var(--panel);border-bottom:1px solid var(--border)}
+    .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand-logo{width:42px;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
+    .brand-logo img{width:34px;height:34px;object-fit:contain}
+    .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0}
+    .brand-title .slogan{color:var(--muted);font-size:12px}
     .spacer{flex:1}
-    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:800;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .menu{display:flex;gap:8px}
+    .menu a{padding:8px 12px;border-radius:8px;background:var(--panel-2);color:var(--text);font-weight:700}
+    .menu a:hover{background:var(--accent);color:#fff}
+    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    /* Switch (tema) */
-    .switch{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2)}
-    .switch label{font-size:12px;color:var(--muted);font-weight:800}
-    .switch input{width:52px;height:28px;appearance:none;background:#5b6b82;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
+    /* Notificaciones */
+    .notif{position:relative}
+    .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
+    .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:280px;box-shadow:0 8px 20px rgba(0,0,0,.25);display:none;z-index:200}
+    .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
+    .notif-list{max-height:320px;overflow:auto}
+    .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px}
+    .notif-item:last-child{border-bottom:none}
+    .notif-empty{padding:12px;color:var(--muted);font-size:13px}
+
+    /* Theme switch */
+    .switch{display:flex;align-items:center;gap:6px}
+    .switch input{width:44px;height:22px;appearance:none;background:#5b6b82;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
     .switch input:checked{background:var(--accent)}
-    .switch input::before{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:1.5px;left:1.5px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}
-    .switch input:checked::before{transform:translateX(24px)}
+    .switch input::before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.25s}
+    .switch input:checked::before{transform:translateX(22px)}
 
-    /* Menú desplegable */
-    .dropdown{position:relative}
-    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}
-    .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none;overflow:hidden}
-    .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
-    .dropdown-menu a:hover{background:var(--panel-2)}
-
-    /* Ticket News — un rail sobrio */
+    /* Ticket News */
     .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
-    .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
-    .rail-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)}
-    .rail-head .dot{width:10px;height:10px;border-radius:50%;background:var(--headline)}
-    .rail-head .label{font-weight:900;color:var(--headline);letter-spacing:.3px}
+    .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--headline)}
     .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
-    .marquee{display:inline-block;animation:marq 42s linear infinite} /* Más lento */
+    .marquee{display:inline-block;animation:marq 55s linear infinite} /* más lento */
     @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
-    .headline{display:inline-flex;align-items:center;gap:8px;margin-right:32px;cursor:pointer}
+    .headline{display:inline-flex;align-items:center;gap:8px;margin-right:36px;cursor:pointer}
     .headline .tag{background:var(--panel);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted)}
     .headline .title{font-weight:800}
 
-    /* Layout con sidebar derecha profesional */
-    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 340px;gap:18px}
-    @media (max-width:980px){.layout{grid-template-columns:1fr}}
-    .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    /* Layout */
+    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
     .panel h3{margin:0 0 12px;font-size:18px}
     .panel-sub{font-size:12px;color:var(--muted);margin:-6px 0 12px}
 
-    /* Post estilo foro */
-    .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;transition:transform .2s ease, box-shadow .2s ease}
-    .post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.22)}
+    /* Posts */
+    .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
     .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0}
     .post-meta{font-size:12px;color:var(--muted)}
     .post-desc{color:var(--muted);font-size:14px;margin:8px 0}
     .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
-    .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;color:var(--text);background:var(--panel-2);font-weight:700}
+    .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2)}
     .post-content{margin-top:8px}
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-    @media (max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:520px){.post-gallery{grid-template-columns:1fr}}
-    .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer}
-
+    @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
+    .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:8px;cursor:pointer;border:1px solid var(--border)}
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
-    .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer}
-    .like-btn.active{background:var(--accent);color:#fff;border-color:transparent}
+    .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer}
+    .like-btn.active{background:var(--accent);color:#fff}
     .counts{font-size:12px;color:var(--muted)}
     .author-actions{margin-left:auto;display:flex;gap:6px}
-    .btn-mini{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer;font-weight:800}
+    .btn-mini{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;font-size:12px}
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
     /* Comments */
     .comments{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
     .comment{display:flex;gap:8px;margin-bottom:8px}
-    .comment .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:8px 10px;flex:1}
+    .comment .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px;flex:1}
     .comment .c-meta{font-size:11px;color:var(--muted);margin-bottom:4px}
     .comment-form{display:flex;gap:8px;margin-top:8px}
-    .comment-form input{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
+    .comment-form input{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px}
 
-    /* Sidebar panels */
+    /* Sidebar profesional */
     .side-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px}
     .side-card h4{margin:0 0 8px}
     .list{display:grid;gap:10px}
@@ -131,29 +112,25 @@
     .list-item .avatar{width:28px;height:28px;border-radius:50%;border:1px solid var(--border)}
     .list-item .meta{font-size:12px;color:var(--muted)}
 
-    /* Dashboard modal */
-    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:120}
-    .modal{width:clamp(360px,92vw,980px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    /* Modals */
+    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:150}
+    .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800}
     .modal-body{padding:16px}
     .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)}
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:800;font-size:18px;cursor:pointer}
-    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .stat{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px}
-    .stat .label{color:var(--muted);font-size:12px}
-    .stat .value{font-weight:900;font-size:20px}
-    .unlock{margin-top:12px;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--panel-2)}
-    .unlock.ok{border-color:var(--ok);background:rgba(34,197,94,.1)}
-    .unlock .title{font-weight:800}
-    .unlock .desc{font-size:13px;color:var(--muted)}
-
-    /* Post view modal (abrir por titular) */
-    .post-view-content{max-height:70vh;overflow:auto}
-    .post-view-content .post-gallery img,.post-view-content .post-gallery video{height:auto;max-height:50vh;object-fit:contain}
+    .inputs{display:grid;gap:10px;margin-bottom:10px}
+    .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
+    .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
+    .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
+    .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+    .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
+    .media-thumb video{width:100%;height:100%;object-fit:cover}
 
     /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:140}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:200}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
@@ -172,15 +149,24 @@
           <div class="slogan">Información libre y periodismo de comunidad</div>
         </div>
       </div>
+
+      <div class="menu">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="ceo.html">CEO</a>
+        <a href="soporte.html">Soporte</a>
+      </div>
+
       <div class="spacer"></div>
 
-      <!-- Menú desplegable profesional -->
-      <div class="dropdown" id="mainDropdown">
-        <button class="dropdown-toggle">Menú</button>
-        <div class="dropdown-menu">
-          <a href="sobre-nosotros.html">Sobre nosotros</a>
-          <a href="ceo.html">CEO</a>
-          <a href="soporte.html">Soporte</a>
+      <!-- Notificaciones -->
+      <div class="notif" id="notif">
+        <span class="notif-icon" id="notifIcon">🔔</span>
+        <span class="notif-badge" id="notifBadge">0</span>
+        <div class="notif-panel" id="notifPanel">
+          <h4>Notificaciones</h4>
+          <div class="notif-list" id="notifList">
+            <div class="notif-empty">No hay notificaciones nuevas.</div>
+          </div>
         </div>
       </div>
 
@@ -199,13 +185,10 @@
     </nav>
   </header>
 
-  <!-- Ticket News: un solo rail y clicable -->
+  <!-- Ticket News -->
   <section class="ticket">
     <div class="rail">
-      <div class="rail-head">
-        <span class="dot"></span>
-        <span class="label">Últimos titulares</span>
-      </div>
+      <div class="rail-head">Últimos titulares</div>
       <div class="ticker"><div id="marquee" class="marquee"></div></div>
     </div>
   </section>
@@ -220,7 +203,7 @@
       <div id="emptyFeed" class="empty" style="color:var(--muted)">Aún no hay publicaciones.</div>
     </div>
 
-    <!-- Sidebar derecha profesional -->
+    <!-- Sidebar -->
     <aside class="panel">
       <h3>Relevante ahora</h3>
       <div class="panel-sub">Lo más destacado hoy</div>
@@ -247,7 +230,7 @@
     </aside>
   </section>
 
-  <!-- Modal: Composer -->
+  <!-- Composer modal -->
   <div id="composerModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -292,7 +275,7 @@
     </div>
   </div>
 
-  <!-- Modal: Editar post -->
+  <!-- Edit modal -->
   <div id="editModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -313,14 +296,14 @@
     </div>
   </div>
 
-  <!-- Modal: Post view (desde titulares) -->
+  <!-- Post view modal (titulares) -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
         <div class="modal-title" id="pvTitle">Post</div>
         <button class="close-x" id="closePostView">×</button>
       </div>
-      <div class="modal-body post-view-content" id="pvBody"></div>
+      <div class="modal-body" id="pvBody"></div>
     </div>
   </div>
 
@@ -330,7 +313,7 @@
     <div class="lightbox-content"></div>
   </div>
 
-  <!-- Dashboard modal -->
+  <!-- Dashboard modal (simple) -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -338,25 +321,12 @@
         <button class="close-x" id="closeDashboard">×</button>
       </div>
       <div class="modal-body">
-        <div class="stats-grid">
-          <div class="stat">
-            <div class="label">Total de publicaciones</div>
-            <div class="value" id="statPosts">0</div>
-          </div>
-          <div class="stat">
-            <div class="label">Likes acumulados</div>
-            <div class="value" id="statLikes">0</div>
-          </div>
-          <div class="stat">
-            <div class="label">Comentarios recibidos</div>
-            <div class="value" id="statComments">0</div>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="side-card"><div class="meta">Total publicaciones</div><div style="font-weight:900;font-size:20px" id="statPosts">0</div></div>
+          <div class="side-card"><div class="meta">Likes acumulados</div><div style="font-weight:900;font-size:20px" id="statLikes">0</div></div>
+          <div class="side-card"><div class="meta">Donación</div><div style="font-weight:900;font-size:20px" id="statDonation">OFF</div></div>
         </div>
-        <div id="unlockCard" class="unlock">
-          <div class="title">Donación bloqueada</div>
-          <div class="desc">Acumula 10,000 likes totales para habilitar la opción de donación automática en tus publicaciones.</div>
-        </div>
-        <div style="margin-top:14px">
+        <div class="side-card" style="margin-top:12px">
           <h4>Tus posts</h4>
           <div id="dashPosts" class="list"></div>
         </div>
@@ -392,7 +362,7 @@
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-    /* Tema persistente */
+    /* Theme */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
     if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; }
@@ -402,14 +372,7 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
-    /* Menú desplegable */
-    const mainDropdown = document.getElementById('mainDropdown');
-    const ddToggle = mainDropdown.querySelector('.dropdown-toggle');
-    const ddMenu = mainDropdown.querySelector('.dropdown-menu');
-    ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
-    document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
-
-    /* Auth UI */
+    /* Auth */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
@@ -433,8 +396,31 @@
         googleBtn.style.display = 'inline-flex';
         userChip.style.display = 'none';
       }
-      computeDonationEligibility(); // recalcula cuando cambia usuario
+      computeDonationEligibility();
     });
+
+    /* Notificaciones */
+    const notifIcon = document.getElementById('notifIcon');
+    const notifBadge = document.getElementById('notifBadge');
+    const notifPanel = document.getElementById('notifPanel');
+    const notifList = document.getElementById('notifList');
+    let notifCount = 0;
+    notifIcon.addEventListener('click', () => {
+      notifPanel.style.display = (notifPanel.style.display === 'block') ? 'none' : 'block';
+      if (notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
+    });
+    document.addEventListener('click',(e)=>{ if(!document.getElementById('notif').contains(e.target)) notifPanel.style.display='none'; });
+
+    function pushNotification(text){
+      if (notifList.querySelector('.notif-empty')) notifList.innerHTML = '';
+      const item = document.createElement('div');
+      item.className='notif-item';
+      item.textContent = text;
+      notifList.prepend(item);
+      notifCount++;
+      notifBadge.textContent = notifCount;
+      notifBadge.style.display = 'inline-block';
+    }
 
     /* Composer */
     const composerModal = document.getElementById('composerModal');
@@ -467,8 +453,7 @@
       selectedFiles = Array.from(mediaInput.files).slice(0, 6);
       mediaPreview.innerHTML = '';
       selectedFiles.forEach(file => {
-        const div = document.createElement('div');
-        div.className = 'media-thumb';
+        const div = document.createElement('div'); div.className = 'media-thumb';
         if (file.type.startsWith('image/')) {
           const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
         } else if (file.type.startsWith('video/')) {
@@ -527,7 +512,7 @@
           media: mediaItems,
           likesCount: 0,
           likedBy: [],
-          donationEnabled: false // se activará cuando el autor supere el umbral global
+          donationEnabled: false
         });
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
@@ -535,7 +520,7 @@
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
 
         publishBtn.textContent = 'Publicado ✔';
-        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; hideComposer(); }, 800);
+        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; hideComposer(); }, 700);
       } catch (e) {
         alert('Error publicando: ' + e.message);
         publishBtn.textContent = originalLabel;
@@ -544,10 +529,7 @@
     });
 
     resetBtn.addEventListener('click', () => {
-      titleInput.value = '';
-      descInput.value = '';
-      tagsInput.value = '';
-      contentType.value = 'texto';
+      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       editor.innerHTML = '';
       mediaInput.value = '';
       selectedFiles = [];
@@ -560,7 +542,7 @@
     const marquee = document.getElementById('marquee');
 
     let postsCache = [];
-    let userDonationEligible = false; // estado global del autor autenticado
+    let userDonationEligible = false;
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsContainer.innerHTML = '';
@@ -575,27 +557,27 @@
       });
 
       postsCache.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
-      renderHeadlines(postsCache.slice(0, 50));
+      renderHeadlines(postsCache.slice(0, 60));
       renderSidebar(postsCache);
-      computeDonationEligibility(); // recalcular por si cambió el feed
+      computeDonationEligibility();
+      subscribeNotificationsForMyPosts();
     });
 
     function renderHeadlines(list){
       marquee.innerHTML = '';
-      const seq = [...list, ...list]; // loop continuo
+      const seq = [...list, ...list];
       seq.forEach(p => {
         const d = p.data;
         const pill = document.createElement('span'); pill.className = 'headline';
         const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
         pill.innerHTML = `<span class="tag">${tags}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`;
-        pill.dataset.postId = p.id; // para abrir post
         pill.addEventListener('click', ()=> openPostView(p.id));
         marquee.appendChild(pill);
       });
     }
 
     function renderSidebar(list){
-      // Autores destacados (likes totales)
+      // Autores destacados
       const topAuthors = document.getElementById('topAuthors');
       const authorMap = {};
       list.forEach(p => {
@@ -625,9 +607,9 @@
       });
 
       // Tags frecuentes
+      const topTags = document.getElementById('topTags');
       const tagCounts = {};
       list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
-      const topTags = document.getElementById('topTags');
       const sortedTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
       topTags.innerHTML = '';
       sortedTags.forEach(([t,c])=>{
@@ -636,7 +618,7 @@
         li.appendChild(txt); topTags.appendChild(li);
       });
 
-      // Progreso de donación del usuario autenticado
+      // Progreso de donación del usuario
       const donationProgress = document.getElementById('donationProgress');
       const u = auth.currentUser;
       donationProgress.innerHTML = '';
@@ -651,33 +633,27 @@
       li.appendChild(txt); donationProgress.appendChild(li);
     }
 
-    /* Calcular elegibilidad y propagar a posts del autor */
+    /* Donación: elegibilidad global */
     async function computeDonationEligibility(){
       const u = auth.currentUser;
       if (!u) { userDonationEligible = false; return; }
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
       let totalLikes = 0;
-      mineSnap.forEach(doc => { const d=doc.data(); totalLikes += (d.likesCount||0); });
+      mineSnap.forEach(doc => { totalLikes += (doc.data().likesCount||0); });
       userDonationEligible = totalLikes >= 10000;
 
-      // Actualiza todos los posts del autor con el flag donationEnabled
+      // Flag en todos los posts del autor
       const batch = firestore.batch();
-      mineSnap.forEach(doc => {
-        const ref = firestore.collection('posts').doc(doc.id);
-        batch.update(ref,{ donationEnabled: userDonationEligible });
-      });
+      mineSnap.forEach(doc => { batch.update(firestore.collection('posts').doc(doc.id), { donationEnabled: userDonationEligible }); });
       await batch.commit();
-
-      // Actualiza UI del dashboard si está abierto
-      updateDashboardStats(mineSnap, totalLikes);
     }
 
-    /* Render post card con likes, comentarios, editar/eliminar, donación, lightbox */
+    /* Post card */
     function renderPostCard(id, p){
       const user = auth.currentUser;
-      const card = document.createElement('article'); card.className = 'post'; card.id = `post-${id}`;
+      const card = document.createElement('article'); card.className = 'post';
 
-      // Header
+      // Head
       const head = document.createElement('div'); head.className = 'post-head';
       const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor';
       avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
@@ -711,7 +687,7 @@
         }
       });
 
-      // Actions: like, counts, autor, donación
+      // Actions
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
       const liked = user && (p.likedBy || []).includes(user?.uid);
@@ -724,7 +700,6 @@
       actions.appendChild(likeBtn);
       actions.appendChild(counts);
 
-      // Donación habilitada (mostrar al autor si flag activo)
       const showDonation = (user && user.uid === p.author?.uid && (p.donationEnabled===true || userDonationEligible));
       if (showDonation) {
         const donation = document.createElement('span'); donation.className = 'donation-pill';
@@ -732,25 +707,20 @@
         actions.appendChild(donation);
       }
 
-      // Autor: editar / eliminar
       if (user && user.uid === p.author?.uid) {
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
         const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-
         editBtn.addEventListener('click', () => openEditModal(id, p));
         deleteBtn.addEventListener('click', async () => {
-          const ok = confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.');
-          if (!ok) return;
-          try { await firestore.collection('posts').doc(id).delete(); }
-          catch(e){ alert('Error eliminando: ' + e.message); }
+          const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
+          try { await firestore.collection('posts').doc(id).delete(); } catch(e){ alert('Error eliminando: ' + e.message); }
         });
-
         authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
         actions.appendChild(authorActions);
       }
 
-      // Like toggle
+      // Like toggle + notificación para el autor
       likeBtn.addEventListener('click', async () => {
         const u = auth.currentUser;
         if (!u) { alert('Inicia sesión para dar like.'); return; }
@@ -765,7 +735,6 @@
           const delta = hasLike ? -1 : 1;
           tx.update(postRef, { likedBy: newLikedBy, likesCount: (data.likesCount || 0) + delta });
         });
-        // recomputa elegibilidad del autor
         computeDonationEligibility();
       });
 
@@ -795,7 +764,7 @@
       commentForm.appendChild(commentInput); commentForm.appendChild(commentBtn);
       commentsWrap.appendChild(commentsList); commentsWrap.appendChild(commentForm);
 
-      // Subscripciones en tiempo real
+      // Subscripciones en tiempo real (likes, comentarios)
       firestore.collection('posts').doc(id).onSnapshot(s => {
         const d = s.data(); if (!d) return;
         counts.textContent = ` ${d.likesCount || 0} likes`;
@@ -807,6 +776,7 @@
       });
 
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
+        const before = commentsList.children.length;
         commentsList.innerHTML = '';
         csnap.forEach(cdoc => {
           const c = cdoc.data();
@@ -821,6 +791,12 @@
           item.appendChild(av); item.appendChild(body);
           commentsList.appendChild(item);
         });
+        // si hay más comentarios que antes y el post es mío -> notificación
+        const u = auth.currentUser;
+        const mine = (p.author?.uid && u && p.author.uid === u.uid);
+        if (mine && commentsList.children.length > before) {
+          pushNotification(`Nuevo comentario en: "${p.title || '(sin título)'}"`);
+        }
       });
 
       // Ensamble
@@ -835,7 +811,25 @@
       return card;
     }
 
-    /* Edit modal handlers */
+    /* Notificaciones: suscribirse a mis posts para cambios de likes */
+    let notifUnsubs = [];
+    function subscribeNotificationsForMyPosts(){
+      // limpiar anteriores
+      notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
+      notifUnsubs = [];
+      const u = auth.currentUser;
+      if (!u) return;
+      postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
+        const unsub = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
+          const d = s.data(); if (!d) return;
+          // notificar si cambia el conteo de likes (simple: muestra cada actualización)
+          pushNotification(`Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`);
+        });
+        notifUnsubs.push(unsub);
+      });
+    }
+
+    /* Edit modal */
     const editModal = document.getElementById('editModal');
     const closeEdit = document.getElementById('closeEdit');
     const editTitle = document.getElementById('editTitle');
@@ -873,7 +867,7 @@
       } catch(e){ alert('Error guardando: ' + e.message); }
     });
 
-    /* Post view (abrir al clicar titular) */
+    /* Post view (titulares) */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
@@ -902,15 +896,14 @@
     closePostView.addEventListener('click',()=> postViewModal.style.display='none');
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal) postViewModal.style.display='none'; });
 
-    /* Dashboard */
+    /* Dashboard (simple como antes) */
     const dashboardModal = document.getElementById('dashboardModal');
     const closeDashboard = document.getElementById('closeDashboard');
     const refreshDashboard = document.getElementById('refreshDashboard');
     const statPosts = document.getElementById('statPosts');
     const statLikes = document.getElementById('statLikes');
-    const statComments = document.getElementById('statComments');
+    const statDonation = document.getElementById('statDonation');
     const dashPosts = document.getElementById('dashPosts');
-    const unlockCard = document.getElementById('unlockCard');
 
     openDashboardBtn.addEventListener('click', async ()=>{
       await loadDashboard();
@@ -924,34 +917,18 @@
       const u = auth.currentUser;
       if(!u){ alert('Inicia sesión para ver el dashboard.'); return; }
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
-      updateDashboardStats(mineSnap);
-    }
-
-    function updateDashboardStats(mineSnap, likesOverride){
-      const u = auth.currentUser; if(!u) return;
-      let totalPosts = 0, totalLikes = 0, totalComments = 0;
+      let totalPosts = 0, totalLikes = 0, donationFlag = false;
       const items = [];
       mineSnap.forEach(doc=>{
         const d = doc.data(); totalPosts++;
         totalLikes += (d.likesCount||0);
+        donationFlag = donationFlag || d.donationEnabled === true;
         items.push({id:doc.id,data:d});
       });
-      if (typeof likesOverride === 'number') totalLikes = likesOverride;
-
-      // contar comentarios de forma simple (no carga subcolecciones aquí por performance)
       statPosts.textContent = totalPosts;
       statLikes.textContent = totalLikes;
-      statComments.textContent = '—'; // opcional: consultar recuento si lo guardas en el doc
+      statDonation.textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
 
-      // desbloqueo visual
-      const eligible = totalLikes >= 10000;
-      unlockCard.classList.toggle('ok', eligible);
-      unlockCard.querySelector('.title').textContent = eligible ? 'Donación habilitada' : 'Donación bloqueada';
-      unlockCard.querySelector('.desc').textContent = eligible
-        ? 'Has superado los 10,000 likes acumulados. La opción de donación aparece automáticamente en tus posts (nuevos y viejos).'
-        : 'Acumula 10,000 likes totales para habilitar la opción de donación automática en tus publicaciones.';
-
-      // lista de posts del autor
       dashPosts.innerHTML = '';
       items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
       items.forEach(p=>{
