@@ -12,30 +12,37 @@
       --bg:#0f1115; --panel:#151922; --panel-2:#1b2130; --border:#262d3f; --text:#e8ecf1; --muted:#a9b4c7;
       --accent:#29b6f6; --danger:#ff3d71; --ok:#22c55e;
     }
+    body.light{
+      --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f1f5f9; --border:#e5e7eb; --text:#0f172a; --muted:#64748b;
+      --accent:#2563eb; --danger:#ef4444; --ok:#16a34a;
+    }
     *{box-sizing:border-box}
     html,body{background:var(--bg);color:var(--text);margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
 
     /* Header */
-    .header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(21,25,34,0.95), rgba(21,25,34,0.85));backdrop-filter: blur(8px);border-bottom:1px solid var(--border)}
+    .header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, var(--panel) 0%, var(--panel) 100%);border-bottom:1px solid var(--border)}
     .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px 16px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand-logo{width:40px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#0b0d12}
     .brand h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;letter-spacing:0.3px}
     .slogan{color:var(--muted);font-size:12px;margin-top:2px}
     .spacer{flex:1}
-    .btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
-    .btn:hover{border-color:#334155;background:var(--panel-2)}
-    .btn-accent{background:var(--accent);color:#061218;border-color:transparent}
+    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
+    .btn:hover{border-color:#334155;background:var(--panel)}
+    .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .btn-accent:hover{filter:brightness(1.05)}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
+    .switch{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2)}
+    .switch input{width:0;height:0;opacity:0;position:absolute}
+    .switch .label{font-weight:700;font-size:12px;color:var(--muted)}
 
-    /* Ticket */
+    /* Ticket News */
     .ticket{max-width:1100px;margin:16px auto;padding:0 16px}
-    .ticket-card{position:relative;overflow:hidden;border:1px dashed #334155;border-radius:16px;background:linear-gradient(120deg,#121622,#121622 45%,#182133 100%);display:grid;grid-template-columns:1fr 280px}
+    .ticket-card{position:relative;overflow:hidden;border:1px dashed var(--border);border-radius:16px;background:linear-gradient(120deg,var(--panel),var(--panel) 45%,var(--panel-2) 100%);display:grid;grid-template-columns:1fr 280px}
     .ticket-left{padding:18px 18px 18px 20px}
-    .ticket-right{background:radial-gradient(1200px 200px at 20% 100%,rgba(41,182,246,0.3),transparent 50%),radial-gradient(1200px 200px at 100% 0%,rgba(255,61,113,0.25),transparent 55%);border-left:1px dashed #334155;display:flex;align-items:center;justify-content:center;padding:16px}
+    .ticket-right{background:radial-gradient(1200px 200px at 20% 100%,rgba(41,182,246,0.25),transparent 50%),radial-gradient(1200px 200px at 100% 0%,rgba(255,61,113,0.15),transparent 55%);border-left:1px dashed var(--border);display:flex;align-items:center;justify-content:center;padding:16px}
     .ticket-title{display:flex;align-items:center;gap:12px;margin-bottom:8px}
     .ticket-title h2{margin:0;font-size:20px}
     .ticket-tag{font-size:12px;color:#061218;background:var(--accent);padding:6px 10px;border-radius:999px;font-weight:700}
@@ -43,13 +50,13 @@
     .ticket-cta{display:flex;gap:10px}
     .ticket-logo{width:180px;height:180px;border-radius:16px;border:1px solid var(--border);background:#0b0d12;padding:12px}
 
-    /* Layout */
+    /* Layout & feed */
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .grid{display:grid;grid-template-columns:1fr;gap:18px}
-
-    /* Feed */
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
     .panel h3{margin:0 0 12px;font-size:16px}
+    .empty{color:var(--muted);text-align:center;padding:30px}
+
     .post{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
     .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .post-title{font-size:18px;margin:0}
@@ -59,18 +66,18 @@
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
     @media (max-width:620px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     .post-gallery img,.post-gallery video{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--border)}
-    .post-actions{display:flex;gap:8px;margin-top:10px}
-    .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:#0c1018;color:var(--text);cursor:pointer}
+    .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
+    .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer}
     .like-btn.active{background:#102334;border-color:#2b405e}
     .counts{font-size:12px;color:var(--muted)}
 
     /* Comments */
     .comments{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
     .comment{display:flex;gap:8px;margin-bottom:8px}
-    .comment .c-body{background:#0c1018;border:1px solid var(--border);border-radius:12px;padding:8px 10px;flex:1}
-    .comment .c-meta{font-size:11px;color:#9aa7ba;margin-bottom:4px}
+    .comment .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:8px 10px;flex:1}
+    .comment .c-meta{font-size:11px;color:var(--muted);margin-bottom:4px}
     .comment-form{display:flex;gap:8px;margin-top:8px}
-    .comment-form input{flex:1;background:#0c1018;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
+    .comment-form input{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
 
     /* Modal composer */
     .modal-backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:60}
@@ -82,12 +89,12 @@
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:700;font-size:18px;cursor:pointer}
 
     .inputs{display:grid;gap:10px;margin-bottom:10px}
-    .inputs input,.inputs textarea{width:100%;background:#0c1018;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
+    .inputs input,.inputs textarea{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
     .inputs input::placeholder,.inputs textarea::placeholder{color:#6b7280}
 
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
-    .tool{background:#0c1018;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:600;cursor:pointer}
-    .editor{background:#0c1018;border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
+    .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:600;cursor:pointer}
+    .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
 
     .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
@@ -110,6 +117,11 @@
         </div>
       </div>
       <div class="spacer"></div>
+      <label class="switch">
+        <span class="label">Tema</span>
+        <input type="checkbox" id="themeToggle" />
+        <span id="themeIcon">🌙</span>
+      </label>
       <button id="googleBtn" class="btn"><span>Iniciar sesión con Google</span></button>
       <div id="userChip" style="display:none;align-items:center;gap:8px">
         <img id="userAvatar" class="avatar" alt="avatar">
@@ -221,6 +233,18 @@
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace"; // unsigned
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
+    // Tema (toggle persistente)
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const savedTheme = localStorage.getItem('snqo_theme');
+    if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; themeIcon.textContent = '☀️'; }
+    themeToggle.addEventListener('change', () => {
+      const light = themeToggle.checked;
+      document.body.classList.toggle('light', light);
+      localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
+      themeIcon.textContent = light ? '☀️' : '🌙';
+    });
+
     // Auth UI
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
@@ -311,13 +335,30 @@
       });
     });
 
-    // Publicar
+    // Publicar (con manejo robusto del estado del botón)
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const publishBtn = document.getElementById('publishBtn');
     const resetBtn = document.getElementById('resetBtn');
-    const postsContainer = document.getElementById('posts');
-    const emptyFeed = document.getElementById('emptyFeed');
+
+    async function uploadToCloudinary(files, uid){
+      const items = [];
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        fd.append('folder', `snqo/${uid}`);
+        const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
+        if (!res.ok) throw new Error('Falló la subida a Cloudinary');
+        const data = await res.json();
+        items.push({
+          url: data.secure_url,
+          type: data.resource_type === 'video' ? 'video' : 'image',
+          public_id: data.public_id
+        });
+      }
+      return items;
+    }
 
     publishBtn.addEventListener('click', async () => {
       const user = auth.currentUser;
@@ -328,30 +369,12 @@
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
       publishBtn.disabled = true;
+      const originalLabel = publishBtn.textContent;
       publishBtn.textContent = 'Publicando…';
 
       try {
-        // Subida a Cloudinary
-        const mediaItems = [];
-        for (let i = 0; i < selectedFiles.length; i++) {
-          const file = selectedFiles[i];
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-          formData.append('folder', `snqo/${user.uid}`);
+        const mediaItems = await uploadToCloudinary(selectedFiles, user.uid);
 
-          const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: formData });
-          if (!res.ok) throw new Error('Error subiendo a Cloudinary');
-          const data = await res.json();
-
-          mediaItems.push({
-            url: data.secure_url,
-            type: data.resource_type === 'video' ? 'video' : 'image',
-            public_id: data.public_id
-          });
-        }
-
-        // Crear post
         const postRef = await firestore.collection('posts').add({
           title,
           desc,
@@ -364,10 +387,10 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           media: mediaItems,
           likesCount: 0,
-          likedBy: [] // array de uids
+          likedBy: []
         });
 
-        // Reset y cerrar
+        // Reset y cerrar modal sin quedarse colgado
         titleInput.value = '';
         descInput.value = '';
         editor.innerHTML = '<p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>';
@@ -375,11 +398,15 @@
         selectedFiles = [];
         mediaPreview.innerHTML = '';
 
-        publishBtn.textContent = 'Publicado';
-        setTimeout(()=>{ publishBtn.textContent = 'Publicar'; publishBtn.disabled = false; hideComposer(); }, 700);
+        publishBtn.textContent = 'Publicado ✔';
+        setTimeout(() => {
+          publishBtn.textContent = originalLabel;
+          publishBtn.disabled = false;
+          hideComposer();
+        }, 800);
       } catch (e) {
         alert('Error publicando: ' + e.message);
-        publishBtn.textContent = 'Publicar';
+        publishBtn.textContent = originalLabel;
         publishBtn.disabled = false;
       }
     });
@@ -393,7 +420,10 @@
       mediaPreview.innerHTML = '';
     });
 
-    // Feed en tiempo real
+    // Feed en tiempo real (con likes y comentarios)
+    const postsContainer = document.getElementById('posts');
+    const emptyFeed = document.getElementById('emptyFeed');
+
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsContainer.innerHTML = '';
       if (snap.empty) {
@@ -407,7 +437,6 @@
       });
     });
 
-    // Render card con likes y comentarios
     function renderPostCard(id, p){
       const user = auth.currentUser;
 
@@ -448,7 +477,7 @@
       // Actions: Like + counts
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
-      const liked = user && (p.likedBy || []).includes(user.uid);
+      const liked = user && (p.likedBy || []).includes(user?.uid);
       likeBtn.classList.toggle('active', !!liked);
       likeBtn.innerHTML = liked ? '❤️ Me gusta' : '🤍 Me gusta';
 
@@ -539,6 +568,23 @@
 
       return card;
     }
+
+    // Opcional: reglas (ponlas en Firebase Console)
+    // Firestore (base):
+    // rules_version = '2';
+    // service cloud.firestore {
+    //   match /databases/{database}/documents {
+    //     match /posts/{postId} {
+    //       allow read: if true;
+    //       allow create: if request.auth != null;
+    //       allow update, delete: if request.auth != null && request.auth.uid == resource.data.author.uid;
+    //       match /comments/{commentId} {
+    //         allow read: if true;
+    //         allow create: if request.auth != null;
+    //       }
+    //     }
+    //   }
+    // }
   </script>
 </body>
 </html>
