@@ -138,7 +138,7 @@
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Right column cards (left aligned on all) */
+    /* Right column cards */
     .right-col .card{
       background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px;
       text-align:left;
@@ -165,12 +165,6 @@
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);color:var(--text)}
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
-
-    /* Featured YouTube */
-    .post .featured-video{
-      width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9; border-radius:14px; border:2px solid var(--border); background:#000;
-    }
-    @media(max-width:980px){ .post .featured-video{ max-width:100% } }
 
     /* Gallery */
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
@@ -699,7 +693,7 @@
       loadRightColumnStats();
     });
 
-    /* Premium body lock (prevents mobile jump) */
+    /* Premium body lock */
     let scrollYBeforeLock = 0;
     function lockBody(){
       scrollYBeforeLock = window.scrollY || 0;
@@ -726,9 +720,10 @@
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
+    const composerTitle = document.getElementById('composerTitle');
     function showComposer(){ composerModal.style.display = 'flex'; lockBody(); document.getElementById('titleInput')?.focus(); }
     function hideComposer(){ composerModal.style.display = 'none'; unlockBody(); }
-    openComposer?.addEventListener('click', () => { if (!auth.currentUser) { alert('Inicia sesión para publicar.'); return; } showComposer(); });
+    openComposer?.addEventListener('click', () => { if (!auth.currentUser) { alert('Inicia sesión para publicar.'); return; } startCreateFlow(); showComposer(); });
     closeComposer.addEventListener('click', hideComposer);
     composerModal.addEventListener('click', (e) => { if (e.target === composerModal) hideComposer(); });
 
@@ -782,7 +777,7 @@
       });
     });
 
-    /* Sanitize HTML (allow minimal formatting) */
+    /* Sanitize HTML */
     function sanitizeHtml(html){
       const allowedTags = ['P','BR','STRONG','B','EM','I','U','H2','H3','UL','LI','A','BLOCKQUOTE'];
       const div = document.createElement('div');
@@ -796,7 +791,6 @@
           while (node.firstChild) parent.insertBefore(node.firstChild, node);
           parent.removeChild(node);
         } else {
-          // strip dangerous attributes
           [...node.attributes].forEach(attr=>{
             if (!['href'].includes(attr.name.toLowerCase())) node.removeAttribute(attr.name);
           });
@@ -812,7 +806,7 @@
       return div.innerHTML;
     }
 
-    /* Publish progress */
+    /* Publish + Edit */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -823,6 +817,46 @@
     let progressPillEl = null;
     let progressBarEl = null;
     let progressPctEl = null;
+
+    let editingPostId = null;
+    let originalMedia = []; // guarda media actual del post al editar
+
+    function startCreateFlow(){
+      editingPostId = null;
+      originalMedia = [];
+      composerTitle.textContent = 'Crear publicación';
+      publishBtn.textContent = 'Publicar';
+      titleInput.value = '';
+      descInput.value = '';
+      tagsInput.value = '';
+      contentType.value = 'texto';
+      youtubeInput.value = '';
+      editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
+      mediaInput.value = '';
+      selectedFiles = [];
+      mediaPreview.innerHTML = '';
+    }
+
+    async function startEditFlow(postId, pData){
+      editingPostId = postId;
+      originalMedia = Array.isArray(pData.media) ? [...pData.media] : [];
+      composerTitle.textContent = 'Editar publicación';
+      publishBtn.textContent = 'Guardar cambios';
+
+      titleInput.value = pData.title || '';
+      descInput.value = pData.desc || '';
+      tagsInput.value = (pData.tags || []).join(', ');
+      contentType.value = pData.type || 'texto';
+
+      // reconstruir URL de YouTube si existe
+      const yt = (pData.media || []).find(m => m.type==='youtube' && m.videoId);
+      youtubeInput.value = yt ? ('https://www.youtube.com/watch?v=' + yt.videoId) : '';
+
+      editor.innerHTML = pData.bodyHtml || '<p>Pega aquí tu contenido.</p>';
+
+      mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+      showComposer();
+    }
 
     function mountProgressPill(){
       if (progressPillEl) return;
@@ -843,7 +877,7 @@
       const newBtn = document.createElement('button');
       newBtn.id = 'publishBtn';
       newBtn.className = 'btn btn-accent';
-      newBtn.textContent = 'Publicar';
+      newBtn.textContent = editingPostId ? 'Guardar cambios' : 'Publicar';
       progressPillEl.replaceWith(newBtn);
       progressPillEl = null; progressBarEl = null; progressPctEl = null;
       publishBtn = document.getElementById('publishBtn');
@@ -870,10 +904,20 @@
       setProgressElegant(5);
 
       try {
+        // construir media final
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
-        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
+        // Si estamos editando, preservamos imágenes previas si no se suben nuevas
+        const prevImages = originalMedia.filter(m => m.type==='image');
+        const prevYoutube = originalMedia.find(m => m.type==='youtube');
+
+        // YouTube: reemplazar con el nuevo input (máximo 1)
+        if (ytId) {
+          mediaItems.push({ type:'youtube', videoId: ytId });
+        }
+
+        // Imágenes nuevas (si hay)
         if (selectedFiles.length){
           const total = selectedFiles.length;
           let done = 0;
@@ -887,40 +931,52 @@
             reader.readAsDataURL(f);
           })));
           mediaItems = mediaItems.concat(items);
+        } else {
+          // Sin nuevas imágenes: conservar las anteriores si las había (en edición)
+          if (editingPostId && prevImages.length) {
+            mediaItems = mediaItems.concat(prevImages);
+          }
         }
 
         setProgressElegant(85);
-        await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags, type,
-          media: mediaItems,
-          author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          likesCount: 0, likedBy: [],
-          donationEnabled: false
-        });
+
+        if (!editingPostId) {
+          // Crear
+          await firestore.collection('posts').add({
+            title, desc, bodyHtml, tags, type,
+            media: mediaItems,
+            author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            likesCount: 0, likedBy: [],
+            donationEnabled: false
+          });
+        } else {
+          // Editar
+          await firestore.collection('posts').doc(editingPostId).update({
+            title, desc, bodyHtml, tags, type,
+            media: mediaItems
+          });
+        }
+
         setProgressElegant(100);
 
-        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-        youtubeInput.value = '';
-        editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
-        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-
+        // Reset/UI
+        startCreateFlow();
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
 
-        pushNotification(`Publicaste "${title}"`);
+        pushNotification((editingPostId ? `Actualizaste "${title}"` : `Publicaste "${title}"`));
+        editingPostId = null;
+        originalMedia = [];
       } catch (e) {
-        alert('Error publicando: ' + e.message);
+        alert((editingPostId ? 'Error guardando cambios: ' : 'Error publicando: ') + e.message);
         unmountProgressPill();
       }
     }
     publishBtn.addEventListener('click', onPublishClick);
 
     resetBtn.addEventListener('click', () => {
-      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-      youtubeInput.value = '';
-      editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
-      mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+      startCreateFlow();
     });
 
     /* Feed + titulares + stats */
@@ -1141,19 +1197,7 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube */
-      let hasFeaturedVideo = false;
-      (p.media || []).forEach(m=>{
-        if(!hasFeaturedVideo && m.type==='youtube' && m.videoId){
-          const fv = document.createElement('iframe');
-          fv.className='featured-video';
-          fv.src = `https://www.youtube.com/embed/${m.videoId}`;
-          fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-          fv.setAttribute('allowfullscreen','');
-          card.appendChild(fv);
-          hasFeaturedVideo = true;
-        }
-      });
+      // NOTE: Se elimina el bloque de "Featured YouTube" superior para evitar duplicado
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
@@ -1194,7 +1238,14 @@
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
         const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-        editBtn.addEventListener('click', () => openEditModal?.(id, p));
+
+        editBtn.addEventListener('click', async () => {
+          const docSnap = await firestore.collection('posts').doc(id).get();
+          if (!docSnap.exists) { alert('Post no encontrado.'); return; }
+          const d = docSnap.data();
+          await startEditFlow(id, d);
+        });
+
         deleteBtn.addEventListener('click', async () => {
           const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
           try { await firestore.collection('posts').doc(id).delete(); } catch(e){ alert('Error eliminando: ' + e.message); }
@@ -1571,6 +1622,7 @@
     tabCompose.addEventListener('click', ()=>{
       activateTab(tabCompose);
       if (!auth.currentUser){ alert('Inicia sesión para publicar.'); return; }
+      startCreateFlow();
       showComposer();
     });
     tabNotif.addEventListener('click', ()=>{
