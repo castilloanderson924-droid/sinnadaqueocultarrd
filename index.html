@@ -138,7 +138,7 @@
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Right column cards */
+    /* Right column cards (left aligned on all) */
     .right-col .card{
       background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px;
       text-align:left;
@@ -165,6 +165,9 @@
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);color:var(--text)}
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
+
+    /* Featured YouTube — ELIMINADO para evitar duplicado */
+    .post .featured-video{ display:none; }
 
     /* Gallery */
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
@@ -693,7 +696,7 @@
       loadRightColumnStats();
     });
 
-    /* Premium body lock */
+    /* Premium body lock (prevents mobile jump) */
     let scrollYBeforeLock = 0;
     function lockBody(){
       scrollYBeforeLock = window.scrollY || 0;
@@ -777,7 +780,7 @@
       });
     });
 
-    /* Sanitize HTML */
+    /* Sanitize HTML (allow minimal formatting) */
     function sanitizeHtml(html){
       const allowedTags = ['P','BR','STRONG','B','EM','I','U','H2','H3','UL','LI','A','BLOCKQUOTE'];
       const div = document.createElement('div');
@@ -819,7 +822,7 @@
     let progressPctEl = null;
 
     let editingPostId = null;
-    let originalMedia = []; // guarda media actual del post al editar
+    let originalMedia = [];
 
     function startCreateFlow(){
       editingPostId = null;
@@ -848,7 +851,6 @@
       tagsInput.value = (pData.tags || []).join(', ');
       contentType.value = pData.type || 'texto';
 
-      // reconstruir URL de YouTube si existe
       const yt = (pData.media || []).find(m => m.type==='youtube' && m.videoId);
       youtubeInput.value = yt ? ('https://www.youtube.com/watch?v=' + yt.videoId) : '';
 
@@ -904,20 +906,15 @@
       setProgressElegant(5);
 
       try {
-        // construir media final
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
 
-        // Si estamos editando, preservamos imágenes previas si no se suben nuevas
         const prevImages = originalMedia.filter(m => m.type==='image');
-        const prevYoutube = originalMedia.find(m => m.type==='youtube');
 
-        // YouTube: reemplazar con el nuevo input (máximo 1)
         if (ytId) {
           mediaItems.push({ type:'youtube', videoId: ytId });
         }
 
-        // Imágenes nuevas (si hay)
         if (selectedFiles.length){
           const total = selectedFiles.length;
           let done = 0;
@@ -932,7 +929,6 @@
           })));
           mediaItems = mediaItems.concat(items);
         } else {
-          // Sin nuevas imágenes: conservar las anteriores si las había (en edición)
           if (editingPostId && prevImages.length) {
             mediaItems = mediaItems.concat(prevImages);
           }
@@ -941,7 +937,6 @@
         setProgressElegant(85);
 
         if (!editingPostId) {
-          // Crear
           await firestore.collection('posts').add({
             title, desc, bodyHtml, tags, type,
             media: mediaItems,
@@ -951,7 +946,6 @@
             donationEnabled: false
           });
         } else {
-          // Editar
           await firestore.collection('posts').doc(editingPostId).update({
             title, desc, bodyHtml, tags, type,
             media: mediaItems
@@ -960,7 +954,6 @@
 
         setProgressElegant(100);
 
-        // Reset/UI
         startCreateFlow();
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
@@ -1197,7 +1190,8 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      // NOTE: Se elimina el bloque de "Featured YouTube" superior para evitar duplicado
+      /* Featured YouTube — eliminado */
+      /* Antes aquí se insertaba un iframe destacado; se quitó para evitar duplicado. */
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
