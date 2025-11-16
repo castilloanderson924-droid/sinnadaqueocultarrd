@@ -19,13 +19,13 @@
       --danger:#dc2626; --ok:#16a34a; --shadow:0 12px 26px rgba(16,24,40,.10);
       --tag-bg:#ffffff;
     }
+
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
-    img{max-width:100%;display:block}
-    video{max-width:100%;display:block}
+    img,video{max-width:100%;display:block}
 
-    /* Header responsive */
+    /* Header */
     .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
     .nav{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
     .brand{display:flex;align-items:center;gap:10px;min-width:240px}
@@ -39,14 +39,14 @@
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    /* Dropdown (detrás de Crear publicación) */
+    /* Dropdown */
     .dropdown{position:relative}
     .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
     .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none}
     .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
     .dropdown-menu a:hover{background:var(--panel-2)}
 
-    /* Switch y notificaciones (campana detrás del switch) */
+    /* Switch + Notifications */
     .switch{display:flex;align-items:center;gap:6px}
     .switch label{font-size:12px;color:var(--muted);font-weight:800}
     .switch input{width:50px;height:26px;appearance:none;background:#4e5d75;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
@@ -57,12 +57,12 @@
     .notif{position:relative}
     .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:300px;box-shadow:var(--shadow);display:none;z-index:200}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:320px;box-shadow:var(--shadow);display:none;z-index:200}
     .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
     .notif-tabs{display:flex;border-bottom:1px solid var(--border)}
     .notif-tab{flex:1;text-align:center;padding:8px;cursor:pointer;color:var(--text)}
     .notif-tab.active{background:var(--panel-2);font-weight:800}
-    .notif-list{max-height:340px;overflow:auto}
+    .notif-list{max-height:360px;overflow:auto}
     .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
     .notif-item .msg{flex:1;color:var(--text)}
     .notif-item .actions{display:flex;gap:6px}
@@ -81,14 +81,14 @@
     .headline .tag{background:var(--tag-bg);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted);border:1px solid var(--border)}
     .headline .title{font-weight:800;color:var(--text)}
 
-    /* Layout responsive */
+    /* Layout */
     .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px}
     @media(max-width:1024px){.layout{grid-template-columns:1fr}}
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Post cards */
+    /* Post */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
     .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0;color:var(--text)}
@@ -98,6 +98,13 @@
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);color:var(--text)}
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
+    .link-card{display:flex;gap:10px;align-items:center;border:1px solid var(--border);background:var(--panel-2);border-radius:12px;padding:10px;margin:10px 0}
+    .link-thumb{width:64px;height:64px;border-radius:8px;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .link-thumb img{width:100%;height:100%;object-fit:cover}
+    .link-meta{flex:1}
+    .link-title{font-weight:800}
+    .link-host{font-size:12px;color:var(--muted)}
+
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
     @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
@@ -111,23 +118,22 @@
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
-    /* Comments */
+    /* Comments + threads */
     .comments{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
-    .comment{display:flex;gap:8px;margin-bottom:8px}
-    .comment .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:8px;flex:1;color:var(--text)}
-    .comment .c-meta{font-size:11px;color:var(--muted);margin-bottom:4px}
-    .comment-form{display:flex;gap:8px;margin-top:8px}
-    .comment-form input{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text)}
+    .comment{display:flex;gap:8px;margin-bottom:10px}
+    .comment .avatar{width:26px;height:26px}
+    .c-body{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:8px;flex:1;color:var(--text)}
+    .c-meta{font-size:11px;color:var(--muted);margin-bottom:4px;display:flex;gap:8px;align-items:center}
+    .c-text{font-size:13px}
+    .c-actions{display:flex;gap:8px;margin-top:6px}
+    .c-like{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:6px;padding:4px 8px;cursor:pointer}
+    .c-like.active{background:var(--accent);color:#fff;border-color:transparent}
+    .reply-btn{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:6px;padding:4px 8px;cursor:pointer}
+    .reply-form{display:flex;gap:6px;margin-top:6px}
+    .reply-form input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:6px;color:var(--text);font-size:12px}
+    .replies{margin-left:34px;margin-top:8px;border-left:2px dashed var(--border);padding-left:10px}
 
-    /* Sidebar profesional */
-    .side-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px}
-    .side-card h4{margin:0 0 8px;color:var(--text)}
-    .list{display:grid;gap:10px}
-    .list-item{display:flex;align-items:center;gap:10px;color:var(--text)}
-    .list-item .avatar{width:28px;height:28px;border-radius:50%;border:1px solid var(--border)}
-    .list-item .meta{font-size:12px;color:var(--muted)}
-
-    /* Modals base */
+    /* Modals */
     .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:180}
     .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
@@ -136,7 +142,7 @@
     .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)}
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:800;font-size:18px;cursor:pointer}
 
-    /* Composer inputs/editor */
+    /* Composer */
     .inputs{display:grid;gap:10px;margin-bottom:10px}
     .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
@@ -157,13 +163,11 @@
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
 
-    /* Small screens tweaks */
-    @media(max-width:640px){
-      .brand-title h1{font-size:18px}
-      .nav{gap:8px}
-      .dropdown-toggle,.btn{padding:8px 10px}
-      .post-gallery img,.post-gallery video{height:160px}
-    }
+    /* Footer */
+    .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
+    .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+    .footer a{color:var(--muted)}
+    @media(max-width:640px){.brand-title h1{font-size:18px}.post-gallery img,.post-gallery video{height:160px}}
   </style>
 </head>
 <body>
@@ -182,10 +186,9 @@
 
       <div class="spacer"></div>
 
-      <!-- Crear publicación -->
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
 
-      <!-- Menú desplegable (después de Crear publicación) -->
+      <!-- Menú desplegable detrás de crear publicación -->
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
         <div class="dropdown-menu">
@@ -210,7 +213,7 @@
         <input type="checkbox" id="themeToggle">
       </div>
 
-      <!-- Campana de notificaciones (detrás del switch) -->
+      <!-- Campana de notificaciones detrás del switch -->
       <div class="notif" id="notif">
         <span class="notif-icon" id="notifIcon">🔔</span>
         <span class="notif-badge" id="notifBadge">0</span>
@@ -306,7 +309,7 @@
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
         <div id="editor" class="editor" contenteditable="true" spellcheck="true">
-          <p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>
+          <p>Pega aquí tu contenido. Los enlaces se convertirán en tarjetas con imagen cuando sea posible.</p>
         </div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
@@ -362,7 +365,7 @@
     <div class="lightbox-content"></div>
   </div>
 
-  <!-- Dashboard modal (simple y estable) -->
+  <!-- Dashboard modal -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -386,13 +389,21 @@
     </div>
   </div>
 
-  <!-- Firebase SDKs -->
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© 2025 SIN NADA QUE OCULTAR. Todos los derechos reservados.</div>
+      <div>Hecho con comunidad, claridad y criterio.</div>
+    </div>
+  </footer>
+
+  <!-- SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    /* Firebase config */
+    /* Config */
     const firebaseConfig = {
       apiKey: "AIzaSyBWqJI7OKZcEjN2CeTZxPi8pWzo8rBMIkI",
       authDomain: "nearmemarketplace-ce82b.firebaseapp.com",
@@ -406,12 +417,11 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Cloudinary unsigned */
     const CLOUDINARY_CLOUD_NAME = "dxbahdjk1";
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
     const CLOUDINARY_BASE = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}`;
 
-    /* Tema persistente */
+    /* Theme */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
     if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; }
@@ -428,7 +438,7 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones (inbox + archive, marcar como leído) */
+    /* Notifications with read/archive */
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
     const notifPanel = document.getElementById('notifPanel');
@@ -436,7 +446,7 @@
     const notifArchive = document.getElementById('notifArchive');
     const notifTabs = document.querySelectorAll('.notif-tab');
     let notifCount = 0;
-    let notifications = [];      // {id, msg, ts}
+    let notifications = [];      // {id,msg,ts}
     let notificationsArchive = [];
 
     notifIcon.addEventListener('click', () => {
@@ -504,7 +514,7 @@
       renderNotifications();
     }
 
-    /* Auth UI */
+    /* Auth */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
@@ -532,7 +542,7 @@
       subscribeNotificationsForMyPosts();
     });
 
-    /* Composer */
+    /* Composer modal */
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
@@ -573,7 +583,93 @@
       });
     });
 
-    /* Upload con progreso (Cloudinary) */
+    /* URL unfurl (basic OG parser with fallback to favicon) */
+    async function unfurlLinksFromHTML(html){
+      const urlRegex = /(https?:\/\/[^\s"']+)/g;
+      const urls = Array.from(new Set((html.match(urlRegex)||[]))).slice(0,8);
+      const cards = [];
+      for (const u of urls) {
+        try {
+          const res = await fetch(u, { method:'GET' });
+          const txt = await res.text();
+          const titleMatch = txt.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) || txt.match(/<title>([^<]+)<\/title>/i);
+          const imgMatch = txt.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
+          const title = titleMatch ? titleMatch[1] : u;
+          const img = imgMatch ? imgMatch[1] : `https://www.google.com/s2/favicons?domain=${new URL(u).hostname}&sz=64`;
+          cards.push({ url:u, title, img, host: new URL(u).hostname });
+        } catch {
+          cards.push({ url:u, title:u, img:`https://www.google.com/s2/favicons?domain=${new URL(u).hostname}&sz=64`, host: new URL(u).hostname });
+        }
+      }
+      return cards;
+    }
+
+    function renderLinkCards(container, linkCards){
+      linkCards.forEach(card=>{
+        const wrap = document.createElement('div'); wrap.className='link-card';
+        const thumb = document.createElement('div'); thumb.className='link-thumb';
+        const img = document.createElement('img'); img.src = card.img; thumb.appendChild(img);
+        const meta = document.createElement('div'); meta.className='link-meta';
+        const title = document.createElement('div'); title.className='link-title';
+        const host = document.createElement('div'); host.className='link-host';
+        title.innerHTML = `<a href="${card.url}" target="_blank" rel="noopener">${escapeHtml(card.title)}</a>`;
+        host.textContent = card.host;
+        meta.appendChild(title); meta.appendChild(host);
+        wrap.appendChild(thumb); wrap.appendChild(meta);
+        container.appendChild(wrap);
+      });
+    }
+
+    /* Cloudinary upload with progress + large video chunking */
+    function uploadLargeVideo(file, uid, onProgress){
+      return new Promise((resolve, reject)=>{
+        const endpoint = `${CLOUDINARY_BASE}/video/upload`;
+        const chunkSize = 20 * 1024 * 1024; // 20MB
+        const uploadId = (Date.now() + '-' + Math.random()).toString(36);
+        let start = 0, part = 0, uploadedBytes = 0;
+        const total = file.size;
+
+        function sendChunk(){
+          const end = Math.min(start + chunkSize, total);
+          const blob = file.slice(start, end);
+          const fd = new FormData();
+          fd.append('file', blob);
+          fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+          fd.append('folder', `snqo/${uid}`);
+          fd.append('cloud_name', CLOUDINARY_CLOUD_NAME);
+
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', endpoint, true);
+          xhr.setRequestHeader('X-Unique-Upload-Id', uploadId);
+          xhr.setRequestHeader('Content-Range', `bytes ${start}-${end-1}/${total}`);
+          xhr.upload.onprogress = (e)=>{
+            if (e.lengthComputable) {
+              uploadedBytes = start + e.loaded;
+              const pct = Math.min(100, Math.round((uploadedBytes/total)*100));
+              onProgress(pct);
+            }
+          };
+          xhr.onerror = ()=> reject(new Error('Error de red durante la subida de video.'));
+          xhr.onload = ()=>{
+            if (xhr.status >= 200 && xhr.status < 300) {
+              start = end; part++;
+              if (start < total) sendChunk();
+              else {
+                try {
+                  const data = JSON.parse(xhr.responseText);
+                  resolve({ url: data.secure_url, type:'video', public_id: data.public_id });
+                } catch (err) { reject(err); }
+              }
+            } else {
+              reject(new Error('Falló la subida de video: ' + xhr.statusText));
+            }
+          };
+          xhr.send(fd);
+        }
+        sendChunk();
+      });
+    }
+
     function uploadToCloudinaryWithProgress(files, uid, onProgress){
       return new Promise(async (resolve, reject)=>{
         const results = [];
@@ -581,13 +677,23 @@
         const totalBytes = files.reduce((sum,f)=>sum + (f.size||0), 0) || 1;
 
         async function uploadSingle(file){
+          if (file.type.startsWith('video/') && file.size > 15*1024*1024) {
+            // chunked for heavy video
+            const vidRes = await uploadLargeVideo(file, uid, (pct)=>{
+              onProgress(Math.min(100, Math.round((uploadedBytes/totalBytes)*100))); // coarse update
+            });
+            uploadedBytes += file.size;
+            onProgress(Math.min(100, Math.round((uploadedBytes/totalBytes)*100)));
+            results.push(vidRes);
+            return;
+          }
+
           const endpoint = `${CLOUDINARY_BASE}/${file.type.startsWith('video/') ? 'video' : 'image'}/upload`;
           const fd = new FormData();
           fd.append('file', file);
           fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
           fd.append('folder', `snqo/${uid}`);
 
-          // XHR para progreso
           await new Promise((res, rej)=>{
             const xhr = new XMLHttpRequest();
             xhr.open('POST', endpoint);
@@ -626,7 +732,7 @@
       });
     }
 
-    /* Publicar con progreso */
+    /* Publish with unfurl + progress */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -644,19 +750,20 @@
       const tags = tagsInput.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
       const type = contentType.value;
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
-      if ((type === 'imagen' || type === 'video') && selectedFiles.length === 0) {
-        const proceed = confirm(`Seleccionaste tipo "${type}", pero no adjuntaste archivos. ¿Publicar de todas formas?`);
-        if (!proceed) return;
-      }
 
-      publishBtn.disabled = true; const originalLabel = 'Publicar';
-      publishBtn.textContent = 'Subiendo… 0%';
+      publishBtn.disabled = true;
+      const originalLabel = 'Publicar';
+      publishBtn.textContent = 'Preparando…';
       publishBtn.appendChild(publishProgress);
       publishProgress.style.width = '0%';
 
       try {
+        // Unfurl links in body to store link cards metadata
+        const linkCards = await unfurlLinksFromHTML(bodyHtml);
+
         let mediaItems = [];
         if (selectedFiles.length) {
+          publishBtn.textContent = 'Subiendo… 0%';
           mediaItems = await uploadToCloudinaryWithProgress(selectedFiles, user.uid, (pct)=>{
             publishBtn.textContent = `Subiendo… ${pct}%`;
             publishProgress.style.width = pct+'%';
@@ -665,6 +772,7 @@
 
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
+          links: linkCards, // store unfurled links
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           media: mediaItems,
@@ -674,15 +782,15 @@
         });
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-        editor.innerHTML = '<p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>';
+        editor.innerHTML = '<p>Pega aquí tu contenido. Los enlaces se convertirán en tarjetas con imagen cuando sea posible.</p>';
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
 
         publishBtn.textContent = 'Publicado ✔';
         publishProgress.style.width = '100%';
-        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; publishProgress.style.width='0%'; hideComposer(); }, 800);
+        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; publishProgress.style.width='0%'; hideComposer(); }, 900);
       } catch (e) {
-        alert('Error publicando: ' + e.message + '\nVerifica tu conexión y vuelve a intentar.');
-        publishBtn.textContent = 'Publicar';
+        alert('Error publicando: ' + e.message + '\nRevisa que el video no esté corrupto y tu conexión sea estable.');
+        publishBtn.textContent = originalLabel;
         publishBtn.disabled = false;
         publishProgress.style.width = '0%';
       }
@@ -699,7 +807,7 @@
       publishBtn.disabled = false;
     });
 
-    /* Feed + titulares + sidebar */
+    /* Feed + headlines + sidebar */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
     const marquee = document.getElementById('marquee');
@@ -741,7 +849,6 @@
     }
 
     function renderSidebar(list){
-      // Autores destacados
       const topAuthors = document.getElementById('topAuthors');
       const authorMap = {};
       list.forEach(p => {
@@ -759,7 +866,6 @@
         li.appendChild(av); li.appendChild(txt); topAuthors.appendChild(li);
       });
 
-      // Posts con más likes
       const topPosts = document.getElementById('topPosts');
       const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6);
       topPosts.innerHTML = '';
@@ -770,7 +876,6 @@
         li.appendChild(av); li.appendChild(txt); topPosts.appendChild(li);
       });
 
-      // Tags frecuentes
       const topTags = document.getElementById('topTags');
       const tagCounts = {};
       list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
@@ -782,7 +887,6 @@
         li.appendChild(txt); topTags.appendChild(li);
       });
 
-      // Progreso de donación
       const donationProgress = document.getElementById('donationProgress');
       const u = auth.currentUser;
       donationProgress.innerHTML = '';
@@ -797,7 +901,6 @@
       li.appendChild(txt); donationProgress.appendChild(li);
     }
 
-    /* Donación: elegibilidad global */
     async function computeDonationEligibility(){
       const u = auth.currentUser;
       if (!u) { userDonationEligible = false; return; }
@@ -810,7 +913,6 @@
       await batch.commit();
     }
 
-    /* Suscribir notificaciones para mis posts (likes y último comentario) */
     function subscribeNotificationsForMyPosts(){
       notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
       notifUnsubs = [];
@@ -834,32 +936,32 @@
       });
     }
 
-    /* Post card */
+    /* Post card + link cards render + comments threads */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
 
-      // Head
       const head = document.createElement('div'); head.className = 'post-head';
       const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor';
       avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
-
       const metaWrap = document.createElement('div');
       const titleEl = document.createElement('h4'); titleEl.className = 'post-title'; titleEl.textContent = p.title || '(sin título)';
       const metaEl = document.createElement('div'); metaEl.className = 'post-meta';
       metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + p.createdText;
-
       metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
       head.appendChild(avatar); head.appendChild(metaWrap);
 
-      // Tags + desc + body
       const tagRow = document.createElement('div'); tagRow.className = 'tag-row';
       (p.tags || []).forEach(t => { const span=document.createElement('span'); span.className='tag'; span.textContent='#'+t; tagRow.appendChild(span); });
 
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      // Galería
+      // Render link cards if any
+      if (Array.isArray(p.links) && p.links.length){
+        renderLinkCards(bodyEl, p.links);
+      }
+
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
         if (m.type === 'image') {
@@ -873,7 +975,6 @@
         }
       });
 
-      // Actions
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
       const liked = user && (p.likedBy || []).includes(user?.uid);
@@ -906,7 +1007,6 @@
         actions.appendChild(authorActions);
       }
 
-      // Like toggle
       likeBtn.addEventListener('click', async () => {
         const u = auth.currentUser;
         if (!u) { alert('Inicia sesión para dar like.'); return; }
@@ -924,9 +1024,10 @@
         computeDonationEligibility();
       });
 
-      // Comments
+      // Comments + threads
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
+
       const commentForm = document.createElement('div'); commentForm.className = 'comment-form';
       const commentInput = document.createElement('input'); commentInput.placeholder = 'Escribe un comentario…';
       const commentBtn = document.createElement('button'); commentBtn.className = 'btn-mini'; commentBtn.textContent = 'Comentar';
@@ -939,6 +1040,9 @@
         try {
           await firestore.collection('posts').doc(id).collection('comments').add({
             text,
+            parentId: null,
+            likesCount: 0,
+            likedBy: [],
             author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -950,7 +1054,7 @@
       commentForm.appendChild(commentInput); commentForm.appendChild(commentBtn);
       commentsWrap.appendChild(commentsList); commentsWrap.appendChild(commentForm);
 
-      // Subscripciones en tiempo real
+      // Real-time updates
       firestore.collection('posts').doc(id).onSnapshot(s => {
         const d = s.data(); if (!d) return;
         counts.textContent = ` ${d.likesCount || 0} likes`;
@@ -961,24 +1065,16 @@
         }
       });
 
+      // Comments snapshot with threads
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
-        commentsList.innerHTML = '';
+        const comments = [];
         csnap.forEach(cdoc => {
-          const c = cdoc.data();
-          const item = document.createElement('div'); item.className = 'comment';
-          const av = document.createElement('img'); av.className = 'avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
-          const body = document.createElement('div'); body.className = 'c-body';
-          const meta = document.createElement('div'); meta.className = 'c-meta';
-          let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
-          meta.textContent = (c.author?.name || 'Usuario') + ' • ' + ct;
-          const text = document.createElement('div'); text.textContent = c.text;
-          body.appendChild(meta); body.appendChild(text);
-          item.appendChild(av); item.appendChild(body);
-          commentsList.appendChild(item);
+          comments.push({ id: cdoc.id, ...cdoc.data() });
         });
+        renderCommentsThread(id, commentsList, comments);
       });
 
-      // Ensamble
+      // Assemble
       card.appendChild(head);
       card.appendChild(tagRow);
       card.appendChild(descEl);
@@ -990,7 +1086,89 @@
       return card;
     }
 
-    /* Edit modal handlers */
+    function renderCommentsThread(postId, container, comments){
+      container.innerHTML = '';
+      const byParent = {};
+      comments.forEach(c=>{
+        const key = c.parentId || 'root';
+        (byParent[key] = byParent[key] || []).push(c);
+      });
+
+      function makeCommentEl(c){
+        const item = document.createElement('div'); item.className = 'comment';
+        const av = document.createElement('img'); av.className = 'avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
+        const body = document.createElement('div'); body.className = 'c-body';
+        const meta = document.createElement('div'); meta.className = 'c-meta';
+        let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
+        meta.textContent = (c.author?.name || 'Usuario') + ' • ' + ct;
+
+        const text = document.createElement('div'); text.className = 'c-text'; text.textContent = c.text;
+
+        const actions = document.createElement('div'); actions.className = 'c-actions';
+        const like = document.createElement('button'); like.className = 'c-like'; like.textContent = `👍 ${c.likesCount || 0}`;
+        const reply = document.createElement('button'); reply.className = 'reply-btn'; reply.textContent = 'Responder';
+
+        const me = auth.currentUser;
+        const liked = me && (c.likedBy||[]).includes(me.uid);
+        if (liked) like.classList.add('active');
+
+        like.addEventListener('click', async ()=>{
+          const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+          const ref = firestore.collection('posts').doc(postId).collection('comments').doc(c.id);
+          await firestore.runTransaction(async (tx)=>{
+            const snap = await tx.get(ref); if (!snap.exists) return;
+            const d = snap.data(); const likedBy = d.likedBy || [];
+            const has = likedBy.includes(u.uid);
+            const newLikedBy = has ? likedBy.filter(x=>x!==u.uid) : [...likedBy, u.uid];
+            const delta = has ? -1 : 1;
+            tx.update(ref, { likedBy: newLikedBy, likesCount: (d.likesCount||0) + delta });
+          });
+        });
+
+        const replyForm = document.createElement('div'); replyForm.className='reply-form'; replyForm.style.display='none';
+        const replyInput = document.createElement('input'); replyInput.placeholder='Tu respuesta…';
+        const replySend = document.createElement('button'); replySend.className='btn-mini'; replySend.textContent='Enviar';
+        reply.addEventListener('click', ()=> { replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none'; });
+        replySend.addEventListener('click', async ()=>{
+          const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+          const txt = replyInput.value.trim(); if (!txt) return;
+          replySend.disabled = true;
+          try{
+            await firestore.collection('posts').doc(postId).collection('comments').add({
+              text: txt,
+              parentId: c.id,
+              likesCount: 0,
+              likedBy: [],
+              author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            replyInput.value='';
+            replyForm.style.display='none';
+          }catch(err){ alert('Error al responder: '+err.message); }
+          replySend.disabled=false;
+        });
+
+        actions.appendChild(like); actions.appendChild(reply);
+        replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
+
+        body.appendChild(meta); body.appendChild(text); body.appendChild(actions); body.appendChild(replyForm);
+        item.appendChild(av); item.appendChild(body);
+
+        // replies
+        const children = byParent[c.id] || [];
+        if (children.length){
+          const repliesWrap = document.createElement('div'); repliesWrap.className='replies';
+          children.forEach(child=> repliesWrap.appendChild(makeCommentEl(child)) );
+          item.appendChild(repliesWrap);
+        }
+
+        return item;
+      }
+
+      (byParent['root']||[]).forEach(c=> container.appendChild(makeCommentEl(c)) );
+    }
+
+    /* Edit modal */
     const editModal = document.getElementById('editModal');
     const closeEdit = document.getElementById('closeEdit');
     const editTitle = document.getElementById('editTitle');
@@ -1028,7 +1206,7 @@
       } catch(e){ alert('Error guardando: ' + e.message); }
     });
 
-    /* Post view (titulares) */
+    /* Post view modal (from headlines) */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
@@ -1040,24 +1218,22 @@
       const d = found.data;
       pvTitle.textContent = d.title || '(sin título)';
       pvBody.innerHTML = '';
-      const meta = document.createElement('div');
-      meta.className='post-meta';
-      meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
+      const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
+      if (Array.isArray(d.links) && d.links.length){ renderLinkCards(body, d.links); }
       const gallery = document.createElement('div'); gallery.className='post-gallery';
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
         else{ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
       });
-      pvBody.appendChild(meta);
-      pvBody.appendChild(body);
+      pvBody.appendChild(meta); pvBody.appendChild(body);
       if((d.media||[]).length) pvBody.appendChild(gallery);
       postViewModal.style.display='flex';
     }
     closePostView.addEventListener('click',()=> postViewModal.style.display='none');
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal) postViewModal.style.display='none'; });
 
-    /* Dashboard (simple como antes) */
+    /* Dashboard */
     const dashboardModal = document.getElementById('dashboardModal');
     const closeDashboard = document.getElementById('closeDashboard');
     const refreshDashboard = document.getElementById('refreshDashboard');
@@ -1066,9 +1242,8 @@
     const statDonation = document.getElementById('statDonation');
     const dashPosts = document.getElementById('dashPosts');
 
-    openDashboardBtn.addEventListener('click', async ()=>{
-      await loadDashboard();
-      dashboardModal.style.display='flex';
+    document.getElementById('openDashboard').addEventListener('click', async ()=>{
+      await loadDashboard(); dashboardModal.style.display='flex';
     });
     closeDashboard.addEventListener('click',()=> dashboardModal.style.display='none');
     dashboardModal.addEventListener('click',(e)=>{ if(e.target===dashboardModal) dashboardModal.style.display='none'; });
