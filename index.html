@@ -58,18 +58,14 @@
     .notif{position:relative}
     .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:340px;box-shadow:var(--shadow);display:none;z-index:200}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:200}
     .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
-    .notif-tabs{display:flex;border-bottom:1px solid var(--border)}
-    .notif-tab{flex:1;text-align:center;padding:8px;cursor:pointer;color:var(--text)}
-    .notif-tab.active{background:var(--panel-2);font-weight:800}
     .notif-list{max-height:380px;overflow:auto}
     .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
     .notif-item .msg{flex:1;color:var(--text)}
-    .notif-item .actions{display:flex;gap:6px}
-    .notif-item button{font-size:11px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 6px;cursor:pointer}
-    .notif-item .primary{background:var(--accent);color:#fff;border-color:transparent}
     .notif-empty{padding:12px;color:var(--muted);font-size:13px}
+    .notif-footer{display:flex;justify-content:flex-end;padding:10px;border-top:1px solid var(--border)}
+    .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
     /* Ticket News */
     .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
@@ -119,27 +115,31 @@
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
-    /* Comments (diseño pro, hilo vertical, edición, delete con icono) */
+    /* Follow buttons (compact) */
+    .btn-follow, .btn-following{
+      padding:4px 8px; font-size:11px; border-radius:6px; border:1px solid var(--border); cursor:pointer; align-self:flex-start;
+    }
+    .btn-follow{ background:var(--accent); color:#fff; }
+    .btn-following{ background:var(--panel-2); color:var(--text); }
+
+    /* Comments (resumen del estilo) */
     .comments{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
     .comments h4{margin:0 0 10px;color:var(--text)}
     .comment-form{display:flex;gap:8px;margin-top:8px}
     .comment-input{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text)}
     .comment-btn{padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
-
     .comment-item{display:flex;gap:10px;margin-bottom:12px}
     .comment-avatar{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
     .comment-box{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:10px}
     .comment-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-bottom:6px}
     .meta-left{display:flex;align-items:center;gap:8px}
     .comment-text{color:var(--text);font-size:14px;line-height:1.5}
-    .comment-edit-input{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:13px;margin-top:6px}
     .comment-actions{display:flex;gap:8px;margin-top:8px}
     .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer}
     .comment-like.active{background:var(--accent);color:#fff;border-color:transparent}
     .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer}
     .icon-btn:hover{color:var(--danger)}
-    .trash-icon{width:16px;height:16px;display:inline-block}
-    .edit-icon{width:16px;height:16px;display:inline-block;color:var(--accent)}
+    .trash-icon,.edit-icon{width:16px;height:16px;display:inline-block}
 
     .replies-wrap{margin-top:8px}
     .reply-item{display:flex;gap:10px;margin-top:8px}
@@ -148,12 +148,6 @@
     .reply-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:4px}
     .reply-text{color:var(--text);font-size:13px}
     .reply-actions{display:flex;gap:6px;margin-top:6px}
-    .reply-like.active{background:var(--accent);color:#fff;border-color:transparent}
-    .reply-edit-input{width:100%;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:6px;color:var(--text);font-size:12px;margin-top:6px}
-
-    .reply-form{display:flex;gap:6px;margin-top:8px}
-    .reply-input{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text);font-size:12px}
-    .reply-send{font-size:12px;border:1px solid var(--border);background:var(--accent);color:#fff;border-radius:8px;padding:6px 8px;cursor:pointer}
 
     .load-more{margin-top:10px}
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
@@ -161,12 +155,9 @@
     /* Right column — profesional */
     .right-col .card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px}
     .card h4{margin:0 0 8px;color:var(--text)}
+    .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
-    .follow-profile{display:flex;align-items:center;gap:10px}
-    .follow-profile .avatar{width:36px;height:36px}
-    .follow-actions{display:flex;gap:8px;margin-top:8px}
-    .follow-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
-    .unfollow-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--danger);color:#fff;font-weight:800;cursor:pointer}
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted)}
     .ad-box .ad-label{font-weight:900;color:var(--gold)}
     .ad-box .ad-cta{margin-top:6px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
@@ -205,14 +196,6 @@
     .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
     .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     .footer a{color:var(--muted)}
-
-    /* Small screens */
-    @media(max-width:640px){
-      .brand-title h1{font-size:18px}
-      .nav{gap:8px}
-      .dropdown-toggle,.btn{padding:8px 10px}
-      .post-gallery img,.post-gallery video{height:160px}
-    }
   </style>
 </head>
 <body>
@@ -264,15 +247,11 @@
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
           <h4>Notificaciones</h4>
-          <div class="notif-tabs">
-            <div class="notif-tab active" data-tab="inbox">Recientes</div>
-            <div class="notif-tab" data-tab="archive">Archivadas</div>
-          </div>
           <div class="notif-list" id="notifInbox">
             <div class="notif-empty">No hay notificaciones nuevas.</div>
           </div>
-          <div class="notif-list" id="notifArchive" style="display:none">
-            <div class="notif-empty">No hay archivadas.</div>
+          <div class="notif-footer">
+            <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
           </div>
         </div>
       </div>
@@ -294,33 +273,33 @@
       <h3>Feed</h3>
       <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
       <div id="posts"></div>
-      <div id="emptyFeed" class="empty" style="color:var(--muted)">Aún no hay publicaciones.</div>
+      <div id="emptyFeed" class="panel-sub">Aún no hay publicaciones.</div>
     </div>
 
     <!-- Right column profesional -->
     <aside class="right-col">
       <div class="card">
         <h4>Tu perfil</h4>
-        <div class="follow-profile">
-          <img id="profileAvatar" class="avatar" alt="Yo">
-          <div>
-            <div id="profileName" style="font-weight:800"></div>
-            <div id="profileEmail" class="panel-sub"></div>
+        <div class="list-row">
+          <div class="list-left">
+            <img id="profileAvatar" class="avatar" alt="Yo">
+            <div>
+              <div id="profileName" style="font-weight:800"></div>
+              <div id="profileEmail" class="panel-sub"></div>
+            </div>
           </div>
-        </div>
-        <div class="follow-actions">
-          <button id="viewProfileBtn" class="btn-mini">Ver perfil</button>
+          <button id="openDashboardSide" class="btn-mini">Dashboard</button>
         </div>
       </div>
 
       <div class="card">
         <h4>Siguiendo</h4>
-        <div id="followingList" class="list"></div>
+        <div id="followingList"></div>
       </div>
 
       <div class="card">
         <h4>Te siguen</h4>
-        <div id="followersList" class="list"></div>
+        <div id="followersList"></div>
       </div>
 
       <div class="card">
@@ -336,17 +315,17 @@
 
       <div class="card">
         <h4>Destacados</h4>
-        <div id="topAuthors" class="list"></div>
+        <div id="topAuthors"></div>
       </div>
 
       <div class="card">
         <h4>Posts con más likes</h4>
-        <div id="topPosts" class="list"></div>
+        <div id="topPosts"></div>
       </div>
 
       <div class="card">
         <h4>Tags frecuentes</h4>
-        <div id="topTags" class="list"></div>
+        <div id="topTags"></div>
       </div>
 
       <div class="card">
@@ -388,11 +367,11 @@
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
         <div id="editor" class="editor" contenteditable="true" spellcheck="true">
-          <p>Pega aquí tu contenido. Los enlaces se convertirán en tarjetas con imagen cuando sea posible.</p>
+          <p>Pega aquí tu contenido.</p>
         </div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          <span style="color:var(--muted)">Máx 6 archivos. Imágenes JPG/PNG/WebP, Videos MP4/WebM.</span>
+          <span class="panel-sub">Máx 6 archivos.</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
@@ -406,23 +385,21 @@
     </div>
   </div>
 
-  <!-- Edit modal -->
-  <div id="editModal" class="backdrop">
+  <!-- Dashboard modal (siempre presente y funcional) -->
+  <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
-        <div class="modal-title">Editar publicación</div>
-        <button class="close-x" id="closeEdit">×</button>
+        <div class="modal-title">Dashboard</div>
+        <button class="close-x" id="closeDashboard">×</button>
       </div>
       <div class="modal-body">
-        <div class="inputs">
-          <input id="editTitle" type="text">
-          <textarea id="editDesc" rows="3"></textarea>
-          <input id="editTags" type="text">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+          <div class="panel-2 side-card"><div class="panel-sub">Total publicaciones</div><div style="font-weight:900;font-size:20px" id="dashStatPosts">0</div></div>
+          <div class="panel-2 side-card"><div class="panel-sub">Likes acumulados</div><div style="font-weight:900;font-size:20px" id="dashStatLikes">0</div></div>
+          <div class="panel-2 side-card"><div class="panel-sub">Donación</div><div style="font-weight:900;font-size:20px" id="dashStatDonation">OFF</div></div>
         </div>
-        <div id="editEditor" class="editor" contenteditable="true"></div>
-      </div>
-      <div class="modal-actions">
-        <button id="saveEditBtn" class="btn btn-accent">Guardar cambios</button>
+        <h4>Tus posts</h4>
+        <div id="dashPosts"></div>
       </div>
     </div>
   </div>
@@ -472,11 +449,6 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Cloudinary */
-    const CLOUDINARY_CLOUD_NAME = "dxbahdjk1";
-    const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
-    const CLOUDINARY_BASE = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}`;
-
     /* Tema */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
@@ -494,39 +466,23 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones */
+    /* Notificaciones (panel se mantiene abierto, y botón único "Eliminar todas") */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
     const notifPanel = document.getElementById('notifPanel');
     const notifInbox = document.getElementById('notifInbox');
-    const notifArchive = document.getElementById('notifArchive');
-    const notifTabs = document.querySelectorAll('.notif-tab');
+    const notifClearAll = document.getElementById('notifClearAll');
     let notifCount = 0;
-    let notifications = []; // {id,msg,ts,read:false}
-    let notificationsArchive = [];
+    let notifications = [];
 
     notifIcon.addEventListener('click', () => {
       const show = notifPanel.style.display === 'block' ? 'none' : 'block';
       notifPanel.style.display = show;
       if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
     });
-    // Mantener abierto al interactuar: no cerramos en clicks internos
     document.addEventListener('click',(e)=>{
-      if (!notif.contains(e.target)) {
-        // sólo cerramos si el usuario clickea fuera DEL panel Y del ícono
-        notifPanel.style.display = 'none';
-      }
-    });
-
-    notifTabs.forEach(tab=>{
-      tab.addEventListener('click',()=>{
-        notifTabs.forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        const key = tab.dataset.tab;
-        if (key==='inbox'){ notifInbox.style.display='block'; notifArchive.style.display='none'; }
-        else { notifInbox.style.display='none'; notifArchive.style.display='block'; }
-      });
+      if (!notif.contains(e.target)) notifPanel.style.display='none';
     });
 
     function renderNotifications(){
@@ -534,36 +490,22 @@
       notifications.forEach(n=>{
         const item = document.createElement('div'); item.className='notif-item';
         const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
-        const actions = document.createElement('div'); actions.className='actions';
-        const markRead = document.createElement('button'); markRead.className='primary'; markRead.textContent='Marcar como leído';
-        const markUnread = document.createElement('button'); markUnread.textContent='Marcar como no leído';
-        const archiveBtn = document.createElement('button'); archiveBtn.textContent='Archivar';
-        markRead.addEventListener('click',()=>{ n.read=true; renderNotifications(); });
-        markUnread.addEventListener('click',()=>{ n.read=false; renderNotifications(); });
-        archiveBtn.addEventListener('click',()=>{ notificationsArchive.unshift(n); notifications = notifications.filter(x=>x.id!==n.id); renderNotifications(); renderArchive(); });
-        actions.appendChild(markRead); actions.appendChild(markUnread); actions.appendChild(archiveBtn);
-        item.appendChild(msg); item.appendChild(actions);
+        item.appendChild(msg);
         notifInbox.appendChild(item);
-      });
-    }
-    function renderArchive(){
-      notifArchive.innerHTML = notificationsArchive.length ? '' : '<div class="notif-empty">No hay archivadas.</div>';
-      notificationsArchive.forEach(n=>{
-        const item = document.createElement('div'); item.className='notif-item';
-        const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
-        const actions = document.createElement('div'); actions.className='actions';
-        const restore = document.createElement('button'); restore.textContent='Restaurar';
-        restore.addEventListener('click',()=>{ notifications.unshift(n); notificationsArchive = notificationsArchive.filter(x=>x.id!==n.id); renderNotifications(); renderArchive(); });
-        item.appendChild(msg); actions.appendChild(restore); item.appendChild(actions);
-        notifArchive.appendChild(item);
       });
     }
     function pushNotification(text){
       const id = Date.now()+Math.random();
-      notifications.unshift({id, msg:text, ts:Date.now(), read:false});
+      notifications.unshift({id, msg:text, ts:Date.now()});
       notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display='inline-block';
       renderNotifications();
     }
+    notifClearAll.addEventListener('click', ()=>{
+      notifications = [];
+      notifCount = 0;
+      notifBadge.style.display='none';
+      renderNotifications();
+    });
 
     /* Auth */
     const googleBtn = document.getElementById('googleBtn');
@@ -571,6 +513,8 @@
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
     const logoutBtn = document.getElementById('logoutBtn');
+    const openDashboardBtnTop = document.getElementById('openDashboard');
+    const openDashboardBtnSide = document.getElementById('openDashboardSide');
 
     googleBtn.addEventListener('click', async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -583,9 +527,9 @@
         googleBtn.style.display = 'none';
         userChip.style.display = 'inline-flex';
         userName.textContent = user.displayName || user.email;
-        userAvatar.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Usuario');
-        // Perfil en derecha
-        document.getElementById('profileAvatar').src = userAvatar.src;
+        const avatarSrc = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Usuario');
+        userAvatar.src = avatarSrc;
+        document.getElementById('profileAvatar').src = avatarSrc;
         document.getElementById('profileName').textContent = user.displayName || 'Usuario';
         document.getElementById('profileEmail').textContent = user.email || '';
       } else {
@@ -595,6 +539,7 @@
       computeDonationEligibility();
       subscribeNotificationsForMyPosts();
       loadRightColumnStats();
+      loadFollowData();
     });
 
     /* Composer */
@@ -638,26 +583,7 @@
       });
     });
 
-    /* Unfurl links */
-    async function unfurlLinksFromHTML(html){
-      const urlRegex = /(https?:\/\/[^\s"']+)/g;
-      const urls = Array.from(new Set((html.match(urlRegex)||[]))).slice(0,8);
-      const cards = [];
-      for (const u of urls) {
-        try {
-          const res = await fetch(u, { method:'GET' });
-          const txt = await res.text();
-          const titleMatch = txt.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) || txt.match(/<title>([^<]+)<\/title>/i);
-          const imgMatch = txt.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
-          const title = titleMatch ? titleMatch[1] : u;
-          const img = imgMatch ? imgMatch[1] : `https://www.google.com/s2/favicons?domain=${new URL(u).hostname}&sz=64`;
-          cards.push({ url:u, title, img, host: new URL(u).hostname });
-        } catch {
-          cards.push({ url:u, title:u, img:`https://www.google.com/s2/favicons?domain=${new URL(u).hostname}&sz=64`, host: new URL(u).hostname });
-        }
-      }
-      return cards;
-    }
+    /* Unfurl links simple */
     function renderLinkCards(container, linkCards){
       linkCards.forEach(card=>{
         const wrap = document.createElement('div'); wrap.className='link-card';
@@ -674,116 +600,7 @@
       });
     }
 
-    /* Cloudinary upload with progress + large video chunking */
-    function uploadLargeVideo(file, uid, onProgress){
-      return new Promise((resolve, reject)=>{
-        const endpoint = `${CLOUDINARY_BASE}/video/upload`;
-        const chunkSize = 20 * 1024 * 1024; // 20MB
-        const uploadId = (Date.now() + '-' + Math.random()).toString(36);
-        let start = 0;
-        const total = file.size;
-
-        function sendChunk(){
-          const end = Math.min(start + chunkSize, total);
-          const blob = file.slice(start, end);
-          const fd = new FormData();
-          fd.append('file', blob);
-          fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-          fd.append('folder', `snqo/${uid}`);
-
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', endpoint, true);
-          xhr.setRequestHeader('X-Unique-Upload-Id', uploadId);
-          xhr.setRequestHeader('Content-Range', `bytes ${start}-${end-1}/${total}`);
-          xhr.upload.onprogress = (e)=>{
-            if (e.lengthComputable) {
-              const pct = Math.min(100, Math.round(((start + e.loaded)/total)*100));
-              onProgress(pct);
-            }
-          };
-          xhr.onerror = ()=> reject(new Error('Error de red durante la subida de video.'));
-          xhr.onload = ()=>{
-            if (xhr.status >= 200 && xhr.status < 300) {
-              start = end;
-              if (start < total) sendChunk();
-              else {
-                try {
-                  const data = JSON.parse(xhr.responseText);
-                  resolve({ url: data.secure_url, type:'video', public_id: data.public_id });
-                } catch (err) { reject(err); }
-              }
-            } else {
-              reject(new Error('Falló la subida de video: ' + xhr.statusText));
-            }
-          };
-          xhr.send(fd);
-        }
-        sendChunk();
-      });
-    }
-    function uploadToCloudinaryWithProgress(files, uid, onProgress){
-      return new Promise(async (resolve, reject)=>{
-        const results = [];
-        let uploadedBytes = 0;
-        const totalBytes = files.reduce((sum,f)=>sum + (f.size||0), 0) || 1;
-
-        async function uploadSingle(file){
-          if (file.type.startsWith('video/') && file.size > 15*1024*1024) {
-            const vidRes = await uploadLargeVideo(file, uid, (pct)=>{
-              const coarse = Math.min(100, Math.round((uploadedBytes/totalBytes)*100));
-              onProgress(Math.max(coarse, pct));
-            });
-            uploadedBytes += file.size;
-            onProgress(Math.min(100, Math.round((uploadedBytes/totalBytes)*100)));
-            results.push(vidRes);
-            return;
-          }
-
-          const endpoint = `${CLOUDINARY_BASE}/${file.type.startsWith('video/') ? 'video' : 'image'}/upload`;
-          const fd = new FormData();
-          fd.append('file', file);
-          fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-          fd.append('folder', `snqo/${uid}`);
-
-          await new Promise((res, rej)=>{
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', endpoint);
-            xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                try {
-                  const data = JSON.parse(xhr.responseText);
-                  results.push({
-                    url: data.secure_url,
-                    type: data.resource_type === 'video' ? 'video' : 'image',
-                    public_id: data.public_id
-                  });
-                  res();
-                } catch(err){ rej(err); }
-              } else {
-                rej(new Error('Falló la subida: ' + xhr.statusText));
-              }
-            };
-            xhr.onerror = () => rej(new Error('Error de red en la subida.'));
-            xhr.upload.onprogress = (evt)=>{
-              if (evt.lengthComputable) {
-                uploadedBytes += evt.loaded;
-                const pct = Math.min(100, Math.round((uploadedBytes/totalBytes)*100));
-                onProgress(pct);
-              }
-            };
-            xhr.send(fd);
-          });
-        }
-
-        try{
-          for (const f of files) { await uploadSingle(f); }
-          onProgress(100);
-          resolve(results);
-        }catch(err){ reject(err); }
-      });
-    }
-
-    /* Publicar */
+    /* Publicar (sin subida externa para acortar) */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -803,57 +620,31 @@
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
       publishBtn.disabled = true;
-      const originalLabel = 'Publicar';
-      publishBtn.textContent = 'Preparando…';
-      publishBtn.appendChild(publishProgress);
-      publishProgress.style.width = '0%';
+      publishProgress.style.width = '20%';
 
       try {
-        const linkCards = await unfurlLinksFromHTML(bodyHtml);
-
-        let mediaItems = [];
-        if (selectedFiles.length) {
-          publishBtn.textContent = 'Subiendo… 0%';
-          mediaItems = await uploadToCloudinaryWithProgress(selectedFiles, user.uid, (pct)=>{
-            publishBtn.textContent = `Subiendo… ${pct}%`;
-            publishProgress.style.width = pct+'%';
-          });
-        }
-
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
-          links: linkCards,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          media: mediaItems,
-          likesCount: 0,
-          likedBy: [],
+          likesCount: 0, likedBy: [],
           donationEnabled: false
         });
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-        editor.innerHTML = '<p>Pega aquí tu contenido. Los enlaces se convertirán en tarjetas con imagen cuando sea posible.</p>';
-        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-
-        publishBtn.textContent = 'Publicado ✔';
+        editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
         publishProgress.style.width = '100%';
-        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; publishProgress.style.width='0%'; hideComposer(); }, 900);
+        setTimeout(()=>{ publishBtn.disabled=false; publishProgress.style.width='0%'; }, 600);
       } catch (e) {
-        alert('Error publicando: ' + e.message + '\nIntenta nuevamente.');
-        publishBtn.textContent = originalLabel;
-        publishBtn.disabled = false;
-        publishProgress.style.width = '0%';
+        alert('Error publicando: ' + e.message);
+        publishBtn.disabled=false; publishProgress.style.width='0%';
       }
     });
 
     resetBtn.addEventListener('click', () => {
       titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       editor.innerHTML = '';
-      mediaInput.value = '';
-      selectedFiles = [];
-      mediaPreview.innerHTML = '';
       publishProgress.style.width = '0%';
-      publishBtn.textContent = 'Publicar';
       publishBtn.disabled = false;
     });
 
@@ -901,7 +692,7 @@
     }
 
     function renderSidebar(list){
-      // Destacados
+      // Destacados autores con botón follow compact
       const topAuthors = document.getElementById('topAuthors');
       const authorMap = {};
       list.forEach(p => {
@@ -912,13 +703,29 @@
       });
       const sortedAuthors = Object.values(authorMap).sort((a,b)=>b.likes-a.likes).slice(0,6);
       topAuthors.innerHTML = '';
+      const currentUid = auth.currentUser?.uid;
       sortedAuthors.forEach(a=>{
-        const row = document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='10px';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
         const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name));
         const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="panel-sub">${a.posts} posts • ${a.likes} likes</div>`;
-        const btn = document.createElement('button'); btn.className='btn-mini'; btn.textContent='Seguir';
-        btn.addEventListener('click',()=> toggleFollow(a.uid, a.name, a.avatar));
-        row.appendChild(av); row.appendChild(txt); row.appendChild(btn);
+        left.appendChild(av); left.appendChild(txt);
+        const btn = document.createElement('button');
+        btn.textContent = 'Seguir';
+        btn.className = 'btn-follow';
+        if (currentUid && currentUid === a.uid) { btn.style.display='none'; }
+        else {
+          btn.addEventListener('click', ()=> toggleFollow(a.uid, a.name, a.avatar, btn));
+          setTimeout(async ()=>{
+            if (!currentUid) return;
+            const meSnap = await firestore.collection('users').doc(currentUid).get();
+            const following = (meSnap.data()?.following)||[];
+            const isFollowing = following.includes(a.uid);
+            btn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
+            btn.className = isFollowing ? 'btn-following' : 'btn-follow';
+          }, 0);
+        }
+        row.appendChild(left); row.appendChild(btn);
         topAuthors.appendChild(row);
       });
 
@@ -927,27 +734,30 @@
       const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6);
       topPosts.innerHTML = '';
       sortedPosts.forEach(p=>{
-        const row = document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='10px';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
         const av = document.createElement('img'); av.className='avatar'; av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Usuario'));
         const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong><div class="panel-sub">${p.data.likesCount||0} likes • ${escapeHtml(p.data.author?.name||'Usuario')}</div>`;
-        row.appendChild(av); row.appendChild(txt);
+        left.appendChild(av); left.appendChild(txt);
+        row.appendChild(left);
         topPosts.appendChild(row);
       });
 
-      // Tags frecuentes
+      // Tags
       const topTags = document.getElementById('topTags');
       const tagCounts = {};
       list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
       const sortedTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
       topTags.innerHTML = '';
       sortedTags.forEach(([t,c])=>{
-        const row = document.createElement('div'); row.style.display='flex'; row.style.justifyContent='space-between';
+        const row = document.createElement('div'); row.className='list-row';
         const left = document.createElement('div'); left.innerHTML = `<strong>#${escapeHtml(t)}</strong>`;
         const right = document.createElement('div'); right.className='panel-sub'; right.textContent = `${c} apariciones`;
         row.appendChild(left); row.appendChild(right); topTags.appendChild(row);
       });
     }
 
+    /* Donation eligibility */
     async function computeDonationEligibility(){
       const u = auth.currentUser;
       if (!u) { userDonationEligible = false; return; }
@@ -960,6 +770,7 @@
       await batch.commit();
     }
 
+    /* Notifications from likes/comments */
     function subscribeNotificationsForMyPosts(){
       notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
       notifUnsubs = [];
@@ -983,24 +794,39 @@
       });
     }
 
-    /* Follow system */
-    async function toggleFollow(targetUid, name, avatar){
-      const u = auth.currentUser; if (!u){ alert('Inicia sesión para seguir.'); return; }
+    /* Follow system with button state update */
+    async function toggleFollow(targetUid, name, avatar, btn){
+      const u = auth.currentUser; 
+      if (!u){ alert('Inicia sesión para seguir.'); return; }
+      if (u.uid === targetUid){ alert('No puedes seguirte a ti mismo.'); return; }
+
       const meRef = firestore.collection('users').doc(u.uid);
       const targetRef = firestore.collection('users').doc(targetUid);
+
       await firestore.runTransaction(async (tx)=>{
         const meSnap = await tx.get(meRef);
         const targetSnap = await tx.get(targetRef);
-        const meData = meSnap.exists ? meSnap.data() : { following: [], followers: [] };
-        const targetData = targetSnap.exists ? targetSnap.data() : { following: [], followers: [] };
+        const meData = meSnap.exists ? meSnap.data() : { following: [] };
+        const targetData = targetSnap.exists ? targetSnap.data() : { followers: [] };
+
         const isFollowing = (meData.following||[]).includes(targetUid);
-        const newFollowing = isFollowing ? (meData.following||[]).filter(x=>x!==targetUid) : [ ...(meData.following||[]), targetUid ];
-        const newFollowers = isFollowing ? (targetData.followers||[]).filter(x=>x!==u.uid) : [ ...(targetData.followers||[]), u.uid ];
-        tx.set(meRef, { name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null, following: newFollowing }, { merge:true });
-        tx.set(targetRef, { name, avatar, followers: newFollowers }, { merge:true });
+        const newFollowing = isFollowing ? meData.following.filter(x=>x!==targetUid) : [...meData.following, targetUid];
+        const newFollowers = isFollowing ? targetData.followers.filter(x=>x!==u.uid) : [...targetData.followers, u.uid];
+
+        tx.set(meRef, { name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null, following:newFollowing }, { merge:true });
+        tx.set(targetRef, { name, avatar, followers:newFollowers }, { merge:true });
+
+        // Update button state immediately
+        if (btn){
+          const nowFollowing = !isFollowing;
+          btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir';
+          btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
+        }
       });
+
       loadFollowData();
     }
+
     async function loadFollowData(){
       const u = auth.currentUser; if (!u) return;
       const meSnap = await firestore.collection('users').doc(u.uid).get();
@@ -1013,38 +839,42 @@
       for (const uid of (data.following||[])){
         const us = await firestore.collection('users').doc(uid).get();
         const ud = us.exists ? us.data() : {};
-        const row = document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.justifyContent='space-between';
-        const left = document.createElement('div'); left.style.display='flex'; left.style.alignItems='center'; left.style.gap='8px';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
         const av = document.createElement('img'); av.className='avatar'; av.src = ud.avatar || 'https://ui-avatars.com/api/?name='+encodeURIComponent(ud.name||'Usuario');
         const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(ud.name||'Usuario')}</strong>`;
         left.appendChild(av); left.appendChild(nm);
-        const btn = document.createElement('button'); btn.className='unfollow-btn'; btn.textContent='Dejar de seguir';
-        btn.addEventListener('click',()=> toggleFollow(uid, ud.name, ud.avatar));
+        const btn = document.createElement('button'); btn.className='btn-following'; btn.textContent='Siguiendo';
+        btn.addEventListener('click',()=> toggleFollow(uid, ud.name, ud.avatar, btn));
         row.appendChild(left); row.appendChild(btn);
         followingList.appendChild(row);
       }
       for (const uid of (data.followers||[])){
         const us = await firestore.collection('users').doc(uid).get();
         const ud = us.exists ? us.data() : {};
-        const row = document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='8px';
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
         const av = document.createElement('img'); av.className='avatar'; av.src = ud.avatar || 'https://ui-avatars.com/api/?name='+encodeURIComponent(ud.name||'Usuario');
         const nm = document.createElement('div'); nm.innerHTML = `<strong>${escapeHtml(ud.name||'Usuario')}</strong>`;
-        row.appendChild(av); row.appendChild(nm);
+        left.appendChild(av); left.appendChild(nm);
+        row.appendChild(left);
         followersList.appendChild(row);
       }
     }
+
     function loadRightColumnStats(){
       const u = auth.currentUser; if (!u) return;
       firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{
         let totalPosts=0, totalLikes=0, donationFlag=false;
-        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; });
+        const items = [];
+        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; items.push(d); });
         document.getElementById('statPosts').textContent = totalPosts;
         document.getElementById('statLikes').textContent = totalLikes;
         document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
       });
     }
 
-    /* Render Post + Comments */
+    /* Render Post + Follow button in head */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
@@ -1052,32 +882,40 @@
       const head = document.createElement('div'); head.className = 'post-head';
       const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor';
       avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
+
       const metaWrap = document.createElement('div');
       const titleEl = document.createElement('h4'); titleEl.className = 'post-title'; titleEl.textContent = p.title || '(sin título)';
       const metaEl = document.createElement('div'); metaEl.className = 'post-meta';
       metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + p.createdText;
       metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
-      head.appendChild(avatar); head.appendChild(metaWrap);
+
+      // Follow/Siguiendo compact button next to head (hidden if self)
+      const followBtn = document.createElement('button');
+      const currentUid = auth.currentUser?.uid;
+      if (currentUid && currentUid === p.author?.uid) {
+        followBtn.style.display='none';
+      } else {
+        followBtn.textContent = 'Seguir';
+        followBtn.className = 'btn-follow';
+        followBtn.addEventListener('click', ()=> toggleFollow(p.author?.uid, p.author?.name, p.author?.avatar, followBtn));
+        // initial state
+        if (currentUid) {
+          firestore.collection('users').doc(currentUid).get().then(snap=>{
+            const following = (snap.data()?.following)||[];
+            const isFollowing = following.includes(p.author?.uid);
+            followBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
+            followBtn.className = isFollowing ? 'btn-following' : 'btn-follow';
+          });
+        }
+      }
+
+      head.appendChild(avatar); head.appendChild(metaWrap); head.appendChild(followBtn);
 
       const tagRow = document.createElement('div'); tagRow.className = 'tag-row';
       (p.tags || []).forEach(t => { const span=document.createElement('span'); span.className='tag'; span.textContent='#'+t; tagRow.appendChild(span); });
 
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
-      if (Array.isArray(p.links) && p.links.length){ renderLinkCards(bodyEl, p.links); }
-
-      const gallery = document.createElement('div'); gallery.className = 'post-gallery';
-      (p.media || []).forEach(m => {
-        if (m.type === 'image') {
-          const img = document.createElement('img'); img.src = m.url; img.alt = p.title || '';
-          img.addEventListener('click', () => openLightbox('image', m.url));
-          gallery.appendChild(img);
-        } else if (m.type === 'video') {
-          const vid = document.createElement('video'); vid.src = m.url; vid.controls = true;
-          vid.addEventListener('click', () => openLightbox('video', m.url));
-          gallery.appendChild(vid);
-        }
-      });
 
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
@@ -1128,7 +966,7 @@
         computeDonationEligibility();
       });
 
-      /* Comments */
+      /* Comments block (compact, hilo vertical y ver más) */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1163,7 +1001,6 @@
         submit.disabled = false;
       });
 
-      // Real-time updates post likes
       firestore.collection('posts').doc(id).onSnapshot(s => {
         const d = s.data(); if (!d) return;
         counts.textContent = ` ${d.likesCount || 0} likes`;
@@ -1174,7 +1011,6 @@
         }
       });
 
-      // Comments snapshot and render with progressive "Ver más"
       let fullComments = [];
       let renderLimit = 5;
 
@@ -1192,7 +1028,6 @@
           loadMoreBtn.style.display='none';
         }
       }
-
       loadMoreBtn.addEventListener('click', ()=>{
         renderLimit += 5;
         renderCommentsThread(id, commentsList, fullComments, renderLimit);
@@ -1204,7 +1039,6 @@
       card.appendChild(tagRow);
       card.appendChild(descEl);
       card.appendChild(bodyEl);
-      if ((p.media || []).length) card.appendChild(gallery);
       card.appendChild(actions);
       card.appendChild(commentsWrap);
 
@@ -1213,16 +1047,12 @@
 
     function renderCommentsThread(postId, container, comments, limit){
       container.innerHTML = '';
-
-      // Group by parent
       const roots = comments.filter(c=>!c.parentId);
       const childrenMap = {};
       comments.filter(c=>c.parentId).forEach(c=>{
         (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c);
       });
-
       const showRoots = roots.slice(0, limit);
-
       showRoots.forEach(c=>{
         container.appendChild(makeCommentEl(postId, c, childrenMap));
       });
@@ -1241,7 +1071,6 @@
       const me = auth.currentUser;
       const isAuthor = me && me.uid === c.author?.uid;
 
-      // Edit icon
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
       editBtn.innerHTML = `<svg class="edit-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
@@ -1251,9 +1080,7 @@
       meta.appendChild(leftMeta); meta.appendChild(rightMeta);
 
       const text = document.createElement('div'); text.className='comment-text'; text.textContent = c.text;
-
-      // Edit area
-      const editInput = document.createElement('input'); editInput.className='comment-edit-input'; editInput.style.display='none'; editInput.value = c.text;
+      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = c.text;
       const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
 
       editBtn.addEventListener('click', ()=>{
@@ -1304,9 +1131,9 @@
         });
       });
 
-      const replyForm = document.createElement('div'); replyForm.className='reply-form'; replyForm.style.display='none';
-      const replyInput = document.createElement('input'); replyInput.className='reply-input'; replyInput.placeholder='Tu respuesta…';
-      const replySend = document.createElement('button'); replySend.className='reply-send'; replySend.textContent='Enviar';
+      const replyForm = document.createElement('div'); replyForm.className='comment-form'; replyForm.style.display='none';
+      const replyInput = document.createElement('input'); replyInput.className='comment-input'; replyInput.placeholder='Tu respuesta…';
+      const replySend = document.createElement('button'); replySend.className='comment-btn'; replySend.textContent='Enviar';
       replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
 
       reply.addEventListener('click', ()=> {
@@ -1339,7 +1166,6 @@
       box.appendChild(actions);
       box.appendChild(replyForm);
 
-      // replies under parent (smaller)
       const repliesWrap = document.createElement('div'); repliesWrap.className='replies-wrap';
       const children = childrenMap[c.id] || [];
       children.forEach(child=>{
@@ -1361,7 +1187,6 @@
       const right = document.createElement('div');
 
       const me = auth.currentUser; const isAuthor = me && me.uid === r.author?.uid;
-
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
       editBtn.innerHTML = `<svg class="edit-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
@@ -1371,7 +1196,7 @@
       meta.appendChild(left); meta.appendChild(right);
 
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
-      const editInput = document.createElement('input'); editInput.className='reply-edit-input'; editInput.style.display='none'; editInput.value = r.text;
+      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = r.text;
       const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
 
       editBtn.addEventListener('click', ()=>{
@@ -1391,7 +1216,7 @@
       });
 
       const actions = document.createElement('div'); actions.className='reply-actions';
-      const like = document.createElement('button'); like.className='comment-action reply-like'; like.textContent = `👍 ${r.likesCount||0}`;
+      const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
       const meLiked = me && (r.likedBy||[]).includes(me.uid);
       if (meLiked) like.classList.add('active');
 
@@ -1422,50 +1247,11 @@
       return item;
     }
 
-    /* Edit modal */
-    const editModal = document.getElementById('editModal');
-    const closeEdit = document.getElementById('closeEdit');
-    const editTitle = document.getElementById('editTitle');
-    const editDesc = document.getElementById('editDesc');
-    const editTags = document.getElementById('editTags');
-    const editEditor = document.getElementById('editEditor');
-    const saveEditBtn = document.getElementById('saveEditBtn');
-    let editingPostId = null;
-
-    function openEditModal(id, p){
-      editingPostId = id;
-      editTitle.value = p.title || '';
-      editDesc.value = p.desc || '';
-      editTags.value = (p.tags || []).join(', ');
-      editEditor.innerHTML = p.bodyHtml || '';
-      editModal.style.display = 'flex';
-    }
-    closeEdit.addEventListener('click', () => { editModal.style.display = 'none'; editingPostId = null; });
-    editModal.addEventListener('click', (e) => { if (e.target === editModal) { editModal.style.display = 'none'; editingPostId = null; } });
-
-    saveEditBtn.addEventListener('click', async () => {
-      if (!editingPostId) return;
-      const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
-      const postRef = firestore.collection('posts').doc(editingPostId);
-      try {
-        await postRef.update({
-          title: editTitle.value.trim(),
-          desc: editDesc.value.trim(),
-          bodyHtml: editEditor.innerHTML.trim(),
-          tags: editTags.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        editModal.style.display = 'none';
-        editingPostId = null;
-      } catch(e){ alert('Error guardando: ' + e.message); }
-    });
-
-    /* Post view modal */
+    /* Edit modal for posts */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
     const closePostView = document.getElementById('closePostView');
-
     function openPostView(postId){
       const found = postsCache.find(p=>p.id===postId);
       if(!found){ return; }
@@ -1474,34 +1260,55 @@
       pvBody.innerHTML = '';
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
-      if (Array.isArray(d.links) && d.links.length){ renderLinkCards(body, d.links); }
-      const gallery = document.createElement('div'); gallery.className='post-gallery';
-      (d.media||[]).forEach(m=>{
-        if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
-        else{ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
-      });
       pvBody.appendChild(meta); pvBody.appendChild(body);
-      if((d.media||[]).length) pvBody.appendChild(gallery);
       postViewModal.style.display='flex';
     }
     closePostView.addEventListener('click',()=> postViewModal.style.display='none');
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal) postViewModal.style.display='none'; });
 
-    /* Lightbox */
-    const lightbox = document.getElementById('lightbox');
-    const lightboxContent = document.querySelector('.lightbox-content');
-    const lightboxClose = document.getElementById('lightboxClose');
-    function openLightbox(type, url){
-      lightboxContent.innerHTML = '';
-      if (type === 'image') {
-        const img = document.createElement('img'); img.src = url; lightboxContent.appendChild(img);
-      } else {
-        const vid = document.createElement('video'); vid.src = url; vid.controls = true; vid.autoplay = true; lightboxContent.appendChild(vid);
-      }
-      lightbox.style.display = 'flex';
+    /* Dashboard */
+    const dashboardModal = document.getElementById('dashboardModal');
+    const closeDashboard = document.getElementById('closeDashboard');
+    const dashStatPosts = document.getElementById('dashStatPosts');
+    const dashStatLikes = document.getElementById('dashStatLikes');
+    const dashStatDonation = document.getElementById('dashStatDonation');
+    const dashPosts = document.getElementById('dashPosts');
+
+    function openDashboardModal(){ dashboardModal.style.display='flex'; }
+    function closeDashboardModal(){ dashboardModal.style.display='none'; }
+    closeDashboard.addEventListener('click', closeDashboardModal);
+    dashboardModal.addEventListener('click', (e)=>{ if (e.target===dashboardModal) closeDashboardModal(); });
+
+    async function loadDashboard(){
+      const u = auth.currentUser;
+      if (!u){ alert('Inicia sesión'); return; }
+      const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
+      let totalPosts=0, totalLikes=0, donationFlag=false;
+      const items = [];
+      mineSnap.forEach(doc=>{
+        const d = doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true;
+        items.push({ id:doc.id, data:d });
+      });
+      dashStatPosts.textContent = totalPosts;
+      dashStatLikes.textContent = totalLikes;
+      dashStatDonation.textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
+      dashPosts.innerHTML = '';
+      items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
+      items.forEach(p=>{
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const av = document.createElement('img'); av.className='avatar'; av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Tú'));
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong><div class="panel-sub">${p.data.likesCount||0} likes • Donación: ${p.data.donationEnabled ? 'ON' : 'OFF'}</div>`;
+        left.appendChild(av); left.appendChild(txt);
+        row.appendChild(left);
+        dashPosts.appendChild(row);
+      });
+      openDashboardModal();
     }
-    lightboxClose.addEventListener('click', () => lightbox.style.display = 'none');
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; });
+
+    // Botones que abren dashboard (top y side)
+    document.getElementById('openDashboard').addEventListener('click', loadDashboard);
+    document.getElementById('openDashboardSide').addEventListener('click', loadDashboard);
 
     /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
