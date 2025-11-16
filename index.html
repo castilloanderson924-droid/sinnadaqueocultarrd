@@ -1,121 +1,701 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <title>SIN NADA QUE OCULTAR RD — Información libre y sin sensura</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>El Diario Urbano — Periódico Digital</title>
+  <!-- Google Identity Services (login) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* --- estilos base, ticker, feed, modal artículo (igual que antes) --- */
-    body { margin:0; font-family:system-ui; background:var(--bg); color:var(--text) }
-    /* Switch */
-    .switch { position:relative; display:inline-block; width:54px; height:28px }
-    .switch input { opacity:0; width:0; height:0 }
-    .slider { position:absolute; inset:0; cursor:pointer; background:var(--muted); border-radius:28px; transition:.25s }
-    .slider:before { content:""; position:absolute; height:22px; width:22px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.25s }
-    input:checked + .slider { background:var(--brand) }
-    input:checked + .slider:before { transform:translateX(26px) }
-    /* Modal genérico */
-    .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:100 }
-    .modal.open { display:flex }
-    .modal-content { background:#fff; color:#000; border-radius:12px; padding:20px; width:90%; max-width:400px }
-    .modal-content h2 { margin-top:0 }
-    .modal-content form { display:grid; gap:10px }
-    .modal-content input { padding:8px; border:1px solid #ccc; border-radius:8px }
-    .modal-content button { padding:10px; border:none; border-radius:8px; background:#1e67ff; color:#fff; cursor:pointer }
+    :root{
+      --bg:#f5f8fc; --surface:#ffffff; --text:#0a1f36; --muted:#64748b;
+      --brand:#1d6df2; --brand-2:#5aa4ff; --border:#d8e6f7;
+      --chip:#eaf3ff; --shadow:0 12px 30px rgba(29,109,242,.12);
+      --like:#ef4444; --comment:#1f7ae0; --accent:#00c2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; background:var(--bg); color:var(--text); font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
+    a{text-decoration:none; color:inherit}
+    img{max-width:100%; display:block}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:90;
+      background:linear-gradient(180deg, rgba(245,249,255,.98), rgba(245,249,255,.92));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar{
+      max-width:1240px; margin:0 auto; padding:.75rem 1rem;
+      display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:1rem;
+    }
+    .brand{display:flex; align-items:center; gap:.7rem}
+    .logo-img{
+      width:42px; height:42px; border-radius:10px; border:1px solid var(--border);
+      background:#fff; overflow:hidden; box-shadow:var(--shadow);
+    }
+    .brand-block{
+      display:flex; flex-direction:column; line-height:1.1;
+    }
+    .site-title{font-family:"Playfair Display",serif; font-size:1.3rem; margin:0;}
+    .site-slogan{font-size:.85rem; color:#174b8a; font-weight:700; letter-spacing:.02em}
+
+    .btn{
+      padding:.5rem .85rem; border-radius:10px; border:1px solid var(--border);
+      background:#fff; color:var(--text); font-weight:600; cursor:pointer; transition:.2s ease;
+      box-shadow:var(--shadow);
+    }
+    .btn.primary{background:var(--brand); border-color:var(--brand); color:#fff}
+    .btn:hover{transform:translateY(-1px)}
+    .avatar{width:34px; height:34px; border-radius:50%; overflow:hidden; border:1px solid var(--border); background:#eef6ff}
+
+    /* Ticker */
+    .ticker-wrap{display:grid; grid-template-columns:auto 1fr auto; gap:.6rem; align-items:center; border-left:1px solid var(--border); padding-left:.75rem;}
+    .ticker-label{font-weight:700; color:var(--brand);}
+    .ticker{position:relative; overflow:hidden; height:32px;}
+    .ticker-track{display:flex; gap:1rem; align-items:center; position:absolute; left:0; top:0; will-change: transform;}
+    .ticker-item{display:flex; align-items:center; gap:.4rem; background:var(--chip); border:1px solid var(--border); color:#174b8a; padding:.25rem .6rem; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow); cursor:pointer;}
+    .ticker-item .tag{color:var(--brand); font-weight:700}
+    .icon-btn{width:32px; height:32px; display:grid; place-items:center; background:#fff; border:1px solid var(--border); border-radius:8px; cursor:pointer; box-shadow:var(--shadow);}
+
+    /* Layout */
+    main{max-width:1240px; margin:1rem auto; padding:0 1rem; display:grid; grid-template-columns:1.8fr 1fr; gap:1.2rem;}
+    @media(max-width:980px){main{grid-template-columns:1fr} .ticker-wrap{display:none}}
+
+    /* Feed estilo forum/social (llamativo) */
+    .forum{display:grid; gap:1rem}
+    .thread{
+      display:grid; grid-template-columns:56px 1fr auto; gap:1rem; align-items:start;
+      background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); padding:.95rem 1rem;
+      transition:.2s ease;
+    }
+    .thread:hover{transform:translateY(-2px)}
+    .thread .avatar{width:56px; height:56px; border-radius:12px; background:#eef6ff; border-color:#e3eeff}
+    .thread .title{font-weight:800; font-size:1.08rem}
+    .title-row{display:flex; align-items:center; gap:.5rem}
+    .badge{
+      background:linear-gradient(135deg, var(--chip), #fff);
+      color:#174b8a; border:1px solid var(--border); font-weight:700; font-size:.75rem;
+      padding:.18rem .55rem; border-radius:999px;
+    }
+    .thread .meta{display:flex; flex-wrap:wrap; gap:.6rem; color:#64748b; font-size:.9rem; margin:.2rem 0}
+    .thread .excerpt{color:#1e3a5f; font-size:.95rem; line-height:1.5; margin:.25rem 0}
+    .thumb{
+      width:140px; height:90px; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#f1f6ff;
+      box-shadow:0 6px 14px rgba(0,0,0,.06);
+    }
+    .thumb img{width:100%; height:100%; object-fit:cover}
+    .stats{
+      display:grid; gap:.4rem; justify-items:end; color:#153a5f; font-weight:700; font-size:.9rem;
+    }
+    .stat{
+      display:flex; align-items:center; gap:.4rem; padding:.3rem .6rem; border-radius:999px;
+      border:1px solid var(--border); background:#fff;
+    }
+    .stat.like{color:#b42323}
+    .stat.comment{color:#1f7ae0}
+    .stat.updated{color:#0a1f36}
+    .stat.lock{color:#b45309}
+
+    /* Sidebar */
+    .sidebar .module{background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); margin-bottom:1rem;}
+    .module header{padding:.8rem 1rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center}
+    .module header h3{margin:0; font-size:1rem;}
+    .module .body{padding:.85rem 1rem; display:grid; gap:.6rem}
+    .search-input{width:100%; padding:.6rem .8rem; border-radius:10px; border:1px solid var(--border)}
+    .module .item{display:grid; gap:.2rem}
+    .module .item .title{font-weight:700}
+    .module .item .meta{font-size:.88rem; color:#64748b}
+
+    /* Modal lectura */
+    .detail{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:95; align-items:center; justify-content:center}
+    .modal{width:min(1020px,95vw); max-height:90vh; overflow:auto; background:var(--surface); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow)}
+    .modal header{position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border); padding:.95rem 1.1rem; display:flex; justify-content:space-between; align-items:center}
+    .modal .body{padding:1.1rem; display:grid; gap:.9rem}
+    .modal .cover img{max-width:100%; margin:0 auto; display:block; border-radius:14px}
+    .post-html{line-height:1.75; color:#153a5f}
+    .post-html img{max-width:100%; margin:1rem auto; display:block; border-radius:14px}
+
+    /* Modal publicar (crear hilo) */
+    .composer{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:98; align-items:center; justify-content:center}
+    .composer .modal{width:min(960px,95vw); max-height:92vh; overflow:auto}
+    .editor{display:grid; gap:.7rem; padding:1rem}
+    .toolbar{display:flex; flex-wrap:wrap; gap:.45rem}
+    .tool{padding:.38rem .6rem; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700; color:#164b8a; font-size:.85rem}
+    .editor input[type="text"], .editor textarea{width:100%; padding:.6rem .75rem; border-radius:10px; border:1px solid var(--border)}
+    .rte{min-height:160px; padding:.6rem .75rem; border-radius:10px; border:1px solid var(--border); background:#fff}
+    .preview{display:flex; gap:.6rem; flex-wrap:wrap}
+    .preview .ph{width:120px; height:80px; border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#eef6ff}
+    .preview .ph img, .preview .ph video{width:100%; height:100%; object-fit:cover}
+    .composer-actions{display:flex; justify-content:flex-end; gap:.6rem; padding:0 1rem 1rem}
+
+    /* Helpers */
+    .skeleton{position:relative; overflow:hidden; background:#eef6ff; border:1px solid var(--border); border-radius:12px}
+    .skeleton::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shimmer 1.8s infinite;}
+    @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
   </style>
 </head>
 <body>
-  <!-- Barra superior -->
   <header>
     <div class="topbar">
-      <div class="brand">El Diario Urbano</div>
-      <div class="actions">
-        <label class="switch">
-          <input type="checkbox" id="themeSwitch" />
-          <span class="slider"></span>
-        </label>
-        <button id="authBtn">Registrarse / Iniciar sesión</button>
+      <div class="brand">
+        <div class="logo-img">
+          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png" alt="Logo" style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div class="brand-block">
+          <h1 class="site-title">SIN NADA QUE OCULTAR RD</h1>
+          <div class="site-slogan">INFORMACIÓN LIBRE Y SIN SENSURA</div>
+        </div>
+      </div>
+
+      <!-- Ticker -->
+      <div class="ticker-wrap">
+        <span class="ticker-label">Última hora</span>
+        <div id="ticker" class="ticker" title="Pasa el mouse para pausar"></div>
+        <div class="ticker-controls" style="display:flex; gap:.35rem">
+          <button id="prevTicker" class="icon-btn" aria-label="Anterior">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#174b8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="nextTicker" class="icon-btn" aria-label="Siguiente">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#174b8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="user" style="display:flex; align-items:center; gap:.6rem">
+        <div id="avatar" class="avatar"></div>
+        <button id="loginBtn" class="btn primary">Iniciar sesión</button>
+        <button id="publishBtn" class="btn">Crear hilo</button>
       </div>
     </div>
   </header>
 
-  <!-- Feed -->
-  <main class="container">
-    <section id="feed"></section>
+  <main>
+    <!-- Forum feed -->
+    <section id="forum" class="forum">
+      <article class="thread">
+        <div class="avatar skeleton"></div>
+        <div>
+          <div class="title-row">
+            <div class="title">Cargando hilos…</div>
+            <span class="badge">#Noticias</span>
+          </div>
+          <div class="meta">—</div>
+          <div class="excerpt">—</div>
+        </div>
+        <div class="stats">
+          <div class="stat like"><span>❤</span><span>0</span></div>
+          <div class="stat comment"><span>💬</span><span>0</span></div>
+          <div class="stat updated"><span>⏱</span><span>—</span></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="module">
+        <header><h3>Buscar</h3><span class="meta">Títulos y descripción</span></header>
+        <div class="body"><input id="searchInput" class="search-input" type="text" placeholder="Escribe para buscar…"></div>
+      </div>
+
+      <div class="module">
+        <header><h3>Tendencias</h3><span class="meta">Actualizados recientemente</span></header>
+        <div id="modTrends" class="body">
+          <div class="item"><div class="title">Cargando…</div></div>
+        </div>
+      </div>
+    </aside>
   </main>
 
-  <!-- Modal de autenticación -->
-  <div class="modal" id="authModal">
-    <div class="modal-content">
-      <h2>Registro / Inicio de sesión</h2>
-      <form id="authForm">
-        <input type="text" id="name" placeholder="Nombre completo" required />
-        <input type="email" id="email" placeholder="Correo electrónico" required />
-        <input type="password" id="password" placeholder="Contraseña" required />
-        <input type="password" id="password2" placeholder="Repite la contraseña" required />
-        <input type="file" id="photo" accept="image/*" />
-        <button type="submit">Enviar</button>
-      </form>
-      <button onclick="closeAuth()">Cerrar</button>
+  <!-- Modal lectura: portada única + contenido centrado -->
+  <div id="detail" class="detail">
+    <div class="modal">
+      <header>
+        <div class="meta"><span id="detailAuthor">—</span> • <span id="detailDate">—</span></div>
+        <button id="closeDetail" class="btn">Cerrar</button>
+      </header>
+      <div class="body">
+        <h2 id="detailTitle" class="title"></h2>
+        <div class="cover" id="detailCover"></div>
+        <article id="detailHtml" class="post-html"></article>
+
+        <div class="module" style="margin-top:.4rem">
+          <header><h3>Respuestas</h3></header>
+          <div id="commentsList" class="body"></div>
+        </div>
+
+        <div class="module" style="margin-top:.4rem">
+          <header><h3>Responder</h3><span class="meta" id="composerHint">Inicia sesión para comentar</span></header>
+          <div class="body">
+            <div class="toolbar">
+              <button class="tool" data-cmd="bold"><b>Negrita</b></button>
+              <button class="tool" data-cmd="italic"><i>Cursiva</i></button>
+              <button class="tool" data-cmd="underline"><u>Subrayado</u></button>
+              <button class="tool" data-cmd="insertUnorderedList">• Lista</button>
+              <button class="tool" id="linkBtn">Enlace</button>
+              <label class="tool" for="commentImage">Imagen</label>
+              <input id="commentImage" type="file" accept="image/*" style="display:none">
+              <label class="tool" for="commentVideo">Video</label>
+              <input id="commentVideo" type="file" accept="video/*" style="display:none">
+            </div>
+            <div id="commentEditor" class="rte" contenteditable="true" placeholder="Escribe tu respuesta…"></div>
+            <div class="preview" id="commentPreview"></div>
+            <div class="composer-actions">
+              <button id="publishComment" class="btn primary">Publicar respuesta</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+  <!-- Modal crear hilo -->
+  <div id="composer" class="composer">
+    <div class="modal">
+      <header style="position:sticky; top:0; padding:.85rem 1rem; background:var(--surface); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+        <strong>Crear hilo</strong>
+        <button id="closeComposer" class="btn">Cerrar</button>
+      </header>
+      <div class="editor">
+        <input id="pubTitle" type="text" placeholder="Título del hilo">
+        <textarea id="pubDescription" rows="3" placeholder="Descripción breve"></textarea>
+
+        <div class="toolbar" id="pubToolbar">
+          <button class="tool" data-cmd="bold"><b>Negrita</b></button>
+          <button class="tool" data-cmd="italic"><i>Cursiva</i></button>
+          <button class="tool" data-cmd="underline"><u>Subrayado</u></button>
+          <button class="tool" data-cmd="insertUnorderedList">• Lista</button>
+          <button class="tool" id="pubLinkBtn">Enlace</button>
+          <label class="tool" for="pubImage">Imagen</label>
+          <input id="pubImage" type="file" accept="image/*" style="display:none">
+          <label class="tool" for="pubVideo">Video</label>
+          <input id="pubVideo" type="file" accept="video/*" style="display:none">
+        </div>
+        <div id="pubEditor" class="rte" contenteditable="true" placeholder="Contenido del hilo…"></div>
+        <div class="preview" id="pubPreview"></div>
+      </div>
+      <div class="composer-actions">
+        <button id="submitPost" class="btn primary">Publicar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // Configuración Firebase (reemplaza con tus credenciales)
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_PROJECT.firebaseapp.com",
-      projectId: "TU_PROJECT_ID",
-      storageBucket: "TU_PROJECT.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+    // Config
+    const CLIENT_ID = "723966225091-ge8ai8v13m60l7g9bma5b4hsuqmuh01n.apps.googleusercontent.com"; // configura tu OAuth client id
+    const API_KEY   = "AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI";
+    const BLOG_ID   = "5213119795675357751";
+    const BLOGGER_BASE = "https://www.googleapis.com/blogger/v3";
+    const SCOPES = "https://www.googleapis.com/auth/blogger";
 
-    // Abrir/cerrar modal
-    const authModal = document.getElementById("authModal");
-    document.getElementById("authBtn").onclick = () => authModal.classList.add("open");
-    function closeAuth(){ authModal.classList.remove("open") }
+    // State
+    let posts = [];
+    let filtered = [];
+    let tickerPaused = false;
+    let tickerOffset = 0;
+    let accessToken = null;
+    let tokenClient = null;
+    let currentPost = null;
+    let currentUser = null; // {sub, name, picture} si está loggeado
 
-    // Registro / login
-    document.getElementById("authForm").addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("password").value;
-      const pass2 = document.getElementById("password2").value;
-      const photoFile = document.getElementById("photo").files[0];
-      if(pass!==pass2){ alert("Las contraseñas no coinciden"); return; }
-      try {
-        const userCred = await auth.createUserWithEmailAndPassword(email, pass);
-        const uid = userCred.user.uid;
-        let photoURL = "";
-        if(photoFile){
-          const ref = storage.ref().child("profiles/"+uid);
-          await ref.put(photoFile);
-          photoURL = await ref.getDownloadURL();
+    // Utils
+    const fmtDate = iso => { try{ return new Date(iso).toLocaleString("es-DO",{dateStyle:"medium",timeStyle:"short"});}catch{return iso;} };
+    const strip = html => { const tmp=document.createElement("div"); tmp.innerHTML=html||""; return tmp.textContent || tmp.innerText || ""; };
+    const pickCover = html => { const div=document.createElement("div"); div.innerHTML=html||""; const img=div.querySelector("img"); return img?img.src:null; };
+    function removeFirstImage(html){ if(!html) return ""; const d=document.createElement("div"); d.innerHTML=html; const im=d.querySelector("img"); if(im) im.remove(); return d.innerHTML; }
+
+    // Likes por usuarios únicos (local, por ahora). Key: likes:{postId} => Set de userSub
+    const likesKey = id => `likes:set:${id}`;
+    function getLikeSet(id){
+      try{ return new Set(JSON.parse(localStorage.getItem(likesKey(id)) || "[]")); }catch{ return new Set(); }
+    }
+    function setLikeSet(id, set){
+      localStorage.setItem(likesKey(id), JSON.stringify([...set]));
+    }
+    function getLikeCount(id){ return getLikeSet(id).size; }
+    function canInteract(){ return !!currentUser; }
+
+    // OAuth init (token para Blogger + perfil básico de Google)
+    function initAuth(){
+      if(!(window.google && google.accounts)) return;
+
+      // Token para llamadas Blogger (scopes)
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        prompt: '',
+        callback: (resp) => {
+          if(resp && resp.access_token){
+            accessToken = resp.access_token;
+            document.getElementById('loginBtn').textContent = "Sesión activa";
+          }
         }
-        await db.collection("users").doc(uid).set({ name, email, photoURL });
-        alert("Usuario registrado correctamente");
-        closeAuth();
-      } catch(err){
-        alert("Error: "+err.message);
+      });
+
+      // One-tap ID token (para perfil): opcional, usamos prompt manual aquí
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        try{
+          const idClient = google.accounts.id;
+          idClient.initialize({
+            client_id: CLIENT_ID,
+            callback: (credentialResponse) => {
+              const jwt = credentialResponse.credential;
+              const payload = parseJwt(jwt);
+              currentUser = { sub: payload.sub, name: payload.name, picture: payload.picture };
+              renderAvatar();
+              tokenClient && tokenClient.requestAccessToken({ prompt: 'consent' });
+            }
+          });
+          idClient.prompt(); // muestra el prompt de login
+        }catch(e){
+          // fallback: solo pedir token de acceso
+          tokenClient && tokenClient.requestAccessToken({ prompt: 'consent' });
+        }
+      });
+    }
+    function parseJwt (token) {
+      try{
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      }catch{return {};}
+    }
+    function renderAvatar(){
+      const av = document.getElementById('avatar');
+      av.innerHTML = currentUser?.picture ? `<img src="${currentUser.picture}" alt="${currentUser.name}" style="width:100%;height:100%;object-fit:cover">` : "";
+    }
+
+    // Fetch posts
+    async function fetchPosts(){
+      const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
+      const res = await fetch(url);
+      if(!res.ok){
+        document.getElementById('forum').innerHTML = `<article class="thread"><div class="avatar skeleton"></div><div><div class="title">Error al cargar el forum</div></div><div class="stats"></div></article>`;
+        return;
       }
+      const data = await res.json();
+      posts = data.items || [];
+      filtered = posts.slice();
+      renderTicker(posts);
+      renderForum(posts);
+      renderTrends(posts);
+    }
+
+    // Ticker
+    function renderTicker(items){
+      const ticker = document.getElementById('ticker');
+      ticker.innerHTML = "";
+      const track = document.createElement('div'); track.className = "ticker-track";
+      const data = items.slice(0,30).map(p => ({ tag: (p.labels && p.labels.length) ? `#${p.labels[0]}` : "#Noticias", title: strip(p.title), post:p }));
+      data.forEach(({tag,title,post}) => {
+        const item = document.createElement('div');
+        item.className = "ticker-item";
+        item.innerHTML = `<span class="tag">${tag}</span><span>${title}</span>`;
+        item.addEventListener('click', () => openDetail(post, pickCover(post.content)));
+        track.appendChild(item);
+      });
+      ticker.appendChild(track);
+
+      const speed = 0.22;
+      function step(){
+        if(!tickerPaused){
+          tickerOffset -= speed;
+          track.style.transform = `translateX(${tickerOffset}px)`;
+          const first = track.firstElementChild;
+          if(first){
+            const w = first.getBoundingClientRect().width + 16;
+            if (Math.abs(tickerOffset) > w){
+              track.appendChild(first);
+              tickerOffset += w;
+            }
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      ticker.addEventListener('mouseenter', () => { tickerPaused = true; });
+      ticker.addEventListener('mouseleave', () => { tickerPaused = false; });
+      document.getElementById('prevTicker').onclick = () => {
+        const last = track.lastElementChild; if(last){ track.insertBefore(last, track.firstElementChild); }
+      };
+      document.getElementById('nextTicker').onclick = () => {
+        const first = track.firstElementChild; if(first){ track.appendChild(first); }
+      };
+    }
+
+    // Comentarios
+    async function fetchCommentCount(postId){
+      try{
+        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments?key=${API_KEY}&maxResults=10`;
+        const res = await fetch(url); if(!res.ok) return 0;
+        const data = await res.json(); return (data.items || []).length;
+      }catch{ return 0; }
+    }
+    async function fetchComments(postId){
+      try{
+        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments?key=${API_KEY}&maxResults=20`;
+        const res = await fetch(url); if(!res.ok) return [];
+        const data = await res.json(); return data.items || [];
+      }catch{ return []; }
+    }
+    async function publishComment(postId, htmlContent){
+      if(!accessToken || !currentUser){ throw new Error("No autenticado"); }
+      const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments`;
+      const res = await fetch(url, {
+        method:"POST",
+        headers:{ "Authorization":`Bearer ${accessToken}`, "Content-Type":"application/json" },
+        body: JSON.stringify({ content: htmlContent })
+      });
+      if(!res.ok){ throw new Error(await res.text() || "Error al publicar comentario"); }
+      return await res.json();
+    }
+
+    // Forum llamativo
+    async function renderForum(items){
+      const forum = document.getElementById('forum');
+      forum.innerHTML = "";
+
+      const firstBatch = items.slice(0, 14);
+      for(const p of items){
+        const cover = pickCover(p.content);
+        const tag = (p.labels && p.labels.length) ? p.labels[0] : "Noticias";
+        const likeCount = getLikeCount(p.id);
+        const commentCount = 0; // se completa luego
+        const excerpt = strip(p.content).slice(0, 180) + (strip(p.content).length > 180 ? "…" : "");
+
+        const thread = document.createElement('article');
+        thread.className = "thread";
+        thread.innerHTML = `
+          <div class="avatar">${cover ? `<img src="${cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : ""}</div>
+          <div>
+            <div class="title-row">
+              <a href="#" class="title">${p.title}</a>
+              <span class="badge">#${tag}</span>
+            </div>
+            <div class="meta"><span>${p.author?.displayName || "Redacción"}</span> • <span>${fmtDate(p.published)}</span></div>
+            <div class="excerpt">${excerpt}</div>
+            <div class="thumb">${cover ? `<img src="${cover}" alt="${strip(p.title)}">` : ""}</div>
+          </div>
+          <div class="stats">
+            <div class="stat like ${likeCount>0 ? "liked" : ""}" data-id="${p.id}">
+              <span>❤</span><span class="count">${likeCount}</span>
+            </div>
+            <div class="stat comment" data-id="${p.id}">
+              <span>💬</span><span class="count">${commentCount}</span>
+            </div>
+            <div class="stat updated">
+              <span>⏱</span><span>${fmtDate(p.updated)}</span>
+            </div>
+          </div>
+        `;
+
+        // abrir detalle
+        thread.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetail(p, cover); });
+        const thumbImg = thread.querySelector('.thumb img'); if(thumbImg) thumbImg.addEventListener('click', () => openDetail(p, cover));
+
+        // like: requiere login, cuenta usuarios únicos
+        const likeEl = thread.querySelector('.stat.like');
+        likeEl.addEventListener('click', () => {
+          if(!canInteract()){
+            alert("Inicia sesión para dar like.");
+            return;
+          }
+          const set = getLikeSet(p.id);
+          if(set.has(currentUser.sub)){ set.delete(currentUser.sub); } else { set.add(currentUser.sub); }
+          setLikeSet(p.id, set);
+          likeEl.querySelector('.count').textContent = set.size;
+          likeEl.classList.toggle('liked', set.size > 0);
+        });
+
+        forum.appendChild(thread);
+      }
+
+      // Conteo de comentarios (Blogger) diferido
+      const counts = await Promise.all(firstBatch.map(pp => fetchCommentCount(pp.id)));
+      firstBatch.forEach((pp, i) => {
+        const el = document.querySelector(`.stat.comment[data-id="${pp.id}"] .count`);
+        if (el) el.textContent = counts[i];
+      });
+    }
+
+    // Tendencias
+    function renderTrends(items){
+      const mod = document.getElementById('modTrends');
+      mod.innerHTML = "";
+      items.slice(0, 12).forEach(p => {
+        const row = document.createElement('div');
+        row.className = "item";
+        row.innerHTML = `
+          <a href="#" class="title">${p.title}</a>
+          <div class="meta">${fmtDate(p.updated)} • ${(p.labels || []).map(l => `#${l}`).join(" ")}</div>
+        `;
+        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetail(p, pickCover(p.content)); });
+        mod.appendChild(row);
+      });
+    }
+
+    // Búsqueda
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const base = filtered.length ? filtered : posts;
+      if(!q){ renderForum(base); return; }
+      const res = base.filter(p => {
+        const t = (p.title || "").toLowerCase();
+        const x = strip(p.content || "").toLowerCase();
+        return t.includes(q) || x.includes(q);
+      });
+      renderForum(res);
     });
 
-    // Switch de tema
-    const themeSwitch = document.getElementById("themeSwitch");
-    themeSwitch.addEventListener("change", e=>{
-      document.documentElement.setAttribute("data-theme", e.target.checked?"dark":"light");
+    // Modal lectura
+    async function openDetail(post, coverSrc){
+      currentPost = post;
+      document.getElementById('detailTitle').textContent = post.title;
+      document.getElementById('detailAuthor').textContent = post.author?.displayName || "Redacción";
+      document.getElementById('detailDate').textContent = fmtDate(post.published);
+      document.getElementById('detailCover').innerHTML = coverSrc ? `<img src="${coverSrc}" alt="${strip(post.title)}">` : "";
+      const cleanedHtml = removeFirstImage(post.content);
+      document.getElementById('detailHtml').innerHTML = cleanedHtml;
+
+      const list = document.getElementById('commentsList');
+      list.innerHTML = `<div class="meta">Cargando respuestas…</div>`;
+      const comments = await fetchComments(post.id);
+      list.innerHTML = "";
+      if (comments.length === 0) {
+        list.innerHTML = `<div class="meta">Sé el primero en responder.</div>`;
+      } else {
+        comments.forEach(c => {
+          const item = document.createElement('div');
+          item.className = "item";
+          item.innerHTML = `<div class="title">${c.author?.displayName || "Anónimo"} • ${fmtDate(c.published)}</div><div class="meta">${strip(c.content).slice(0, 200)}</div>`;
+          list.appendChild(item);
+        });
+      }
+
+      document.getElementById('detail').style.display = "flex";
+    }
+    function closeDetail(){ document.getElementById('detail').style.display = "none"; currentPost = null; }
+    document.getElementById('closeDetail').addEventListener('click', closeDetail);
+    document.getElementById('detail').addEventListener('click', (e) => { if(e.target.id === 'detail') closeDetail(); });
+
+    // Editor toolbar bind
+    function bindToolbar(toolbarRoot, editorRoot, previewRoot){
+      toolbarRoot.querySelectorAll('.tool[data-cmd]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cmd = btn.getAttribute('data-cmd');
+          document.execCommand(cmd, false, null);
+          editorRoot.focus();
+        });
+      });
+      const linkBtn = toolbarRoot.querySelector('#pubLinkBtn') || toolbarRoot.querySelector('#linkBtn');
+      if (linkBtn) {
+        linkBtn.addEventListener('click', () => {
+          const url = prompt("URL del enlace:");
+          if (url) { document.execCommand('createLink', false, url); editorRoot.focus(); }
+        });
+      }
+      const imgInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="image"]');
+      const vidInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="video"]');
+      if (imgInput && previewRoot) {
+        imgInput.addEventListener('change', () => {
+          [...imgInput.files].forEach(f => {
+            const url = URL.createObjectURL(f);
+            const ph = document.createElement('div'); ph.className = 'ph';
+            ph.innerHTML = `<img src="${url}" alt="">`;
+            previewRoot.appendChild(ph);
+            const img = document.createElement('img'); img.src = url; editorRoot.appendChild(img);
+          });
+        });
+      }
+      if (vidInput && previewRoot) {
+        vidInput.addEventListener('change', () => {
+          [...vidInput.files].forEach(f => {
+            const url = URL.createObjectURL(f);
+            const ph = document.createElement('div'); ph.className = 'ph';
+            ph.innerHTML = `<video src="${url}" controls></video>`;
+            previewRoot.appendChild(ph);
+            const v = document.createElement('video'); v.src = url; v.controls = true; v.style.maxWidth="100%"; editorRoot.appendChild(v);
+          });
+        });
+      }
+    }
+
+    // Bind comment editor
+    (function bindCommentEditor(){
+      const toolbar = document.querySelector('#detail .toolbar');
+      const editor  = document.getElementById('commentEditor');
+      const preview = document.getElementById('commentPreview');
+      if (toolbar && editor) bindToolbar(toolbar, editor, preview);
+      document.getElementById('publishComment').addEventListener('click', async () => {
+        if(!canInteract()){ document.getElementById('composerHint').textContent = "Inicia sesión para publicar"; return; }
+        const html = editor.innerHTML.trim();
+        if (!currentPost) return;
+        if (!html) { document.getElementById('composerHint').textContent = "La respuesta no puede estar vacía"; return; }
+        try{
+          await publishComment(currentPost.id, html);
+          document.getElementById('composerHint').textContent = "Publicado";
+          editor.innerHTML = ""; preview.innerHTML = "";
+          const comments = await fetchComments(currentPost.id);
+          const list = document.getElementById('commentsList'); list.innerHTML = "";
+          comments.forEach(c => {
+            const item = document.createElement('div');
+            item.className = "item";
+            item.innerHTML = `<div class="title">${c.author?.displayName || "Anónimo"} • ${fmtDate(c.published)}</div><div class="meta">${strip(c.content).slice(0, 200)}</div>`;
+            list.appendChild(item);
+          });
+        }catch(e){
+          document.getElementById('composerHint').textContent = "Error al publicar. Revisa permisos.";
+          console.error(e);
+        }
+      });
+    })();
+
+    // Composer (crear hilo)
+    document.getElementById('publishBtn').addEventListener('click', () => {
+      document.getElementById('composer').style.display = "flex";
+    });
+    document.getElementById('closeComposer').addEventListener('click', () => {
+      document.getElementById('composer').style.display = "none";
+    });
+    (function bindPubEditor(){
+      const toolbar = document.querySelector('#composer .toolbar');
+      const editor  = document.getElementById('pubEditor');
+      const preview = document.getElementById('pubPreview');
+      if (toolbar && editor) bindToolbar(toolbar, editor, preview);
+      document.getElementById('submitPost').addEventListener('click', () => {
+        const title = document.getElementById('pubTitle').value.trim();
+        const desc  = document.getElementById('pubDescription').value.trim();
+        const html  = editor.innerHTML.trim();
+        if (!title || !html) { alert("Título y contenido son obligatorios."); return; }
+        alert("Borrador listo (no se envía a Blogger). Integra OAuth/POST para publicar de verdad.");
+        document.getElementById('composer').style.display = "none";
+      });
+    })();
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const base = filtered.length ? filtered : posts;
+      if(!q){ renderForum(base); return; }
+      const res = base.filter(p => {
+        const t = (p.title || "").toLowerCase();
+        const x = strip(p.content || "").toLowerCase();
+        return t.includes(q) || x.includes(q);
+      });
+      renderForum(res);
+    });
+
+    // Init
+    window.addEventListener('load', async () => {
+      initAuth();
+      await fetchPosts();
     });
   </script>
 </body>
