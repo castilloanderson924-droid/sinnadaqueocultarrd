@@ -4,24 +4,25 @@
   <meta charset="utf-8" />
   <title>SIN NADA QUE OCULTAR RD — Información libre y sin sensura</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Identity Services (login) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <!-- Fonts -->
+  <!-- Tipografías -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- Firebase (compat para simplicidad) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
   <style>
     :root{
       --bg:#f5f8fc; --surface:#ffffff; --text:#0a1f36; --muted:#64748b;
       --brand:#1d6df2; --brand-2:#5aa4ff; --border:#d8e6f7;
       --chip:#eaf3ff; --shadow:0 12px 30px rgba(29,109,242,.12);
-      --like:#ef4444; --comment:#1f7ae0; --accent:#00c2ff;
+      --like:#ef4444; --comment:#1f7ae0;
     }
     *{box-sizing:border-box}
     body{margin:0; background:var(--bg); color:var(--text); font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
     a{text-decoration:none; color:inherit}
     img{max-width:100%; display:block}
 
-    /* Header */
     header{
       position:sticky; top:0; z-index:90;
       background:linear-gradient(180deg, rgba(245,249,255,.98), rgba(245,249,255,.92));
@@ -37,35 +38,28 @@
       width:42px; height:42px; border-radius:10px; border:1px solid var(--border);
       background:#fff; overflow:hidden; box-shadow:var(--shadow);
     }
-    .brand-block{
-      display:flex; flex-direction:column; line-height:1.1;
-    }
+    .brand-block{display:flex; flex-direction:column; line-height:1.1;}
     .site-title{font-family:"Playfair Display",serif; font-size:1.3rem; margin:0;}
     .site-slogan{font-size:.85rem; color:#174b8a; font-weight:700; letter-spacing:.02em}
-
     .btn{
       padding:.5rem .85rem; border-radius:10px; border:1px solid var(--border);
-      background:#fff; color:var(--text); font-weight:600; cursor:pointer; transition:.2s ease;
+      background:#fff; color:#0a1f36; font-weight:600; cursor:pointer; transition:.2s ease;
       box-shadow:var(--shadow);
     }
     .btn.primary{background:var(--brand); border-color:var(--brand); color:#fff}
     .btn:hover{transform:translateY(-1px)}
     .avatar{width:34px; height:34px; border-radius:50%; overflow:hidden; border:1px solid var(--border); background:#eef6ff}
 
-    /* Ticker */
     .ticker-wrap{display:grid; grid-template-columns:auto 1fr auto; gap:.6rem; align-items:center; border-left:1px solid var(--border); padding-left:.75rem;}
     .ticker-label{font-weight:700; color:var(--brand);}
     .ticker{position:relative; overflow:hidden; height:32px;}
     .ticker-track{display:flex; gap:1rem; align-items:center; position:absolute; left:0; top:0; will-change: transform;}
     .ticker-item{display:flex; align-items:center; gap:.4rem; background:var(--chip); border:1px solid var(--border); color:#174b8a; padding:.25rem .6rem; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow); cursor:pointer;}
-    .ticker-item .tag{color:var(--brand); font-weight:700}
-    .icon-btn{width:32px; height:32px; display:grid; place-items:center; background:#fff; border:1px solid var(--border); border-radius:8px; cursor:pointer; box-shadow:var(--shadow);}
+    .ticker-item .tag{color:#174b8a; font-weight:700}
 
-    /* Layout */
     main{max-width:1240px; margin:1rem auto; padding:0 1rem; display:grid; grid-template-columns:1.8fr 1fr; gap:1.2rem;}
     @media(max-width:980px){main{grid-template-columns:1fr} .ticker-wrap{display:none}}
 
-    /* Feed estilo forum/social (llamativo) */
     .forum{display:grid; gap:1rem}
     .thread{
       display:grid; grid-template-columns:56px 1fr auto; gap:1rem; align-items:start;
@@ -74,33 +68,19 @@
     }
     .thread:hover{transform:translateY(-2px)}
     .thread .avatar{width:56px; height:56px; border-radius:12px; background:#eef6ff; border-color:#e3eeff}
-    .thread .title{font-weight:800; font-size:1.08rem}
     .title-row{display:flex; align-items:center; gap:.5rem}
-    .badge{
-      background:linear-gradient(135deg, var(--chip), #fff);
-      color:#174b8a; border:1px solid var(--border); font-weight:700; font-size:.75rem;
-      padding:.18rem .55rem; border-radius:999px;
-    }
+    .thread .title{font-weight:800; font-size:1.08rem}
+    .badge{background:linear-gradient(135deg, var(--chip), #fff); color:#174b8a; border:1px solid var(--border); font-weight:700; font-size:.75rem; padding:.18rem .55rem; border-radius:999px;}
     .thread .meta{display:flex; flex-wrap:wrap; gap:.6rem; color:#64748b; font-size:.9rem; margin:.2rem 0}
     .thread .excerpt{color:#1e3a5f; font-size:.95rem; line-height:1.5; margin:.25rem 0}
-    .thumb{
-      width:140px; height:90px; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#f1f6ff;
-      box-shadow:0 6px 14px rgba(0,0,0,.06);
-    }
+    .thumb{width:140px; height:90px; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#f1f6ff; box-shadow:0 6px 14px rgba(0,0,0,.06);}
     .thumb img{width:100%; height:100%; object-fit:cover}
-    .stats{
-      display:grid; gap:.4rem; justify-items:end; color:#153a5f; font-weight:700; font-size:.9rem;
-    }
-    .stat{
-      display:flex; align-items:center; gap:.4rem; padding:.3rem .6rem; border-radius:999px;
-      border:1px solid var(--border); background:#fff;
-    }
+    .stats{display:grid; gap:.4rem; justify-items:end; color:#153a5f; font-weight:700; font-size:.9rem;}
+    .stat{display:flex; align-items:center; gap:.4rem; padding:.3rem .6rem; border-radius:999px; border:1px solid var(--border); background:#fff;}
     .stat.like{color:#b42323}
     .stat.comment{color:#1f7ae0}
     .stat.updated{color:#0a1f36}
-    .stat.lock{color:#b45309}
 
-    /* Sidebar */
     .sidebar .module{background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); margin-bottom:1rem;}
     .module header{padding:.8rem 1rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center}
     .module header h3{margin:0; font-size:1rem;}
@@ -110,7 +90,6 @@
     .module .item .title{font-weight:700}
     .module .item .meta{font-size:.88rem; color:#64748b}
 
-    /* Modal lectura */
     .detail{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:95; align-items:center; justify-content:center}
     .modal{width:min(1020px,95vw); max-height:90vh; overflow:auto; background:var(--surface); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow)}
     .modal header{position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border); padding:.95rem 1.1rem; display:flex; justify-content:space-between; align-items:center}
@@ -119,7 +98,6 @@
     .post-html{line-height:1.75; color:#153a5f}
     .post-html img{max-width:100%; margin:1rem auto; display:block; border-radius:14px}
 
-    /* Modal publicar (crear hilo) */
     .composer{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:98; align-items:center; justify-content:center}
     .composer .modal{width:min(960px,95vw); max-height:92vh; overflow:auto}
     .editor{display:grid; gap:.7rem; padding:1rem}
@@ -130,9 +108,8 @@
     .preview{display:flex; gap:.6rem; flex-wrap:wrap}
     .preview .ph{width:120px; height:80px; border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#eef6ff}
     .preview .ph img, .preview .ph video{width:100%; height:100%; object-fit:cover}
-    .composer-actions{display:flex; justify-content:flex-end; gap:.6rem; padding:0 1rem 1rem}
 
-    /* Helpers */
+    .composer-actions{display:flex; justify-content:flex-end; gap:.6rem; padding:0 1rem 1rem}
     .skeleton{position:relative; overflow:hidden; background:#eef6ff; border:1px solid var(--border); border-radius:12px}
     .skeleton::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shimmer 1.8s infinite;}
     @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
@@ -151,30 +128,24 @@
         </div>
       </div>
 
-      <!-- Ticker -->
       <div class="ticker-wrap">
         <span class="ticker-label">Última hora</span>
         <div id="ticker" class="ticker" title="Pasa el mouse para pausar"></div>
         <div class="ticker-controls" style="display:flex; gap:.35rem">
-          <button id="prevTicker" class="icon-btn" aria-label="Anterior">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#174b8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button id="nextTicker" class="icon-btn" aria-label="Siguiente">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#174b8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          <button id="prevTicker" class="btn" aria-label="Anterior">◀</button>
+          <button id="nextTicker" class="btn" aria-label="Siguiente">▶</button>
         </div>
       </div>
 
       <div class="user" style="display:flex; align-items:center; gap:.6rem">
         <div id="avatar" class="avatar"></div>
-        <button id="loginBtn" class="btn primary">Iniciar sesión</button>
+        <button id="loginBtn" class="btn primary">Iniciar sesión con Google</button>
         <button id="publishBtn" class="btn">Crear hilo</button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Forum feed -->
     <section id="forum" class="forum">
       <article class="thread">
         <div class="avatar skeleton"></div>
@@ -194,7 +165,6 @@
       </article>
     </section>
 
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="module">
         <header><h3>Buscar</h3><span class="meta">Títulos y descripción</span></header>
@@ -202,7 +172,7 @@
       </div>
 
       <div class="module">
-        <header><h3>Tendencias</h3><span class="meta">Actualizados recientemente</span></header>
+        <header><h3>Tendencias</h3><span class="meta">Última actualización</span></header>
         <div id="modTrends" class="body">
           <div class="item"><div class="title">Cargando…</div></div>
         </div>
@@ -210,7 +180,7 @@
     </aside>
   </main>
 
-  <!-- Modal lectura: portada única + contenido centrado -->
+  <!-- Modal lectura -->
   <div id="detail" class="detail">
     <div class="modal">
       <header>
@@ -285,124 +255,114 @@
   </div>
 
   <script>
-    // Config
-    const CLIENT_ID = "723966225091-ubo2qrdnhdstf80upanplv2brc9m726f.apps.googleusercontent.com"; // configura tu OAuth client id
-    const API_KEY   = "AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI";
-    const BLOG_ID   = "5213119795675357751";
+    // ===== Configura tus credenciales (si tienes Firebase y Cloudinary) =====
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyB5mGkfLPYDUukAw_XjJUcUPVuhj6_gk0A",
+      authDomain: "sin-nada-que-ocultar-rd.firebaseapp.com",
+      projectId: "sin-nada-que-ocultar-rd",
+      storageBucket: "sin-nada-que-ocultar-rd.firebasestorage.app",
+      messagingSenderId: "1054622320892",
+      appId: "1:1054622320892:web:dd3412dcb3ce781e0f2f79"
+    };
+    const CLOUD_NAME = "REEMPLAZA_AQUI";
+    const UPLOAD_PRESET = "REEMPLAZA_AQUI";
+
+    // ===== Blogger fallback (si no hay Firebase datos) =====
+    const BLOGGER_API_KEY = "AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI";
+    const BLOG_ID = "5213119795675357751";
     const BLOGGER_BASE = "https://www.googleapis.com/blogger/v3";
-    const SCOPES = "https://www.googleapis.com/auth/blogger";
 
-    // State
-    let posts = [];
-    let filtered = [];
-    let tickerPaused = false;
-    let tickerOffset = 0;
-    let accessToken = null;
-    let tokenClient = null;
-    let currentPost = null;
-    let currentUser = null; // {sub, name, picture} si está loggeado
+    let db = null, auth = null;
+    let currentUser = null; // { uid, displayName, photoURL }
+    let tickerPaused = false, tickerOffset = 0;
 
-    // Utils
-    const fmtDate = iso => { try{ return new Date(iso).toLocaleString("es-DO",{dateStyle:"medium",timeStyle:"short"});}catch{return iso;} };
-    const strip = html => { const tmp=document.createElement("div"); tmp.innerHTML=html||""; return tmp.textContent || tmp.innerText || ""; };
-    const pickCover = html => { const div=document.createElement("div"); div.innerHTML=html||""; const img=div.querySelector("img"); return img?img.src:null; };
-    function removeFirstImage(html){ if(!html) return ""; const d=document.createElement("div"); d.innerHTML=html; const im=d.querySelector("img"); if(im) im.remove(); return d.innerHTML; }
-
-    // Likes por usuarios únicos (local, por ahora). Key: likes:{postId} => Set de userSub
-    const likesKey = id => `likes:set:${id}`;
-    function getLikeSet(id){
-      try{ return new Set(JSON.parse(localStorage.getItem(likesKey(id)) || "[]")); }catch{ return new Set(); }
-    }
-    function setLikeSet(id, set){
-      localStorage.setItem(likesKey(id), JSON.stringify([...set]));
-    }
-    function getLikeCount(id){ return getLikeSet(id).size; }
-    function canInteract(){ return !!currentUser; }
-
-    // OAuth init (token para Blogger + perfil básico de Google)
-    function initAuth(){
-      if(!(window.google && google.accounts)) return;
-
-      // Token para llamadas Blogger (scopes)
-      tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        prompt: '',
-        callback: (resp) => {
-          if(resp && resp.access_token){
-            accessToken = resp.access_token;
-            document.getElementById('loginBtn').textContent = "Sesión activa";
-          }
-        }
-      });
-
-      // One-tap ID token (para perfil): opcional, usamos prompt manual aquí
-      document.getElementById('loginBtn').addEventListener('click', async () => {
-        try{
-          const idClient = google.accounts.id;
-          idClient.initialize({
-            client_id: CLIENT_ID,
-            callback: (credentialResponse) => {
-              const jwt = credentialResponse.credential;
-              const payload = parseJwt(jwt);
-              currentUser = { sub: payload.sub, name: payload.name, picture: payload.picture };
-              renderAvatar();
-              tokenClient && tokenClient.requestAccessToken({ prompt: 'consent' });
-            }
-          });
-          idClient.prompt(); // muestra el prompt de login
-        }catch(e){
-          // fallback: solo pedir token de acceso
-          tokenClient && tokenClient.requestAccessToken({ prompt: 'consent' });
-        }
-      });
-    }
-    function parseJwt (token) {
+    const fmtDate = v => {
       try{
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        return JSON.parse(jsonPayload);
-      }catch{return {};}
+        const d = v instanceof Date ? v : (v?.toDate ? v.toDate() : new Date(v));
+        return d.toLocaleString("es-DO",{dateStyle:"medium",timeStyle:"short"});
+      }catch{return "—";}
+    };
+    const strip = html => { const tmp=document.createElement("div"); tmp.innerHTML=html||""; return tmp.textContent || tmp.innerText || ""; };
+    const pickFirstImage = html => { const div=document.createElement("div"); div.innerHTML=html||""; const img=div.querySelector("img"); return img?img.src:null; };
+    const removeFirstImage = html => { const d=document.createElement("div"); d.innerHTML=html||""; const im=d.querySelector("img"); if(im) im.remove(); return d.innerHTML; };
+    const canInteract = () => !!currentUser;
+
+    // ===== Inicializa Firebase si hay config válida (apiKey no vacío) =====
+    const firebaseReady = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== "REEMPLAZA_AQUI";
+    if (firebaseReady) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+      auth = firebase.auth();
+      db = firebase.firestore();
+      auth.onAuthStateChanged(user => {
+        currentUser = user ? { uid:user.uid, displayName:user.displayName, photoURL:user.photoURL } : null;
+        renderAvatar();
+      });
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        try{ await auth.signInWithPopup(provider); }catch(e){ alert("No se pudo iniciar sesión: " + e.message); }
+      });
+    } else {
+      // Si no hay Firebase configurado, oculta el botón publicar (no hay persistencia)
+      document.getElementById('publishBtn').addEventListener('click', () => {
+        alert("Configura Firebase para poder publicar hilos.");
+      });
+      document.getElementById('loginBtn').addEventListener('click', () => {
+        alert("Configura Firebase para iniciar sesión.");
+      });
     }
+
     function renderAvatar(){
       const av = document.getElementById('avatar');
-      av.innerHTML = currentUser?.picture ? `<img src="${currentUser.picture}" alt="${currentUser.name}" style="width:100%;height:100%;object-fit:cover">` : "";
+      av.innerHTML = currentUser?.photoURL ? `<img src="${currentUser.photoURL}" alt="${currentUser.displayName}" style="width:100%;height:100%;object-fit:cover">` : "";
     }
 
-    // Fetch posts
-    async function fetchPosts(){
-      const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
-      const res = await fetch(url);
-      if(!res.ok){
-        document.getElementById('forum').innerHTML = `<article class="thread"><div class="avatar skeleton"></div><div><div class="title">Error al cargar el forum</div></div><div class="stats"></div></article>`;
-        return;
-      }
+    async function uploadToCloudinary(file){
+      if (!CLOUD_NAME || CLOUD_NAME === "REEMPLAZA_AQUI") throw new Error("Configura Cloudinary");
+      const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`;
+      const form = new FormData();
+      form.append("file", file);
+      form.append("upload_preset", UPLOAD_PRESET);
+      const res = await fetch(url, { method:"POST", body:form });
+      if(!res.ok) throw new Error("Error subiendo a Cloudinary");
       const data = await res.json();
-      posts = data.items || [];
-      filtered = posts.slice();
-      renderTicker(posts);
-      renderForum(posts);
-      renderTrends(posts);
+      return data.secure_url;
     }
 
-    // Ticker
-    function renderTicker(items){
+    // ===== Ticker =====
+    async function renderTickerFromFirestore(){
       const ticker = document.getElementById('ticker');
       ticker.innerHTML = "";
       const track = document.createElement('div'); track.className = "ticker-track";
-      const data = items.slice(0,30).map(p => ({ tag: (p.labels && p.labels.length) ? `#${p.labels[0]}` : "#Noticias", title: strip(p.title), post:p }));
-      data.forEach(({tag,title,post}) => {
+      const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(30).get();
+      snap.forEach(doc => {
+        const p = doc.data();
+        const tag = p.tag || "Noticias";
         const item = document.createElement('div');
         item.className = "ticker-item";
-        item.innerHTML = `<span class="tag">${tag}</span><span>${title}</span>`;
-        item.addEventListener('click', () => openDetail(post, pickCover(post.content)));
+        item.innerHTML = `<span class="tag">#${tag}</span><span>${p.title}</span>`;
+        item.addEventListener('click', () => openDetailCustom(doc.id, p));
         track.appendChild(item);
       });
       ticker.appendChild(track);
-
+      startTicker(track);
+    }
+    async function renderTickerFromBlogger(items){
+      const ticker = document.getElementById('ticker');
+      ticker.innerHTML = "";
+      const track = document.createElement('div'); track.className = "ticker-track";
+      items.slice(0,30).forEach(p => {
+        const tag = (p.labels && p.labels.length) ? p.labels[0] : "Noticias";
+        const item = document.createElement('div');
+        item.className = "ticker-item";
+        item.innerHTML = `<span class="tag">#${tag}</span><span>${p.title}</span>`;
+        item.addEventListener('click', () => openDetailBlogger(p));
+        track.appendChild(item);
+      });
+      ticker.appendChild(track);
+      startTicker(track);
+    }
+    function startTicker(track){
+      let tickerOffset = 0;
       const speed = 0.22;
       function step(){
         if(!tickerPaused){
@@ -420,8 +380,8 @@
         requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
-      ticker.addEventListener('mouseenter', () => { tickerPaused = true; });
-      ticker.addEventListener('mouseleave', () => { tickerPaused = false; });
+      document.getElementById('ticker').addEventListener('mouseenter', () => { tickerPaused = true; });
+      document.getElementById('ticker').addEventListener('mouseleave', () => { tickerPaused = false; });
       document.getElementById('prevTicker').onclick = () => {
         const last = track.lastElementChild; if(last){ track.insertBefore(last, track.firstElementChild); }
       };
@@ -430,49 +390,77 @@
       };
     }
 
-    // Comentarios
-    async function fetchCommentCount(postId){
-      try{
-        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments?key=${API_KEY}&maxResults=10`;
-        const res = await fetch(url); if(!res.ok) return 0;
-        const data = await res.json(); return (data.items || []).length;
-      }catch{ return 0; }
-    }
-    async function fetchComments(postId){
-      try{
-        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments?key=${API_KEY}&maxResults=20`;
-        const res = await fetch(url); if(!res.ok) return [];
-        const data = await res.json(); return data.items || [];
-      }catch{ return []; }
-    }
-    async function publishComment(postId, htmlContent){
-      if(!accessToken || !currentUser){ throw new Error("No autenticado"); }
-      const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts/${postId}/comments`;
-      const res = await fetch(url, {
-        method:"POST",
-        headers:{ "Authorization":`Bearer ${accessToken}`, "Content-Type":"application/json" },
-        body: JSON.stringify({ content: htmlContent })
-      });
-      if(!res.ok){ throw new Error(await res.text() || "Error al publicar comentario"); }
-      return await res.json();
-    }
-
-    // Forum llamativo
-    async function renderForum(items){
+    // ===== Feed Forum =====
+    async function renderForumFromFirestore(snap){
       const forum = document.getElementById('forum');
       forum.innerHTML = "";
+      if (snap.empty) {
+        forum.innerHTML = `<article class="thread"><div class="title-row"><div class="title">No hay hilos aún</div></div><div class="excerpt">Publica el primero.</div></article>`;
+        return;
+      }
+      for (const doc of snap.docs) {
+        const p = doc.data();
+        const cover = p.coverUrl || pickFirstImage(p.contentHtml);
+        const tag = p.tag || "Noticias";
+        const excerpt = strip(p.description || p.contentHtml || "").slice(0, 180) + ((p.description || p.contentHtml || "").length > 180 ? "…" : "");
+        const el = document.createElement('article');
+        el.className = "thread";
+        el.innerHTML = `
+          <div class="avatar">${cover ? `<img src="${cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : ""}</div>
+          <div>
+            <div class="title-row">
+              <a href="#" class="title">${p.title}</a>
+              <span class="badge">#${tag}</span>
+            </div>
+            <div class="meta"><span>${p.author?.name || "Redacción"}</span> • <span>${fmtDate(p.createdAt)}</span></div>
+            <div class="excerpt">${excerpt}</div>
+            <div class="thumb">${cover ? `<img src="${cover}" alt="${strip(p.title)}">` : ""}</div>
+          </div>
+          <div class="stats">
+            <div class="stat like" data-id="${doc.id}">
+              <span>❤</span><span class="count">${p.likesCount || 0}</span>
+            </div>
+            <div class="stat comment" data-id="${doc.id}">
+              <span>💬</span><span class="count">0</span>
+            </div>
+            <div class="stat updated"><span>⏱</span><span>${fmtDate(p.updatedAt || p.createdAt)}</span></div>
+          </div>
+        `;
+        el.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailCustom(doc.id, p); });
+        const likeEl = el.querySelector('.stat.like');
+        likeEl.addEventListener('click', async () => {
+          if(!canInteract()){ alert("Inicia sesión para dar like."); return; }
+          const likeDoc = db.collection("posts").doc(doc.id).collection("likes").doc(currentUser.uid);
+          const exists = await likeDoc.get();
+          if(exists.exists){
+            await likeDoc.delete();
+            await db.collection("posts").doc(doc.id).update({ likesCount: firebase.firestore.FieldValue.increment(-1) });
+          }else{
+            await likeDoc.set({ uid: currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            await db.collection("posts").doc(doc.id).update({ likesCount: firebase.firestore.FieldValue.increment(1) });
+          }
+          // refresca contador
+          const updated = await db.collection("posts").doc(doc.id).get();
+          likeEl.querySelector('.count').textContent = updated.data().likesCount || 0;
+        });
+        forum.appendChild(el);
+        // conteo de comentarios
+        const cSnap = await db.collection("posts").doc(doc.id).collection("comments").get();
+        const cEl = document.querySelector(`.stat.comment[data-id="${doc.id}"] .count`);
+        if (cEl) cEl.textContent = cSnap.size;
+      }
+    }
 
-      const firstBatch = items.slice(0, 14);
-      for(const p of items){
-        const cover = pickCover(p.content);
+    async function renderForumFromBlogger(items){
+      const forum = document.getElementById('forum');
+      forum.innerHTML = "";
+      items.forEach(p => {
+        const cover = pickFirstImage(p.content);
         const tag = (p.labels && p.labels.length) ? p.labels[0] : "Noticias";
-        const likeCount = getLikeCount(p.id);
-        const commentCount = 0; // se completa luego
-        const excerpt = strip(p.content).slice(0, 180) + (strip(p.content).length > 180 ? "…" : "");
-
-        const thread = document.createElement('article');
-        thread.className = "thread";
-        thread.innerHTML = `
+        const excerpt = strip(p.content || "").slice(0, 180) + ((p.content || "").length > 180 ? "…" : "");
+        const el = document.createElement('article');
+        el.className = "thread";
+        el.innerHTML = `
           <div class="avatar">${cover ? `<img src="${cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : ""}</div>
           <div>
             <div class="title-row">
@@ -484,113 +472,137 @@
             <div class="thumb">${cover ? `<img src="${cover}" alt="${strip(p.title)}">` : ""}</div>
           </div>
           <div class="stats">
-            <div class="stat like ${likeCount>0 ? "liked" : ""}" data-id="${p.id}">
-              <span>❤</span><span class="count">${likeCount}</span>
-            </div>
-            <div class="stat comment" data-id="${p.id}">
-              <span>💬</span><span class="count">${commentCount}</span>
-            </div>
-            <div class="stat updated">
-              <span>⏱</span><span>${fmtDate(p.updated)}</span>
-            </div>
+            <div class="stat like" title="Inicia sesión para dar like"><span>❤</span><span class="count">0</span></div>
+            <div class="stat comment" title="Inicia sesión para comentar"><span>💬</span><span class="count">0</span></div>
+            <div class="stat updated"><span>⏱</span><span>${fmtDate(p.updated)}</span></div>
           </div>
         `;
-
-        // abrir detalle
-        thread.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetail(p, cover); });
-        const thumbImg = thread.querySelector('.thumb img'); if(thumbImg) thumbImg.addEventListener('click', () => openDetail(p, cover));
-
-        // like: requiere login, cuenta usuarios únicos
-        const likeEl = thread.querySelector('.stat.like');
-        likeEl.addEventListener('click', () => {
-          if(!canInteract()){
-            alert("Inicia sesión para dar like.");
-            return;
-          }
-          const set = getLikeSet(p.id);
-          if(set.has(currentUser.sub)){ set.delete(currentUser.sub); } else { set.add(currentUser.sub); }
-          setLikeSet(p.id, set);
-          likeEl.querySelector('.count').textContent = set.size;
-          likeEl.classList.toggle('liked', set.size > 0);
-        });
-
-        forum.appendChild(thread);
-      }
-
-      // Conteo de comentarios (Blogger) diferido
-      const counts = await Promise.all(firstBatch.map(pp => fetchCommentCount(pp.id)));
-      firstBatch.forEach((pp, i) => {
-        const el = document.querySelector(`.stat.comment[data-id="${pp.id}"] .count`);
-        if (el) el.textContent = counts[i];
+        el.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailBlogger(p); });
+        forum.appendChild(el);
       });
     }
 
-    // Tendencias
-    function renderTrends(items){
+    // ===== Tendencias =====
+    function renderTrendsFromFirestore(snap){
+      const mod = document.getElementById('modTrends');
+      mod.innerHTML = "";
+      snap.docs.slice(0, 12).forEach(doc => {
+        const p = doc.data();
+        const row = document.createElement('div');
+        row.className = "item";
+        row.innerHTML = `<a href="#" class="title">${p.title}</a><div class="meta">${fmtDate(p.updatedAt || p.createdAt)} • #${p.tag || "Noticias"}</div>`;
+        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailCustom(doc.id, p); });
+        mod.appendChild(row);
+      });
+    }
+    function renderTrendsFromBlogger(items){
       const mod = document.getElementById('modTrends');
       mod.innerHTML = "";
       items.slice(0, 12).forEach(p => {
         const row = document.createElement('div');
         row.className = "item";
-        row.innerHTML = `
-          <a href="#" class="title">${p.title}</a>
-          <div class="meta">${fmtDate(p.updated)} • ${(p.labels || []).map(l => `#${l}`).join(" ")}</div>
-        `;
-        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetail(p, pickCover(p.content)); });
+        row.innerHTML = `<a href="#" class="title">${p.title}</a><div class="meta">${fmtDate(p.updated)} • ${(p.labels || []).map(l => `#${l}`).join(" ")}</div>`;
+        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailBlogger(p); });
         mod.appendChild(row);
       });
     }
 
-    // Búsqueda
-    document.getElementById('searchInput').addEventListener('input', (e) => {
+    // ===== Búsqueda =====
+    document.getElementById('searchInput').addEventListener('input', async (e) => {
       const q = e.target.value.trim().toLowerCase();
-      const base = filtered.length ? filtered : posts;
-      if(!q){ renderForum(base); return; }
-      const res = base.filter(p => {
-        const t = (p.title || "").toLowerCase();
-        const x = strip(p.content || "").toLowerCase();
-        return t.includes(q) || x.includes(q);
-      });
-      renderForum(res);
+      if (db) {
+        if(!q){ const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(50).get(); renderForumFromFirestore(snap); return; }
+        const snap = await db.collection("posts").orderBy("title").startAt(q).endAt(q + '\uf8ff').limit(30).get();
+        renderForumFromFirestore(snap);
+      } else {
+        // Blogger
+        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${BLOGGER_API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
+        const res = await fetch(url); const data = await res.json();
+        let items = data.items || [];
+        if(q){ items = items.filter(p => ((p.title||"")+strip(p.content||"")).toLowerCase().includes(q)); }
+        renderForumFromBlogger(items);
+      }
     });
 
-    // Modal lectura
-    async function openDetail(post, coverSrc){
-      currentPost = post;
-      document.getElementById('detailTitle').textContent = post.title;
-      document.getElementById('detailAuthor').textContent = post.author?.displayName || "Redacción";
-      document.getElementById('detailDate').textContent = fmtDate(post.published);
-      document.getElementById('detailCover').innerHTML = coverSrc ? `<img src="${coverSrc}" alt="${strip(post.title)}">` : "";
-      const cleanedHtml = removeFirstImage(post.content);
-      document.getElementById('detailHtml').innerHTML = cleanedHtml;
+    // ===== Detalle (Firestore) =====
+    async function openDetailCustom(postId, postData){
+      document.getElementById('detailTitle').textContent = postData.title;
+      document.getElementById('detailAuthor').textContent = postData.author?.name || "Redacción";
+      document.getElementById('detailDate').textContent = fmtDate(postData.createdAt);
+      const cover = postData.coverUrl || pickFirstImage(postData.contentHtml);
+      document.getElementById('detailCover').innerHTML = cover ? `<img src="${cover}" alt="${strip(postData.title)}">` : "";
+      document.getElementById('detailHtml').innerHTML = removeFirstImage(postData.contentHtml);
 
       const list = document.getElementById('commentsList');
       list.innerHTML = `<div class="meta">Cargando respuestas…</div>`;
-      const comments = await fetchComments(post.id);
+      const snap = await db.collection("posts").doc(postId).collection("comments").orderBy("createdAt","desc").get();
       list.innerHTML = "";
-      if (comments.length === 0) {
+      if (snap.empty) {
         list.innerHTML = `<div class="meta">Sé el primero en responder.</div>`;
       } else {
-        comments.forEach(c => {
+        snap.forEach(c => {
+          const d = c.data();
           const item = document.createElement('div');
           item.className = "item";
-          item.innerHTML = `<div class="title">${c.author?.displayName || "Anónimo"} • ${fmtDate(c.published)}</div><div class="meta">${strip(c.content).slice(0, 200)}</div>`;
+          item.innerHTML = `<div class="title">${d.author?.name || "Anónimo"} • ${fmtDate(d.createdAt)}</div><div class="meta">${strip(d.html).slice(0, 200)}</div>`;
           list.appendChild(item);
         });
       }
 
       document.getElementById('detail').style.display = "flex";
-    }
-    function closeDetail(){ document.getElementById('detail').style.display = "none"; currentPost = null; }
-    document.getElementById('closeDetail').addEventListener('click', closeDetail);
-    document.getElementById('detail').addEventListener('click', (e) => { if(e.target.id === 'detail') closeDetail(); });
 
-    // Editor toolbar bind
+      // comentar
+      document.getElementById('publishComment').onclick = async () => {
+        if(!canInteract()){ document.getElementById('composerHint').textContent = "Inicia sesión para publicar"; return; }
+        const html = document.getElementById('commentEditor').innerHTML.trim();
+        if(!html){ document.getElementById('composerHint').textContent = "La respuesta no puede estar vacía"; return; }
+        try{
+          await db.collection("posts").doc(postId).collection("comments").add({
+            html,
+            author: { uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL },
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          document.getElementById('composerHint').textContent = "Publicado";
+          document.getElementById('commentEditor').innerHTML = "";
+          document.getElementById('commentPreview').innerHTML = "";
+          const snap2 = await db.collection("posts").doc(postId).collection("comments").orderBy("createdAt","desc").get();
+          list.innerHTML = "";
+          snap2.forEach(c => {
+            const d = c.data();
+            const item = document.createElement('div');
+            item.className = "item";
+            item.innerHTML = `<div class="title">${d.author?.name || "Anónimo"} • ${fmtDate(d.createdAt)}</div><div class="meta">${strip(d.html).slice(0, 200)}</div>`;
+            list.appendChild(item);
+          });
+        }catch(e){
+          document.getElementById('composerHint').textContent = "Error al publicar";
+          console.error(e);
+        }
+      };
+
+      bindToolbar(document.querySelector('#detail .toolbar'), document.getElementById('commentEditor'), document.getElementById('commentPreview'));
+    }
+
+    // ===== Detalle (Blogger fallback) =====
+    async function openDetailBlogger(p){
+      document.getElementById('detailTitle').textContent = p.title;
+      document.getElementById('detailAuthor').textContent = p.author?.displayName || "Redacción";
+      document.getElementById('detailDate').textContent = fmtDate(p.published);
+      const cover = pickFirstImage(p.content);
+      document.getElementById('detailCover').innerHTML = cover ? `<img src="${cover}" alt="${strip(p.title)}">` : "";
+      document.getElementById('detailHtml').innerHTML = removeFirstImage(p.content);
+      document.getElementById('commentsList').innerHTML = `<div class="meta">Comentarios disponibles al integrar Firebase.</div>`;
+      document.getElementById('detail').style.display = "flex";
+    }
+
+    document.getElementById('closeDetail').addEventListener('click', () => { document.getElementById('detail').style.display = "none"; });
+    document.getElementById('detail').addEventListener('click', (e) => { if(e.target.id==='detail') document.getElementById('detail').style.display="none"; });
+
+    // ===== Editor enriquecido =====
     function bindToolbar(toolbarRoot, editorRoot, previewRoot){
       toolbarRoot.querySelectorAll('.tool[data-cmd]').forEach(btn => {
         btn.addEventListener('click', () => {
-          const cmd = btn.getAttribute('data-cmd');
-          document.execCommand(cmd, false, null);
+          document.execCommand(btn.getAttribute('data-cmd'), false, null);
           editorRoot.focus();
         });
       });
@@ -598,106 +610,105 @@
       if (linkBtn) {
         linkBtn.addEventListener('click', () => {
           const url = prompt("URL del enlace:");
-          if (url) { document.execCommand('createLink', false, url); editorRoot.focus(); }
+          if (url) document.execCommand('createLink', false, url);
         });
       }
       const imgInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="image"]');
       const vidInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="video"]');
       if (imgInput && previewRoot) {
-        imgInput.addEventListener('change', () => {
-          [...imgInput.files].forEach(f => {
-            const url = URL.createObjectURL(f);
+        imgInput.addEventListener('change', async () => {
+          for(const f of imgInput.files){
             const ph = document.createElement('div'); ph.className = 'ph';
-            ph.innerHTML = `<img src="${url}" alt="">`;
+            ph.innerHTML = `<div class="meta">Subiendo…</div>`;
             previewRoot.appendChild(ph);
-            const img = document.createElement('img'); img.src = url; editorRoot.appendChild(img);
-          });
+            try{
+              const url = await uploadToCloudinary(f);
+              ph.innerHTML = `<img src="${url}" alt="">`;
+              const img = document.createElement('img'); img.src = url; editorRoot.appendChild(img);
+            }catch(e){ ph.innerHTML = `<div class="meta">Error</div>`; }
+          }
         });
       }
       if (vidInput && previewRoot) {
-        vidInput.addEventListener('change', () => {
-          [...vidInput.files].forEach(f => {
-            const url = URL.createObjectURL(f);
+        vidInput.addEventListener('change', async () => {
+          for(const f of vidInput.files){
             const ph = document.createElement('div'); ph.className = 'ph';
-            ph.innerHTML = `<video src="${url}" controls></video>`;
+            ph.innerHTML = `<div class="meta">Subiendo…</div>`;
             previewRoot.appendChild(ph);
-            const v = document.createElement('video'); v.src = url; v.controls = true; v.style.maxWidth="100%"; editorRoot.appendChild(v);
-          });
+            try{
+              const url = await uploadToCloudinary(f);
+              ph.innerHTML = `<video src="${url}" controls></video>`;
+              const v = document.createElement('video'); v.src = url; v.controls = true; v.style.maxWidth="100%"; editorRoot.appendChild(v);
+            }catch(e){ ph.innerHTML = `<div class="meta">Error</div>`; }
+          }
         });
       }
     }
 
-    // Bind comment editor
-    (function bindCommentEditor(){
-      const toolbar = document.querySelector('#detail .toolbar');
-      const editor  = document.getElementById('commentEditor');
-      const preview = document.getElementById('commentPreview');
-      if (toolbar && editor) bindToolbar(toolbar, editor, preview);
-      document.getElementById('publishComment').addEventListener('click', async () => {
-        if(!canInteract()){ document.getElementById('composerHint').textContent = "Inicia sesión para publicar"; return; }
-        const html = editor.innerHTML.trim();
-        if (!currentPost) return;
-        if (!html) { document.getElementById('composerHint').textContent = "La respuesta no puede estar vacía"; return; }
-        try{
-          await publishComment(currentPost.id, html);
-          document.getElementById('composerHint').textContent = "Publicado";
-          editor.innerHTML = ""; preview.innerHTML = "";
-          const comments = await fetchComments(currentPost.id);
-          const list = document.getElementById('commentsList'); list.innerHTML = "";
-          comments.forEach(c => {
-            const item = document.createElement('div');
-            item.className = "item";
-            item.innerHTML = `<div class="title">${c.author?.displayName || "Anónimo"} • ${fmtDate(c.published)}</div><div class="meta">${strip(c.content).slice(0, 200)}</div>`;
-            list.appendChild(item);
-          });
-        }catch(e){
-          document.getElementById('composerHint').textContent = "Error al publicar. Revisa permisos.";
-          console.error(e);
-        }
-      });
-    })();
-
-    // Composer (crear hilo)
+    // ===== Composer (crear hilo) =====
     document.getElementById('publishBtn').addEventListener('click', () => {
+      if(!db){ alert("Configura Firebase para poder publicar hilos."); return; }
+      if(!canInteract()){ alert("Inicia sesión para publicar un hilo."); return; }
       document.getElementById('composer').style.display = "flex";
+      bindToolbar(document.querySelector('#composer .toolbar'), document.getElementById('pubEditor'), document.getElementById('pubPreview'));
     });
     document.getElementById('closeComposer').addEventListener('click', () => {
       document.getElementById('composer').style.display = "none";
     });
-    (function bindPubEditor(){
-      const toolbar = document.querySelector('#composer .toolbar');
-      const editor  = document.getElementById('pubEditor');
-      const preview = document.getElementById('pubPreview');
-      if (toolbar && editor) bindToolbar(toolbar, editor, preview);
-      document.getElementById('submitPost').addEventListener('click', () => {
-        const title = document.getElementById('pubTitle').value.trim();
-        const desc  = document.getElementById('pubDescription').value.trim();
-        const html  = editor.innerHTML.trim();
-        if (!title || !html) { alert("Título y contenido son obligatorios."); return; }
-        alert("Borrador listo (no se envía a Blogger). Integra OAuth/POST para publicar de verdad.");
+    document.getElementById('submitPost').addEventListener('click', async () => {
+      if(!db){ alert("Configura Firebase para publicar."); return; }
+      if(!canInteract()){ alert("Inicia sesión para publicar."); return; }
+      const title = document.getElementById('pubTitle').value.trim();
+      const description = document.getElementById('pubDescription').value.trim();
+      const contentHtml = document.getElementById('pubEditor').innerHTML.trim();
+      if(!title || !contentHtml){ alert("Título y contenido son obligatorios."); return; }
+      const coverUrl = pickFirstImage(contentHtml);
+      const tag = "Noticias";
+      try{
+        const ref = await db.collection("posts").add({
+          title, description, contentHtml, coverUrl: coverUrl || null,
+          tag,
+          author: { uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL },
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          likesCount: 0
+        });
         document.getElementById('composer').style.display = "none";
-      });
-    })();
-
-    // Search
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      const base = filtered.length ? filtered : posts;
-      if(!q){ renderForum(base); return; }
-      const res = base.filter(p => {
-        const t = (p.title || "").toLowerCase();
-        const x = strip(p.content || "").toLowerCase();
-        return t.includes(q) || x.includes(q);
-      });
-      renderForum(res);
+        await loadFeed(); // refresca
+        const doc = await ref.get();
+        openDetailCustom(doc.id, doc.data());
+      }catch(e){
+        alert("Error al publicar: " + e.message);
+      }
     });
 
-    // Init
+    // ===== Carga Feed =====
+    async function loadFeed(){
+      if (db) {
+        const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(50).get();
+        await renderTickerFromFirestore();
+        await renderForumFromFirestore(snap);
+        renderTrendsFromFirestore(snap);
+      } else {
+        // Blogger fallback
+        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${BLOGGER_API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          document.getElementById('forum').innerHTML = `<article class="thread"><div class="title-row"><div class="title">No se pudo cargar el feed</div></div><div class="excerpt">Verifica la API Key y el Blog ID.</div></article>`;
+          return;
+        }
+        const data = await res.json();
+        const items = data.items || [];
+        await renderTickerFromBlogger(items);
+        await renderForumFromBlogger(items);
+        renderTrendsFromBlogger(items);
+      }
+    }
+
+    // ===== Búsqueda inicial y carga =====
     window.addEventListener('load', async () => {
-      initAuth();
-      await fetchPosts();
+      await loadFeed();
     });
   </script>
 </body>
 </html>
-
