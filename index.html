@@ -9,15 +9,13 @@
   <style>
     :root{
       --bg:#0a0f1a; --panel:#111827; --panel-2:#172033; --border:#2b3a55;
-      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#3b82f6;
-      --danger:#ef4444; --ok:#22c55e; --shadow:0 12px 28px rgba(0,0,0,.35);
-      --tag-bg:#0e1524; --gold:#fbbf24;
+      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --danger:#ef4444; --ok:#22c55e;
+      --shadow:0 12px 28px rgba(0,0,0,.35); --gold:#fbbf24;
     }
     body.light{
       --bg:#f5f8fd; --panel:#ffffff; --panel-2:#edf3fb; --border:#d5e0ee;
-      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --headline:#2563eb;
-      --danger:#dc2626; --ok:#16a34a; --shadow:0 12px 26px rgba(16,24,40,.10);
-      --tag-bg:#ffffff; --gold:#f59e0b;
+      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --danger:#dc2626; --ok:#16a34a;
+      --shadow:0 12px 26px rgba(16,24,40,.10); --gold:#f59e0b;
     }
 
     *{box-sizing:border-box}
@@ -25,7 +23,6 @@
     a{color:var(--accent);text-decoration:none}
     img,video,iframe{max-width:100%;display:block}
     html,body{overflow-x:hidden}
-    .wrap{max-width:1240px;margin:0 auto;padding:0 16px}
 
     /* Header */
     .header{position:sticky;top:0;z-index:1000;background:var(--panel);border-bottom:1px solid var(--border)}
@@ -60,7 +57,7 @@
     .notif{position:relative}
     .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:1500}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:2000}
     .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
     .notif-list{max-height:380px;overflow:auto}
     .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
@@ -69,26 +66,23 @@
     .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
-    /* Notificaciones en móvil: que nada las traspase y ancho cómodo */
+    /* Notificaciones en móvil: fijo y limpio */
     @media(max-width:600px){
-      .notif-panel{
-        position:fixed; top:64px; left:10px; right:10px; min-width:auto; width:auto;
-        z-index:3000;
-      }
+      .notif-panel{position:fixed;top:64px;left:10px;right:10px;min-width:auto;width:auto;z-index:3000}
     }
 
-    /* Ticket News */
+    /* Ticker titulares */
     .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
     .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--headline)}
+    .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--accent)}
     .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
-    .marquee{display:inline-block;animation:marq 60s linear infinite}
+    .marquee{display:inline-block;animation:marq 55s linear infinite}
     @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
     .headline{display:inline-flex;align-items:center;gap:8px;margin-right:36px;cursor:pointer}
-    .headline .tag{background:var(--tag-bg);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted);border:1px solid var(--border)}
+    .headline .tag{background:var(--panel);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted);border:1px solid var(--border)}
     .headline .title{font-weight:800;color:var(--text)}
 
-    /* Layout */
+    /* Layout principal */
     .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
     @media(max-width:1100px){.layout{grid-template-columns:1fr}}
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
@@ -106,23 +100,16 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Galería: imágenes originales y videos 16:9 tamaño adecuado */
-    .post-gallery{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
-    .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:12px;cursor:pointer;border:1px solid var(--border)}
+    /* Galería: imágenes cuadradas pequeñas + video 16:9 */
+    .post-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:12px}
+    .post-gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer}
     .post-gallery iframe{
-      width:100%;
-      aspect-ratio:16/9; /* videos elegantes sin ser gigantes */
-      height:auto;
-      border-radius:12px;
-      border:2px solid var(--border);
-      background:#000;
+      grid-column:1/-1;
+      width:100%;aspect-ratio:16/9;height:auto;border-radius:12px;border:2px solid var(--border);background:#000;
     }
     @media(max-width:600px){
-      .layout{padding:12px}
-      .panel{padding:12px}
-      .post{padding:12px}
-      .post-gallery{gap:12px;margin-top:12px}
-      .post-gallery img{height:160px;border-radius:10px}
+      .post-gallery{gap:8px}
+      .post-gallery img{height:100px;border-radius:8px}
       .post-gallery iframe{aspect-ratio:16/9;border-radius:10px}
     }
 
@@ -136,15 +123,12 @@
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
-    /* Follow buttons */
-    .btn-follow, .btn-following{
-      padding:4px 8px; font-size:11px; border-radius:6px; border:1px solid var(--border); cursor:pointer; align-self:flex-start;
-      white-space:nowrap;
-    }
-    .btn-follow{ background:var(--accent); color:#fff; }
-    .btn-following{ background:var(--panel-2); color:var(--text); }
+    /* Follow */
+    .btn-follow, .btn-following{padding:4px 8px;font-size:11px;border-radius:6px;border:1px solid var(--border);cursor:pointer;white-space:nowrap}
+    .btn-follow{background:var(--accent);color:#fff}
+    .btn-following{background:var(--panel-2);color:var(--text)}
 
-    /* Comments */
+    /* Comentarios */
     .comments{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
     .comments h4{margin:0 0 10px;color:var(--text)}
     .comment-form{display:flex;gap:8px;margin-top:8px}
@@ -162,7 +146,6 @@
     .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:2px}
     .icon-btn:hover{color:var(--danger)}
     .icon-24{width:18px;height:18px;display:inline-block}
-
     .replies-wrap{margin-top:8px}
     .reply-item{display:flex;gap:10px;margin-top:8px}
     .reply-avatar{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
@@ -170,18 +153,17 @@
     .reply-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:4px}
     .reply-text{color:var(--text);font-size:13px;word-break:break-word}
     .reply-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-
     .load-more{margin-top:10px}
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
 
-    /* Right column */
+    /* Columna derecha + tarjetas */
     .right-col .card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px}
     .card h4{margin:0 0 8px;color:var(--text)}
     .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
     .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
 
-    /* Ad box */
+    /* Anuncio */
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
     .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
     .ad-label{font-weight:900;color:var(--gold);font-size:16px}
@@ -189,7 +171,7 @@
     .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
     /* Modals base */
-    .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2000}
+    .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2500}
     .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;max-height:95vh}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800;color:var(--text)}
@@ -208,27 +190,17 @@
     .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
     .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6;color:var(--text)}
     .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-    .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
+    .media-thumb{width:120px;height:120px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
     .media-thumb img{width:100%;height:100%;object-fit:cover}
 
-    /* Publish progress pill */
-    .progress-pill{
-      display:inline-flex;align-items:center;justify-content:center;
-      gap:8px; min-width:180px; height:42px; border-radius:999px;
-      background:linear-gradient(135deg, var(--accent), #7aa7ff);
-      color:#fff; font-weight:900; letter-spacing:.3px; border:none;
-      box-shadow:0 8px 20px rgba(59,130,246,.35);
-    }
-    .progress-pill .pct{font-variant-numeric:tabular-nums}
-    .progress-pill .bar{
-      position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden;
-    }
-    .progress-pill .bar > span{
-      position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px;
-    }
+    /* Progress pill */
+    .progress-pill{display:inline-flex;align-items:center;gap:8px;min-width:180px;height:42px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#7aa7ff);color:#fff;font-weight:900;border:none;box-shadow:0 8px 20px rgba(59,130,246,.35)}
+    .pct{font-variant-numeric:tabular-nums}
+    .bar{position:relative;width:84px;height:6px;border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden}
+    .bar>span{position:absolute;left:0;top:0;height:100%;width:0%;background:#fff;border-radius:999px}
 
     /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:2200}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:2600}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
@@ -236,7 +208,34 @@
     /* Footer */
     .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
     .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
-    .footer a{color:var(--muted)}
+
+    /* Dashboard: desktop ordenado y en teléfono apilado limpio */
+    .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+    .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+    .dash-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
+    .dash-title{font-weight:800}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
+    .stat-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}
+    .list-wrap{padding:12px 0;max-height:360px;overflow:auto}
+    .list-item{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .pill{background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted)}
+
+    @media(max-width:800px){
+      .dash-grid{grid-template-columns:1fr}
+      .stats-grid{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+      .dash-head{padding:12px}
+      .list-wrap{max-height:unset}
+      .dash-card{margin-bottom:12px}
+    }
+    @media(max-width:600px){
+      .dash-grid{gap:12px}
+      .stats-grid{gap:10px}
+      .two-col{gap:10px;padding:0 12px 12px}
+      .list-item{flex-wrap:wrap}
+      .pill{font-size:11px}
+    }
   </style>
 </head>
 <body>
@@ -277,19 +276,15 @@
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
           <h4>Notificaciones</h4>
-          <div class="notif-list" id="notifInbox">
-            <div class="notif-empty">No hay notificaciones nuevas.</div>
-          </div>
-          <div class="notif-footer">
-            <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
-          </div>
+          <div class="notif-list" id="notifInbox"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
+          <div class="notif-footer"><button id="notifClearAll" class="notif-clear">Eliminar todas</button></div>
         </div>
       </div>
     </nav>
   </header>
 
   <section class="ticket">
-    <div class="rail wrap">
+    <div class="rail">
       <div class="rail-head">Últimos titulares</div>
       <div class="ticker"><div id="marquee" class="marquee"></div></div>
     </div>
@@ -347,6 +342,7 @@
     </aside>
   </section>
 
+  <!-- Composer -->
   <div id="composerModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -376,9 +372,7 @@
           <button class="tool" data-cmd="formatBlock" data-value="h3">H3</button>
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
-        <div id="editor" class="editor" contenteditable="true" spellcheck="true">
-          <p>Pega aquí tu contenido.</p>
-        </div>
+        <div id="editor" class="editor" contenteditable="true" spellcheck="true"><p>Pega aquí tu contenido.</p></div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*" multiple>
           <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pega una URL de YouTube.</span>
@@ -392,6 +386,7 @@
     </div>
   </div>
 
+  <!-- Dashboard -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -399,55 +394,56 @@
         <button class="close-x" id="closeDashboard">×</button>
       </div>
       <div class="modal-body">
-        <div class="dash-grid" style="display:grid;grid-template-columns:1.2fr .8fr;gap:16px">
-          <div class="dash-card" style="background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden">
-            <div class="dash-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
-              <div class="dash-title" style="font-weight:800">Resumen</div>
-              <span class="pill" id="dashUserName" style="background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted)">—</span>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-head">
+              <div class="dash-title">Resumen</div>
+              <span class="pill" id="dashUserName">—</span>
             </div>
-            <div class="stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px">
-              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
-                <div class="stat-label" style="color:var(--muted);font-size:12px">Total publicaciones</div>
-                <div class="stat-value" id="dashStatPosts" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="panel-sub">Total publicaciones</div>
+                <div id="dashStatPosts" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
               </div>
-              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
-                <div class="stat-label" style="color:var(--muted);font-size:12px">Likes acumulados</div>
-                <div class="stat-value" id="dashStatLikes" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
+              <div class="stat-card">
+                <div class="panel-sub">Likes acumulados</div>
+                <div id="dashStatLikes" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
               </div>
-              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
-                <div class="stat-label" style="color:var(--muted);font-size:12px">Donación</div>
-                <div class="stat-value" id="dashStatDonation" style="font-weight:900;font-size:22px;margin-top:4px">OFF</div>
+              <div class="stat-card">
+                <div class="panel-sub">Donación</div>
+                <div id="dashStatDonation" style="font-weight:900;font-size:22px;margin-top:4px">OFF</div>
               </div>
             </div>
-            <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px">
+            <div class="two-col">
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
                 <div class="dash-head" style="padding:10px 0;border-bottom:1px solid var(--border)">
                   <div class="dash-title">Siguiendo</div>
                   <span class="pill"># <span id="countFollowing">0</span></span>
                 </div>
-                <div class="list-wrap" id="dashFollowing" style="padding:12px 0;max-height:360px;overflow:auto"></div>
+                <div class="list-wrap" id="dashFollowing"></div>
               </div>
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
                 <div class="dash-head" style="padding:10px 0;border-bottom:1px solid var(--border)">
                   <div class="dash-title">Te siguen</div>
                   <span class="pill"># <span id="countFollowers">0</span></span>
                 </div>
-                <div class="list-wrap" id="dashFollowers" style="padding:12px 0;max-height:360px;overflow:auto"></div>
+                <div class="list-wrap" id="dashFollowers"></div>
               </div>
             </div>
           </div>
-          <div class="dash-card" style="background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden">
-            <div class="dash-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
+          <div class="dash-card">
+            <div class="dash-head">
               <div class="dash-title">Tus posts</div>
-              <span class="pill" id="dashPostsCount" style="background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted)">0</span>
+              <span class="pill" id="dashPostsCount">0</span>
             </div>
-            <div class="list-wrap" id="dashPosts" style="padding:12px 16px;max-height:360px;overflow:auto"></div>
+            <div class="list-wrap" id="dashPosts"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Post view modal -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -458,6 +454,7 @@
     </div>
   </div>
 
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
     <div class="lightbox-content"></div>
@@ -476,25 +473,24 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    /* Firebase */
+    /* ===== Firebase (reemplaza por tu proyecto) ===== */
     const firebaseConfig = {
-      apiKey: "AIzaSyBWqJI7OKZcEjN2CeTZxPi8pWzo8rBMIkI",
-      authDomain: "nearmemarketplace-ce82b.firebaseapp.com",
-      projectId: "nearmemarketplace-ce82b",
-      storageBucket: "nearmemarketplace-ce82b.firebasestorage.app",
-      messagingSenderId: "711845990024",
-      appId: "1:711845990024:web:7948ad5e5606765514d93d",
-      measurementId: "G-X75JHEDQJ0"
+      apiKey: "REPLACE_ME",
+      authDomain: "REPLACE_ME.firebaseapp.com",
+      projectId: "REPLACE_ME",
+      storageBucket: "REPLACE_ME.appspot.com",
+      messagingSenderId: "REPLACE_ME",
+      appId: "REPLACE_ME",
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Cloudinary config (ajusta estos valores) */
-    const CLOUDINARY_CLOUD_NAME = "demo";       // <- reemplaza por tu cloud name
-    const CLOUDINARY_UPLOAD_PRESET = "unsigned_preset"; // <- reemplaza por tu upload preset
+    /* ===== Cloudinary (reemplaza valores) ===== */
+    const CLOUDINARY_CLOUD_NAME = "REPLACE_ME";
+    const CLOUDINARY_UPLOAD_PRESET = "REPLACE_ME";
 
-    /* Tema */
+    /* ===== Tema ===== */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
     if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; }
@@ -504,14 +500,14 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
-    /* Dropdown */
+    /* ===== Dropdown ===== */
     const mainDropdown = document.getElementById('mainDropdown');
     const ddToggle = mainDropdown.querySelector('.dropdown-toggle');
     const ddMenu = mainDropdown.querySelector('.dropdown-menu');
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones */
+    /* ===== Notificaciones ===== */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
@@ -520,23 +516,18 @@
     const notifClearAll = document.getElementById('notifClearAll');
     let notifCount = 0;
     let notifications = [];
-
     notifIcon.addEventListener('click', () => {
       const show = notifPanel.style.display === 'block' ? 'none' : 'block';
       notifPanel.style.display = show;
       if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
     });
-    document.addEventListener('click',(e)=>{
-      if (!notif.contains(e.target)) notifPanel.style.display='none';
-    });
-
+    document.addEventListener('click',(e)=>{ if (!notif.contains(e.target)) notifPanel.style.display='none'; });
     function renderNotifications(){
       notifInbox.innerHTML = notifications.length ? '' : '<div class="notif-empty">No hay notificaciones nuevas.</div>';
       notifications.forEach(n=>{
         const item = document.createElement('div'); item.className='notif-item';
         const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
-        item.appendChild(msg);
-        notifInbox.appendChild(item);
+        item.appendChild(msg); notifInbox.appendChild(item);
       });
     }
     function pushNotification(text){
@@ -544,20 +535,14 @@
       notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display = 'inline-block';
       renderNotifications();
     }
-    notifClearAll.addEventListener('click', ()=>{
-      notifications = [];
-      notifCount = 0;
-      notifBadge.style.display='none';
-      renderNotifications();
-    });
+    notifClearAll.addEventListener('click', ()=>{ notifications = []; notifCount = 0; notifBadge.style.display='none'; renderNotifications(); });
 
-    /* Auth */
+    /* ===== Auth ===== */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
     const logoutBtn = document.getElementById('logoutBtn');
-
     googleBtn.addEventListener('click', async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
       try { await auth.signInWithPopup(provider); } catch (e) { alert('Error al iniciar sesión: ' + e.message); }
@@ -583,7 +568,7 @@
       loadRightColumnStats();
     });
 
-    /* Composer modal */
+    /* ===== Composer modal ===== */
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
@@ -593,7 +578,7 @@
     closeComposer.addEventListener('click', hideComposer);
     composerModal.addEventListener('click', (e) => { if (e.target === composerModal) hideComposer(); });
 
-    /* Editor toolbar */
+    /* ===== Editor toolbar ===== */
     const editor = document.getElementById('editor');
     document.querySelectorAll('.tool').forEach(btn => {
       const cmd = btn.dataset.cmd;
@@ -606,7 +591,7 @@
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    /* YouTube helper (videos, shorts y en vivo) */
+    /* ===== YouTube helper ===== */
     const youtubeInput = document.getElementById('youtubeInput');
     function extractYouTubeId(url){
       if (!url) return null;
@@ -623,7 +608,7 @@
       return null;
     }
 
-    /* Cloudinary upload for images */
+    /* ===== Cloudinary uploads ===== */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -636,7 +621,6 @@
         mediaPreview.appendChild(div);
       });
     });
-
     async function uploadToCloudinary(file){
       const form = new FormData();
       form.append('file', file);
@@ -648,7 +632,7 @@
       return { url: data.secure_url, type: 'image' };
     }
 
-    /* Publish progress pill */
+    /* ===== Publicar con progreso ===== */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -656,30 +640,21 @@
     const publishBtn = document.getElementById('publishBtn');
     const resetBtn = document.getElementById('resetBtn');
 
-    let progressPillEl = null;
-    let progressBarEl = null;
-    let progressPctEl = null;
-
+    let progressPillEl=null, progressBarEl=null, progressPctEl=null;
     function mountProgressPill(){
       if (progressPillEl) return;
-      progressPillEl = document.createElement('div');
-      progressPillEl.className = 'progress-pill';
-      progressPctEl = document.createElement('span'); progressPctEl.className = 'pct'; progressPctEl.textContent = '0%';
-      const bar = document.createElement('div'); bar.className = 'bar';
-      progressBarEl = document.createElement('span');
-      bar.appendChild(progressBarEl);
-      progressPillEl.appendChild(progressPctEl);
-      progressPillEl.appendChild(bar);
+      progressPillEl = document.createElement('div'); progressPillEl.className='progress-pill';
+      progressPctEl = document.createElement('span'); progressPctEl.className='pct'; progressPctEl.textContent='0%';
+      const bar = document.createElement('div'); bar.className='bar';
+      progressBarEl = document.createElement('span'); bar.appendChild(progressBarEl);
+      progressPillEl.appendChild(progressPctEl); progressPillEl.appendChild(bar);
       publishBtn.replaceWith(progressPillEl);
     }
     function unmountProgressPill(){
       if (!progressPillEl) return;
       const newBtn = document.createElement('button');
-      newBtn.id = 'publishBtn';
-      newBtn.className = 'btn btn-accent';
-      newBtn.textContent = 'Publicar';
-      progressPillEl.replaceWith(newBtn);
-      progressPillEl = null; progressBarEl = null; progressPctEl = null;
+      newBtn.id = 'publishBtn'; newBtn.className = 'btn btn-accent'; newBtn.textContent = 'Publicar';
+      progressPillEl.replaceWith(newBtn); progressPillEl=null; progressBarEl=null; progressPctEl=null;
       document.getElementById('publishBtn').addEventListener('click', onPublishClick);
     }
     function setProgressElegant(pct){
@@ -698,8 +673,7 @@
       const type = contentType.value;
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
-      mountProgressPill();
-      setProgressElegant(5);
+      mountProgressPill(); setProgressElegant(5);
 
       try {
         let mediaItems = [];
@@ -707,22 +681,17 @@
         if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
         if (selectedFiles.length){
-          const total = selectedFiles.length;
-          let done = 0;
-          const uploaded = [];
+          const total = selectedFiles.length; let done = 0;
           for (const f of selectedFiles){
             const item = await uploadToCloudinary(f);
-            uploaded.push(item);
-            done++;
-            setProgressElegant(5 + Math.round(60*(done/total)));
+            mediaItems.push(item);
+            done++; setProgressElegant(5 + Math.round(60*(done/total)));
           }
-          mediaItems = mediaItems.concat(uploaded);
         }
 
         setProgressElegant(85);
         await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags, type,
-          media: mediaItems,
+          title, desc, bodyHtml, tags, type, media: mediaItems,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           likesCount: 0, likedBy: [],
@@ -730,15 +699,12 @@
         });
         setProgressElegant(100);
 
-        // reset
-        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-        youtubeInput.value = '';
-        editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
-        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+        titleInput.value=''; descInput.value=''; tagsInput.value=''; contentType.value='texto';
+        youtubeInput.value=''; editor.innerHTML='<p>Pega aquí tu contenido.</p>';
+        mediaInput.value=''; selectedFiles=[]; mediaPreview.innerHTML='';
 
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
-
         pushNotification(`Publicaste "${title}"`);
       } catch (e) {
         alert('Error publicando: ' + e.message);
@@ -746,15 +712,13 @@
       }
     }
     publishBtn.addEventListener('click', onPublishClick);
-
-    resetBtn.addEventListener('click', () => {
-      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
-      youtubeInput.value = '';
-      editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
-      mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+    resetBtn.addEventListener('click', ()=>{
+      titleInput.value=''; descInput.value=''; tagsInput.value=''; contentType.value='texto';
+      youtubeInput.value=''; editor.innerHTML='<p>Pega aquí tu contenido.</p>';
+      mediaInput.value=''; selectedFiles=[]; mediaPreview.innerHTML='';
     });
 
-    /* Feed + titulares + stats */
+    /* ===== Feed + titulares + stats ===== */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
     const marquee = document.getElementById('marquee');
@@ -764,17 +728,14 @@
     let notifUnsubs = [];
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
-      postsContainer.innerHTML = '';
-      postsCache = [];
+      postsContainer.innerHTML = ''; postsCache = [];
       if (snap.empty) { emptyFeed.style.display = 'block'; marquee.innerHTML = ''; renderSidebar([]); return; }
       emptyFeed.style.display = 'none';
-
       snap.forEach(doc => {
         const d = doc.data();
         let createdText = '—'; try { if (d.createdAt?.toDate) createdText = d.createdAt.toDate().toLocaleString(); } catch(e){}
         postsCache.push({ id: doc.id, data: { ...d, createdText } });
       });
-
       postsCache.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
       renderHeadlines(postsCache.slice(0, 60));
       renderSidebar(postsCache);
@@ -842,7 +803,7 @@
       });
     }
 
-    /* Donation eligibility */
+    /* ===== Donación ===== */
     async function computeDonationEligibility(){
       const u = auth.currentUser;
       if (!u) { userDonationEligible = false; return; }
@@ -855,7 +816,7 @@
       await batch.commit();
     }
 
-    /* Notifications from likes/comments */
+    /* ===== Notifs likes/comentarios ===== */
     function subscribeNotificationsForMyPosts(){
       notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
       notifUnsubs = [];
@@ -890,7 +851,7 @@
       });
     }
 
-    /* Follow system */
+    /* ===== Follow ===== */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
@@ -923,7 +884,7 @@
       });
     }
 
-    /* Render Post */
+    /* ===== Render Post ===== */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
@@ -985,30 +946,21 @@
       const liked = user && (p.likedBy || []).includes(user?.uid);
       likeBtn.classList.toggle('active', !!liked);
       likeBtn.innerHTML = liked ? '❤️ Me gusta' : '🤍 Me gusta';
-
       const counts = document.createElement('span'); counts.className = 'counts'; counts.id = `counts-${id}`;
       counts.textContent = ` ${p.likesCount || 0} likes`;
-
-      actions.appendChild(likeBtn);
-      actions.appendChild(counts);
+      actions.appendChild(likeBtn); actions.appendChild(counts);
 
       const showDonation = (user && user.uid === p.author?.uid && (p.donationEnabled===true || userDonationEligible));
-      if (showDonation) {
-        const donation = document.createElement('span'); donation.className = 'donation-pill';
-        donation.textContent = 'Donación habilitada';
-        actions.appendChild(donation);
-      }
+      if (showDonation) { const donation = document.createElement('span'); donation.className = 'donation-pill'; donation.textContent = 'Donación habilitada'; actions.appendChild(donation); }
 
       if (user && user.uid === p.author?.uid) {
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
-        const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
         const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-        editBtn.addEventListener('click', () => openEditModal?.(id, p));
         deleteBtn.addEventListener('click', async () => {
           const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
           try { await firestore.collection('posts').doc(id).delete(); } catch(e){ alert('Error eliminando: ' + e.message); }
         });
-        authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
+        authorActions.appendChild(deleteBtn);
         actions.appendChild(authorActions);
       }
 
@@ -1029,23 +981,18 @@
         computeDonationEligibility();
       });
 
-      /* Comments block */
+      /* Comentarios básicos */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
       const loadMoreHolder = document.createElement('div'); loadMoreHolder.className='load-more';
       const loadMoreBtn = document.createElement('button'); loadMoreBtn.className='load-more-btn'; loadMoreBtn.textContent='Ver más comentarios';
       loadMoreHolder.appendChild(loadMoreBtn);
-
       const form = document.createElement('div'); form.className='comment-form';
       const input = document.createElement('input'); input.className='comment-input'; input.placeholder='Escribe un comentario…';
       const submit = document.createElement('button'); submit.className='comment-btn'; submit.textContent='Comentar';
       form.appendChild(input); form.appendChild(submit);
-
-      commentsWrap.appendChild(commentsTitle);
-      commentsWrap.appendChild(commentsList);
-      commentsWrap.appendChild(loadMoreHolder);
-      commentsWrap.appendChild(form);
+      commentsWrap.appendChild(commentsTitle); commentsWrap.appendChild(commentsList); commentsWrap.appendChild(loadMoreHolder); commentsWrap.appendChild(form);
 
       submit.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u){ alert('Inicia sesión para comentar.'); return; }
@@ -1053,9 +1000,7 @@
         submit.disabled = true;
         try{
           await firestore.collection('posts').doc(id).collection('comments').add({
-            text,
-            parentId: null,
-            likesCount: 0, likedBy: [],
+            text, parentId: null, likesCount: 0, likedBy: [],
             author: { uid:u.uid, name:u.displayName || u.email || 'Usuario', avatar:u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -1074,28 +1019,14 @@
         }
       });
 
-      let fullComments = [];
-      let renderLimit = 5;
-
+      let fullComments = []; let renderLimit = 5;
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
-        fullComments = [];
-        csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
+        fullComments = []; csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
         renderCommentsThread(id, commentsList, fullComments, renderLimit);
         updateLoadMoreVisibility();
       });
-
-      function updateLoadMoreVisibility(){
-        if (fullComments.filter(c=>!c.parentId).length > renderLimit) {
-          loadMoreBtn.style.display='inline-block';
-        } else {
-          loadMoreBtn.style.display='none';
-        }
-      }
-      loadMoreBtn.addEventListener('click', ()=>{
-        renderLimit += 5;
-        renderCommentsThread(id, commentsList, fullComments, renderLimit);
-        updateLoadMoreVisibility();
-      });
+      function updateLoadMoreVisibility(){ loadMoreBtn.style.display = (fullComments.filter(c=>!c.parentId).length > renderLimit) ? 'inline-block' : 'none'; }
+      loadMoreBtn.addEventListener('click', ()=>{ renderLimit += 5; renderCommentsThread(id, commentsList, fullComments, renderLimit); updateLoadMoreVisibility(); });
 
       card.appendChild(head);
       card.appendChild(tagRow);
@@ -1104,7 +1035,6 @@
       if ((p.media||[]).length) card.appendChild(gallery);
       card.appendChild(actions);
       card.appendChild(commentsWrap);
-
       return card;
     }
 
@@ -1112,33 +1042,24 @@
       container.innerHTML = '';
       const roots = comments.filter(c=>!c.parentId);
       const childrenMap = {};
-      comments.filter(c=>c.parentId).forEach(c=>{
-        (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c);
-      });
-      const showRoots = roots.slice(0, limit);
-      showRoots.forEach(c=>{
-        container.appendChild(makeCommentEl(postId, c, childrenMap));
-      });
+      comments.filter(c=>c.parentId).forEach(c=>{ (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c); });
+      roots.slice(0, limit).forEach(c=>{ container.appendChild(makeCommentEl(postId, c, childrenMap)); });
     }
 
     function makeCommentEl(postId, c, childrenMap){
       const item = document.createElement('div'); item.className='comment-item';
       const av = document.createElement('img'); av.className='comment-avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
-
       const box = document.createElement('div'); box.className='comment-box';
       const meta = document.createElement('div'); meta.className='comment-meta';
       let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
       const leftMeta = document.createElement('div'); leftMeta.className='meta-left'; leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
-
       const rightMeta = document.createElement('div');
-      const me = auth.currentUser;
-      const isAuthor = me && me.uid === c.author?.uid;
 
+      const me = auth.currentUser; const isAuthor = me && me.uid === c.author?.uid;
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
       editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0  0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0  0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0 1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0 0 1 1h8a1 1 0  0 0 1-1V7zM9 9a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1  1 0  0 1 1-1zm6 0a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0 1 1-1z"/></svg>`;
-
+      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0  0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0 1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0 0 1 1h8a1 1 0  0 0 1-1V7zM9 9a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1  1 0  0 1 1-1zm6 0a1 1 0  0  1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0  1 1-1z"/></svg>`;
       if (isAuthor) { rightMeta.appendChild(editBtn); rightMeta.appendChild(trashBtn); }
       meta.appendChild(leftMeta); meta.appendChild(rightMeta);
 
@@ -1155,29 +1076,14 @@
       saveEdit.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u || !isAuthor) return;
         const val = editInput.value.trim(); if (!val) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).update({ text: val });
-          text.textContent = val;
-          editInput.style.display='none'; saveEdit.style.display='none';
+        try{ await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).update({ text: val });
+          text.textContent = val; editInput.style.display='none'; saveEdit.style.display='none';
         }catch(e){ alert('Error guardando edición: '+e.message); }
-      });
-
-      trashBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar este comentario? Se eliminarán también sus respuestas.'); if (!ok) return;
-        try{
-          const children = childrenMap[c.id] || [];
-          for (const child of children){
-            await firestore.collection('posts').doc(postId).collection('comments').doc(child.id).delete();
-          }
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).delete();
-        }catch(e){ alert('Error eliminando comentario: '+e.message); }
       });
 
       const actions = document.createElement('div'); actions.className='comment-actions';
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
-
       const meLiked = me && (c.likedBy||[]).includes(me.uid);
       if (meLiked) like.classList.add('active');
 
@@ -1199,35 +1105,24 @@
       const replySend = document.createElement('button'); replySend.className='comment-btn'; replySend.textContent='Enviar';
       replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
 
-      reply.addEventListener('click', ()=> {
-        replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
-      });
+      reply.addEventListener('click', ()=> { replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none'; });
       replySend.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
         const txt = replyInput.value.trim(); if (!txt) return;
         replySend.disabled = true;
         try{
           await firestore.collection('posts').doc(postId).collection('comments').add({
-            text: txt,
-            parentId: c.id,
-            likesCount: 0,
-            likedBy: [],
+            text: txt, parentId: c.id, likesCount: 0, likedBy: [],
             author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
-          replyInput.value='';
-          replyForm.style.display='none';
+          replyInput.value=''; replyForm.style.display='none';
         }catch(err){ alert('Error al responder: '+err.message); }
         replySend.disabled=false;
       });
 
       actions.appendChild(like); actions.appendChild(reply);
-      box.appendChild(meta);
-      box.appendChild(text);
-      box.appendChild(editInput);
-      box.appendChild(saveEdit);
-      box.appendChild(actions);
-      box.appendChild(replyForm);
+      box.appendChild(meta); box.appendChild(text); box.appendChild(editInput); box.appendChild(saveEdit); box.appendChild(actions); box.appendChild(replyForm);
 
       const repliesWrap = document.createElement('div'); repliesWrap.className='replies-wrap';
       const children = childrenMap[c.id] || [];
@@ -1248,48 +1143,10 @@
       let ct = '—'; try { if (r.createdAt?.toDate) ct = r.createdAt.toDate().toLocaleString(); } catch(e){}
       const left = document.createElement('div'); left.innerHTML = `<strong>${escapeHtml(r.author?.name || 'Usuario')}</strong> • ${ct}`;
       const right = document.createElement('div');
-
-      const me = auth.currentUser; const isAuthor = me && me.uid === r.author?.uid;
-      const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
-      editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0  0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
-      const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0  0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0 1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0 0 1 1h8a1 1 0  0 0 1-1V7zM9 9a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1  1 0  0 1 1-1zm6 0a1 1 0  0  1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0  1 1-1z"/></svg>`;
-
-      if (isAuthor) { right.appendChild(editBtn); right.appendChild(trashBtn); }
-      meta.appendChild(left); meta.appendChild(right);
-
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
-
-      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = r.text;
-      const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
-
-      editBtn.addEventListener('click', ()=>{
-        if (!isAuthor) return;
-        const show = editInput.style.display==='none';
-        editInput.style.display = show ? 'block' : 'none';
-        saveEdit.style.display = show ? 'inline-block' : 'none';
-      });
-      saveEdit.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor) return;
-        const val = editInput.value.trim(); if (!val) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).update({ text: val });
-          text.textContent = val;
-          editInput.style.display='none'; saveEdit.style.display='none';
-        }catch(e){ alert('Error guardando edición: '+e.message); }
-      });
-
-      trashBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete();
-        }catch(e){ alert('Error eliminando respuesta: '+e.message); }
-      });
-
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
-      const meLiked = me && (r.likedBy||[]).includes(me.uid);
+      const me = auth.currentUser; const meLiked = me && (r.likedBy||[]).includes(me.uid);
       if (meLiked) like.classList.add('active');
 
       like.addEventListener('click', async ()=>{
@@ -1306,12 +1163,13 @@
       });
 
       actions.appendChild(like);
-      box.appendChild(meta); box.appendChild(text); box.appendChild(editInput); box.appendChild(saveEdit); box.appendChild(actions);
+      meta.appendChild(left); meta.appendChild(right);
+      box.appendChild(meta); box.appendChild(text); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
       return item;
     }
 
-    /* Post view modal */
+    /* ===== Post view modal ===== */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
@@ -1320,8 +1178,7 @@
       const found = postsCache.find(p=>p.id===postId);
       if(!found){ return; }
       const d = found.data;
-      pvTitle.textContent = d.title || '(sin título)';
-      pvBody.innerHTML = '';
+      pvTitle.textContent = d.title || '(sin título)'; pvBody.innerHTML = '';
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
       const gallery = document.createElement('div'); gallery.className='post-gallery';
@@ -1329,15 +1186,13 @@
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
         else if(m.type==='youtube' && m.videoId){ const iframe=document.createElement('iframe'); iframe.src=`https://www.youtube.com/embed/${m.videoId}`; iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"; iframe.allowFullscreen=true; gallery.appendChild(iframe); }
       });
-      pvBody.appendChild(meta); pvBody.appendChild(body);
-      if ((d.media||[]).length) pvBody.appendChild(gallery);
-      postViewModal.style.display='flex';
-      document.body.style.overflow = 'hidden';
+      pvBody.appendChild(meta); pvBody.appendChild(body); if ((d.media||[]).length) pvBody.appendChild(gallery);
+      postViewModal.style.display='flex'; document.body.style.overflow = 'hidden';
     }
     closePostView.addEventListener('click',()=>{ postViewModal.style.display='none'; document.body.style.overflow=''; });
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal){ postViewModal.style.display='none'; document.body.style.overflow=''; } });
 
-    /* Dashboard */
+    /* ===== Dashboard ===== */
     const dashboardModal = document.getElementById('dashboardModal');
     const closeDashboard = document.getElementById('closeDashboard');
     const dashStatPosts = document.getElementById('dashStatPosts');
@@ -1346,20 +1201,15 @@
     const dashPosts = document.getElementById('dashPosts');
     const dashPostsCount = document.getElementById('dashPostsCount');
     const dashUserName = document.getElementById('dashUserName');
-
     function openDashboardModal(){ dashboardModal.style.display='flex'; document.body.style.overflow='hidden'; }
     function closeDashboardModal(){ dashboardModal.style.display='none'; document.body.style.overflow=''; }
     closeDashboard.addEventListener('click', closeDashboardModal);
     dashboardModal.addEventListener('click', (e)=>{ if (e.target===dashboardModal) closeDashboardModal(); });
-
     async function loadDashboard(){
-      const u = auth.currentUser;
-      if (!u){ alert('Inicia sesión'); return; }
+      const u = auth.currentUser; if (!u){ alert('Inicia sesión'); return; }
       dashUserName.textContent = u.displayName || u.email || 'Usuario';
-
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
-      let totalPosts=0, totalLikes=0, donationFlag=false;
-      const items = [];
+      let totalPosts=0, totalLikes=0, donationFlag=false; const items = [];
       mineSnap.forEach(doc=>{
         const d = doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true;
         items.push({ id:doc.id, data:d });
@@ -1377,32 +1227,21 @@
 
       const dashFollowing = document.getElementById('dashFollowing');
       const dashFollowers = document.getElementById('dashFollowers');
-      dashFollowing.innerHTML = '';
-      dashFollowers.innerHTML = '';
-
+      dashFollowing.innerHTML = ''; dashFollowers.innerHTML = '';
       for (const uid of following){
         const us = await firestore.collection('users').doc(uid).get();
         const name = us.exists ? (us.data()?.name || 'Usuario') : 'Usuario';
         const av = us.exists ? (us.data()?.avatar || null) : null;
         const el = document.createElement('div'); el.className='list-item';
-        el.innerHTML = `<div class="list-left">
-          <img class="avatar" src="${av || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name))}">
-          <div><strong>${escapeHtml(name)}</strong></div>
-        </div>
-        <span class="pill">Siguiendo</span>`;
+        el.innerHTML = `<div class="list-left"><img class="avatar" src="${av || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name))}"><div><strong>${escapeHtml(name)}</strong></div></div><span class="pill">Siguiendo</span>`;
         dashFollowing.appendChild(el);
       }
-
       for (const uid of followers){
         const us = await firestore.collection('users').doc(uid).get();
         const name = us.exists ? (us.data()?.name || 'Usuario') : 'Usuario';
         const av = us.exists ? (us.data()?.avatar || null) : null;
         const el = document.createElement('div'); el.className='list-item';
-        el.innerHTML = `<div class="list-left">
-          <img class="avatar" src="${av || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name))}">
-          <div><strong>${escapeHtml(name)}</strong></div>
-        </div>
-        <span class="pill">Seguidor</span>`;
+        el.innerHTML = `<div class="list-left"><img class="avatar" src="${av || ('https://ui-avatars.com/api/?name='+encodeURIComponent(name))}"><div><strong>${escapeHtml(name)}</strong></div></div><span class="pill">Seguidor</span>`;
         dashFollowers.appendChild(el);
       }
 
@@ -1420,14 +1259,12 @@
         dashPosts.appendChild(row);
       });
       dashPostsCount.textContent = items.length;
-
       openDashboardModal();
     }
-
     document.getElementById('openDashboard').addEventListener('click', loadDashboard);
     document.getElementById('openDashboardSide').addEventListener('click', loadDashboard);
 
-    /* Lightbox */
+    /* ===== Lightbox ===== */
     const lightbox = document.getElementById('lightbox');
     const lightboxContent = document.querySelector('.lightbox-content');
     const lightboxClose = document.getElementById('lightboxClose');
@@ -1443,7 +1280,7 @@
     lightboxClose.addEventListener('click', () => lightbox.style.display = 'none');
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; });
 
-    /* Ad "Solicitar" -> abre correo */
+    /* ===== Ad mailto ===== */
     const adSolicitarBtn = document.getElementById('adSolicitarBtn');
     adSolicitarBtn.addEventListener('click', ()=>{
       const subject = encodeURIComponent('Solicitud de anuncio — SIN NADA QUE OCULTAR');
@@ -1451,7 +1288,7 @@
       window.location.href = `mailto:sinnadaqueocultar.com@gmail.com?subject=${subject}&body=${body}`;
     });
 
-    /* Helpers */
+    /* ===== Helpers ===== */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
   </script>
 </body>
