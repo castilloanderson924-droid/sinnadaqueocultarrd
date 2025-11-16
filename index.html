@@ -29,7 +29,7 @@
       --border:#d7e2ef;
       --text:#0f172a;
       --muted:#4b5b70;
-      --accent:#2b8ef7;       /* mismo acento para coherencia */
+      --accent:#2b8ef7;       /* mismo acento */
       --headline:#2b8ef7;
       --danger:#dc2626;
       --ok:#16a34a;
@@ -41,8 +41,8 @@
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
 
-    /* Header — épico pero sobrio */
-    .header{position:sticky;top:0;z-index:90;background:var(--panel);border-bottom:1px solid var(--border)}
+    /* Header — sobrio */
+    .header{position:sticky;top:0;z-index:100;background:var(--panel);border-bottom:1px solid var(--border)}
     .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand-logo{width:46px;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
@@ -64,24 +64,32 @@
     .switch input::before{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:1.5px;left:1.5px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}
     .switch input:checked::before{transform:translateX(24px)}
 
-    /* Ticket News — un solo rail sobrio */
+    /* Menú desplegable */
+    .dropdown{position:relative}
+    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}
+    .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none;overflow:hidden}
+    .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
+    .dropdown-menu a:hover{background:var(--panel-2)}
+
+    /* Ticket News — un rail sobrio */
     .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
     .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
     .rail-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)}
     .rail-head .dot{width:10px;height:10px;border-radius:50%;background:var(--headline)}
     .rail-head .label{font-weight:900;color:var(--headline);letter-spacing:.3px}
     .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
-    .marquee{display:inline-block;animation:marq 28s linear infinite}
+    .marquee{display:inline-block;animation:marq 42s linear infinite} /* Más lento */
     @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
-    .headline{display:inline-flex;align-items:center;gap:8px;margin-right:28px}
+    .headline{display:inline-flex;align-items:center;gap:8px;margin-right:32px;cursor:pointer}
     .headline .tag{background:var(--panel);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted)}
     .headline .title{font-weight:800}
 
-    /* Layout con sidebar derecha */
-    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+    /* Layout con sidebar derecha profesional */
+    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 340px;gap:18px}
     @media (max-width:980px){.layout{grid-template-columns:1fr}}
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 12px;font-size:18px}
+    .panel-sub{font-size:12px;color:var(--muted);margin:-6px 0 12px}
 
     /* Post estilo foro */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;transition:transform .2s ease, box-shadow .2s ease}
@@ -97,6 +105,7 @@
     @media (max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:520px){.post-gallery{grid-template-columns:1fr}}
     .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer}
+
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
     .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer}
     .like-btn.active{background:var(--accent);color:#fff;border-color:transparent}
@@ -104,6 +113,7 @@
     .author-actions{margin-left:auto;display:flex;gap:6px}
     .btn-mini{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer;font-weight:800}
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
+    .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
     /* Comments */
     .comments{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
@@ -113,32 +123,37 @@
     .comment-form{display:flex;gap:8px;margin-top:8px}
     .comment-form input{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
 
-    /* Sidebar */
-    .sidebar-section{margin-bottom:16px}
+    /* Sidebar panels */
+    .side-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px}
+    .side-card h4{margin:0 0 8px}
     .list{display:grid;gap:10px}
     .list-item{display:flex;align-items:center;gap:10px}
-    .list-item .avatar{width:28px;height:28px}
+    .list-item .avatar{width:28px;height:28px;border-radius:50%;border:1px solid var(--border)}
     .list-item .meta{font-size:12px;color:var(--muted)}
 
-    /* Composer modal */
-    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100}
-    .modal{width:clamp(360px,80vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    /* Dashboard modal */
+    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:120}
+    .modal{width:clamp(360px,92vw,980px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800}
     .modal-body{padding:16px}
     .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)}
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:800;font-size:18px;cursor:pointer}
-    .inputs{display:grid;gap:10px;margin-bottom:10px}
-    .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
-    .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
-    .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
-    .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-    .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
-    .media-thumb video{width:100%;height:100%;object-fit:cover}
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px}
+    .stat .label{color:var(--muted);font-size:12px}
+    .stat .value{font-weight:900;font-size:20px}
+    .unlock{margin-top:12px;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--panel-2)}
+    .unlock.ok{border-color:var(--ok);background:rgba(34,197,94,.1)}
+    .unlock .title{font-weight:800}
+    .unlock .desc{font-size:13px;color:var(--muted)}
 
-    /* Edit modal */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:110}
+    /* Post view modal (abrir por titular) */
+    .post-view-content{max-height:70vh;overflow:auto}
+    .post-view-content .post-gallery img,.post-view-content .post-gallery video{height:auto;max-height:50vh;object-fit:contain}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:140}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
@@ -158,11 +173,23 @@
         </div>
       </div>
       <div class="spacer"></div>
+
+      <!-- Menú desplegable profesional -->
+      <div class="dropdown" id="mainDropdown">
+        <button class="dropdown-toggle">Menú</button>
+        <div class="dropdown-menu">
+          <a href="sobre-nosotros.html">Sobre nosotros</a>
+          <a href="ceo.html">CEO</a>
+          <a href="soporte.html">Soporte</a>
+        </div>
+      </div>
+
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
       <button id="googleBtn" class="btn">Iniciar con Google</button>
       <div id="userChip" style="display:none;align-items:center;gap:8px">
         <img id="userAvatar" class="avatar" alt="avatar">
         <span id="userName" style="font-weight:800"></span>
+        <button id="openDashboard" class="btn">Dashboard</button>
         <button id="logoutBtn" class="btn">Salir</button>
       </div>
       <div class="switch">
@@ -172,7 +199,7 @@
     </nav>
   </header>
 
-  <!-- Ticket News: un solo rail -->
+  <!-- Ticket News: un solo rail y clicable -->
   <section class="ticket">
     <div class="rail">
       <div class="rail-head">
@@ -188,27 +215,34 @@
     <!-- Feed -->
     <div class="panel">
       <h3>Feed</h3>
+      <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
       <div id="posts"></div>
       <div id="emptyFeed" class="empty" style="color:var(--muted)">Aún no hay publicaciones.</div>
     </div>
 
-    <!-- Sidebar derecha -->
+    <!-- Sidebar derecha profesional -->
     <aside class="panel">
       <h3>Relevante ahora</h3>
+      <div class="panel-sub">Lo más destacado hoy</div>
 
-      <div class="sidebar-section">
-        <h4 style="margin:0 0 8px">Autores destacados</h4>
+      <div class="side-card">
+        <h4>Autores destacados</h4>
         <div id="topAuthors" class="list"></div>
       </div>
 
-      <div class="sidebar-section">
-        <h4 style="margin:0 0 8px">Posts con más likes</h4>
+      <div class="side-card">
+        <h4>Posts con más likes</h4>
         <div id="topPosts" class="list"></div>
       </div>
 
-      <div class="sidebar-section">
-        <h4 style="margin:0 0 8px">Tags frecuentes</h4>
+      <div class="side-card">
+        <h4>Tags frecuentes</h4>
         <div id="topTags" class="list"></div>
+      </div>
+
+      <div class="side-card">
+        <h4>Tu progreso de donación</h4>
+        <div id="donationProgress" class="list"></div>
       </div>
     </aside>
   </section>
@@ -279,10 +313,58 @@
     </div>
   </div>
 
+  <!-- Modal: Post view (desde titulares) -->
+  <div id="postViewModal" class="backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title" id="pvTitle">Post</div>
+        <button class="close-x" id="closePostView">×</button>
+      </div>
+      <div class="modal-body post-view-content" id="pvBody"></div>
+    </div>
+  </div>
+
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
     <div class="lightbox-content"></div>
+  </div>
+
+  <!-- Dashboard modal -->
+  <div id="dashboardModal" class="backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">Dashboard de autor</div>
+        <button class="close-x" id="closeDashboard">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="label">Total de publicaciones</div>
+            <div class="value" id="statPosts">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Likes acumulados</div>
+            <div class="value" id="statLikes">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Comentarios recibidos</div>
+            <div class="value" id="statComments">0</div>
+          </div>
+        </div>
+        <div id="unlockCard" class="unlock">
+          <div class="title">Donación bloqueada</div>
+          <div class="desc">Acumula 10,000 likes totales para habilitar la opción de donación automática en tus publicaciones.</div>
+        </div>
+        <div style="margin-top:14px">
+          <h4>Tus posts</h4>
+          <div id="dashPosts" class="list"></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="refreshDashboard">Actualizar</button>
+      </div>
+    </div>
   </div>
 
   <!-- Firebase SDKs -->
@@ -320,12 +402,20 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
+    /* Menú desplegable */
+    const mainDropdown = document.getElementById('mainDropdown');
+    const ddToggle = mainDropdown.querySelector('.dropdown-toggle');
+    const ddMenu = mainDropdown.querySelector('.dropdown-menu');
+    ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
+    document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
+
     /* Auth UI */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
     const logoutBtn = document.getElementById('logoutBtn');
+    const openDashboardBtn = document.getElementById('openDashboard');
 
     googleBtn.addEventListener('click', async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -343,6 +433,7 @@
         googleBtn.style.display = 'inline-flex';
         userChip.style.display = 'none';
       }
+      computeDonationEligibility(); // recalcula cuando cambia usuario
     });
 
     /* Composer */
@@ -364,8 +455,7 @@
       else if (cmd === 'formatBlock') btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
     });
     document.getElementById('linkBtn').addEventListener('click', () => {
-      const url = prompt('URL del enlace:');
-      if (url) document.execCommand('createLink', false, url);
+      const url = prompt('URL del enlace:'); if (url) document.execCommand('createLink', false, url);
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
@@ -399,11 +489,7 @@
         const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
         if (!res.ok) throw new Error('Falló la subida a Cloudinary');
         const data = await res.json();
-        items.push({
-          url: data.secure_url,
-          type: data.resource_type === 'video' ? 'video' : 'image',
-          public_id: data.public_id
-        });
+        items.push({ url: data.secure_url, type: data.resource_type === 'video' ? 'video' : 'image', public_id: data.public_id });
       }
       return items;
     }
@@ -440,7 +526,8 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           media: mediaItems,
           likesCount: 0,
-          likedBy: []
+          likedBy: [],
+          donationEnabled: false // se activará cuando el autor supere el umbral global
         });
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
@@ -473,6 +560,7 @@
     const marquee = document.getElementById('marquee');
 
     let postsCache = [];
+    let userDonationEligible = false; // estado global del autor autenticado
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsContainer.innerHTML = '';
@@ -487,18 +575,21 @@
       });
 
       postsCache.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
-      renderHeadlines(postsCache.slice(0, 30));
+      renderHeadlines(postsCache.slice(0, 50));
       renderSidebar(postsCache);
+      computeDonationEligibility(); // recalcular por si cambió el feed
     });
 
     function renderHeadlines(list){
       marquee.innerHTML = '';
-      const seq = [...list, ...list];
+      const seq = [...list, ...list]; // loop continuo
       seq.forEach(p => {
         const d = p.data;
         const pill = document.createElement('span'); pill.className = 'headline';
         const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
         pill.innerHTML = `<span class="tag">${tags}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`;
+        pill.dataset.postId = p.id; // para abrir post
+        pill.addEventListener('click', ()=> openPostView(p.id));
         marquee.appendChild(pill);
       });
     }
@@ -509,15 +600,16 @@
       const authorMap = {};
       list.forEach(p => {
         const uid = p.data.author?.uid || 'anon';
-        authorMap[uid] = authorMap[uid] || { uid, name: p.data.author?.name || 'Usuario', avatar: p.data.author?.avatar || null, likes: 0 };
+        authorMap[uid] = authorMap[uid] || { uid, name: p.data.author?.name || 'Usuario', avatar: p.data.author?.avatar || null, likes: 0, posts: 0 };
         authorMap[uid].likes += (p.data.likesCount || 0);
+        authorMap[uid].posts += 1;
       });
       const sortedAuthors = Object.values(authorMap).sort((a,b)=>b.likes-a.likes).slice(0,6);
       topAuthors.innerHTML = '';
       sortedAuthors.forEach(a=>{
         const li = document.createElement('div'); li.className='list-item';
         const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name));
-        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="meta">${a.likes} likes acumulados</div>`;
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="meta">${a.posts} posts • ${a.likes} likes</div>`;
         li.appendChild(av); li.appendChild(txt); topAuthors.appendChild(li);
       });
 
@@ -543,12 +635,47 @@
         const txt = document.createElement('div'); txt.innerHTML = `<strong>#${escapeHtml(t)}</strong><div class="meta">${c} apariciones</div>`;
         li.appendChild(txt); topTags.appendChild(li);
       });
+
+      // Progreso de donación del usuario autenticado
+      const donationProgress = document.getElementById('donationProgress');
+      const u = auth.currentUser;
+      donationProgress.innerHTML = '';
+      if (!u) {
+        donationProgress.innerHTML = '<div class="meta">Inicia sesión para ver tu progreso.</div>';
+        return;
+      }
+      const mine = list.filter(p=>p.data.author?.uid===u.uid);
+      const totalLikes = mine.reduce((sum,p)=>sum+(p.data.likesCount||0),0);
+      const li = document.createElement('div'); li.className='list-item';
+      const txt = document.createElement('div'); txt.innerHTML = `<strong>${totalLikes} likes acumulados</strong><div class="meta">${mine.length} publicaciones • Meta: 10,000 likes</div>`;
+      li.appendChild(txt); donationProgress.appendChild(li);
     }
 
-    /* Render post card con likes, comentarios, editar/eliminar, lightbox */
+    /* Calcular elegibilidad y propagar a posts del autor */
+    async function computeDonationEligibility(){
+      const u = auth.currentUser;
+      if (!u) { userDonationEligible = false; return; }
+      const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
+      let totalLikes = 0;
+      mineSnap.forEach(doc => { const d=doc.data(); totalLikes += (d.likesCount||0); });
+      userDonationEligible = totalLikes >= 10000;
+
+      // Actualiza todos los posts del autor con el flag donationEnabled
+      const batch = firestore.batch();
+      mineSnap.forEach(doc => {
+        const ref = firestore.collection('posts').doc(doc.id);
+        batch.update(ref,{ donationEnabled: userDonationEligible });
+      });
+      await batch.commit();
+
+      // Actualiza UI del dashboard si está abierto
+      updateDashboardStats(mineSnap, totalLikes);
+    }
+
+    /* Render post card con likes, comentarios, editar/eliminar, donación, lightbox */
     function renderPostCard(id, p){
       const user = auth.currentUser;
-      const card = document.createElement('article'); card.className = 'post';
+      const card = document.createElement('article'); card.className = 'post'; card.id = `post-${id}`;
 
       // Header
       const head = document.createElement('div'); head.className = 'post-head';
@@ -584,7 +711,7 @@
         }
       });
 
-      // Actions: like, counts, autor
+      // Actions: like, counts, autor, donación
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
       const liked = user && (p.likedBy || []).includes(user?.uid);
@@ -594,24 +721,16 @@
       const counts = document.createElement('span'); counts.className = 'counts'; counts.id = `counts-${id}`;
       counts.textContent = ` ${p.likesCount || 0} likes`;
 
-      likeBtn.addEventListener('click', async () => {
-        const u = auth.currentUser;
-        if (!u) { alert('Inicia sesión para dar like.'); return; }
-        const postRef = firestore.collection('posts').doc(id);
-        await firestore.runTransaction(async (tx) => {
-          const snap = await tx.get(postRef);
-          if (!snap.exists) return;
-          const data = snap.data();
-          const likedBy = data.likedBy || [];
-          const hasLike = likedBy.includes(u.uid);
-          const newLikedBy = hasLike ? likedBy.filter(x => x !== u.uid) : [...likedBy, u.uid];
-          const delta = hasLike ? -1 : 1;
-          tx.update(postRef, { likedBy: newLikedBy, likesCount: (data.likesCount || 0) + delta });
-        });
-      });
-
       actions.appendChild(likeBtn);
       actions.appendChild(counts);
+
+      // Donación habilitada (mostrar al autor si flag activo)
+      const showDonation = (user && user.uid === p.author?.uid && (p.donationEnabled===true || userDonationEligible));
+      if (showDonation) {
+        const donation = document.createElement('span'); donation.className = 'donation-pill';
+        donation.textContent = 'Donación habilitada';
+        actions.appendChild(donation);
+      }
 
       // Autor: editar / eliminar
       if (user && user.uid === p.author?.uid) {
@@ -630,6 +749,25 @@
         authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
         actions.appendChild(authorActions);
       }
+
+      // Like toggle
+      likeBtn.addEventListener('click', async () => {
+        const u = auth.currentUser;
+        if (!u) { alert('Inicia sesión para dar like.'); return; }
+        const postRef = firestore.collection('posts').doc(id);
+        await firestore.runTransaction(async (tx) => {
+          const snap = await tx.get(postRef);
+          if (!snap.exists) return;
+          const data = snap.data();
+          const likedBy = data.likedBy || [];
+          const hasLike = likedBy.includes(u.uid);
+          const newLikedBy = hasLike ? likedBy.filter(x => x !== u.uid) : [...likedBy, u.uid];
+          const delta = hasLike ? -1 : 1;
+          tx.update(postRef, { likedBy: newLikedBy, likesCount: (data.likesCount || 0) + delta });
+        });
+        // recomputa elegibilidad del autor
+        computeDonationEligibility();
+      });
 
       // Comments
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
@@ -734,6 +872,99 @@
         editingPostId = null;
       } catch(e){ alert('Error guardando: ' + e.message); }
     });
+
+    /* Post view (abrir al clicar titular) */
+    const postViewModal = document.getElementById('postViewModal');
+    const pvTitle = document.getElementById('pvTitle');
+    const pvBody = document.getElementById('pvBody');
+    const closePostView = document.getElementById('closePostView');
+
+    function openPostView(postId){
+      const found = postsCache.find(p=>p.id===postId);
+      if(!found){ return; }
+      const d = found.data;
+      pvTitle.textContent = d.title || '(sin título)';
+      pvBody.innerHTML = '';
+      const meta = document.createElement('div');
+      meta.className='post-meta';
+      meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
+      const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
+      const gallery = document.createElement('div'); gallery.className='post-gallery';
+      (d.media||[]).forEach(m=>{
+        if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
+        else{ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
+      });
+      pvBody.appendChild(meta);
+      pvBody.appendChild(body);
+      if((d.media||[]).length) pvBody.appendChild(gallery);
+      postViewModal.style.display='flex';
+    }
+    closePostView.addEventListener('click',()=> postViewModal.style.display='none');
+    postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal) postViewModal.style.display='none'; });
+
+    /* Dashboard */
+    const dashboardModal = document.getElementById('dashboardModal');
+    const closeDashboard = document.getElementById('closeDashboard');
+    const refreshDashboard = document.getElementById('refreshDashboard');
+    const statPosts = document.getElementById('statPosts');
+    const statLikes = document.getElementById('statLikes');
+    const statComments = document.getElementById('statComments');
+    const dashPosts = document.getElementById('dashPosts');
+    const unlockCard = document.getElementById('unlockCard');
+
+    openDashboardBtn.addEventListener('click', async ()=>{
+      await loadDashboard();
+      dashboardModal.style.display='flex';
+    });
+    closeDashboard.addEventListener('click',()=> dashboardModal.style.display='none');
+    dashboardModal.addEventListener('click',(e)=>{ if(e.target===dashboardModal) dashboardModal.style.display='none'; });
+    refreshDashboard.addEventListener('click', loadDashboard);
+
+    async function loadDashboard(){
+      const u = auth.currentUser;
+      if(!u){ alert('Inicia sesión para ver el dashboard.'); return; }
+      const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
+      updateDashboardStats(mineSnap);
+    }
+
+    function updateDashboardStats(mineSnap, likesOverride){
+      const u = auth.currentUser; if(!u) return;
+      let totalPosts = 0, totalLikes = 0, totalComments = 0;
+      const items = [];
+      mineSnap.forEach(doc=>{
+        const d = doc.data(); totalPosts++;
+        totalLikes += (d.likesCount||0);
+        items.push({id:doc.id,data:d});
+      });
+      if (typeof likesOverride === 'number') totalLikes = likesOverride;
+
+      // contar comentarios de forma simple (no carga subcolecciones aquí por performance)
+      statPosts.textContent = totalPosts;
+      statLikes.textContent = totalLikes;
+      statComments.textContent = '—'; // opcional: consultar recuento si lo guardas en el doc
+
+      // desbloqueo visual
+      const eligible = totalLikes >= 10000;
+      unlockCard.classList.toggle('ok', eligible);
+      unlockCard.querySelector('.title').textContent = eligible ? 'Donación habilitada' : 'Donación bloqueada';
+      unlockCard.querySelector('.desc').textContent = eligible
+        ? 'Has superado los 10,000 likes acumulados. La opción de donación aparece automáticamente en tus posts (nuevos y viejos).'
+        : 'Acumula 10,000 likes totales para habilitar la opción de donación automática en tus publicaciones.';
+
+      // lista de posts del autor
+      dashPosts.innerHTML = '';
+      items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
+      items.forEach(p=>{
+        const li = document.createElement('div'); li.className='list-item';
+        const av = document.createElement('img'); av.className='avatar';
+        av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Tú'));
+        const txt = document.createElement('div');
+        txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong>
+                         <div class="meta">${p.data.likesCount||0} likes • Donación: ${p.data.donationEnabled ? 'ON' : 'OFF'}</div>`;
+        li.appendChild(av); li.appendChild(txt);
+        dashPosts.appendChild(li);
+      });
+    }
 
     /* Lightbox */
     const lightbox = document.getElementById('lightbox');
