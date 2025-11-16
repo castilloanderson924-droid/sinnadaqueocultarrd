@@ -229,36 +229,7 @@
     .list-left strong{display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     @media(max-width:980px){.list-left strong{max-width:180px}}
     .list-left .avatar{flex-shrink:0}
-  
-/* --- Mobile fixes & bottom navbar injected by assistant --- */
-html, body { overflow-x: hidden; } /* prevent horizontal scroll */
-@media (max-width: 640px) {
-  /* hide top nav controls on very small screens to avoid bleeding */
-  .nav { display: none; }
-  /* ensure dropdowns and notif panels open above everything */
-  .dropdown-menu, .notif-panel, .backdrop, .lightbox { position: fixed !important; left: 8px !important; right: 8px !important; top: 68px !important; z-index: 2200 !important; max-width: calc(100vw - 16px); }
-  .notif-panel { max-height: calc(100vh - 160px); overflow:auto; }
-  .dropdown-menu { top: 68px !important; }
-  /* reserve space so content isn't hidden by bottom navbar */
-  body { padding-bottom: 92px; }
-  /* make modals full screen and above navbar */
-  .modal { width: 100vw !important; height: calc(100vh - 84px) !important; max-height: none !important; border-radius: 0 !important; }
-  .backdrop { align-items: flex-end !important; padding-bottom: env(safe-area-inset-bottom); }
-}
-
-/* bottom navbar (mobile) */
-.mobile-bottom { display: none; }
-@media (max-width: 640px) {
-  .mobile-bottom { display:block; position: fixed; left:0; right:0; bottom:0; z-index:2300; }
-  .mobile-bottom .navbar { display:flex; gap:6px; align-items:center; justify-content:space-around; padding:10px 6px; background:var(--panel); border-top:1px solid var(--border); backdrop-filter: blur(6px); height:72px; }
-  .mobile-bottom .nav-item { text-decoration:none; color:var(--text); font-size:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:64px; }
-  .mobile-bottom .nav-item .icon { font-size:20px; line-height:20px; }
-  .mobile-bottom .nav-item .label { font-size:11px; margin-top:6px; color:var(--muted); }
-}
-/* ensure any element that previously overflowed respects container */
-body * { max-width: 100vw; box-sizing: border-box; }
-
-</style>
+  </style>
 </head>
 <body>
   <header class="header">
@@ -482,33 +453,6 @@ body * { max-width: 100vw; box-sizing: border-box; }
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
     <div class="lightbox-content"></div>
-  </div>
-
-  
-  <!-- Mobile bottom navbar injected by assistant -->
-  <div class="mobile-bottom" aria-hidden="false">
-    <nav class="navbar" role="navigation" aria-label="Navegación inferior">
-      <a class="nav-item" href="#" id="mbNavHome" title="Inicio">
-        <div class="icon">🏠</div>
-        <div class="label">Inicio</div>
-      </a>
-      <a class="nav-item" href="#" id="mbNavMenu" title="Menú">
-        <div class="icon">☰</div>
-        <div class="label">Menú</div>
-      </a>
-      <a class="nav-item" href="#" id="mbNavCreate" title="Crear">
-        <div class="icon">➕</div>
-        <div class="label">Crear</div>
-      </a>
-      <a class="nav-item" href="#" id="mbNavNotif" title="Notificaciones">
-        <div class="icon">🔔</div>
-        <div class="label">Notif.</div>
-      </a>
-      <a class="nav-item" href="#" id="mbNavDash" title="Dashboard">
-        <div class="icon">📊</div>
-        <div class="label">Dash</div>
-      </a>
-    </nav>
   </div>
 
   <footer class="footer">
@@ -1493,67 +1437,5 @@ body * { max-width: 100vw; box-sizing: border-box; }
     /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
   </script>
-<script>
-/* --- Mobile navbar behavior + safety fixes injected by assistant --- */
-(function(){
-  try{
-    const mbCreate = document.getElementById('mbNavCreate');
-    const mbMenu = document.getElementById('mbNavMenu');
-    const mbNotif = document.getElementById('mbNavNotif');
-    const mbDash = document.getElementById('mbNavDash');
-    const mbHome = document.getElementById('mbNavHome');
-    const composerModal = document.getElementById('composerModal');
-    const openComposerBtn = document.getElementById('openComposer');
-    const notifPanel = document.getElementById('notifPanel');
-    const mainDropdown = document.getElementById('mainDropdown');
-    const ddMenu = mainDropdown ? mainDropdown.querySelector('.dropdown-menu') : null;
-    const dashboardModal = document.getElementById('dashboardModal');
-
-    function show(el){ if(!el) return; el.style.display = (el.classList.contains('backdrop') ? 'flex' : 'block'); el.setAttribute('aria-hidden','false'); }
-    function hide(el){ if(!el) return; el.style.display = 'none'; el.setAttribute('aria-hidden','true'); }
-
-    if (mbCreate){
-      mbCreate.addEventListener('click', function(e){ e.preventDefault(); if (openComposerBtn) openComposerBtn.click(); else if (composerModal) show(composerModal); window.scrollTo(0,0); });
-    }
-    if (mbMenu){
-      mbMenu.addEventListener('click', function(e){ e.preventDefault(); if (ddMenu){ /* position fixed for mobile */ ddMenu.style.position='fixed'; ddMenu.style.top='68px'; ddMenu.style.left='8px'; ddMenu.style.right='8px'; ddMenu.style.zIndex=2300; ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; } });
-    }
-    if (mbNotif){
-      mbNotif.addEventListener('click', function(e){ e.preventDefault(); if (notifPanel){ notifPanel.style.position='fixed'; notifPanel.style.top='68px'; notifPanel.style.left='8px'; notifPanel.style.right='8px'; notifPanel.style.zIndex=2300; notifPanel.style.display = notifPanel.style.display==='block' ? 'none' : 'block'; } });
-    }
-    if (mbDash){
-      mbDash.addEventListener('click', function(e){ e.preventDefault(); if (dashboardModal){ show(dashboardModal); document.documentElement.style.overflow='hidden'; document.body.style.overflow='hidden'; } });
-    }
-    if (mbHome){
-      mbHome.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); });
-    }
-    // Close panels when clicking outside on mobile
-    document.addEventListener('click', function(e){
-      if (window.innerWidth <= 640){
-        if (ddMenu && !ddMenu.contains(e.target) && !mainDropdown.contains(e.target)) ddMenu.style.display='none';
-        if (notifPanel && !notifPanel.contains(e.target) && !document.getElementById('notif').contains(e.target)) notifPanel.style.display='none';
-      }
-    }, true);
-    // Ensure modals close restore scroll
-    const closeXs = document.querySelectorAll('.close-x');
-    closeXs.forEach(btn => btn.addEventListener('click', ()=>{ document.documentElement.style.overflow=''; document.body.style.overflow=''; }));
-
-    // Resize handler - enforce no horizontal overflow and reset panel positions
-    window.addEventListener('resize', function(){
-      if (window.innerWidth > 640){
-        document.body.style.paddingBottom = '';
-        if (ddMenu) ddMenu.style.position='absolute';
-        if (notifPanel) notifPanel.style.position='absolute';
-      } else {
-        document.body.style.paddingBottom = '92px';
-      }
-    });
-    // initial set
-    if (window.innerWidth <= 640) document.body.style.paddingBottom = '92px';
-  }catch(e){
-    console.error('Mobile navbar patch error', e);
-  }
-})();
-</script>
 </body>
 </html>
