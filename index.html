@@ -85,7 +85,7 @@
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Post (feed original) */
+    /* Post */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
     .post-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0;color:var(--text)}
@@ -95,18 +95,10 @@
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);color:var(--text)}
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
-    .link-card{display:flex;gap:10px;align-items:center;border:1px solid var(--border);background:var(--panel-2);border-radius:12px;padding:10px;margin:10px 0}
-    .link-thumb{width:64px;height:64px;border-radius:8px;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .link-thumb img{width:100%;height:100%;object-fit:cover}
-    .link-meta{flex:1}
-    .link-title{font-weight:800}
-    .link-host{font-size:12px;color:var(--muted)}
-
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
     @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
     .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
-    .post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
     .post-gallery iframe{width:100%;height:180px;border-radius:10px;border:1px solid var(--border);background:#000}
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
@@ -188,12 +180,23 @@
     .editor a{color:var(--accent)}
     .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
-    .media-thumb img,.media-thumb video{width:100%;height:100%;object-fit:cover}
+    .media-thumb img{width:100%;height:100%;object-fit:cover}
 
-    /* Publish progress */
-    .progress-btn{position:relative;overflow:hidden}
-    .progress-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0%}
-    .progress-label{position:absolute;right:10px;bottom:6px;font-size:11px;color:#fff;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px;display:none}
+    /* Publish progress — elegante reemplazando el botón */
+    .progress-pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:8px; min-width:180px; height:42px; border-radius:999px;
+      background:linear-gradient(135deg, var(--accent), #7aa7ff);
+      color:#fff; font-weight:900; letter-spacing:.3px; border:none;
+      box-shadow:0 8px 20px rgba(59,130,246,.35);
+    }
+    .progress-pill .pct{font-variant-numeric:tabular-nums}
+    .progress-pill .bar{
+      position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden;
+    }
+    .progress-pill .bar > span{
+      position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px;
+    }
 
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
@@ -206,7 +209,7 @@
     .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     .footer a{color:var(--muted)}
 
-    /* Dashboard avanzado y organizado */
+    /* Dashboard */
     .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
     @media(max-width:980px){.dash-grid{grid-template-columns:1fr}}
     .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -223,8 +226,6 @@
     .pill{background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted);white-space:nowrap}
     .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}
     @media(max-width:980px){.two-col{grid-template-columns:1fr}}
-
-    /* Anti overflow en nombres/botones de dashboard */
     .list-left strong{display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     @media(max-width:980px){.list-left strong{max-width:180px}}
     .list-left .avatar{flex-shrink:0}
@@ -349,11 +350,11 @@
           <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
           <textarea id="descInput" placeholder="Descripción breve" rows="3" maxlength="280"></textarea>
           <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
-          <input id="youtubeInput" type="url" placeholder="URL de YouTube (opcional)">
+          <input id="youtubeInput" type="url" placeholder="URL de YouTube (videos, shorts y en vivo)">
           <select id="contentType">
             <option value="texto">Texto</option>
             <option value="imagen">Imágenes</option>
-            <option value="video">Videos</option>
+            <option value="video">Video de YouTube</option>
           </select>
         </div>
         <div class="toolbar">
@@ -371,17 +372,13 @@
           <p>Pega aquí tu contenido.</p>
         </div>
         <div class="media-row">
-          <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          <span class="panel-sub">Sin límite de tamaño (sube cualquier video).</span>
+          <input id="mediaInput" type="file" accept="image/*" multiple>
+          <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube (admite en vivo y shorts).</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
       <div class="modal-actions">
-        <button id="publishBtn" class="btn btn-accent progress-btn">
-          Publicar
-          <span class="progress-bar" id="publishProgress"></span>
-          <span class="progress-label" id="publishLabel">0%</span>
-        </button>
+        <button id="publishBtn" class="btn btn-accent">Publicar</button>
         <button id="resetBtn" class="btn">Reset</button>
       </div>
     </div>
@@ -532,7 +529,7 @@
     function pushNotification(text){
       const id = Date.now()+Math.random();
       notifications.unshift({id, msg:text, ts:Date.now()});
-      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display='inline-block';
+      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display = 'inline-block';
       renderNotifications();
     }
     notifClearAll.addEventListener('click', ()=>{
@@ -597,21 +594,24 @@
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    /* YouTube helper */
+    /* YouTube helper (videos, shorts y en vivo) */
     const youtubeInput = document.getElementById('youtubeInput');
     function extractYouTubeId(url){
       if (!url) return null;
       try{
         const u = new URL(url);
-        if (u.hostname.includes('youtube.com')) return u.searchParams.get('v');
-        if (u.hostname.includes('youtu.be')) return u.pathname.replace('/','');
-        const m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/);
-        if (m) return m[1];
+        if (u.hostname.includes('youtube.com')) {
+          if (u.pathname.startsWith('/live/')) return u.pathname.split('/live/')[1]; // en vivo
+          return u.searchParams.get('v'); // videos normales
+        }
+        if (u.hostname.includes('youtu.be')) return u.pathname.replace('/',''); // short y enlaces cortos
+        const shorts = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/);
+        if (shorts) return shorts[1];
       }catch{}
       return null;
     }
 
-    /* Media preview */
+    /* Media preview — solo imágenes */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -620,37 +620,54 @@
       mediaPreview.innerHTML = '';
       selectedFiles.forEach(file => {
         const div = document.createElement('div'); div.className = 'media-thumb';
-        if (file.type.startsWith('image/')) {
-          const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
-        } else if (file.type.startsWith('video/')) {
-          const vid = document.createElement('video'); vid.src = URL.createObjectURL(file); vid.muted = true; vid.loop = true; vid.autoplay = true; div.appendChild(vid);
-        }
+        const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
         mediaPreview.appendChild(div);
       });
     });
 
-    /* Publish progress */
+    /* Publish progress — elegante reemplazando el botón */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
     const contentType = document.getElementById('contentType');
     const publishBtn = document.getElementById('publishBtn');
-    const publishProgress = document.getElementById('publishProgress');
-    const publishLabel = document.getElementById('publishLabel');
     const resetBtn = document.getElementById('resetBtn');
 
-    function setProgress(pct){
-      const v = Math.max(0, Math.min(100, pct));
-      publishProgress.style.width = v + '%';
-      publishLabel.textContent = v + '%';
-    }
-    function showProgressUI(show){
-      publishLabel.style.display = show ? 'inline-block' : 'none';
-      if (!show) publishProgress.style.width = '0%';
-    }
-    showProgressUI(false);
+    let progressPillEl = null;
+    let progressBarEl = null;
+    let progressPctEl = null;
 
-    publishBtn.addEventListener('click', async () => {
+    function mountProgressPill(){
+      if (progressPillEl) return;
+      progressPillEl = document.createElement('div');
+      progressPillEl.className = 'progress-pill';
+      progressPctEl = document.createElement('span');
+      progressPctEl.className = 'pct';
+      progressPctEl.textContent = '0%';
+      const bar = document.createElement('div'); bar.className = 'bar';
+      progressBarEl = document.createElement('span');
+      bar.appendChild(progressBarEl);
+      progressPillEl.appendChild(progressPctEl);
+      progressPillEl.appendChild(bar);
+      publishBtn.replaceWith(progressPillEl);
+    }
+    function unmountProgressPill(){
+      if (!progressPillEl) return;
+      const newBtn = document.createElement('button');
+      newBtn.id = 'publishBtn';
+      newBtn.className = 'btn btn-accent';
+      newBtn.textContent = 'Publicar';
+      progressPillEl.replaceWith(newBtn);
+      progressPillEl = null; progressBarEl = null; progressPctEl = null;
+      document.getElementById('publishBtn').addEventListener('click', onPublishClick);
+    }
+    function setProgressElegant(pct){
+      const v = Math.max(0, Math.min(100, pct));
+      if (progressPctEl) progressPctEl.textContent = v + '%';
+      if (progressBarEl) progressBarEl.style.width = v + '%';
+    }
+
+    async function onPublishClick(){
       const user = auth.currentUser;
       if (!user) { alert('Inicia sesión para publicar.'); return; }
       const title = titleInput.value.trim();
@@ -660,16 +677,14 @@
       const type = contentType.value;
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
-      publishBtn.disabled = true;
-      showProgressUI(true);
-      setProgress(5);
+      mountProgressPill();
+      setProgressElegant(5);
 
       try {
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
-        if (ytId) {
-          mediaItems.push({ type:'youtube', videoId: ytId });
-        }
+        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
+
         if (selectedFiles.length){
           const total = selectedFiles.length;
           let done = 0;
@@ -677,15 +692,15 @@
             const reader = new FileReader();
             reader.onload = () => {
               done++;
-              setProgress(5 + Math.round(60*(done/total)));
-              res({ url: reader.result, type: f.type.startsWith('video/') ? 'video' : 'image' });
+              setProgressElegant(5 + Math.round(60*(done/total)));
+              res({ url: reader.result, type: 'image' });
             };
             reader.readAsDataURL(f);
           })));
           mediaItems = mediaItems.concat(items);
         }
 
-        setProgress(80);
+        setProgressElegant(85);
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
           media: mediaItems,
@@ -694,31 +709,35 @@
           likesCount: 0, likedBy: [],
           donationEnabled: false
         });
-        setProgress(100);
+        setProgressElegant(100);
 
+        // reset
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         youtubeInput.value = '';
         editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-        setTimeout(()=>{ publishBtn.disabled=false; setProgress(0); showProgressUI(false); }, 800);
+
+        // cerrar modal al publicar
+        setTimeout(()=>{ hideComposer(); }, 300);
+        // restaurar botón
+        setTimeout(()=>{ unmountProgressPill(); }, 600);
 
         pushNotification(`Publicaste "${title}"`);
       } catch (e) {
         alert('Error publicando: ' + e.message);
-        publishBtn.disabled=false; setProgress(0); showProgressUI(false);
+        unmountProgressPill();
       }
-    });
+    }
+    publishBtn.addEventListener('click', onPublishClick);
 
     resetBtn.addEventListener('click', () => {
       titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       youtubeInput.value = '';
       editor.innerHTML = '';
       mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-      setProgress(0); showProgressUI(false);
-      publishBtn.disabled = false;
     });
 
-    /* Feed + titulares + right col stats */
+    /* Feed + titulares + stats */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
     const marquee = document.getElementById('marquee');
@@ -934,10 +953,6 @@
           const img = document.createElement('img'); img.src = m.url; img.alt = p.title || '';
           img.addEventListener('click', () => openLightbox('image', m.url));
           gallery.appendChild(img);
-        } else if (m.type === 'video') {
-          const vid = document.createElement('video'); vid.src = m.url; vid.controls = true;
-          vid.addEventListener('click', () => openLightbox('video', m.url));
-          gallery.appendChild(vid);
         } else if (m.type === 'youtube' && m.videoId) {
           const ifr = document.createElement('iframe');
           ifr.src = `https://www.youtube.com/embed/${m.videoId}`;
@@ -1222,7 +1237,7 @@
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
       editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0 0 1 .92.62l.62 1.38H21a1 1 0 1 1 0 2h-1v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7H3a1 1 0 1 1 0-2h4.46l.62-1.38A1 1 0 0 1 9 3zm8 4H7v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7zM9 9a1 1 0 0 1 1 1v7a1 1 0 1 1-2 0v-7a1 1 0 0 1 1-1zm6 0a1 1 0 0 1 1 1v7a1 1 0 1 1-2 0v-7a1 1 0 0 1 1-1z"/></svg>`;
+      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0 0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0 1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0 0 1 1h8a1 1 0  0 0 1-1V7zM9 9a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0 1 1-1zm6 0a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0 1 1-1z"/></svg>`;
 
       if (isAuthor) { right.appendChild(editBtn); right.appendChild(trashBtn); }
       meta.appendChild(left); meta.appendChild(right);
@@ -1296,7 +1311,6 @@
       const gallery = document.createElement('div'); gallery.className='post-gallery';
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
-        else if(m.type==='video'){ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
         else if(m.type==='youtube' && m.videoId){ const iframe=document.createElement('iframe'); iframe.src=`https://www.youtube.com/embed/${m.videoId}`; iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"; iframe.allowFullscreen=true; gallery.appendChild(iframe); }
       });
       pvBody.appendChild(meta); pvBody.appendChild(body);
@@ -1341,7 +1355,6 @@
       const userDoc = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
       const following = Array.from(new Set(userDoc.following || []));
       const followers = Array.from(new Set(userDoc.followers || []));
-
       document.getElementById('countFollowing').textContent = following.length;
       document.getElementById('countFollowers').textContent = followers.length;
 
