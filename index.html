@@ -1,714 +1,467 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>SIN NADA QUE OCULTAR RD — Información libre y sin sensura</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Tipografías -->
+  <title>SIN NADA QUE OCULTAR — Información libre y sin censura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <!-- Firebase (compat para simplicidad) -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f5f8fc; --surface:#ffffff; --text:#0a1f36; --muted:#64748b;
-      --brand:#1d6df2; --brand-2:#5aa4ff; --border:#d8e6f7;
-      --chip:#eaf3ff; --shadow:0 12px 30px rgba(29,109,242,.12);
-      --like:#ef4444; --comment:#1f7ae0;
+      --bg:#0f1115; --panel:#151922; --panel-2:#1b2130; --border:#262d3f; --text:#e8ecf1; --muted:#a9b4c7;
+      --accent:#29b6f6; --accent-2:#ff3d71; --success:#22c55e;
     }
     *{box-sizing:border-box}
-    body{margin:0; background:var(--bg); color:var(--text); font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
-    a{text-decoration:none; color:inherit}
-    img{max-width:100%; display:block}
+    html,body{background:var(--bg);color:var(--text);margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;display:block}
 
-    header{
-      position:sticky; top:0; z-index:90;
-      background:linear-gradient(180deg, rgba(245,249,255,.98), rgba(245,249,255,.92));
-      backdrop-filter: blur(8px);
-      border-bottom:1px solid var(--border);
-    }
-    .topbar{
-      max-width:1240px; margin:0 auto; padding:.75rem 1rem;
-      display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:1rem;
-    }
-    .brand{display:flex; align-items:center; gap:.7rem}
-    .logo-img{
-      width:42px; height:42px; border-radius:10px; border:1px solid var(--border);
-      background:#fff; overflow:hidden; box-shadow:var(--shadow);
-    }
-    .brand-block{display:flex; flex-direction:column; line-height:1.1;}
-    .site-title{font-family:"Playfair Display",serif; font-size:1.3rem; margin:0;}
-    .site-slogan{font-size:.85rem; color:#174b8a; font-weight:700; letter-spacing:.02em}
-    .btn{
-      padding:.5rem .85rem; border-radius:10px; border:1px solid var(--border);
-      background:#fff; color:#0a1f36; font-weight:600; cursor:pointer; transition:.2s ease;
-      box-shadow:var(--shadow);
-    }
-    .btn.primary{background:var(--brand); border-color:var(--brand); color:#fff}
-    .btn:hover{transform:translateY(-1px)}
-    .avatar{width:34px; height:34px; border-radius:50%; overflow:hidden; border:1px solid var(--border); background:#eef6ff}
+    /* Header */
+    .header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(21,25,34,0.95), rgba(21,25,34,0.85));backdrop-filter: blur(8px);border-bottom:1px solid var(--border)}
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px 16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:40px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#0b0d12}
+    .brand h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;letter-spacing:0.2px}
+    .slogan{color:var(--muted);font-size:12px;margin-top:2px}
+    .spacer{flex:1}
+    .btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease}
+    .btn:hover{border-color:#334155;background:var(--panel-2)}
+    .btn-accent{background:var(--accent);color:#061218;border-color:transparent}
+    .btn-accent:hover{filter:brightness(1.05)}
+    .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    .ticker-wrap{display:grid; grid-template-columns:auto 1fr auto; gap:.6rem; align-items:center; border-left:1px solid var(--border); padding-left:.75rem;}
-    .ticker-label{font-weight:700; color:var(--brand);}
-    .ticker{position:relative; overflow:hidden; height:32px;}
-    .ticker-track{display:flex; gap:1rem; align-items:center; position:absolute; left:0; top:0; will-change: transform;}
-    .ticker-item{display:flex; align-items:center; gap:.4rem; background:var(--chip); border:1px solid var(--border); color:#174b8a; padding:.25rem .6rem; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow); cursor:pointer;}
-    .ticker-item .tag{color:#174b8a; font-weight:700}
+    /* Ticket News */
+    .ticket{max-width:1100px;margin:16px auto;padding:0 16px}
+    .ticket-card{position:relative;overflow:hidden;border:1px dashed #334155;border-radius:16px;background:linear-gradient(120deg,#121622,#121622 45%,#182133 100%);display:grid;grid-template-columns:1fr 280px}
+    .ticket-left{padding:18px 18px 18px 20px}
+    .ticket-right{background:radial-gradient(1200px 200px at 20% 100%,rgba(41,182,246,0.3),transparent 50%),radial-gradient(1200px 200px at 100% 0%,rgba(255,61,113,0.25),transparent 55%);border-left:1px dashed #334155;display:flex;align-items:center;justify-content:center;padding:16px}
+    .ticket-title{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .ticket-title h2{margin:0;font-size:20px}
+    .ticket-tag{font-size:12px;color:#061218;background:var(--accent);padding:6px 10px;border-radius:999px;font-weight:700}
+    .ticket-desc{color:var(--muted);font-size:14px;margin:6px 0 10px}
+    .ticket-cta{display:flex;gap:10px}
+    .ticket-logo{width:180px;height:180px;border-radius:16px;border:1px solid var(--border);background:#0b0d12;padding:12px}
 
-    main{max-width:1240px; margin:1rem auto; padding:0 1rem; display:grid; grid-template-columns:1.8fr 1fr; gap:1.2rem;}
-    @media(max-width:980px){main{grid-template-columns:1fr} .ticker-wrap{display:none}}
+    /* Layout & feed */
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
+    .panel h3{margin:0 0 12px;font-size:16px}
+    .panel-sub{color:var(--muted);font-size:13px;margin-top:-6px;margin-bottom:10px}
 
-    .forum{display:grid; gap:1rem}
-    .thread{
-      display:grid; grid-template-columns:56px 1fr auto; gap:1rem; align-items:start;
-      background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); padding:.95rem 1rem;
-      transition:.2s ease;
-    }
-    .thread:hover{transform:translateY(-2px)}
-    .thread .avatar{width:56px; height:56px; border-radius:12px; background:#eef6ff; border-color:#e3eeff}
-    .title-row{display:flex; align-items:center; gap:.5rem}
-    .thread .title{font-weight:800; font-size:1.08rem}
-    .badge{background:linear-gradient(135deg, var(--chip), #fff); color:#174b8a; border:1px solid var(--border); font-weight:700; font-size:.75rem; padding:.18rem .55rem; border-radius:999px;}
-    .thread .meta{display:flex; flex-wrap:wrap; gap:.6rem; color:#64748b; font-size:.9rem; margin:.2rem 0}
-    .thread .excerpt{color:#1e3a5f; font-size:.95rem; line-height:1.5; margin:.25rem 0}
-    .thumb{width:140px; height:90px; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#f1f6ff; box-shadow:0 6px 14px rgba(0,0,0,.06);}
-    .thumb img{width:100%; height:100%; object-fit:cover}
-    .stats{display:grid; gap:.4rem; justify-items:end; color:#153a5f; font-weight:700; font-size:.9rem;}
-    .stat{display:flex; align-items:center; gap:.4rem; padding:.3rem .6rem; border-radius:999px; border:1px solid var(--border); background:#fff;}
-    .stat.like{color:#b42323}
-    .stat.comment{color:#1f7ae0}
-    .stat.updated{color:#0a1f36}
+    .post{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
+    .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .post-title{font-size:18px;margin:0}
+    .post-meta{font-size:12px;color:var(--muted)}
+    .post-desc{color:var(--muted);font-size:14px;margin:8px 0}
+    .post-content{margin-top:8px}
+    .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    @media (max-width:620px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
+    .post-gallery img,.post-gallery video{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--border)}
+    .empty{color:var(--muted);text-align:center;padding:30px}
 
-    .sidebar .module{background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); margin-bottom:1rem;}
-    .module header{padding:.8rem 1rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center}
-    .module header h3{margin:0; font-size:1rem;}
-    .module .body{padding:.85rem 1rem; display:grid; gap:.6rem}
-    .search-input{width:100%; padding:.6rem .8rem; border-radius:10px; border:1px solid var(--border)}
-    .module .item{display:grid; gap:.2rem}
-    .module .item .title{font-weight:700}
-    .module .item .meta{font-size:.88rem; color:#64748b}
+    /* Right column cards */
+    .right-section .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px}
+    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#061218;background:#93c5fd;border-radius:999px;padding:6px 10px;font-weight:700}
 
-    .detail{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:95; align-items:center; justify-content:center}
-    .modal{width:min(1020px,95vw); max-height:90vh; overflow:auto; background:var(--surface); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow)}
-    .modal header{position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border); padding:.95rem 1.1rem; display:flex; justify-content:space-between; align-items:center}
-    .modal .body{padding:1.1rem; display:grid; gap:.9rem}
-    .modal .cover img{max-width:100%; margin:0 auto; display:block; border-radius:14px}
-    .post-html{line-height:1.75; color:#153a5f}
-    .post-html img{max-width:100%; margin:1rem auto; display:block; border-radius:14px}
+    /* Modal composer */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:60}
+    .modal{width:clamp(320px, 80vw, 860px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
+    .modal-title{font-weight:700}
+    .modal-body{padding:16px}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)}
+    .close-x{background:transparent;border:0;color:var(--muted);font-weight:700;font-size:18px;cursor:pointer}
 
-    .composer{position:fixed; inset:0; display:none; background:rgba(0,0,0,.45); backdrop-filter:blur(8px); z-index:98; align-items:center; justify-content:center}
-    .composer .modal{width:min(960px,95vw); max-height:92vh; overflow:auto}
-    .editor{display:grid; gap:.7rem; padding:1rem}
-    .toolbar{display:flex; flex-wrap:wrap; gap:.45rem}
-    .tool{padding:.38rem .6rem; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700; color:#164b8a; font-size:.85rem}
-    .editor input[type="text"], .editor textarea{width:100%; padding:.6rem .75rem; border-radius:10px; border:1px solid var(--border)}
-    .rte{min-height:160px; padding:.6rem .75rem; border-radius:10px; border:1px solid var(--border); background:#fff}
-    .preview{display:flex; gap:.6rem; flex-wrap:wrap}
-    .preview .ph{width:120px; height:80px; border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#eef6ff}
-    .preview .ph img, .preview .ph video{width:100%; height:100%; object-fit:cover}
+    .inputs{display:grid;gap:10px;margin-bottom:10px}
+    .inputs input,.inputs textarea{width:100%;background:#0c1018;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
+    .inputs input::placeholder,.inputs textarea::placeholder{color:#6b7280}
 
-    .composer-actions{display:flex; justify-content:flex-end; gap:.6rem; padding:0 1rem 1rem}
-    .skeleton{position:relative; overflow:hidden; background:#eef6ff; border:1px solid var(--border); border-radius:12px}
-    .skeleton::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shimmer 1.8s infinite;}
-    @keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
+    .tool{background:#0c1018;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:600}
+    .editor{background:#0c1018;border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
+
+    .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+    .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
+    .media-thumb video{width:100%;height:100%;object-fit:cover}
+
+    /* Footer */
+    .footer{max-width:1100px;margin:20px auto;border-top:1px solid var(--border);padding:20px 16px;color:var(--muted);font-size:12px}
   </style>
 </head>
 <body>
-  <header>
-    <div class="topbar">
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav">
       <div class="brand">
-        <div class="logo-img">
-          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png" alt="Logo" style="width:100%;height:100%;object-fit:cover">
+        <div class="brand-logo">
+          <img alt="Logo SNQO" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
         </div>
-        <div class="brand-block">
-          <h1 class="site-title">SIN NADA QUE OCULTAR RD</h1>
-          <div class="site-slogan">INFORMACIÓN LIBRE Y SIN SENSURA</div>
-        </div>
-      </div>
-
-      <div class="ticker-wrap">
-        <span class="ticker-label">Última hora</span>
-        <div id="ticker" class="ticker" title="Pasa el mouse para pausar"></div>
-        <div class="ticker-controls" style="display:flex; gap:.35rem">
-          <button id="prevTicker" class="btn" aria-label="Anterior">◀</button>
-          <button id="nextTicker" class="btn" aria-label="Siguiente">▶</button>
+        <div>
+          <h1>SIN NADA QUE OCULTAR</h1>
+          <div class="slogan">INFORMACIÓN LIBRE Y SIN SENSURA</div>
         </div>
       </div>
-
-      <div class="user" style="display:flex; align-items:center; gap:.6rem">
-        <div id="avatar" class="avatar"></div>
-        <button id="loginBtn" class="btn primary">Iniciar sesión con Google</button>
-        <button id="publishBtn" class="btn">Crear hilo</button>
+      <div class="spacer"></div>
+      <button id="googleBtn" class="btn"><span>Iniciar sesión con Google</span></button>
+      <div id="userChip" style="display:none;align-items:center;gap:8px">
+        <img id="userAvatar" class="avatar" alt="avatar">
+        <span id="userName" style="font-weight:700"></span>
+        <button id="logoutBtn" class="btn">Salir</button>
       </div>
-    </div>
+    </nav>
   </header>
 
-  <main>
-    <section id="forum" class="forum">
-      <article class="thread">
-        <div class="avatar skeleton"></div>
-        <div>
-          <div class="title-row">
-            <div class="title">Cargando hilos…</div>
-            <span class="badge">#Noticias</span>
-          </div>
-          <div class="meta">—</div>
-          <div class="excerpt">—</div>
+  <!-- Ticket News -->
+  <section class="ticket">
+    <div class="ticket-card">
+      <div class="ticket-left">
+        <div class="ticket-title">
+          <span class="ticket-tag">Ticket News</span>
+          <h2>Lo último, sin filtros</h2>
         </div>
-        <div class="stats">
-          <div class="stat like"><span>❤</span><span>0</span></div>
-          <div class="stat comment"><span>💬</span><span>0</span></div>
-          <div class="stat updated"><span>⏱</span><span>—</span></div>
+        <p class="ticket-desc">Tu voz importa. Publica reportes, análisis y debates con multimedia y formato avanzado. La comunidad decide qué se vuelve noticia.</p>
+        <div class="ticket-cta">
+          <button id="openComposer" class="btn-accent btn">Crear publicación</button>
+          <a href="#feed" class="btn">Explorar el feed</a>
         </div>
-      </article>
-    </section>
-
-    <aside class="sidebar">
-      <div class="module">
-        <header><h3>Buscar</h3><span class="meta">Títulos y descripción</span></header>
-        <div class="body"><input id="searchInput" class="search-input" type="text" placeholder="Escribe para buscar…"></div>
       </div>
-
-      <div class="module">
-        <header><h3>Tendencias</h3><span class="meta">Última actualización</span></header>
-        <div id="modTrends" class="body">
-          <div class="item"><div class="title">Cargando…</div></div>
+      <div class="ticket-right">
+        <div class="ticket-logo">
+          <img alt="Logo grande" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Layout -->
+  <main class="container grid">
+    <!-- Right column -->
+    <aside class="right-section">
+      <div class="card">
+        <span class="badge">Estado</span>
+        <p id="authState" class="panel-sub">No has iniciado sesión.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Consejo</span>
+        <p class="panel-sub">Cuida el título y la primera imagen: serán tu miniatura única en el feed.</p>
       </div>
     </aside>
+
+    <!-- Feed -->
+    <section id="feed" class="panel" style="grid-column:1 / -1">
+      <h3>Feed</h3>
+      <div id="posts"></div>
+      <div id="emptyFeed" class="empty">Aún no hay publicaciones. Sé el primero en crear una.</div>
+    </section>
   </main>
 
-  <!-- Modal lectura -->
-  <div id="detail" class="detail">
-    <div class="modal">
-      <header>
-        <div class="meta"><span id="detailAuthor">—</span> • <span id="detailDate">—</span></div>
-        <button id="closeDetail" class="btn">Cerrar</button>
-      </header>
-      <div class="body">
-        <h2 id="detailTitle" class="title"></h2>
-        <div class="cover" id="detailCover"></div>
-        <article id="detailHtml" class="post-html"></article>
+  <footer class="footer">
+    © SIN NADA QUE OCULTAR — Información libre y sin censura • Firebase Auth + Firestore • Media en Cloudinary
+  </footer>
 
-        <div class="module" style="margin-top:.4rem">
-          <header><h3>Respuestas</h3></header>
-          <div id="commentsList" class="body"></div>
+  <!-- Modal: Composer (solo aparece cuando se da a “Crear publicación”) -->
+  <div id="composerModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="composerTitle">
+      <div class="modal-head">
+        <div id="composerTitle" class="modal-title">Crear publicación</div>
+        <button class="close-x" id="closeComposer" aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="inputs">
+          <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
+          <textarea id="descInput" placeholder="Descripción breve (aparecerá en la tarjeta del feed)" rows="3" maxlength="280"></textarea>
         </div>
 
-        <div class="module" style="margin-top:.4rem">
-          <header><h3>Responder</h3><span class="meta" id="composerHint">Inicia sesión para comentar</span></header>
-          <div class="body">
-            <div class="toolbar">
-              <button class="tool" data-cmd="bold"><b>Negrita</b></button>
-              <button class="tool" data-cmd="italic"><i>Cursiva</i></button>
-              <button class="tool" data-cmd="underline"><u>Subrayado</u></button>
-              <button class="tool" data-cmd="insertUnorderedList">• Lista</button>
-              <button class="tool" id="linkBtn">Enlace</button>
-              <label class="tool" for="commentImage">Imagen</label>
-              <input id="commentImage" type="file" accept="image/*" style="display:none">
-              <label class="tool" for="commentVideo">Video</label>
-              <input id="commentVideo" type="file" accept="video/*" style="display:none">
-            </div>
-            <div id="commentEditor" class="rte" contenteditable="true" placeholder="Escribe tu respuesta…"></div>
-            <div class="preview" id="commentPreview"></div>
-            <div class="composer-actions">
-              <button id="publishComment" class="btn primary">Publicar respuesta</button>
-            </div>
-          </div>
+        <div class="toolbar">
+          <button class="tool" data-cmd="bold">Negrita</button>
+          <button class="tool" data-cmd="italic">Cursiva</button>
+          <button class="tool" data-cmd="underline">Subrayado</button>
+          <button class="tool" data-cmd="insertUnorderedList">Lista</button>
+          <button class="tool" data-cmd="formatBlock" data-value="blockquote">Cita</button>
+          <button class="tool" id="linkBtn">Enlace</button>
+          <button class="tool" data-cmd="formatBlock" data-value="h2">H2</button>
+          <button class="tool" data-cmd="formatBlock" data-value="h3">H3</button>
+          <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
 
+        <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Cuerpo del post">
+          <p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>
+        </div>
+
+        <div class="media-row">
+          <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
+          <span class="panel-sub">Recomendado: imágenes JPG/PNG/WebP y videos MP4/WebM. Máx 6 archivos.</span>
+        </div>
+        <div id="mediaPreview" class="media-row"></div>
+      </div>
+      <div class="modal-actions">
+        <button id="publishBtn" class="btn-accent btn">Publicar</button>
+        <button id="resetBtn" class="btn">Reset</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal crear hilo -->
-  <div id="composer" class="composer">
-    <div class="modal">
-      <header style="position:sticky; top:0; padding:.85rem 1rem; background:var(--surface); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
-        <strong>Crear hilo</strong>
-        <button id="closeComposer" class="btn">Cerrar</button>
-      </header>
-      <div class="editor">
-        <input id="pubTitle" type="text" placeholder="Título del hilo">
-        <textarea id="pubDescription" rows="3" placeholder="Descripción breve"></textarea>
-
-        <div class="toolbar" id="pubToolbar">
-          <button class="tool" data-cmd="bold"><b>Negrita</b></button>
-          <button class="tool" data-cmd="italic"><i>Cursiva</i></button>
-          <button class="tool" data-cmd="underline"><u>Subrayado</u></button>
-          <button class="tool" data-cmd="insertUnorderedList">• Lista</button>
-          <button class="tool" id="pubLinkBtn">Enlace</button>
-          <label class="tool" for="pubImage">Imagen</label>
-          <input id="pubImage" type="file" accept="image/*" style="display:none">
-          <label class="tool" for="pubVideo">Video</label>
-          <input id="pubVideo" type="file" accept="video/*" style="display:none">
-        </div>
-        <div id="pubEditor" class="rte" contenteditable="true" placeholder="Contenido del hilo…"></div>
-        <div class="preview" id="pubPreview"></div>
-      </div>
-      <div class="composer-actions">
-        <button id="submitPost" class="btn primary">Publicar</button>
-      </div>
-    </div>
-  </div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    // ===== Configura tus credenciales (si tienes Firebase y Cloudinary) =====
-    const FIREBASE_CONFIG = {
-      apiKey: "AIzaSyB5mGkfLPYDUukAw_XjJUcUPVuhj6_gk0A",
-      authDomain: "sin-nada-que-ocultar-rd.firebaseapp.com",
-      projectId: "sin-nada-que-ocultar-rd",
-      storageBucket: "sin-nada-que-ocultar-rd.firebasestorage.app",
-      messagingSenderId: "1054622320892",
-      appId: "1:1054622320892:web:dd3412dcb3ce781e0f2f79"
-    };
-    const CLOUD_NAME = "REEMPLAZA_AQUI";
-    const UPLOAD_PRESET = "REEMPLAZA_AQUI";
+    // ===== CONFIGURACIÓN =====
+    // Firebase (Auth Google + Firestore)
+    const firebaseConfig = {
+  apiKey: "AIzaSyB5mGkfLPYDUukAw_XjJUcUPVuhj6_gk0A",
+  authDomain: "sin-nada-que-ocultar-rd.firebaseapp.com",
+  projectId: "sin-nada-que-ocultar-rd",
+  storageBucket: "sin-nada-que-ocultar-rd.firebasestorage.app",
+  messagingSenderId: "1054622320892",
+  appId: "1:1054622320892:web:dd3412dcb3ce781e0f2f79",
+  measurementId: "G-8KCKESCPJB"
+};
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const firestore = firebase.firestore();
 
-    // ===== Blogger fallback (si no hay Firebase datos) =====
-    const BLOGGER_API_KEY = "AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI";
-    const BLOG_ID = "5213119795675357751";
-    const BLOGGER_BASE = "https://www.googleapis.com/blogger/v3";
+    // Cloudinary (unsigned preset)
+    const CLOUDINARY_CLOUD_NAME = "TU_CLOUD_NAME";
+    const CLOUDINARY_UPLOAD_PRESET = "TU_UPLOAD_PRESET"; // unsigned
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+    // Nota: usamos endpoint “auto” para aceptar imágenes y videos con el mismo POST.
 
-    let db = null, auth = null;
-    let currentUser = null; // { uid, displayName, photoURL }
-    let tickerPaused = false, tickerOffset = 0;
+    // ===== Auth UI =====
+    const googleBtn = document.getElementById('googleBtn');
+    const userChip = document.getElementById('userChip');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const authState = document.getElementById('authState');
 
-    const fmtDate = v => {
-      try{
-        const d = v instanceof Date ? v : (v?.toDate ? v.toDate() : new Date(v));
-        return d.toLocaleString("es-DO",{dateStyle:"medium",timeStyle:"short"});
-      }catch{return "—";}
-    };
-    const strip = html => { const tmp=document.createElement("div"); tmp.innerHTML=html||""; return tmp.textContent || tmp.innerText || ""; };
-    const pickFirstImage = html => { const div=document.createElement("div"); div.innerHTML=html||""; const img=div.querySelector("img"); return img?img.src:null; };
-    const removeFirstImage = html => { const d=document.createElement("div"); d.innerHTML=html||""; const im=d.querySelector("img"); if(im) im.remove(); return d.innerHTML; };
-    const canInteract = () => !!currentUser;
+    googleBtn.addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try { await auth.signInWithPopup(provider); } catch (e) { alert('Error al iniciar sesión: ' + e.message); }
+    });
+    logoutBtn.addEventListener('click', async () => { await auth.signOut(); });
 
-    // ===== Inicializa Firebase si hay config válida (apiKey no vacío) =====
-    const firebaseReady = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== "REEMPLAZA_AQUI";
-    if (firebaseReady) {
-      firebase.initializeApp(FIREBASE_CONFIG);
-      auth = firebase.auth();
-      db = firebase.firestore();
-      auth.onAuthStateChanged(user => {
-        currentUser = user ? { uid:user.uid, displayName:user.displayName, photoURL:user.photoURL } : null;
-        renderAvatar();
-      });
-      document.getElementById('loginBtn').addEventListener('click', async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        try{ await auth.signInWithPopup(provider); }catch(e){ alert("No se pudo iniciar sesión: " + e.message); }
-      });
-    } else {
-      // Si no hay Firebase configurado, oculta el botón publicar (no hay persistencia)
-      document.getElementById('publishBtn').addEventListener('click', () => {
-        alert("Configura Firebase para poder publicar hilos.");
-      });
-      document.getElementById('loginBtn').addEventListener('click', () => {
-        alert("Configura Firebase para iniciar sesión.");
-      });
-    }
-
-    function renderAvatar(){
-      const av = document.getElementById('avatar');
-      av.innerHTML = currentUser?.photoURL ? `<img src="${currentUser.photoURL}" alt="${currentUser.displayName}" style="width:100%;height:100%;object-fit:cover">` : "";
-    }
-
-    async function uploadToCloudinary(file){
-      if (!CLOUD_NAME || CLOUD_NAME === "REEMPLAZA_AQUI") throw new Error("Configura Cloudinary");
-      const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`;
-      const form = new FormData();
-      form.append("file", file);
-      form.append("upload_preset", UPLOAD_PRESET);
-      const res = await fetch(url, { method:"POST", body:form });
-      if(!res.ok) throw new Error("Error subiendo a Cloudinary");
-      const data = await res.json();
-      return data.secure_url;
-    }
-
-    // ===== Ticker =====
-    async function renderTickerFromFirestore(){
-      const ticker = document.getElementById('ticker');
-      ticker.innerHTML = "";
-      const track = document.createElement('div'); track.className = "ticker-track";
-      const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(30).get();
-      snap.forEach(doc => {
-        const p = doc.data();
-        const tag = p.tag || "Noticias";
-        const item = document.createElement('div');
-        item.className = "ticker-item";
-        item.innerHTML = `<span class="tag">#${tag}</span><span>${p.title}</span>`;
-        item.addEventListener('click', () => openDetailCustom(doc.id, p));
-        track.appendChild(item);
-      });
-      ticker.appendChild(track);
-      startTicker(track);
-    }
-    async function renderTickerFromBlogger(items){
-      const ticker = document.getElementById('ticker');
-      ticker.innerHTML = "";
-      const track = document.createElement('div'); track.className = "ticker-track";
-      items.slice(0,30).forEach(p => {
-        const tag = (p.labels && p.labels.length) ? p.labels[0] : "Noticias";
-        const item = document.createElement('div');
-        item.className = "ticker-item";
-        item.innerHTML = `<span class="tag">#${tag}</span><span>${p.title}</span>`;
-        item.addEventListener('click', () => openDetailBlogger(p));
-        track.appendChild(item);
-      });
-      ticker.appendChild(track);
-      startTicker(track);
-    }
-    function startTicker(track){
-      let tickerOffset = 0;
-      const speed = 0.22;
-      function step(){
-        if(!tickerPaused){
-          tickerOffset -= speed;
-          track.style.transform = `translateX(${tickerOffset}px)`;
-          const first = track.firstElementChild;
-          if(first){
-            const w = first.getBoundingClientRect().width + 16;
-            if (Math.abs(tickerOffset) > w){
-              track.appendChild(first);
-              tickerOffset += w;
-            }
-          }
-        }
-        requestAnimationFrame(step);
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        googleBtn.style.display = 'none';
+        userChip.style.display = 'inline-flex';
+        userName.textContent = user.displayName || user.email;
+        userAvatar.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Usuario');
+        authState.textContent = 'Sesión iniciada como ' + (user.displayName || user.email);
+      } else {
+        googleBtn.style.display = 'inline-flex';
+        userChip.style.display = 'none';
+        authState.textContent = 'No has iniciado sesión.';
       }
-      requestAnimationFrame(step);
-      document.getElementById('ticker').addEventListener('mouseenter', () => { tickerPaused = true; });
-      document.getElementById('ticker').addEventListener('mouseleave', () => { tickerPaused = false; });
-      document.getElementById('prevTicker').onclick = () => {
-        const last = track.lastElementChild; if(last){ track.insertBefore(last, track.firstElementChild); }
-      };
-      document.getElementById('nextTicker').onclick = () => {
-        const first = track.firstElementChild; if(first){ track.appendChild(first); }
-      };
+    });
+
+    // ===== Modal Composer =====
+    const composerModal = document.getElementById('composerModal');
+    const openComposer = document.getElementById('openComposer');
+    const closeComposer = document.getElementById('closeComposer');
+
+    function showComposer(){ composerModal.style.display = 'flex'; }
+    function hideComposer(){ composerModal.style.display = 'none'; }
+
+    openComposer.addEventListener('click', () => {
+      const user = auth.currentUser;
+      if (!user) { alert('Inicia sesión con Google para crear una publicación.'); return; }
+      showComposer();
+    });
+    closeComposer.addEventListener('click', hideComposer);
+    composerModal.addEventListener('click', (e) => {
+      if (e.target === composerModal) hideComposer(); // click fuera cierra
+    });
+
+    // ===== Editor =====
+    const editor = document.getElementById('editor');
+    const tools = document.querySelectorAll('.tool');
+    const linkBtn = document.getElementById('linkBtn');
+    const clearFormat = document.getElementById('clearFormat');
+
+    tools.forEach(btn => {
+      const cmd = btn.dataset.cmd;
+      const val = btn.dataset.value;
+      if (cmd && cmd !== 'formatBlock') {
+        btn.addEventListener('click', () => document.execCommand(cmd, false, null));
+      } else if (cmd === 'formatBlock') {
+        btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
+      }
+    });
+    linkBtn.addEventListener('click', () => {
+      const url = prompt('URL del enlace:');
+      if (url) document.execCommand('createLink', false, url);
+    });
+    clearFormat.addEventListener('click', () => document.execCommand('removeFormat', false, null));
+
+    // ===== Media preview =====
+    const mediaInput = document.getElementById('mediaInput');
+    const mediaPreview = document.getElementById('mediaPreview');
+    let selectedFiles = [];
+
+    mediaInput.addEventListener('change', () => {
+      selectedFiles = Array.from(mediaInput.files).slice(0, 6);
+      renderMediaPreview();
+    });
+
+    function renderMediaPreview(){
+      mediaPreview.innerHTML = '';
+      selectedFiles.forEach(file => {
+        const div = document.createElement('div');
+        div.className = 'media-thumb';
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.alt = file.name;
+          img.src = URL.createObjectURL(file);
+          div.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+          const vid = document.createElement('video');
+          vid.src = URL.createObjectURL(file);
+          vid.muted = true; vid.loop = true; vid.autoplay = true;
+          div.appendChild(vid);
+        } else {
+          div.textContent = 'Archivo no soportado';
+        }
+        mediaPreview.appendChild(div);
+      });
     }
 
-    // ===== Feed Forum =====
-    async function renderForumFromFirestore(snap){
-      const forum = document.getElementById('forum');
-      forum.innerHTML = "";
+    // ===== Publicar =====
+    const titleInput = document.getElementById('titleInput');
+    const descInput = document.getElementById('descInput');
+    const publishBtn = document.getElementById('publishBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const postsContainer = document.getElementById('posts');
+    const emptyFeed = document.getElementById('emptyFeed');
+
+    publishBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) { alert('Inicia sesión para publicar.'); return; }
+
+      const title = titleInput.value.trim();
+      const desc = descInput.value.trim();
+      const bodyHtml = editor.innerHTML.trim();
+      if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
+
+      publishBtn.disabled = true;
+      publishBtn.textContent = 'Publicando…';
+
+      try {
+        // Subir media a Cloudinary (auto: imagen o video)
+        const mediaItems = [];
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+          // Opcional: carpeta por organización visual en Cloudinary
+          formData.append('folder', `snqo/${user.uid}`);
+
+          const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: formData });
+          if (!res.ok) throw new Error('Error subiendo a Cloudinary');
+          const data = await res.json();
+          // Cloudinary retorna resource_type: "image" | "video"
+          mediaItems.push({
+            url: data.secure_url,
+            type: data.resource_type === 'video' ? 'video' : 'image',
+            public_id: data.public_id
+          });
+        }
+
+        // Crear post en Firestore
+        const postRef = await firestore.collection('posts').add({
+          title,
+          desc,
+          bodyHtml,
+          author: {
+            uid: user.uid,
+            name: user.displayName || user.email || 'Usuario',
+            avatar: user.photoURL || null
+          },
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          media: mediaItems
+        });
+
+        // Reset UI
+        titleInput.value = '';
+        descInput.value = '';
+        editor.innerHTML = '<p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>';
+        mediaInput.value = '';
+        selectedFiles = [];
+        renderMediaPreview();
+
+        publishBtn.textContent = 'Publicado';
+        setTimeout(()=>{ publishBtn.textContent = 'Publicar'; publishBtn.disabled = false; hideComposer(); }, 700);
+      } catch (e) {
+        console.error(e);
+        alert('Error publicando: ' + e.message);
+        publishBtn.textContent = 'Publicar';
+        publishBtn.disabled = false;
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      titleInput.value = '';
+      descInput.value = '';
+      editor.innerHTML = '';
+      mediaInput.value = '';
+      selectedFiles = [];
+      renderMediaPreview();
+    });
+
+    // ===== Feed en tiempo real =====
+    firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
+      postsContainer.innerHTML = '';
       if (snap.empty) {
-        forum.innerHTML = `<article class="thread"><div class="title-row"><div class="title">No hay hilos aún</div></div><div class="excerpt">Publica el primero.</div></article>`;
+        emptyFeed.style.display = 'block';
         return;
       }
-      for (const doc of snap.docs) {
+      emptyFeed.style.display = 'none';
+      snap.forEach(doc => {
         const p = doc.data();
-        const cover = p.coverUrl || pickFirstImage(p.contentHtml);
-        const tag = p.tag || "Noticias";
-        const excerpt = strip(p.description || p.contentHtml || "").slice(0, 180) + ((p.description || p.contentHtml || "").length > 180 ? "…" : "");
-        const el = document.createElement('article');
-        el.className = "thread";
-        el.innerHTML = `
-          <div class="avatar">${cover ? `<img src="${cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : ""}</div>
-          <div>
-            <div class="title-row">
-              <a href="#" class="title">${p.title}</a>
-              <span class="badge">#${tag}</span>
-            </div>
-            <div class="meta"><span>${p.author?.name || "Redacción"}</span> • <span>${fmtDate(p.createdAt)}</span></div>
-            <div class="excerpt">${excerpt}</div>
-            <div class="thumb">${cover ? `<img src="${cover}" alt="${strip(p.title)}">` : ""}</div>
-          </div>
-          <div class="stats">
-            <div class="stat like" data-id="${doc.id}">
-              <span>❤</span><span class="count">${p.likesCount || 0}</span>
-            </div>
-            <div class="stat comment" data-id="${doc.id}">
-              <span>💬</span><span class="count">0</span>
-            </div>
-            <div class="stat updated"><span>⏱</span><span>${fmtDate(p.updatedAt || p.createdAt)}</span></div>
-          </div>
-        `;
-        el.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailCustom(doc.id, p); });
-        const likeEl = el.querySelector('.stat.like');
-        likeEl.addEventListener('click', async () => {
-          if(!canInteract()){ alert("Inicia sesión para dar like."); return; }
-          const likeDoc = db.collection("posts").doc(doc.id).collection("likes").doc(currentUser.uid);
-          const exists = await likeDoc.get();
-          if(exists.exists){
-            await likeDoc.delete();
-            await db.collection("posts").doc(doc.id).update({ likesCount: firebase.firestore.FieldValue.increment(-1) });
-          }else{
-            await likeDoc.set({ uid: currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-            await db.collection("posts").doc(doc.id).update({ likesCount: firebase.firestore.FieldValue.increment(1) });
-          }
-          // refresca contador
-          const updated = await db.collection("posts").doc(doc.id).get();
-          likeEl.querySelector('.count').textContent = updated.data().likesCount || 0;
-        });
-        forum.appendChild(el);
-        // conteo de comentarios
-        const cSnap = await db.collection("posts").doc(doc.id).collection("comments").get();
-        const cEl = document.querySelector(`.stat.comment[data-id="${doc.id}"] .count`);
-        if (cEl) cEl.textContent = cSnap.size;
-      }
-    }
-
-    async function renderForumFromBlogger(items){
-      const forum = document.getElementById('forum');
-      forum.innerHTML = "";
-      items.forEach(p => {
-        const cover = pickFirstImage(p.content);
-        const tag = (p.labels && p.labels.length) ? p.labels[0] : "Noticias";
-        const excerpt = strip(p.content || "").slice(0, 180) + ((p.content || "").length > 180 ? "…" : "");
-        const el = document.createElement('article');
-        el.className = "thread";
-        el.innerHTML = `
-          <div class="avatar">${cover ? `<img src="${cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px">` : ""}</div>
-          <div>
-            <div class="title-row">
-              <a href="#" class="title">${p.title}</a>
-              <span class="badge">#${tag}</span>
-            </div>
-            <div class="meta"><span>${p.author?.displayName || "Redacción"}</span> • <span>${fmtDate(p.published)}</span></div>
-            <div class="excerpt">${excerpt}</div>
-            <div class="thumb">${cover ? `<img src="${cover}" alt="${strip(p.title)}">` : ""}</div>
-          </div>
-          <div class="stats">
-            <div class="stat like" title="Inicia sesión para dar like"><span>❤</span><span class="count">0</span></div>
-            <div class="stat comment" title="Inicia sesión para comentar"><span>💬</span><span class="count">0</span></div>
-            <div class="stat updated"><span>⏱</span><span>${fmtDate(p.updated)}</span></div>
-          </div>
-        `;
-        el.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailBlogger(p); });
-        forum.appendChild(el);
+        postsContainer.appendChild(renderPostCard(doc.id, p));
       });
-    }
-
-    // ===== Tendencias =====
-    function renderTrendsFromFirestore(snap){
-      const mod = document.getElementById('modTrends');
-      mod.innerHTML = "";
-      snap.docs.slice(0, 12).forEach(doc => {
-        const p = doc.data();
-        const row = document.createElement('div');
-        row.className = "item";
-        row.innerHTML = `<a href="#" class="title">${p.title}</a><div class="meta">${fmtDate(p.updatedAt || p.createdAt)} • #${p.tag || "Noticias"}</div>`;
-        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailCustom(doc.id, p); });
-        mod.appendChild(row);
-      });
-    }
-    function renderTrendsFromBlogger(items){
-      const mod = document.getElementById('modTrends');
-      mod.innerHTML = "";
-      items.slice(0, 12).forEach(p => {
-        const row = document.createElement('div');
-        row.className = "item";
-        row.innerHTML = `<a href="#" class="title">${p.title}</a><div class="meta">${fmtDate(p.updated)} • ${(p.labels || []).map(l => `#${l}`).join(" ")}</div>`;
-        row.querySelector('.title').addEventListener('click', (e) => { e.preventDefault(); openDetailBlogger(p); });
-        mod.appendChild(row);
-      });
-    }
-
-    // ===== Búsqueda =====
-    document.getElementById('searchInput').addEventListener('input', async (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      if (db) {
-        if(!q){ const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(50).get(); renderForumFromFirestore(snap); return; }
-        const snap = await db.collection("posts").orderBy("title").startAt(q).endAt(q + '\uf8ff').limit(30).get();
-        renderForumFromFirestore(snap);
-      } else {
-        // Blogger
-        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${BLOGGER_API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
-        const res = await fetch(url); const data = await res.json();
-        let items = data.items || [];
-        if(q){ items = items.filter(p => ((p.title||"")+strip(p.content||"")).toLowerCase().includes(q)); }
-        renderForumFromBlogger(items);
-      }
     });
 
-    // ===== Detalle (Firestore) =====
-    async function openDetailCustom(postId, postData){
-      document.getElementById('detailTitle').textContent = postData.title;
-      document.getElementById('detailAuthor').textContent = postData.author?.name || "Redacción";
-      document.getElementById('detailDate').textContent = fmtDate(postData.createdAt);
-      const cover = postData.coverUrl || pickFirstImage(postData.contentHtml);
-      document.getElementById('detailCover').innerHTML = cover ? `<img src="${cover}" alt="${strip(postData.title)}">` : "";
-      document.getElementById('detailHtml').innerHTML = removeFirstImage(postData.contentHtml);
+    function renderPostCard(id, p){
+      const card = document.createElement('article'); card.className = 'post';
 
-      const list = document.getElementById('commentsList');
-      list.innerHTML = `<div class="meta">Cargando respuestas…</div>`;
-      const snap = await db.collection("posts").doc(postId).collection("comments").orderBy("createdAt","desc").get();
-      list.innerHTML = "";
-      if (snap.empty) {
-        list.innerHTML = `<div class="meta">Sé el primero en responder.</div>`;
-      } else {
-        snap.forEach(c => {
-          const d = c.data();
-          const item = document.createElement('div');
-          item.className = "item";
-          item.innerHTML = `<div class="title">${d.author?.name || "Anónimo"} • ${fmtDate(d.createdAt)}</div><div class="meta">${strip(d.html).slice(0, 200)}</div>`;
-          list.appendChild(item);
-        });
-      }
+      const head = document.createElement('div'); head.className = 'post-head';
+      const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor';
+      avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
 
-      document.getElementById('detail').style.display = "flex";
+      const metaWrap = document.createElement('div');
+      const titleEl = document.createElement('h4'); titleEl.className = 'post-title'; titleEl.textContent = p.title;
+      const metaEl = document.createElement('div'); metaEl.className = 'post-meta';
+      metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + (p.createdAt?.toDate?.().toLocaleString?.() || '—');
 
-      // comentar
-      document.getElementById('publishComment').onclick = async () => {
-        if(!canInteract()){ document.getElementById('composerHint').textContent = "Inicia sesión para publicar"; return; }
-        const html = document.getElementById('commentEditor').innerHTML.trim();
-        if(!html){ document.getElementById('composerHint').textContent = "La respuesta no puede estar vacía"; return; }
-        try{
-          await db.collection("posts").doc(postId).collection("comments").add({
-            html,
-            author: { uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL },
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          document.getElementById('composerHint').textContent = "Publicado";
-          document.getElementById('commentEditor').innerHTML = "";
-          document.getElementById('commentPreview').innerHTML = "";
-          const snap2 = await db.collection("posts").doc(postId).collection("comments").orderBy("createdAt","desc").get();
-          list.innerHTML = "";
-          snap2.forEach(c => {
-            const d = c.data();
-            const item = document.createElement('div');
-            item.className = "item";
-            item.innerHTML = `<div class="title">${d.author?.name || "Anónimo"} • ${fmtDate(d.createdAt)}</div><div class="meta">${strip(d.html).slice(0, 200)}</div>`;
-            list.appendChild(item);
-          });
-        }catch(e){
-          document.getElementById('composerHint').textContent = "Error al publicar";
-          console.error(e);
+      metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
+      head.appendChild(avatar); head.appendChild(metaWrap);
+
+      const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc;
+
+      const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml;
+
+      const gallery = document.createElement('div'); gallery.className = 'post-gallery';
+      (p.media || []).forEach(m => {
+        if (m.type === 'image') {
+          const img = document.createElement('img'); img.src = m.url; img.alt = p.title; gallery.appendChild(img);
+        } else if (m.type === 'video') {
+          const vid = document.createElement('video'); vid.src = m.url; vid.controls = true; gallery.appendChild(vid);
         }
-      };
-
-      bindToolbar(document.querySelector('#detail .toolbar'), document.getElementById('commentEditor'), document.getElementById('commentPreview'));
-    }
-
-    // ===== Detalle (Blogger fallback) =====
-    async function openDetailBlogger(p){
-      document.getElementById('detailTitle').textContent = p.title;
-      document.getElementById('detailAuthor').textContent = p.author?.displayName || "Redacción";
-      document.getElementById('detailDate').textContent = fmtDate(p.published);
-      const cover = pickFirstImage(p.content);
-      document.getElementById('detailCover').innerHTML = cover ? `<img src="${cover}" alt="${strip(p.title)}">` : "";
-      document.getElementById('detailHtml').innerHTML = removeFirstImage(p.content);
-      document.getElementById('commentsList').innerHTML = `<div class="meta">Comentarios disponibles al integrar Firebase.</div>`;
-      document.getElementById('detail').style.display = "flex";
-    }
-
-    document.getElementById('closeDetail').addEventListener('click', () => { document.getElementById('detail').style.display = "none"; });
-    document.getElementById('detail').addEventListener('click', (e) => { if(e.target.id==='detail') document.getElementById('detail').style.display="none"; });
-
-    // ===== Editor enriquecido =====
-    function bindToolbar(toolbarRoot, editorRoot, previewRoot){
-      toolbarRoot.querySelectorAll('.tool[data-cmd]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.execCommand(btn.getAttribute('data-cmd'), false, null);
-          editorRoot.focus();
-        });
       });
-      const linkBtn = toolbarRoot.querySelector('#pubLinkBtn') || toolbarRoot.querySelector('#linkBtn');
-      if (linkBtn) {
-        linkBtn.addEventListener('click', () => {
-          const url = prompt("URL del enlace:");
-          if (url) document.execCommand('createLink', false, url);
-        });
-      }
-      const imgInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="image"]');
-      const vidInput = toolbarRoot.parentElement.querySelector('input[type="file"][accept^="video"]');
-      if (imgInput && previewRoot) {
-        imgInput.addEventListener('change', async () => {
-          for(const f of imgInput.files){
-            const ph = document.createElement('div'); ph.className = 'ph';
-            ph.innerHTML = `<div class="meta">Subiendo…</div>`;
-            previewRoot.appendChild(ph);
-            try{
-              const url = await uploadToCloudinary(f);
-              ph.innerHTML = `<img src="${url}" alt="">`;
-              const img = document.createElement('img'); img.src = url; editorRoot.appendChild(img);
-            }catch(e){ ph.innerHTML = `<div class="meta">Error</div>`; }
-          }
-        });
-      }
-      if (vidInput && previewRoot) {
-        vidInput.addEventListener('change', async () => {
-          for(const f of vidInput.files){
-            const ph = document.createElement('div'); ph.className = 'ph';
-            ph.innerHTML = `<div class="meta">Subiendo…</div>`;
-            previewRoot.appendChild(ph);
-            try{
-              const url = await uploadToCloudinary(f);
-              ph.innerHTML = `<video src="${url}" controls></video>`;
-              const v = document.createElement('video'); v.src = url; v.controls = true; v.style.maxWidth="100%"; editorRoot.appendChild(v);
-            }catch(e){ ph.innerHTML = `<div class="meta">Error</div>`; }
-          }
-        });
-      }
+
+      card.appendChild(head);
+      card.appendChild(descEl);
+      card.appendChild(bodyEl);
+      if ((p.media || []).length) card.appendChild(gallery);
+
+      return card;
     }
-
-    // ===== Composer (crear hilo) =====
-    document.getElementById('publishBtn').addEventListener('click', () => {
-      if(!db){ alert("Configura Firebase para poder publicar hilos."); return; }
-      if(!canInteract()){ alert("Inicia sesión para publicar un hilo."); return; }
-      document.getElementById('composer').style.display = "flex";
-      bindToolbar(document.querySelector('#composer .toolbar'), document.getElementById('pubEditor'), document.getElementById('pubPreview'));
-    });
-    document.getElementById('closeComposer').addEventListener('click', () => {
-      document.getElementById('composer').style.display = "none";
-    });
-    document.getElementById('submitPost').addEventListener('click', async () => {
-      if(!db){ alert("Configura Firebase para publicar."); return; }
-      if(!canInteract()){ alert("Inicia sesión para publicar."); return; }
-      const title = document.getElementById('pubTitle').value.trim();
-      const description = document.getElementById('pubDescription').value.trim();
-      const contentHtml = document.getElementById('pubEditor').innerHTML.trim();
-      if(!title || !contentHtml){ alert("Título y contenido son obligatorios."); return; }
-      const coverUrl = pickFirstImage(contentHtml);
-      const tag = "Noticias";
-      try{
-        const ref = await db.collection("posts").add({
-          title, description, contentHtml, coverUrl: coverUrl || null,
-          tag,
-          author: { uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL },
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-          likesCount: 0
-        });
-        document.getElementById('composer').style.display = "none";
-        await loadFeed(); // refresca
-        const doc = await ref.get();
-        openDetailCustom(doc.id, doc.data());
-      }catch(e){
-        alert("Error al publicar: " + e.message);
-      }
-    });
-
-    // ===== Carga Feed =====
-    async function loadFeed(){
-      if (db) {
-        const snap = await db.collection("posts").orderBy("updatedAt","desc").limit(50).get();
-        await renderTickerFromFirestore();
-        await renderForumFromFirestore(snap);
-        renderTrendsFromFirestore(snap);
-      } else {
-        // Blogger fallback
-        const url = `${BLOGGER_BASE}/blogs/${BLOG_ID}/posts?key=${BLOGGER_API_KEY}&fetchBodies=true&maxResults=50&orderBy=UPDATED`;
-        const res = await fetch(url);
-        if (!res.ok) {
-          document.getElementById('forum').innerHTML = `<article class="thread"><div class="title-row"><div class="title">No se pudo cargar el feed</div></div><div class="excerpt">Verifica la API Key y el Blog ID.</div></article>`;
-          return;
-        }
-        const data = await res.json();
-        const items = data.items || [];
-        await renderTickerFromBlogger(items);
-        await renderForumFromBlogger(items);
-        renderTrendsFromBlogger(items);
-      }
-    }
-
-    // ===== Búsqueda inicial y carga =====
-    window.addEventListener('load', async () => {
-      await loadFeed();
-    });
   </script>
 </body>
 </html>
