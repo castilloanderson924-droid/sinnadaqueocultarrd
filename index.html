@@ -28,13 +28,18 @@
     }
     a{color:var(--accent);text-decoration:none}
     img,video,iframe{max-width:100%;display:block}
-    /* Evita desbordes por textos largos en móvil */
     p, .post-content, .comment-text, .reply-text { word-wrap:break-word; overflow-wrap:break-word; }
+
+    /* Containers centered */
+    .wrap, .nav, .ticket, .layout, .footer-inner { max-width:1240px; margin:0 auto; }
+    @media(max-width:640px){
+      .wrap, .nav, .ticket, .layout, .footer-inner { max-width:100%; padding:0 12px; }
+    }
 
     /* Header (desktop) */
     .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
-    .nav{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:10px;min-width:240px}
+    .nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px}
     .brand-logo{width:42px;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
     .brand-logo img{width:34px;height:34px;object-fit:contain}
     .brand-title{line-height:1}
@@ -73,18 +78,16 @@
     .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
-    /* Mobile-only elements: hidden by default on desktop */
+    /* Mobile-only elements hidden by default */
     .mobile-nav, .notif-sheet { display:none; }
 
-    /* Mobile bottom navbar */
+    /* Mobile bottom navbar with material-like icons */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
-      /* Oculta acciones de escritorio en móvil */
       #openComposer, #mainDropdown, #googleBtn, #userChip, .switch, .notif { display:none; }
 
       .mobile-nav{
-        display:block;
-        position:fixed; left:0; right:0; bottom:0;
+        display:block; position:fixed; left:0; right:0; bottom:0;
         background:var(--panel); border-top:1px solid var(--border);
         z-index:160; padding:8px 12px calc(8px + var(--safe-bottom));
       }
@@ -93,14 +96,13 @@
         display:flex; align-items:center; justify-content:space-between; gap:8px;
       }
       .mobile-tab{
-        flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+        flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
         color:var(--muted); background:transparent; border:none; cursor:pointer; padding:6px 8px; border-radius:10px;
       }
       .mobile-tab.active{ color:var(--text); background:var(--panel-2); }
-      .mobile-tab .icon{ font-size:20px; line-height:20px }
+      .mobile-tab svg{ width:22px; height:22px; }
       .mobile-tab .label{ font-size:11px; font-weight:800 }
 
-      /* Notificaciones como bottom sheet */
       .notif-sheet{
         display:none;
         position:fixed; left:0; right:0; bottom:0;
@@ -114,13 +116,12 @@
       .sheet-body{ padding:8px 14px; overflow:auto; max-height:calc(70vh - 96px) }
       .sheet-footer{ padding:10px 14px; border-top:1px solid var(--border); display:flex; justify-content:center }
 
-      /* Padding para no tapar el contenido con la navbar móvil */
       .layout{padding:12px; gap:12px; padding-bottom:92px}
     }
 
-    /* Ticket News */
-    .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
-    .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    /* Ticket News (centered) */
+    .ticket{margin:16px auto; padding:0 16px}
+    .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden; text-align:center}
     .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--headline)}
     .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
     .marquee{display:inline-block;animation:marq 60s linear infinite}
@@ -130,11 +131,29 @@
     .headline .title{font-weight:800;color:var(--text)}
 
     /* Layout */
-    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
+    .layout{padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
     @media(max-width:1100px){.layout{grid-template-columns:1fr}}
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
+
+    /* Right column cards centered on mobile */
+    .right-col .card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px}
+    @media(max-width:640px){
+      .right-col .card{ text-align:center; padding-left:16px; padding-right:16px; }
+      .right-col .card .list-row{ justify-content:center; }
+    }
+    .card h4{margin:0 0 8px;color:var(--text)}
+    .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .list-left{display:flex;align-items:center;gap:8px}
+    .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
+
+    /* Ad box */
+    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
+    .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .ad-label{font-weight:900;color:var(--gold);font-size:16px}
+    .ad-sub{margin-top:4px;color:var(--muted);font-size:12px}
+    .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
     /* Post */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
@@ -147,26 +166,21 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Galería: imágenes cuadradas + YouTube grande y claro */
-    .post-gallery{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px;
-    }
-    @media(max-width:980px){ .post-gallery{ grid-template-columns:repeat(2,1fr) } }
-    @media(max-width:640px){ .post-gallery{ grid-template-columns:1fr; gap:10px } }
-    .post-gallery img{
-      width:100%; height:180px; object-fit:cover; border-radius:10px; cursor:pointer; border:1px solid var(--border)
-    }
-    /* YouTube: siempre ocupa todo el ancho del post y se ve grande */
-    .post-gallery iframe{
-      grid-column:1/-1; width:100%; aspect-ratio:16/9; height:auto;
-      border-radius:12px; border:2px solid var(--border); background:#000;
-    }
-
-    /* En escritorio, además muestra un player destacado arriba (más grande) si hay video */
+    /* Featured YouTube large on desktop */
     .post .featured-video{
       width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9; border-radius:14px; border:2px solid var(--border); background:#000;
     }
     @media(max-width:980px){ .post .featured-video{ max-width:100% } }
+
+    /* Gallery: images + big YouTube */
+    .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    @media(max-width:980px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.post-gallery{grid-template-columns:1fr}}
+    .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
+    .post-gallery iframe{
+      grid-column:1/-1; width:100%; aspect-ratio:16/9; height:auto;
+      border-radius:12px; border:2px solid var(--border); background:#000;
+    }
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
     .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;color:var(--text)}
@@ -177,10 +191,8 @@
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
 
-    /* Follow buttons */
     .btn-follow, .btn-following{
-      padding:4px 8px; font-size:11px; border-radius:6px; border:1px solid var(--border); cursor:pointer; align-self:flex-start;
-      white-space:nowrap;
+      padding:4px 8px; font-size:11px; border-radius:6px; border:1px solid var(--border); cursor:pointer; align-self:flex-start; white-space:nowrap;
     }
     .btn-follow{ background:var(--accent); color:#fff; }
     .btn-following{ background:var(--panel-2); color:var(--text); }
@@ -214,20 +226,6 @@
 
     .load-more{margin-top:10px}
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
-
-    /* Right column */
-    .right-col .card{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px}
-    .card h4{margin:0 0 8px;color:var(--text)}
-    .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-    .list-left{display:flex;align-items:center;gap:8px}
-    .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
-
-    /* Ad box */
-    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
-    .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .ad-label{font-weight:900;color:var(--gold);font-size:16px}
-    .ad-sub{margin-top:4px;color:var(--muted);font-size:12px}
-    .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
     /* Modals */
     .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:180}
@@ -277,29 +275,8 @@
 
     /* Footer */
     .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
-    .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+    .footer-inner{padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     .footer a{color:var(--muted)}
-
-    /* Dashboard */
-    .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-    @media(max-width:980px){.dash-grid{grid-template-columns:1fr}}
-    .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-    .dash-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
-    .dash-title{font-weight:800}
-    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
-    @media(max-width:560px){.stats-grid{grid-template-columns:1fr}}
-    .stat-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
-    .stat-label{color:var(--muted);font-size:12px}
-    .stat-value{font-weight:900;font-size:22px;margin-top:4px}
-    .list-wrap{padding:12px 16px;max-height:360px;overflow:auto}
-    .list-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
-    .list-item:last-child{border-bottom:none}
-    .pill{background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted);white-space:nowrap}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}
-    @media(max-width:980px){.two-col{grid-template-columns:1fr}}
-    .list-left strong{display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    @media(max-width:980px){.list-left strong{max-width:180px}}
-    .list-left .avatar{flex-shrink:0}
   </style>
 </head>
 <body>
@@ -316,6 +293,7 @@
         </div>
       </div>
       <div class="spacer"></div>
+
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
@@ -341,8 +319,12 @@
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
           <h4>Notificaciones</h4>
-          <div class="notif-list" id="notifInbox"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
-          <div class="notif-footer"><button id="notifClearAll" class="notif-clear">Eliminar todas</button></div>
+          <div class="notif-list" id="notifInbox">
+            <div class="notif-empty">No hay notificaciones nuevas.</div>
+          </div>
+          <div class="notif-footer">
+            <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -351,10 +333,26 @@
   <!-- Mobile bottom navbar -->
   <div class="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-inner">
-      <button class="mobile-tab" id="tabHome"><span class="icon">🏠</span><span class="label">Inicio</span></button>
-      <button class="mobile-tab" id="tabCompose"><span class="icon">✍️</span><span class="label">Publicar</span></button>
-      <button class="mobile-tab" id="tabNotif"><span class="icon">🔔</span><span class="label">Alertas</span></button>
-      <button class="mobile-tab" id="tabProfile"><span class="icon">👤</span><span class="label">Perfil</span></button>
+      <button class="mobile-tab active" id="tabHome" aria-label="Inicio">
+        <!-- Home icon (material-like) -->
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="label">Inicio</span>
+      </button>
+      <button class="mobile-tab" id="tabCompose" aria-label="Publicar">
+        <!-- Edit/pencil icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        <span class="label">Publicar</span>
+      </button>
+      <button class="mobile-tab" id="tabNotif" aria-label="Alertas">
+        <!-- Bell icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="label">Alertas</span>
+      </button>
+      <button class="mobile-tab" id="tabProfile" aria-label="Perfil">
+        <!-- User icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+        <span class="label">Perfil</span>
+      </button>
     </div>
   </div>
 
@@ -365,9 +363,13 @@
       <button class="sheet-close" id="sheetClose">×</button>
     </div>
     <div class="sheet-body">
-      <div class="notif-list" id="notifInboxMobile"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
+      <div class="notif-list" id="notifInboxMobile">
+        <div class="notif-empty">No hay notificaciones nuevas.</div>
+      </div>
     </div>
-    <div class="sheet-footer"><button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button></div>
+    <div class="sheet-footer">
+      <button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button>
+    </div>
   </div>
 
   <section class="ticket">
@@ -408,9 +410,18 @@
           </div>
         </div>
       </div>
-      <div class="card"><h4>Destacados</h4><div id="topAuthors"></div></div>
-      <div class="card"><h4>Posts con más likes</h4><div id="topPosts"></div></div>
-      <div class="card"><h4>Tags frecuentes</h4><div id="topTags"></div></div>
+      <div class="card">
+        <h4>Destacados</h4>
+        <div id="topAuthors"></div>
+      </div>
+      <div class="card">
+        <h4>Posts con más likes</h4>
+        <div id="topPosts"></div>
+      </div>
+      <div class="card">
+        <h4>Tags frecuentes</h4>
+        <div id="topTags"></div>
+      </div>
       <div class="card">
         <h4>Tu progreso</h4>
         <div class="stat"><span>Publicaciones</span><span id="statPosts">0</span></div>
@@ -450,7 +461,9 @@
           <button class="tool" data-cmd="formatBlock" data-value="h3">H3</button>
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
-        <div id="editor" class="editor" contenteditable="true" spellcheck="true"><p>Pega aquí tu contenido.</p></div>
+        <div id="editor" class="editor" contenteditable="true" spellcheck="true">
+          <p>Pega aquí tu contenido.</p>
+        </div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*" multiple>
           <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube.</span>
@@ -472,37 +485,49 @@
         <button class="close-x" id="closeDashboard">×</button>
       </div>
       <div class="modal-body">
-        <div class="dash-grid">
-          <div class="dash-card">
-            <div class="dash-head">
-              <div class="dash-title">Resumen</div>
-              <span class="pill" id="dashUserName">—</span>
+        <div class="dash-grid" style="display:grid;grid-template-columns:1.2fr .8fr;gap:16px">
+          <div class="dash-card" style="background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden">
+            <div class="dash-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
+              <div class="dash-title" style="font-weight:800">Resumen</div>
+              <span class="pill" id="dashUserName" style="background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted)">—</span>
             </div>
-            <div class="stats-grid">
-              <div class="stat-card"><div class="stat-label">Total publicaciones</div><div class="stat-value" id="dashStatPosts">0</div></div>
-              <div class="stat-card"><div class="stat-label">Likes acumulados</div><div class="stat-value" id="dashStatLikes">0</div></div>
-              <div class="stat-card"><div class="stat-label">Donación</div><div class="stat-value" id="dashStatDonation">OFF</div></div>
+            <div class="stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px">
+              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
+                <div class="stat-label" style="color:var(--muted);font-size:12px">Total publicaciones</div>
+                <div class="stat-value" id="dashStatPosts" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
+              </div>
+              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
+                <div class="stat-label" style="color:var(--muted);font-size:12px">Likes acumulados</div>
+                <div class="stat-value" id="dashStatLikes" style="font-weight:900;font-size:22px;margin-top:4px">0</div>
+              </div>
+              <div class="stat-card" style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px">
+                <div class="stat-label" style="color:var(--muted);font-size:12px">Donación</div>
+                <div class="stat-value" id="dashStatDonation" style="font-weight:900;font-size:22px;margin-top:4px">OFF</div>
+              </div>
             </div>
-            <div class="two-col">
+            <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px">
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
                 <div class="dash-head" style="padding:10px 0;border-bottom:1px solid var(--border)">
-                  <div class="dash-title">Siguiendo</div>
+                  <div class="dash-title" style="font-weight:800">Siguiendo</div>
                   <span class="pill"># <span id="countFollowing">0</span></span>
                 </div>
-                <div class="list-wrap" id="dashFollowing"></div>
+                <div class="list-wrap" id="dashFollowing" style="padding:12px 16px;max-height:360px;overflow:auto"></div>
               </div>
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
                 <div class="dash-head" style="padding:10px 0;border-bottom:1px solid var(--border)">
-                  <div class="dash-title">Te siguen</div>
+                  <div class="dash-title" style="font-weight:800">Te siguen</div>
                   <span class="pill"># <span id="countFollowers">0</span></span>
                 </div>
-                <div class="list-wrap" id="dashFollowers"></div>
+                <div class="list-wrap" id="dashFollowers" style="padding:12px 16px;max-height:360px;overflow:auto"></div>
               </div>
             </div>
           </div>
-          <div class="dash-card">
-            <div class="dash-head"><div class="dash-title">Tus posts</div><span class="pill" id="dashPostsCount">0</span></div>
-            <div class="list-wrap" id="dashPosts"></div>
+          <div class="dash-card" style="background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden">
+            <div class="dash-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
+              <div class="dash-title" style="font-weight:800">Tus posts</div>
+              <span class="pill" id="dashPostsCount">0</span>
+            </div>
+            <div class="list-wrap" id="dashPosts" style="padding:12px 16px;max-height:360px;overflow:auto"></div>
           </div>
         </div>
       </div>
@@ -570,7 +595,7 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notifications (desktop + mobile mirror) */
+    /* Notifications sync */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
@@ -620,9 +645,7 @@
     notifClearAll.addEventListener('click', clearNotifications);
     notifClearAllMobile.addEventListener('click', clearNotifications);
     sheetClose.addEventListener('click', closeNotifSheet);
-    document.addEventListener('click',(e)=>{
-      if (!notif.contains(e.target)) notifPanel.style.display='none';
-    });
+    document.addEventListener('click',(e)=>{ if (!notif.contains(e.target)) notifPanel.style.display='none'; });
 
     /* Auth */
     const googleBtn = document.getElementById('googleBtn');
@@ -700,7 +723,7 @@
       return null;
     }
 
-    /* Media preview — solo imágenes (dataURL) */
+    /* Media preview */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -1033,7 +1056,7 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube (desktop big) */
+      /* Featured YouTube */
       let hasFeaturedVideo = false;
       (p.media || []).forEach(m=>{
         if(!hasFeaturedVideo && m.type==='youtube' && m.videoId){
@@ -1112,7 +1135,7 @@
         computeDonationEligibility();
       });
 
-      /* Comentarios */
+      /* Comments block */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1136,7 +1159,9 @@
         submit.disabled = true;
         try{
           await firestore.collection('posts').doc(id).collection('comments').add({
-            text, parentId: null, likesCount: 0, likedBy: [],
+            text,
+            parentId: null,
+            likesCount: 0, likedBy: [],
             author: { uid:u.uid, name:u.displayName || u.email || 'Usuario', avatar:u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -1155,16 +1180,22 @@
         }
       });
 
-      let fullComments = []; let renderLimit = 5;
+      let fullComments = [];
+      let renderLimit = 5;
+
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
-        fullComments = []; csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
+        fullComments = [];
+        csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
         renderCommentsThread(id, commentsList, fullComments, renderLimit);
         updateLoadMoreVisibility();
       });
 
       function updateLoadMoreVisibility(){
-        if (fullComments.filter(c=>!c.parentId).length > renderLimit) loadMoreBtn.style.display='inline-block';
-        else loadMoreBtn.style.display='none';
+        if (fullComments.filter(c=>!c.parentId).length > renderLimit) {
+          loadMoreBtn.style.display='inline-block';
+        } else {
+          loadMoreBtn.style.display='none';
+        }
       }
       loadMoreBtn.addEventListener('click', ()=>{
         renderLimit += 5;
@@ -1187,8 +1218,13 @@
       container.innerHTML = '';
       const roots = comments.filter(c=>!c.parentId);
       const childrenMap = {};
-      comments.filter(c=>c.parentId).forEach(c=>{ (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c); });
-      roots.slice(0, limit).forEach(c=>{ container.appendChild(makeCommentEl(postId, c, childrenMap)); });
+      comments.filter(c=>c.parentId).forEach(c=>{
+        (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c);
+      });
+      const showRoots = roots.slice(0, limit);
+      showRoots.forEach(c=>{
+        container.appendChild(makeCommentEl(postId, c, childrenMap));
+      });
     }
 
     function makeCommentEl(postId, c, childrenMap){
@@ -1199,8 +1235,8 @@
       const meta = document.createElement('div'); meta.className='comment-meta';
       let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
       const leftMeta = document.createElement('div'); leftMeta.className='meta-left'; leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
+
       const rightMeta = document.createElement('div');
-      meta.appendChild(leftMeta); meta.appendChild(rightMeta);
 
       const text = document.createElement('div'); text.className='comment-text'; text.textContent = c.text;
 
@@ -1235,21 +1271,30 @@
         replySend.disabled = true;
         try{
           await firestore.collection('posts').doc(postId).collection('comments').add({
-            text: txt, parentId: c.id, likesCount: 0, likedBy: [],
+            text: txt,
+            parentId: c.id,
+            likesCount: 0,
+            likedBy: [],
             author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
-          replyInput.value=''; replyForm.style.display='none';
+          replyInput.value='';
+          replyForm.style.display='none';
         }catch(err){ alert('Error al responder: '+err.message); }
         replySend.disabled=false;
       });
 
       actions.appendChild(like); actions.appendChild(reply);
-      box.appendChild(meta); box.appendChild(text); box.appendChild(actions); box.appendChild(replyForm);
+      box.appendChild(meta);
+      box.appendChild(text);
+      box.appendChild(actions);
+      box.appendChild(replyForm);
 
       const repliesWrap = document.createElement('div'); repliesWrap.className='replies-wrap';
       const children = (childrenMap && childrenMap[c.id]) || [];
-      children.forEach(child=>{ repliesWrap.appendChild(makeReplyEl(postId, child)); });
+      children.forEach(child=>{
+        repliesWrap.appendChild(makeReplyEl(postId, child));
+      });
       if (children.length) box.appendChild(repliesWrap);
 
       item.appendChild(av); item.appendChild(box);
@@ -1314,16 +1359,9 @@
     closePostView.addEventListener('click',()=>{ postViewModal.style.display='none'; unlockBody(); });
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal){ postViewModal.style.display='none'; unlockBody(); } });
 
-    /* Dashboard */
+    /* Dashboard open */
     const dashboardModal = document.getElementById('dashboardModal');
     const closeDashboard = document.getElementById('closeDashboard');
-    const dashStatPosts = document.getElementById('dashStatPosts');
-    const dashStatLikes = document.getElementById('dashStatLikes');
-    const dashStatDonation = document.getElementById('dashStatDonation');
-    const dashPosts = document.getElementById('dashPosts');
-    const dashPostsCount = document.getElementById('dashPostsCount');
-    const dashUserName = document.getElementById('dashUserName');
-
     function openDashboardModal(){ dashboardModal.style.display='flex'; lockBody(); }
     function closeDashboardModal(){ dashboardModal.style.display='none'; unlockBody(); }
     closeDashboard.addEventListener('click', closeDashboardModal);
@@ -1332,7 +1370,7 @@
     async function loadDashboard(){
       const u = auth.currentUser;
       if (!u){ alert('Inicia sesión'); return; }
-      dashUserName.textContent = u.displayName || u.email || 'Usuario';
+      document.getElementById('dashUserName').textContent = u.displayName || u.email || 'Usuario';
 
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
       let totalPosts=0, totalLikes=0, donationFlag=false;
@@ -1341,9 +1379,9 @@
         const d = doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true;
         items.push({ id:doc.id, data:d });
       });
-      dashStatPosts.textContent = totalPosts;
-      dashStatLikes.textContent = totalLikes;
-      dashStatDonation.textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
+      document.getElementById('dashStatPosts').textContent = totalPosts;
+      document.getElementById('dashStatLikes').textContent = totalLikes;
+      document.getElementById('dashStatDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
 
       const meSnap = await firestore.collection('users').doc(u.uid).get();
       const userDoc = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
@@ -1383,6 +1421,7 @@
         dashFollowers.appendChild(el);
       }
 
+      const dashPosts = document.getElementById('dashPosts');
       dashPosts.innerHTML = '';
       items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
       items.forEach(p=>{
@@ -1396,7 +1435,7 @@
         </div>`;
         dashPosts.appendChild(row);
       });
-      dashPostsCount.textContent = items.length;
+      document.getElementById('dashPostsCount').textContent = items.length;
 
       openDashboardModal();
     }
