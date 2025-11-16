@@ -8,17 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0a0f1a; --panel:#0f1626; --panel-2:#131c2e; --border:#24324d;
-      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#7dd3fc;
-      --danger:#ef4444; --ok:#22c55e; --shadow:0 20px 40px rgba(0,0,0,.35);
+      --bg:#0a0f1a; --panel:#111827; --panel-2:#172033; --border:#2b3a55;
+      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#3b82f6;
+      --danger:#ef4444; --ok:#22c55e; --shadow:0 12px 28px rgba(0,0,0,.35);
       --tag-bg:#0e1524; --gold:#fbbf24;
-      --glass:rgba(255,255,255,.06);
     }
     body.light{
-      --bg:#f6f9ff; --panel:#ffffff; --panel-2:#f3f7fe; --border:#d5e0ee;
-      --text:#0f172a; --muted:#50627b; --accent:#2563eb; --headline:#0ea5e9;
-      --danger:#dc2626; --ok:#16a34a; --shadow:0 18px 36px rgba(16,24,40,.08);
-      --tag-bg:#ffffff; --gold:#f59e0b; --glass:rgba(0,0,0,.06);
+      --bg:#f5f8fd; --panel:#ffffff; --panel-2:#edf3fb; --border:#d5e0ee;
+      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --headline:#2563eb;
+      --danger:#dc2626; --ok:#16a34a; --shadow:0 12px 26px rgba(16,24,40,.10);
+      --tag-bg:#ffffff; --gold:#f59e0b;
     }
 
     *{box-sizing:border-box}
@@ -27,23 +26,24 @@
     img,video,iframe{max-width:100%;display:block}
 
     /* Header */
-    .header{position:sticky;top:0;z-index:100;background:linear-gradient(180deg, rgba(0,0,0,.35), transparent) 0 0/100% 100% no-repeat; backdrop-filter:blur(8px)}
-    .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand-logo{width:44px;height:44px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--glass);display:grid;place-items:center}
+    .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
+    .nav{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px;min-width:240px}
+    .brand-logo{width:42px;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
     .brand-logo img{width:34px;height:34px;object-fit:contain}
-    .brand-title h1{font-family:"Playfair Display",serif;font-size:22px;margin:0}
-    .brand-title .slogan{color:var(--muted);font-size:12px;margin-top:2px}
-    .spacer{flex:1}
-    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;transition:.2s}
+    .brand-title{line-height:1}
+    .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;color:var(--text)}
+    .brand-title .slogan{color:var(--muted);font-size:12px}
+    .spacer{flex:1 1 auto}
+    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
     .btn:hover{filter:brightness(1.06)}
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
     /* Dropdown */
     .dropdown{position:relative}
-    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
-    .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:12px;min-width:220px;box-shadow:var(--shadow);display:none;overflow:hidden}
+    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+    .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none}
     .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
     .dropdown-menu a:hover{background:var(--panel-2)}
 
@@ -58,7 +58,7 @@
     .notif{position:relative}
     .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:12px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:200}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:200}
     .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
     .notif-list{max-height:380px;overflow:auto}
     .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
@@ -95,23 +95,11 @@
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2);color:var(--text)}
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
-    .link-card{display:flex;gap:10px;align-items:center;border:1px solid var(--border);background:var(--panel-2);border-radius:12px;padding:10px;margin:10px 0}
-    .link-thumb{width:64px;height:64px;border-radius:8px;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .link-thumb img{width:100%;height:100%;object-fit:cover}
-    .link-meta{flex:1}
-    .link-title{font-weight:800}
-    .link-host{font-size:12px;color:var(--muted)}
-
-    .post-gallery{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
-    .post-gallery img{width:100%;height:320px;object-fit:cover;border-radius:14px;cursor:pointer;border:1px solid var(--border)}
-    .post-gallery video, .post-gallery iframe{
-      width:100%;
-      height:360px;
-      border-radius:14px;
-      border:2px solid var(--border);
-      box-shadow:0 12px 28px rgba(0,0,0,.38);
-      background:#000;
-    }
+    .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
+    .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
+    .post-gallery iframe{width:100%;height:180px;border-radius:10px;border:1px solid var(--border);background:#000}
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
     .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;color:var(--text)}
@@ -121,6 +109,14 @@
     .btn-mini{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;font-size:12px;color:var(--text)}
     .btn-danger{background:var(--danger);color:#fff;border-color:transparent}
     .donation-pill{margin-left:8px;background:var(--ok);color:#fff;font-size:12px;padding:4px 8px;border-radius:999px;font-weight:800}
+
+    /* Follow buttons */
+    .btn-follow, .btn-following{
+      padding:4px 8px; font-size:11px; border-radius:6px; border:1px solid var(--border); cursor:pointer; align-self:flex-start;
+      white-space:nowrap;
+    }
+    .btn-follow{ background:var(--accent); color:#fff; }
+    .btn-following{ background:var(--panel-2); color:var(--text); }
 
     /* Comments */
     .comments{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
@@ -133,21 +129,21 @@
     .comment-box{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:10px}
     .comment-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-bottom:6px}
     .meta-left{display:flex;align-items:center;gap:8px}
-    .comment-text{color:var(--text);font-size:14px;line-height:1.5}
-    .comment-actions{display:flex;gap:8px;margin-top:8px}
-    .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer}
+    .comment-text{color:var(--text);font-size:14px;line-height:1.5;word-break:break-word}
+    .comment-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer;white-space:nowrap}
     .comment-like.active{background:var(--accent);color:#fff;border-color:transparent}
-    .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer}
+    .icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:2px}
     .icon-btn:hover{color:var(--danger)}
-    .trash-icon,.edit-icon{width:16px;height:16px;display:inline-block}
+    .icon-24{width:18px;height:18px;display:inline-block}
 
     .replies-wrap{margin-top:8px}
     .reply-item{display:flex;gap:10px;margin-top:8px}
     .reply-avatar{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
     .reply-box{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px}
     .reply-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:4px}
-    .reply-text{color:var(--text);font-size:13px}
-    .reply-actions{display:flex;gap:6px;margin-top:6px}
+    .reply-text{color:var(--text);font-size:13px;word-break:break-word}
+    .reply-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 
     .load-more{margin-top:10px}
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
@@ -159,7 +155,7 @@
     .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
 
-    /* Ad box centered */
+    /* Ad box */
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
     .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
     .ad-label{font-weight:900;color:var(--gold);font-size:16px}
@@ -168,7 +164,7 @@
 
     /* Modals */
     .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:180}
-    .modal{width:clamp(360px,92vw,980px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800;color:var(--text)}
     .modal-body{padding:16px;color:var(--text)}
@@ -176,40 +172,66 @@
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:800;font-size:18px;cursor:pointer}
 
     /* Composer */
-    .inputs{display:grid;gap:10px;margin-bottom:10px;grid-template-columns:1fr 1fr}
+    .inputs{display:grid;gap:10px;margin-bottom:10px}
     .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
-    .inputs textarea{grid-column:1/-1}
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
     .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
     .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6;color:var(--text)}
     .editor a{color:var(--accent)}
     .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-    .media-thumb{width:140px;height:90px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
-    .media-thumb img,.media-thumb video{width:100%;height:100%;object-fit:cover}
+    .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
+    .media-thumb img{width:100%;height:100%;object-fit:cover}
 
-    /* Publish progress (solo visible durante publicación) */
-    .progress-btn{position:relative;overflow:hidden}
-    .progress-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0%;transition:width .25s ease}
-    .progress-label{position:absolute;right:12px;bottom:8px;font-size:11px;color:#fff;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:6px;display:none}
+    /* Publish progress — elegante reemplazando el botón */
+    .progress-pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:8px; min-width:180px; height:42px; border-radius:999px;
+      background:linear-gradient(135deg, var(--accent), #7aa7ff);
+      color:#fff; font-weight:900; letter-spacing:.3px; border:none;
+      box-shadow:0 8px 20px rgba(59,130,246,.35);
+    }
+    .progress-pill .pct{font-variant-numeric:tabular-nums}
+    .progress-pill .bar{
+      position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden;
+    }
+    .progress-pill .bar > span{
+      position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px;
+    }
 
-    /* Dashboard avanzado */
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
+    .lightbox-content{max-width:90vw;max-height:90vh}
+    .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
+    .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
+
+    /* Footer */
+    .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
+    .footer-inner{max-width:1240px;margin:0 auto;padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+    .footer a{color:var(--muted)}
+
+    /* Dashboard */
     .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+    @media(max-width:980px){.dash-grid{grid-template-columns:1fr}}
     .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
     .dash-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
     .dash-title{font-weight:800}
     .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
+    @media(max-width:560px){.stats-grid{grid-template-columns:1fr}}
     .stat-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
     .stat-label{color:var(--muted);font-size:12px}
     .stat-value{font-weight:900;font-size:22px;margin-top:4px}
-    .list-wrap{padding:12px 16px}
+    .list-wrap{padding:12px 16px;max-height:360px;overflow:auto}
     .list-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
     .list-item:last-child{border-bottom:none}
-    .pill{background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted)}
+    .pill{background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--muted);white-space:nowrap}
     .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}
+    @media(max-width:980px){.two-col{grid-template-columns:1fr}}
+    .list-left strong{display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    @media(max-width:980px){.list-left strong{max-width:180px}}
+    .list-left .avatar{flex-shrink:0}
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <nav class="nav">
       <div class="brand">
@@ -221,11 +243,8 @@
           <div class="slogan">Información libre y periodismo de comunidad</div>
         </div>
       </div>
-
       <div class="spacer"></div>
-
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
-
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
         <div class="dropdown-menu">
@@ -234,7 +253,6 @@
           <a href="#">Soporte</a>
         </div>
       </div>
-
       <button id="googleBtn" class="btn">Iniciar con Google</button>
       <div id="userChip" style="display:none;align-items:center;gap:8px">
         <img id="userAvatar" class="avatar" alt="avatar">
@@ -242,12 +260,10 @@
         <button id="openDashboard" class="btn">Dashboard</button>
         <button id="logoutBtn" class="btn">Salir</button>
       </div>
-
       <div class="switch">
         <label for="themeToggle">Tema</label>
         <input type="checkbox" id="themeToggle">
       </div>
-
       <div class="notif" id="notif">
         <span class="notif-icon" id="notifIcon">🔔</span>
         <span class="notif-badge" id="notifBadge">0</span>
@@ -264,7 +280,6 @@
     </nav>
   </header>
 
-  <!-- Ticket News -->
   <section class="ticket">
     <div class="rail">
       <div class="rail-head">Últimos titulares</div>
@@ -272,17 +287,13 @@
     </div>
   </section>
 
-  <!-- Layout principal -->
   <section class="layout">
-    <!-- Feed -->
     <div class="panel">
       <h3>Feed</h3>
       <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
       <div id="posts"></div>
       <div id="emptyFeed" class="panel-sub">Aún no hay publicaciones.</div>
     </div>
-
-    <!-- Right column -->
     <aside class="right-col">
       <div class="card">
         <h4>Tu perfil</h4>
@@ -297,7 +308,6 @@
           <button id="openDashboardSide" class="btn-mini">Dashboard</button>
         </div>
       </div>
-
       <div class="card">
         <h4>Anuncio</h4>
         <div class="ad-box">
@@ -308,22 +318,18 @@
           </div>
         </div>
       </div>
-
       <div class="card">
         <h4>Destacados</h4>
         <div id="topAuthors"></div>
       </div>
-
       <div class="card">
         <h4>Posts con más likes</h4>
         <div id="topPosts"></div>
       </div>
-
       <div class="card">
         <h4>Tags frecuentes</h4>
         <div id="topTags"></div>
       </div>
-
       <div class="card">
         <h4>Tu progreso</h4>
         <div class="stat"><span>Publicaciones</span><span id="statPosts">0</span></div>
@@ -333,7 +339,6 @@
     </aside>
   </section>
 
-  <!-- Composer modal -->
   <div id="composerModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -343,12 +348,13 @@
       <div class="modal-body">
         <div class="inputs">
           <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
-          <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
           <textarea id="descInput" placeholder="Descripción breve" rows="3" maxlength="280"></textarea>
-          <input id="youtubeInput" type="url" placeholder="URL de YouTube (opcional)">
+          <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
+          <input id="youtubeInput" type="url" placeholder="URL de YouTube (videos, shorts y en vivo)">
           <select id="contentType">
-            <option value="texto">Solo texto</option>
-            <option value="media">Imágenes / videos</option>
+            <option value="texto">Texto</option>
+            <option value="imagen">Imágenes</option>
+            <option value="video">Video de YouTube</option>
           </select>
         </div>
         <div class="toolbar">
@@ -366,23 +372,18 @@
           <p>Pega aquí tu contenido.</p>
         </div>
         <div class="media-row">
-          <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          <span class="panel-sub">Sin límite de tamaño (cualquier video).</span>
+          <input id="mediaInput" type="file" accept="image/*" multiple>
+          <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube (admite en vivo y shorts).</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
       <div class="modal-actions">
-        <button id="publishBtn" class="btn btn-accent progress-btn">
-          Publicar
-          <span class="progress-bar" id="publishProgress"></span>
-          <span class="progress-label" id="publishLabel">0%</span>
-        </button>
+        <button id="publishBtn" class="btn btn-accent">Publicar</button>
         <button id="resetBtn" class="btn">Reset</button>
       </div>
     </div>
   </div>
 
-  <!-- Dashboard modal (avanzado) -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -391,7 +392,6 @@
       </div>
       <div class="modal-body">
         <div class="dash-grid">
-          <!-- Columna izquierda: métricas y seguidores -->
           <div class="dash-card">
             <div class="dash-head">
               <div class="dash-title">Resumen</div>
@@ -428,8 +428,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Columna derecha: tus posts -->
           <div class="dash-card">
             <div class="dash-head">
               <div class="dash-title">Tus posts</div>
@@ -442,7 +440,6 @@
     </div>
   </div>
 
-  <!-- Post view modal -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -453,13 +450,11 @@
     </div>
   </div>
 
-  <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
     <div class="lightbox-content"></div>
   </div>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
       <div>© 2025 SIN NADA QUE OCULTAR. Todos los derechos reservados.</div>
@@ -467,7 +462,6 @@
     </div>
   </footer>
 
-  <!-- SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
@@ -535,7 +529,7 @@
     function pushNotification(text){
       const id = Date.now()+Math.random();
       notifications.unshift({id, msg:text, ts:Date.now()});
-      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display='inline-block';
+      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display = 'inline-block';
       renderNotifications();
     }
     notifClearAll.addEventListener('click', ()=>{
@@ -600,21 +594,24 @@
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    /* YouTube helper */
+    /* YouTube helper (videos, shorts y en vivo) */
     const youtubeInput = document.getElementById('youtubeInput');
     function extractYouTubeId(url){
       if (!url) return null;
       try{
         const u = new URL(url);
-        if (u.hostname.includes('youtube.com')) return u.searchParams.get('v');
-        if (u.hostname.includes('youtu.be')) return u.pathname.replace('/','');
-        const m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/);
-        if (m) return m[1];
+        if (u.hostname.includes('youtube.com')) {
+          if (u.pathname.startsWith('/live/')) return u.pathname.split('/live/')[1]; // en vivo
+          return u.searchParams.get('v'); // videos normales
+        }
+        if (u.hostname.includes('youtu.be')) return u.pathname.replace('/',''); // short y enlaces cortos
+        const shorts = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]+)/);
+        if (shorts) return shorts[1];
       }catch{}
       return null;
     }
 
-    /* Media preview */
+    /* Media preview — solo imágenes */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -623,115 +620,124 @@
       mediaPreview.innerHTML = '';
       selectedFiles.forEach(file => {
         const div = document.createElement('div'); div.className = 'media-thumb';
-        if (file.type.startsWith('image/')) {
-          const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
-        } else if (file.type.startsWith('video/')) {
-          const vid = document.createElement('video'); vid.src = URL.createObjectURL(file); vid.muted = true; vid.loop = true; vid.autoplay = true; div.appendChild(vid);
-        }
+        const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
         mediaPreview.appendChild(div);
       });
     });
 
-    /* Conversión a Data URLs (vista inmediata) */
-    function readFilesAsDataUrls(files, onProgress){
-      const total = files.length || 1;
-      let done = 0;
-      return Promise.all(files.map(f => new Promise(res=>{
-        const reader = new FileReader();
-        reader.onload = () => {
-          done++;
-          if (onProgress) onProgress(done/total);
-          res({ url: reader.result, type: f.type.startsWith('video/') ? 'video' : 'image' });
-        };
-        reader.readAsDataURL(f);
-      })));
-    }
-
+    /* Publish progress — elegante reemplazando el botón */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
     const contentType = document.getElementById('contentType');
     const publishBtn = document.getElementById('publishBtn');
-    const publishProgress = document.getElementById('publishProgress');
-    const publishLabel = document.getElementById('publishLabel');
     const resetBtn = document.getElementById('resetBtn');
 
-    function setProgress(pct){
+    let progressPillEl = null;
+    let progressBarEl = null;
+    let progressPctEl = null;
+
+    function mountProgressPill(){
+      if (progressPillEl) return;
+      progressPillEl = document.createElement('div');
+      progressPillEl.className = 'progress-pill';
+      progressPctEl = document.createElement('span');
+      progressPctEl.className = 'pct';
+      progressPctEl.textContent = '0%';
+      const bar = document.createElement('div'); bar.className = 'bar';
+      progressBarEl = document.createElement('span');
+      bar.appendChild(progressBarEl);
+      progressPillEl.appendChild(progressPctEl);
+      progressPillEl.appendChild(bar);
+      publishBtn.replaceWith(progressPillEl);
+    }
+    function unmountProgressPill(){
+      if (!progressPillEl) return;
+      const newBtn = document.createElement('button');
+      newBtn.id = 'publishBtn';
+      newBtn.className = 'btn btn-accent';
+      newBtn.textContent = 'Publicar';
+      progressPillEl.replaceWith(newBtn);
+      progressPillEl = null; progressBarEl = null; progressPctEl = null;
+      document.getElementById('publishBtn').addEventListener('click', onPublishClick);
+    }
+    function setProgressElegant(pct){
       const v = Math.max(0, Math.min(100, pct));
-      publishProgress.style.width = v + '%';
-      publishLabel.textContent = v + '%';
+      if (progressPctEl) progressPctEl.textContent = v + '%';
+      if (progressBarEl) progressBarEl.style.width = v + '%';
     }
 
-    /* Progreso solo cuando publicas */
-    function showProgressUI(show){
-      publishLabel.style.display = show ? 'inline-block' : 'none';
-      publishProgress.style.width = show ? '0%' : '0%';
-    }
-    showProgressUI(false);
-
-    publishBtn.addEventListener('click', async () => {
+    async function onPublishClick(){
       const user = auth.currentUser;
       if (!user) { alert('Inicia sesión para publicar.'); return; }
       const title = titleInput.value.trim();
       const desc = descInput.value.trim();
       const bodyHtml = editor.innerHTML.trim();
       const tags = tagsInput.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
+      const type = contentType.value;
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
-      publishBtn.disabled = true;
-      showProgressUI(true);
-      setProgress(5);
+      mountProgressPill();
+      setProgressElegant(5);
 
       try {
         let mediaItems = [];
-        // YouTube
         const ytId = extractYouTubeId(youtubeInput.value.trim());
-        if (ytId) {
-          mediaItems.push({ type:'youtube', videoId: ytId });
-        }
+        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
-        // Archivos locales
         if (selectedFiles.length){
-          mediaItems = mediaItems.concat(await readFilesAsDataUrls(selectedFiles, frac=>{
-            setProgress(5 + Math.round(60*frac)); // hasta 65% durante lectura
-          }));
+          const total = selectedFiles.length;
+          let done = 0;
+          const items = await Promise.all(selectedFiles.map(f => new Promise(res=>{
+            const reader = new FileReader();
+            reader.onload = () => {
+              done++;
+              setProgressElegant(5 + Math.round(60*(done/total)));
+              res({ url: reader.result, type: 'image' });
+            };
+            reader.readAsDataURL(f);
+          })));
+          mediaItems = mediaItems.concat(items);
         }
 
-        setProgress(80);
-        const docRef = await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags, contentType: contentType.value,
+        setProgressElegant(85);
+        await firestore.collection('posts').add({
+          title, desc, bodyHtml, tags, type,
           media: mediaItems,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           likesCount: 0, likedBy: [],
           donationEnabled: false
         });
-        setProgress(100);
+        setProgressElegant(100);
 
+        // reset
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         youtubeInput.value = '';
         editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-        setTimeout(()=>{ publishBtn.disabled=false; setProgress(0); showProgressUI(false); }, 800);
+
+        // cerrar modal al publicar
+        setTimeout(()=>{ hideComposer(); }, 300);
+        // restaurar botón
+        setTimeout(()=>{ unmountProgressPill(); }, 600);
 
         pushNotification(`Publicaste "${title}"`);
-        openPostView(docRef.id);
       } catch (e) {
         alert('Error publicando: ' + e.message);
-        publishBtn.disabled=false; setProgress(0); showProgressUI(false);
+        unmountProgressPill();
       }
-    });
+    }
+    publishBtn.addEventListener('click', onPublishClick);
 
     resetBtn.addEventListener('click', () => {
       titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       youtubeInput.value = '';
       editor.innerHTML = '';
       mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
-      setProgress(0); showProgressUI(false);
-      publishBtn.disabled = false;
     });
 
-    /* Feed + titulares + right col stats */
+    /* Feed + titulares + stats */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
     const marquee = document.getElementById('marquee');
@@ -768,7 +774,6 @@
         const pill = document.createElement('span'); pill.className = 'headline';
         const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
         pill.innerHTML = `<span class="tag">${tags}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`;
-        pill.addEventListener('click', ()=> openPostView(p.id));
         marquee.appendChild(pill);
       });
     }
@@ -784,33 +789,16 @@
       });
       const sortedAuthors = Object.values(authorMap).sort((a,b)=>b.likes-a.likes).slice(0,6);
       topAuthors.innerHTML = '';
-      const currentUid = auth.currentUser?.uid;
       sortedAuthors.forEach(a=>{
         const row = document.createElement('div'); row.className='list-row';
         const left = document.createElement('div'); left.className='list-left';
         const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name));
         const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="panel-sub">${a.posts} posts • ${a.likes} likes</div>`;
         left.appendChild(av); left.appendChild(txt);
-        const btn = document.createElement('button');
-        btn.textContent = 'Seguir';
-        btn.className = 'btn btn-accent';
-        if (currentUid && currentUid === a.uid) { btn.style.display='none'; }
-        else {
-          btn.addEventListener('click', ()=> toggleFollow(a.uid, a.name, a.avatar, btn));
-          setTimeout(async ()=>{
-            if (!currentUid) return;
-            const meSnap = await firestore.collection('users').doc(currentUid).get();
-            const following = (meSnap.data()?.following)||[];
-            const isFollowing = following.includes(a.uid);
-            btn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
-            btn.className = isFollowing ? 'btn btn-mini' : 'btn btn-accent';
-          }, 0);
-        }
-        row.appendChild(left); row.appendChild(btn);
+        row.appendChild(left);
         topAuthors.appendChild(row);
       });
 
-      // Posts top
       const topPosts = document.getElementById('topPosts');
       const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6);
       topPosts.innerHTML = '';
@@ -824,7 +812,6 @@
         topPosts.appendChild(row);
       });
 
-      // Tags
       const topTags = document.getElementById('topTags');
       const tagCounts = {};
       list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
@@ -875,6 +862,17 @@
       });
     }
 
+    function loadRightColumnStats(){
+      const u = auth.currentUser; if (!u) return;
+      firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{
+        let totalPosts=0, totalLikes=0, donationFlag=false;
+        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; });
+        document.getElementById('statPosts').textContent = totalPosts;
+        document.getElementById('statLikes').textContent = totalLikes;
+        document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
+      });
+    }
+
     /* Follow system */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
@@ -903,19 +901,8 @@
         if (btn){
           const nowFollowing = !isFollowing;
           btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir';
-          btn.className = nowFollowing ? 'btn btn-mini' : 'btn btn-accent';
+          btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
         }
-      });
-    }
-
-    function loadRightColumnStats(){
-      const u = auth.currentUser; if (!u) return;
-      firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{
-        let totalPosts=0, totalLikes=0, donationFlag=false;
-        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; });
-        document.getElementById('statPosts').textContent = totalPosts;
-        document.getElementById('statLikes').textContent = totalLikes;
-        document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
       });
     }
 
@@ -940,14 +927,14 @@
         followBtn.style.display='none';
       } else {
         followBtn.textContent = 'Seguir';
-        followBtn.className = 'btn btn-accent';
+        followBtn.className = 'btn-follow';
         followBtn.addEventListener('click', ()=> toggleFollow(p.author?.uid, p.author?.name, p.author?.avatar, followBtn));
         if (currentUid) {
           firestore.collection('users').doc(currentUid).get().then(snap=>{
             const following = (snap.data()?.following)||[];
             const isFollowing = following.includes(p.author?.uid);
             followBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir';
-            followBtn.className = isFollowing ? 'btn btn-mini' : 'btn btn-accent';
+            followBtn.className = isFollowing ? 'btn-following' : 'btn-follow';
           });
         }
       }
@@ -961,24 +948,18 @@
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
-
-      // Render media (image/video/youtube)
       (p.media || []).forEach(m => {
         if (m.type === 'image') {
           const img = document.createElement('img'); img.src = m.url; img.alt = p.title || '';
           img.addEventListener('click', () => openLightbox('image', m.url));
           gallery.appendChild(img);
-        } else if (m.type === 'video') {
-          const vid = document.createElement('video'); vid.src = m.url; vid.controls = true;
-          vid.addEventListener('click', () => openLightbox('video', m.url));
-          gallery.appendChild(vid);
         } else if (m.type === 'youtube' && m.videoId) {
-          const iframe = document.createElement('iframe');
-          iframe.src = `https://www.youtube.com/embed/${m.videoId}`;
-          iframe.title = "YouTube video player";
-          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-          iframe.allowFullscreen = true;
-          gallery.appendChild(iframe);
+          const ifr = document.createElement('iframe');
+          ifr.src = `https://www.youtube.com/embed/${m.videoId}`;
+          ifr.title = "YouTube video player";
+          ifr.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          ifr.allowFullscreen = true;
+          gallery.appendChild(ifr);
         }
       });
 
@@ -1099,7 +1080,6 @@
         updateLoadMoreVisibility();
       });
 
-      // Assemble card
       card.appendChild(head);
       card.appendChild(tagRow);
       card.appendChild(descEl);
@@ -1138,9 +1118,10 @@
       const isAuthor = me && me.uid === c.author?.uid;
 
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
-      editBtn.innerHTML = `<svg class="edit-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
+      editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="trash-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v10h-2V9zm4 0h2v10h-2V9z"/></svg>`;
+      /* Nuevo icono completo (papelera moderna) */
+      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0 0 1 .92.62l.62 1.38H21a1 1 0 1 1 0 2h-1v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7H3a1 1 0 1 1 0-2h4.46l.62-1.38A1 1 0 0 1 9 3zm8 4H7v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7zM9 9a1 1 0 0 1 1 1v7a1 1 0 1 1-2 0v-7a1 1 0 0 1 1-1zm6 0a1 1 0 0 1 1 1v7a1 1 0 1 1-2 0v-7a1 1 0 0 1 1-1z"/></svg>`;
 
       if (isAuthor) { rightMeta.appendChild(editBtn); rightMeta.appendChild(trashBtn); }
       meta.appendChild(leftMeta); meta.appendChild(rightMeta);
@@ -1167,7 +1148,7 @@
 
       trashBtn.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
+        const ok = confirm('¿Eliminar este comentario? Se eliminarán también sus respuestas.'); if (!ok) return;
         try{
           const children = childrenMap[c.id] || [];
           for (const child of children){
@@ -1254,14 +1235,41 @@
 
       const me = auth.currentUser; const isAuthor = me && me.uid === r.author?.uid;
       const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
-      editBtn.innerHTML = `<svg class="edit-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
+      editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
       const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="trash-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v10h-2V9zm4 0h2v10h-2V9z"/></svg>`;
+      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0 0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0 1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0 0 1 1h8a1 1 0  0 0 1-1V7zM9 9a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0 1 1-1zm6 0a1 1 0  0 1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0 1 1-1z"/></svg>`;
 
       if (isAuthor) { right.appendChild(editBtn); right.appendChild(trashBtn); }
       meta.appendChild(left); meta.appendChild(right);
 
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
+
+      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = r.text;
+      const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
+
+      editBtn.addEventListener('click', ()=>{
+        if (!isAuthor) return;
+        const show = editInput.style.display==='none';
+        editInput.style.display = show ? 'block' : 'none';
+        saveEdit.style.display = show ? 'inline-block' : 'none';
+      });
+      saveEdit.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u || !isAuthor) return;
+        const val = editInput.value.trim(); if (!val) return;
+        try{
+          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).update({ text: val });
+          text.textContent = val;
+          editInput.style.display='none'; saveEdit.style.display='none';
+        }catch(e){ alert('Error guardando edición: '+e.message); }
+      });
+
+      trashBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u || !isAuthor){ return; }
+        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
+        try{
+          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete();
+        }catch(e){ alert('Error eliminando respuesta: '+e.message); }
+      });
 
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
@@ -1282,7 +1290,7 @@
       });
 
       actions.appendChild(like);
-      box.appendChild(meta); box.appendChild(text); box.appendChild(actions);
+      box.appendChild(meta); box.appendChild(text); box.appendChild(editInput); box.appendChild(saveEdit); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
       return item;
     }
@@ -1303,7 +1311,6 @@
       const gallery = document.createElement('div'); gallery.className='post-gallery';
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
-        else if(m.type==='video'){ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
         else if(m.type==='youtube' && m.videoId){ const iframe=document.createElement('iframe'); iframe.src=`https://www.youtube.com/embed/${m.videoId}`; iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"; iframe.allowFullscreen=true; gallery.appendChild(iframe); }
       });
       pvBody.appendChild(meta); pvBody.appendChild(body);
@@ -1333,7 +1340,6 @@
       if (!u){ alert('Inicia sesión'); return; }
       dashUserName.textContent = u.displayName || u.email || 'Usuario';
 
-      // Stats
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
       let totalPosts=0, totalLikes=0, donationFlag=false;
       const items = [];
@@ -1345,12 +1351,10 @@
       dashStatLikes.textContent = totalLikes;
       dashStatDonation.textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
 
-      // Siguiendo / Te siguen (numérico y sin duplicados)
       const meSnap = await firestore.collection('users').doc(u.uid).get();
       const userDoc = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
       const following = Array.from(new Set(userDoc.following || []));
       const followers = Array.from(new Set(userDoc.followers || []));
-
       document.getElementById('countFollowing').textContent = following.length;
       document.getElementById('countFollowers').textContent = followers.length;
 
@@ -1385,7 +1389,6 @@
         dashFollowers.appendChild(el);
       }
 
-      // Tus posts
       dashPosts.innerHTML = '';
       items.sort((a,b)=> (b.data.createdAt?.seconds||0)-(a.data.createdAt?.seconds||0));
       items.forEach(p=>{
@@ -1396,15 +1399,10 @@
             <strong>${escapeHtml(p.data.title||'(sin título)')}</strong>
             <div class="panel-sub">${p.data.likesCount||0} likes • Donación: ${p.data.donationEnabled ? 'ON' : 'OFF'}</div>
           </div>
-        </div>
-        <button class="btn-mini" data-open="${p.id}">Ver</button>`;
+        </div>`;
         dashPosts.appendChild(row);
       });
       dashPostsCount.textContent = items.length;
-
-      dashPosts.querySelectorAll('[data-open]').forEach(b=>{
-        b.addEventListener('click', ()=> openPostView(b.getAttribute('data-open')));
-      });
 
       openDashboardModal();
     }
