@@ -8,87 +8,89 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0f1115; --panel:#141821; --panel-2:#1b2130; --border:#2a3346; --text:#e8ecf1; --muted:#9fb0c7;
-      --accent:#29b6f6; --accent-2:#ff3d71; --headline:#ffd166; --ok:#22c55e;
+      --bg:#0b0e14; --panel:#121825; --panel-2:#182235; --border:#24314a; --text:#eef2f7; --muted:#9fb0c7;
+      --accent:#2ac3ff; --accent-2:#ff3d71; --headline:#ffd166; --ok:#22c55e;
+      --shadow:0 10px 25px rgba(0,0,0,.3);
     }
     body.light{
-      --bg:#f7fafc; --panel:#ffffff; --panel-2:#f1f5f9; --border:#e5e7eb; --text:#0f172a; --muted:#64748b;
+      --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f2f5f9; --border:#e5e7eb; --text:#0f172a; --muted:#64748b;
       --accent:#2563eb; --accent-2:#ef4444; --headline:#ffbe0b; --ok:#16a34a;
+      --shadow:0 10px 25px rgba(16,24,40,.08);
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
-    .fade-in{animation:fade .5s ease both}
+    .fade-in{animation:fade .4s ease both}
     @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .pulse{animation:pulse 1.6s infinite}
-    @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+    .slide-up{animation:su .5s ease both}
+    @keyframes su{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
     /* Header */
-    .header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg,var(--panel) 0%,rgba(20,24,33,.9) 100%);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
-    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand-logo{width:46px;height:46px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0c1018;display:grid;place-items:center}
-    .brand-logo img{width:40px;height:40px;object-fit:contain}
+    .header{position:sticky;top:0;z-index:70;background:linear-gradient(180deg,var(--panel) 0%,rgba(18,24,37,.92) 100%);border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+    .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-logo{width:54px;height:54px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0c1018;display:grid;place-items:center;box-shadow:var(--shadow)}
+    .brand-logo img{width:46px;height:46px;object-fit:contain}
     .brand-title{line-height:1}
-    .brand-title h1{font-family:"Playfair Display",serif;font-size:22px;margin:0}
+    .brand-title h1{font-family:"Playfair Display",serif;font-size:24px;margin:0}
     .brand-title .slogan{color:var(--muted);font-size:12px;margin-top:2px}
     .spacer{flex:1}
     .menu{display:flex;align-items:center;gap:8px}
-    .menu .btn{padding:8px 12px}
-    .switch{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2)}
-    .switch input{width:0;height:0;opacity:0;position:absolute}
-    .switch .label{font-size:12px;color:var(--muted);font-weight:700}
     .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:10px 14px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;cursor:pointer}
     .btn:hover{border-color:#334155;background:var(--panel)}
     .btn-accent{background:var(--accent);color:#061218;border-color:transparent}
     .btn-accent:hover{filter:brightness(1.05)}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
+    .switch{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2)}
+    .switch input{width:0;height:0;opacity:0;position:absolute}
+    .switch .label{font-size:12px;color:var(--muted);font-weight:700}
 
-    /* Category menu */
-    .categories{max-width:1200px;margin:8px auto;padding:0 16px;display:flex;flex-wrap:wrap;gap:8px}
+    /* Category bar */
+    .categories{max-width:1240px;margin:10px auto 0;padding:0 16px;display:flex;flex-wrap:wrap;gap:8px}
     .chip{padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2);color:var(--text);font-weight:700;cursor:pointer}
     .chip.active{background:var(--accent);color:#061218;border-color:transparent}
+    .chip-group{display:flex;gap:8px;flex-wrap:wrap}
+    .chip-title{font-size:12px;color:var(--muted);margin-right:6px}
 
-    /* Ticket News (news rail) */
-    .ticket{max-width:1200px;margin:12px auto;padding:0 16px}
-    .ticket-card{position:relative;overflow:hidden;border:1px dashed var(--border);border-radius:16px;background:linear-gradient(120deg,var(--panel),var(--panel) 45%,var(--panel-2) 100%);display:grid;grid-template-columns:1.2fr 300px}
+    /* Ticket News (headlines rail) */
+    .ticket{max-width:1240px;margin:12px auto;padding:0 16px}
+    .ticket-card{position:relative;overflow:hidden;border:1px dashed var(--border);border-radius:16px;background:linear-gradient(120deg,var(--panel),var(--panel) 45%,var(--panel-2) 100%);display:grid;grid-template-columns:1.2fr 320px;box-shadow:var(--shadow)}
     .ticket-left{padding:18px 20px}
     .ticket-title{display:flex;align-items:center;gap:12px;margin-bottom:10px}
     .ticket-title .ticket-tag{font-size:12px;color:#061218;background:var(--headline);padding:6px 10px;border-radius:999px;font-weight:800}
     .ticker{border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);padding:8px 0;margin-top:10px;overflow:hidden}
     .marquee{display:flex;gap:24px;white-space:nowrap;animation:marq 30s linear infinite}
     @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .news-pill{display:inline-flex;gap:8px;align-items:center;background:var(--panel-2);border:1px solid var(--border);padding:8px 12px;border-radius:999px}
-    .news-pill .title{font-weight:800}
-    .news-pill .tags{font-size:12px;color:var(--muted)}
-
+    .news-pill{display:inline-flex;gap:10px;align-items:center;background:var(--panel-2);border:1px solid var(--border);padding:8px 12px;border-radius:999px}
+    .pill-title{font-weight:800}
+    .pill-tags{font-size:12px;color:var(--muted)}
     .ticket-right{display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(1200px 200px at 20% 100%,rgba(41,182,246,0.25),transparent 50%),radial-gradient(1200px 200px at 100% 0%,rgba(255,61,113,0.15),transparent 55%)}
-    .ticket-logo{width:200px;height:200px;border-radius:16px;border:1px solid var(--border);background:#0b0d12;display:grid;place-items:center}
-    .ticket-logo img{width:160px;height:160px;object-fit:contain}
+    .ticket-logo{width:220px;height:220px;border-radius:16px;border:1px solid var(--border);background:#0b0d12;display:grid;place-items:center}
+    .ticket-logo img{width:180px;height:180px;object-fit:contain}
 
     /* Main layout */
-    .container{max-width:1200px;margin:0 auto;padding:16px}
+    .container{max-width:1240px;margin:0 auto;padding:16px}
     .grid{display:grid;grid-template-columns:1fr;gap:18px}
-    .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 12px;font-size:18px}
     .empty{color:var(--muted);text-align:center;padding:30px}
 
     /* Post card */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;transition:transform .2s ease, box-shadow .2s ease}
-    .post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+    .post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
     .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0}
     .post-meta{font-size:12px;color:var(--muted)}
     .post-desc{color:var(--muted);font-size:14px;margin:8px 0}
-    .tag-row{display:flex;gap:6px;flex-wrap:wrap}
+    .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
     .tag{font-size:12px;border:1px solid var(--border);padding:4px 8px;border-radius:999px;color:var(--text);background:var(--panel-2);font-weight:700}
 
     .post-content{margin-top:8px}
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
     @media (max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:520px){.post-gallery{grid-template-columns:1fr}}
-    .post-gallery img,.post-gallery video{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer}
+    .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:pointer}
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
     .like-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);cursor:pointer}
@@ -106,15 +108,15 @@
     .comment-form input{flex:1;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px}
 
     /* Modals */
-    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:70}
-    .modal{width:clamp(320px,80vw,860px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .backdrop{position:fixed;inset:0;background:rgba(10,12,16,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:80}
+    .modal{width:clamp(360px,80vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800}
     .modal-body{padding:16px}
     .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)}
     .close-x{background:transparent;border:0;color:var(--muted);font-weight:800;font-size:18px;cursor:pointer}
     .inputs{display:grid;gap:10px;margin-bottom:10px}
-    .inputs input,.inputs textarea{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
+    .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
     .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
     .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6}
@@ -124,7 +126,7 @@
 
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:90}
-    .lightbox-content{max-width:90vw;max-height:90vh}
+    .lightbox-content{max-width:92vw;max-height:92vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
   </style>
@@ -161,32 +163,36 @@
     </nav>
   </header>
 
-  <!-- Categories filter -->
+  <!-- Category filters -->
   <div class="categories">
-    <span class="chip active" data-filter="all">Todo</span>
-    <span class="chip" data-filter="texto">Texto</span>
-    <span class="chip" data-filter="imagen">Imágenes</span>
-    <span class="chip" data-filter="video">Videos</span>
-    <span class="chip" data-filter="politica">Política</span>
-    <span class="chip" data-filter="sociedad">Sociedad</span>
-    <span class="chip" data-filter="economia">Economía</span>
-    <span class="chip" data-filter="tecnologia">Tecnología</span>
+    <span class="chip-title">Tipo:</span>
+    <div class="chip-group">
+      <span class="chip active" data-type="all">Todo</span>
+      <span class="chip" data-type="texto">Texto</span>
+      <span class="chip" data-type="imagen">Imágenes</span>
+      <span class="chip" data-type="video">Videos</span>
+    </div>
+    <span class="chip-title">Categorías:</span>
+    <div class="chip-group" id="categoryChips">
+      <span class="chip" data-cat="politica">Política</span>
+      <span class="chip" data-cat="sociedad">Sociedad</span>
+      <span class="chip" data-cat="economia">Economía</span>
+      <span class="chip" data-cat="tecnologia">Tecnología</span>
+      <span class="chip" data-cat="cultura">Cultura</span>
+      <span class="chip" data-cat="deportes">Deportes</span>
+    </div>
   </div>
 
-  <!-- Ticket News with rolling headlines -->
+  <!-- Ticket News -->
   <section class="ticket">
     <div class="ticket-card fade-in">
       <div class="ticket-left">
         <div class="ticket-title">
-          <span class="ticket-tag">Ticket News</span>
-          <h2>Titulares de la comunidad</h2>
+          <span class="ticket-tag">Titulares</span>
+          <h2>Lo último de la comunidad</h2>
         </div>
-        <div class="ticker">
-          <div id="marqueeA" class="marquee"></div>
-        </div>
-        <div class="ticker">
-          <div id="marqueeB" class="marquee"></div>
-        </div>
+        <div class="ticker"><div id="marqueeA" class="marquee"></div></div>
+        <div class="ticker"><div id="marqueeB" class="marquee"></div></div>
       </div>
       <div class="ticket-right">
         <div class="ticket-logo">
@@ -198,14 +204,14 @@
 
   <!-- Feed -->
   <main class="container grid">
-    <section id="feed" class="panel fade-in">
+    <section id="feed" class="panel slide-up">
       <h3>Feed</h3>
       <div id="posts"></div>
       <div id="emptyFeed" class="empty">Aún no hay publicaciones. Sé el primero en crear una.</div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" style="max-width:1240px;margin:20px auto;border-top:1px solid var(--border);padding:20px 16px;color:var(--muted);font-size:12px">
     © SIN NADA QUE OCULTAR — Información libre y sin censura • Firebase Auth + Firestore • Media en Cloudinary
   </footer>
 
@@ -219,13 +225,12 @@
       <div class="modal-body">
         <div class="inputs">
           <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
-          <textarea id="descInput" placeholder="Descripción breve (aparecerá en la tarjeta del feed)" rows="3" maxlength="280"></textarea>
-          <input id="tagsInput" type="text" placeholder="Etiquetas (separadas por comas, ej: política, sociedad)">
+          <textarea id="descInput" placeholder="Descripción breve (aparecerá en el feed)" rows="3" maxlength="280"></textarea>
+          <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
           <select id="contentType">
-            <option value="texto">Solo texto</option>
+            <option value="texto">Texto</option>
             <option value="imagen">Imágenes</option>
             <option value="video">Videos</option>
-            <option value="mixto" selected>Mixto</option>
           </select>
         </div>
         <div class="toolbar">
@@ -244,7 +249,7 @@
         </div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          <span class="panel-sub" style="color:var(--muted)">Máx 6 archivos. Imágenes JPG/PNG/WebP, Videos MP4/WebM.</span>
+          <span style="color:var(--muted)">Máx 6 archivos. Imágenes JPG/PNG/WebP, Videos MP4/WebM.</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
@@ -263,7 +268,7 @@
         <button class="close-x" id="closeProfile">×</button>
       </div>
       <div class="modal-body">
-        <p style="color:var(--muted)">Agrega tus enlaces. La sección de donación aparecerá en tus publicaciones solo si acumulas 1200 likes totales.</p>
+        <p style="color:var(--muted)">Agrega tus enlaces. La sección de donación aparece en tus publicaciones solo si acumulas 1200 likes totales.</p>
         <div class="inputs">
           <input id="linkWebsite" type="url" placeholder="Sitio web (https://...)">
           <input id="linkTwitter" type="url" placeholder="X/Twitter (https://twitter.com/...)">
@@ -307,7 +312,7 @@
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace"; // unsigned
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-    // Theme toggle
+    // Theme toggle (persistente)
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const savedTheme = localStorage.getItem('snqo_theme');
@@ -375,12 +380,10 @@
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
         profileModal.style.display = 'none';
-      } catch (e) {
-        alert('Error guardando perfil: ' + e.message);
-      }
+      } catch (e) { alert('Error guardando perfil: ' + e.message); }
     });
 
-    // Composer modal
+    // Composer
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
@@ -456,27 +459,31 @@
       const desc = descInput.value.trim();
       const bodyHtml = editor.innerHTML.trim();
       const tags = tagsInput.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
-      const type = contentType.value;
+      const type = contentType.value; // texto | imagen | video
+
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
-      publishBtn.disabled = true;
+      // coherencia: si type = texto, no se requieren archivos; si imagen/video, recomendamos al menos uno
+      if ((type === 'imagen' || type === 'video') && selectedFiles.length === 0) {
+        const proceed = confirm('Seleccionaste tipo "'+type+'", pero no adjuntaste archivos. ¿Publicar de todas formas?');
+        if (!proceed) return;
+      }
+
       const originalLabel = publishBtn.textContent;
-      publishBtn.textContent = 'Publicando…';
+      publishBtn.disabled = true; publishBtn.textContent = 'Publicando…';
 
       try {
-        const mediaItems = await uploadToCloudinary(selectedFiles, user.uid);
+        const mediaItems = selectedFiles.length ? await uploadToCloudinary(selectedFiles, user.uid) : [];
 
         await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags,
-          type, // texto | imagen | video | mixto
+          title, desc, bodyHtml, tags, type,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           media: mediaItems,
-          likesCount: 0,
-          likedBy: []
+          likesCount: 0, likedBy: []
         });
 
-        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'mixto';
+        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         editor.innerHTML = '<p>Escribe aquí tu contenido. Aplica formato con la barra superior. Pega enlaces, imágenes y videos si deseas.</p>';
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
 
@@ -490,95 +497,124 @@
     });
 
     resetBtn.addEventListener('click', () => {
-      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'mixto';
+      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       editor.innerHTML = ''; mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
     });
 
     // Feed + filters
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
-    const chips = document.querySelectorAll('.chip');
-    let currentFilter = 'all';
+    const typeChips = document.querySelectorAll('[data-type]');
+    const catChips = document.querySelectorAll('#categoryChips .chip');
+    let currentType = 'all';
+    let currentCats = new Set();
 
-    chips.forEach(ch => {
+    typeChips.forEach(ch => {
       ch.addEventListener('click', () => {
-        chips.forEach(c=>c.classList.remove('active'));
+        typeChips.forEach(c=>c.classList.remove('active'));
         ch.classList.add('active');
-        currentFilter = ch.dataset.filter;
+        currentType = ch.dataset.type;
+        renderAllPosts();
+      });
+    });
+    catChips.forEach(ch => {
+      ch.addEventListener('click', () => {
+        const cat = ch.dataset.cat;
+        if (currentCats.has(cat)) { currentCats.delete(cat); ch.classList.remove('active'); }
+        else { currentCats.add(cat); ch.classList.add('active'); }
         renderAllPosts();
       });
     });
 
     let allPosts = [];
+    let unsubscribeComments = {}; // para limpiar listeners si hiciera falta
+
+    // Suscripción principal del feed
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       allPosts = [];
       if (snap.empty) {
         postsContainer.innerHTML = '';
         emptyFeed.style.display = 'block';
-        // clear ticker
         document.getElementById('marqueeA').innerHTML = '';
         document.getElementById('marqueeB').innerHTML = '';
         return;
       }
       emptyFeed.style.display = 'none';
-      snap.forEach(doc => allPosts.push({ id: doc.id, data: doc.data() }));
+      snap.forEach(doc => allPosts.push({ id: doc.id, data: normalizePost(doc) }));
       renderAllPosts();
-      renderTicker(allPosts.slice(0, 12)); // primeros 12 titulares
+      renderTicker(allPosts.slice(0, 12)); // titulares
     });
+
+    // Normalización para fechas y seguridad de campos
+    function normalizePost(doc){
+      const d = doc.data();
+      // toDate puede no existir si el serverTimestamp aún no se resolvió; manejamos gracefully
+      let created = '—';
+      try { if (d.createdAt && d.createdAt.toDate) created = d.createdAt.toDate().toLocaleString(); } catch(e){ created = '—'; }
+      return {
+        ...d,
+        createdText: created
+      };
+    }
 
     function renderAllPosts(){
       postsContainer.innerHTML = '';
       const filtered = allPosts.filter(p => {
         const d = p.data;
-        if (currentFilter === 'all') return true;
-        if (['texto','imagen','video','mixto'].includes(currentFilter)) return d.type === currentFilter;
-        // category tag
-        return (d.tags || []).includes(currentFilter);
+        // filtrar por tipo
+        if (currentType !== 'all' && d.type !== currentType) return false;
+        // filtrar por categorías (tags)
+        if (currentCats.size > 0) {
+          const tags = d.tags || [];
+          const hasAll = Array.from(currentCats).every(cat => tags.includes(cat));
+          if (!hasAll) return false;
+        }
+        return true;
       });
+      if (!filtered.length) {
+        postsContainer.innerHTML = '<div class="empty">No hay publicaciones para el filtro seleccionado.</div>';
+        return;
+      }
       filtered.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
-      if (!filtered.length) postsContainer.innerHTML = '<div class="empty">No hay publicaciones para este filtro.</div>';
     }
 
-    // Ticker (rolling headlines)
+    // Titulares rodando
     function renderTicker(posts){
-      const makePill = (d) => {
-        const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
-        const el = document.createElement('div');
-        el.className = 'news-pill';
-        el.innerHTML = `<span class="title">📰 ${escapeHtml(d.title)}</span> <span class="tags">(${tags})</span>`;
-        return el;
-      };
       const marqueeA = document.getElementById('marqueeA');
       const marqueeB = document.getElementById('marqueeB');
       marqueeA.innerHTML = ''; marqueeB.innerHTML = '';
-      // duplicate sequence for smooth loop
       const seq = [...posts, ...posts];
       seq.forEach(p => marqueeA.appendChild(makePill(p.data)));
       seq.forEach(p => marqueeB.appendChild(makePill(p.data)));
     }
+    function makePill(d){
+      const el = document.createElement('div');
+      const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
+      el.className = 'news-pill';
+      el.innerHTML = `<span class="pill-title">📰 ${escapeHtml(d.title)}</span> <span class="pill-tags">(${tags})</span>`;
+      return el;
+    }
 
-    // Render post card with likes, comments, tags, donation
-    const authorLikeCache = new Map(); // uid -> totalLikes (cached in session)
-
+    // Donación: cache likes por autor
+    const authorLikeCache = new Map();
     async function getAuthorTotalLikes(uid){
       if (authorLikeCache.has(uid)) return authorLikeCache.get(uid);
       const snap = await firestore.collection('posts').where('author.uid','==',uid).get();
-      let sum = 0;
-      snap.forEach(doc => { sum += (doc.data().likesCount || 0); });
+      let sum = 0; snap.forEach(doc => { sum += (doc.data().likesCount || 0); });
       authorLikeCache.set(uid, sum);
       return sum;
     }
-
     async function getAuthorProfile(uid){
       const prof = await firestore.collection('profiles').doc(uid).get();
       return prof.exists ? prof.data() : {};
     }
 
+    // Render post card
     function renderPostCard(id, p){
       const user = auth.currentUser;
 
       const card = document.createElement('article');
-      card.className = 'post';
+      card.className = 'post fade-in';
 
       // Head
       const head = document.createElement('div'); head.className = 'post-head';
@@ -588,19 +624,19 @@
       const metaWrap = document.createElement('div');
       const titleEl = document.createElement('h4'); titleEl.className = 'post-title'; titleEl.textContent = p.title;
       const metaEl = document.createElement('div'); metaEl.className = 'post-meta';
-      metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + (p.createdAt?.toDate?.().toLocaleString?.() || '—');
+      metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + p.createdText;
 
       metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
       head.appendChild(avatar); head.appendChild(metaWrap);
 
-      // Desc + body
-      const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc;
+      // Desc + tags + body
       const tagRow = document.createElement('div'); tagRow.className = 'tag-row';
       (p.tags || []).forEach(t => { const span=document.createElement('span'); span.className='tag'; span.textContent='#'+t; tagRow.appendChild(span); });
 
+      const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc;
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml;
 
-      // Gallery with lightbox
+      // Gallery con lightbox
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
         if (m.type === 'image') {
@@ -614,15 +650,14 @@
         }
       });
 
-      // Actions: Like + counts
+      // Actions
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
+      const counts = document.createElement('span'); counts.className = 'counts'; counts.id = `counts-${id}`;
+
       const liked = user && (p.likedBy || []).includes(user.uid);
       likeBtn.classList.toggle('active', !!liked);
       likeBtn.innerHTML = liked ? '❤️ Me gusta' : '🤍 Me gusta';
-
-      const counts = document.createElement('span'); counts.className = 'counts';
-      counts.id = `counts-${id}`;
       counts.textContent = ` ${p.likesCount || 0} likes`;
 
       likeBtn.addEventListener('click', async () => {
@@ -639,7 +674,6 @@
           const delta = hasLike ? -1 : 1;
           tx.update(postRef, { likedBy: newLikedBy, likesCount: (data.likesCount || 0) + delta });
         });
-        // actualizar cache del autor para donación
         authorLikeCache.delete(p.author?.uid);
       });
 
@@ -655,8 +689,7 @@
       commentBtn.addEventListener('click', async () => {
         const u = auth.currentUser;
         if (!u) { alert('Inicia sesión para comentar.'); return; }
-        const text = commentInput.value.trim();
-        if (!text) return;
+        const text = commentInput.value.trim(); if (!text) return;
         commentBtn.disabled = true;
         try {
           await firestore.collection('posts').doc(id).collection('comments').add({
@@ -679,7 +712,8 @@
           const av = document.createElement('img'); av.className = 'avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
           const body = document.createElement('div'); body.className = 'c-body';
           const meta = document.createElement('div'); meta.className = 'c-meta';
-          meta.textContent = (c.author?.name || 'Usuario') + ' • ' + (c.createdAt?.toDate?.().toLocaleString?.() || '—');
+          let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
+          meta.textContent = (c.author?.name || 'Usuario') + ' • ' + ct;
           const text = document.createElement('div'); text.textContent = c.text;
           body.appendChild(meta); body.appendChild(text);
           item.appendChild(av); item.appendChild(body);
@@ -687,15 +721,18 @@
         });
       });
 
-      // Suscripción para actualizar likes en tiempo real
+      // Suscripción likes del post
       firestore.collection('posts').doc(id).onSnapshot(s => {
         const d = s.data();
         counts.textContent = ` ${d.likesCount || 0} likes`;
-        if (user) likeBtn.classList.toggle('active', (d.likedBy || []).includes(user.uid));
-        likeBtn.innerHTML = likeBtn.classList.contains('active') ? '❤️ Me gusta' : '🤍 Me gusta';
+        if (auth.currentUser) {
+          const isLiked = (d.likedBy || []).includes(auth.currentUser.uid);
+          likeBtn.classList.toggle('active', isLiked);
+          likeBtn.innerHTML = isLiked ? '❤️ Me gusta' : '🤍 Me gusta';
+        }
       });
 
-      // Donación (mostrar si autor cumple 1200 likes y tiene link)
+      // Donación si autor cumple
       (async () => {
         const totalLikes = await getAuthorTotalLikes(p.author?.uid);
         const prof = await getAuthorProfile(p.author?.uid);
