@@ -64,7 +64,7 @@
     .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
     .notif-item .msg{flex:1;color:var(--text)}
     .notif-empty{padding:12px;color:var(--muted);font-size:13px}
-    .notif-footer{display:flex;justify-content:flex-end;padding:10px;border-top:1px solid var(--border)}
+    .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
     /* Ticket News */
@@ -87,7 +87,7 @@
 
     /* Post */
     .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
-    .post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .post-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0;color:var(--text)}
     .post-meta{font-size:12px;color:var(--muted)}
     .post-desc{color:var(--muted);font-size:14px;margin:8px 0}
@@ -122,7 +122,7 @@
     .btn-follow{ background:var(--accent); color:#fff; }
     .btn-following{ background:var(--panel-2); color:var(--text); }
 
-    /* Comments (resumen del estilo) */
+    /* Comments (compact) */
     .comments{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
     .comments h4{margin:0 0 10px;color:var(--text)}
     .comment-form{display:flex;gap:8px;margin-top:8px}
@@ -158,9 +158,13 @@
     .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
     .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
-    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted)}
-    .ad-box .ad-label{font-weight:900;color:var(--gold)}
-    .ad-box .ad-cta{margin-top:6px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
+
+    /* Ad box centered */
+    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
+    .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .ad-label{font-weight:900;color:var(--gold);font-size:16px}
+    .ad-sub{margin-top:4px;color:var(--muted);font-size:12px}
+    .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
     /* Modals */
     .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:180}
@@ -305,10 +309,10 @@
       <div class="card">
         <h4>Anuncio</h4>
         <div class="ad-box">
-          <div>
+          <div class="ad-content">
             <div class="ad-label">Anúnciate aquí</div>
-            <div class="panel-sub" style="text-align:center">Espacio cuadrado 1:1</div>
-            <button class="ad-cta">Solicitar</button>
+            <div class="ad-sub">Espacio cuadrado 1:1</div>
+            <button class="ad-cta" id="adSolicitarBtn">Solicitar</button>
           </div>
         </div>
       </div>
@@ -385,7 +389,7 @@
     </div>
   </div>
 
-  <!-- Dashboard modal (siempre presente y funcional) -->
+  <!-- Dashboard modal -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -466,7 +470,7 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones (panel se mantiene abierto, y botón único "Eliminar todas") */
+    /* Notificaciones (panel y botón único "Eliminar todas") */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
@@ -513,8 +517,6 @@
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
     const logoutBtn = document.getElementById('logoutBtn');
-    const openDashboardBtnTop = document.getElementById('openDashboard');
-    const openDashboardBtnSide = document.getElementById('openDashboardSide');
 
     googleBtn.addEventListener('click', async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -583,24 +585,15 @@
       });
     });
 
-    /* Unfurl links simple */
-    function renderLinkCards(container, linkCards){
-      linkCards.forEach(card=>{
-        const wrap = document.createElement('div'); wrap.className='link-card';
-        const thumb = document.createElement('div'); thumb.className='link-thumb';
-        const img = document.createElement('img'); img.src = card.img; thumb.appendChild(img);
-        const meta = document.createElement('div'); meta.className='link-meta';
-        const title = document.createElement('div'); title.className='link-title';
-        const host = document.createElement('div'); host.className='link-host';
-        title.innerHTML = `<a href="${card.url}" target="_blank" rel="noopener">${escapeHtml(card.title)}</a>`;
-        host.textContent = card.host;
-        meta.appendChild(title); meta.appendChild(host);
-        wrap.appendChild(thumb); wrap.appendChild(meta);
-        container.appendChild(wrap);
-      });
+    /* Publicar (almacena media inline usando FileReader para demostración local) */
+    function readFilesAsDataUrls(files){
+      return Promise.all(files.map(f => new Promise(res=>{
+        const reader = new FileReader();
+        reader.onload = () => res({ url: reader.result, type: f.type.startsWith('video/') ? 'video' : 'image' });
+        reader.readAsDataURL(f);
+      })));
     }
 
-    /* Publicar (sin subida externa para acortar) */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -623,8 +616,14 @@
       publishProgress.style.width = '20%';
 
       try {
+        let mediaItems = [];
+        if (selectedFiles.length){
+          mediaItems = await readFilesAsDataUrls(selectedFiles);
+        }
+
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
+          media: mediaItems, // Data URLs para visualización inmediata
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           likesCount: 0, likedBy: [],
@@ -633,6 +632,7 @@
 
         titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
         editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
+        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
         publishProgress.style.width = '100%';
         setTimeout(()=>{ publishBtn.disabled=false; publishProgress.style.width='0%'; }, 600);
       } catch (e) {
@@ -644,6 +644,7 @@
     resetBtn.addEventListener('click', () => {
       titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
       editor.innerHTML = '';
+      mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
       publishProgress.style.width = '0%';
       publishBtn.disabled = false;
     });
@@ -794,7 +795,7 @@
       });
     }
 
-    /* Follow system with button state update */
+    /* Follow system with dedup and button state update */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
@@ -809,14 +810,16 @@
         const meData = meSnap.exists ? meSnap.data() : { following: [] };
         const targetData = targetSnap.exists ? targetSnap.data() : { followers: [] };
 
-        const isFollowing = (meData.following||[]).includes(targetUid);
-        const newFollowing = isFollowing ? meData.following.filter(x=>x!==targetUid) : [...meData.following, targetUid];
-        const newFollowers = isFollowing ? targetData.followers.filter(x=>x!==u.uid) : [...targetData.followers, u.uid];
+        const followingSet = new Set(meData.following || []);
+        const followersSet = new Set(targetData.followers || []);
+        const isFollowing = followingSet.has(targetUid);
 
-        tx.set(meRef, { name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null, following:newFollowing }, { merge:true });
-        tx.set(targetRef, { name, avatar, followers:newFollowers }, { merge:true });
+        if (isFollowing) { followingSet.delete(targetUid); followersSet.delete(u.uid); }
+        else { followingSet.add(targetUid); followersSet.add(u.uid); }
 
-        // Update button state immediately
+        tx.set(meRef, { name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null, following: Array.from(followingSet) }, { merge:true });
+        tx.set(targetRef, { name, avatar, followers: Array.from(followersSet) }, { merge:true });
+
         if (btn){
           const nowFollowing = !isFollowing;
           btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir';
@@ -831,12 +834,17 @@
       const u = auth.currentUser; if (!u) return;
       const meSnap = await firestore.collection('users').doc(u.uid).get();
       const data = meSnap.exists ? meSnap.data() : { following:[], followers:[] };
+
+      // Dedup
+      const uniqueFollowing = Array.from(new Set(data.following || []));
+      const uniqueFollowers = Array.from(new Set(data.followers || []));
+
       const followingList = document.getElementById('followingList');
       const followersList = document.getElementById('followersList');
       followingList.innerHTML = '';
       followersList.innerHTML = '';
 
-      for (const uid of (data.following||[])){
+      for (const uid of uniqueFollowing){
         const us = await firestore.collection('users').doc(uid).get();
         const ud = us.exists ? us.data() : {};
         const row = document.createElement('div'); row.className='list-row';
@@ -849,7 +857,7 @@
         row.appendChild(left); row.appendChild(btn);
         followingList.appendChild(row);
       }
-      for (const uid of (data.followers||[])){
+      for (const uid of uniqueFollowers){
         const us = await firestore.collection('users').doc(uid).get();
         const ud = us.exists ? us.data() : {};
         const row = document.createElement('div'); row.className='list-row';
@@ -866,15 +874,14 @@
       const u = auth.currentUser; if (!u) return;
       firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{
         let totalPosts=0, totalLikes=0, donationFlag=false;
-        const items = [];
-        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; items.push(d); });
+        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; });
         document.getElementById('statPosts').textContent = totalPosts;
         document.getElementById('statLikes').textContent = totalLikes;
         document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
       });
     }
 
-    /* Render Post + Follow button in head */
+    /* Render Post + Follow button + Gallery working */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
@@ -889,7 +896,7 @@
       metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + p.createdText;
       metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
 
-      // Follow/Siguiendo compact button next to head (hidden if self)
+      // Follow/Siguiendo compact next to head (hidden if self)
       const followBtn = document.createElement('button');
       const currentUid = auth.currentUser?.uid;
       if (currentUid && currentUid === p.author?.uid) {
@@ -898,7 +905,6 @@
         followBtn.textContent = 'Seguir';
         followBtn.className = 'btn-follow';
         followBtn.addEventListener('click', ()=> toggleFollow(p.author?.uid, p.author?.name, p.author?.avatar, followBtn));
-        // initial state
         if (currentUid) {
           firestore.collection('users').doc(currentUid).get().then(snap=>{
             const following = (snap.data()?.following)||[];
@@ -916,6 +922,20 @@
 
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
+
+      // Gallery: render images/videos correctly
+      const gallery = document.createElement('div'); gallery.className = 'post-gallery';
+      (p.media || []).forEach(m => {
+        if (m.type === 'image') {
+          const img = document.createElement('img'); img.src = m.url; img.alt = p.title || '';
+          img.addEventListener('click', () => openLightbox('image', m.url));
+          gallery.appendChild(img);
+        } else if (m.type === 'video') {
+          const vid = document.createElement('video'); vid.src = m.url; vid.controls = true;
+          vid.addEventListener('click', () => openLightbox('video', m.url));
+          gallery.appendChild(vid);
+        }
+      });
 
       const actions = document.createElement('div'); actions.className = 'post-actions';
       const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
@@ -940,7 +960,7 @@
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
         const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-        editBtn.addEventListener('click', () => openEditModal(id, p));
+        editBtn.addEventListener('click', () => openEditModal(id, p)); // opcional si agregas modal de edición
         deleteBtn.addEventListener('click', async () => {
           const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
           try { await firestore.collection('posts').doc(id).delete(); } catch(e){ alert('Error eliminando: ' + e.message); }
@@ -966,7 +986,7 @@
         computeDonationEligibility();
       });
 
-      /* Comments block (compact, hilo vertical y ver más) */
+      /* Comments block */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1034,11 +1054,12 @@
         updateLoadMoreVisibility();
       });
 
-      // Assemble
+      // Assemble card
       card.appendChild(head);
       card.appendChild(tagRow);
       card.appendChild(descEl);
       card.appendChild(bodyEl);
+      if ((p.media||[]).length) card.appendChild(gallery);
       card.appendChild(actions);
       card.appendChild(commentsWrap);
 
@@ -1233,21 +1254,13 @@
         });
       });
 
-      trashBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete();
-        }catch(e){ alert('Error eliminando respuesta: '+e.message); }
-      });
-
       actions.appendChild(like);
       box.appendChild(meta); box.appendChild(text); box.appendChild(editInput); box.appendChild(saveEdit); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
       return item;
     }
 
-    /* Edit modal for posts */
+    /* Post view modal */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
@@ -1260,7 +1273,13 @@
       pvBody.innerHTML = '';
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
+      const gallery = document.createElement('div'); gallery.className='post-gallery';
+      (d.media||[]).forEach(m=>{
+        if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
+        else{ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
+      });
       pvBody.appendChild(meta); pvBody.appendChild(body);
+      if ((d.media||[]).length) pvBody.appendChild(gallery);
       postViewModal.style.display='flex';
     }
     closePostView.addEventListener('click',()=> postViewModal.style.display='none');
@@ -1306,9 +1325,32 @@
       openDashboardModal();
     }
 
-    // Botones que abren dashboard (top y side)
     document.getElementById('openDashboard').addEventListener('click', loadDashboard);
     document.getElementById('openDashboardSide').addEventListener('click', loadDashboard);
+
+    /* Lightbox */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxContent = document.querySelector('.lightbox-content');
+    const lightboxClose = document.getElementById('lightboxClose');
+    function openLightbox(type, url){
+      lightboxContent.innerHTML = '';
+      if (type === 'image') {
+        const img = document.createElement('img'); img.src = url; lightboxContent.appendChild(img);
+      } else {
+        const vid = document.createElement('video'); vid.src = url; vid.controls = true; vid.autoplay = true; lightboxContent.appendChild(vid);
+      }
+      lightbox.style.display = 'flex';
+    }
+    lightboxClose.addEventListener('click', () => lightbox.style.display = 'none');
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; });
+
+    /* Ad "Solicitar" -> abre Gmail compose a sinnadaqueocultar.com@gmail.com */
+    const adSolicitarBtn = document.getElementById('adSolicitarBtn');
+    adSolicitarBtn.addEventListener('click', ()=>{
+      const subject = encodeURIComponent('Solicitud de anuncio — SIN NADA QUE OCULTAR');
+      const body = encodeURIComponent('Hola,\n\nQuiero pautar un anuncio en su plataforma.\nPor favor, indíquenme costos y formatos.\n\nGracias.');
+      window.location.href = `mailto:sinnadaqueocultar.com@gmail.com?subject=${subject}&body=${body}`;
+    });
 
     /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
