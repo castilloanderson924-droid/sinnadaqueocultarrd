@@ -166,7 +166,7 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Featured YouTube — ELIMINADO para evitar duplicado */
+    /* Featured YouTube (eliminado para evitar duplicado) */
     .post .featured-video{ display:none; }
 
     /* Gallery */
@@ -1190,8 +1190,7 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube — eliminado */
-      /* Antes aquí se insertaba un iframe destacado; se quitó para evitar duplicado. */
+      /* Eliminado el featured-video para evitar duplicado */
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
@@ -1482,6 +1481,7 @@
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
         else if(m.type==='youtube' && m.videoId){ const iframe=document.createElement('iframe'); iframe.src=`https://www.youtube.com/embed/${m.videoId}`; iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"; iframe.setAttribute('allowfullscreen',''); gallery.appendChild(iframe); }
       });
+      pvBody.appendedMeta = meta;
       pvBody.appendChild(meta); pvBody.appendChild(body);
       if ((d.media||[]).length) pvBody.appendChild(gallery);
       postViewModal.style.display='flex'; lockBody();
@@ -1636,6 +1636,12 @@
 
     /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
+
+    /* Safety re-bind in case of dynamic replaceWith */
+    // Garantiza que el botón "Publicar" siempre tenga el handler, incluso después de la pill
+    if (publishBtn) {
+      publishBtn.addEventListener('click', onPublishClick);
+    }
   </script>
 </body>
 </html>
