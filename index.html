@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SIN NADA QUE OCULTAR — Información libre y sin censura</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0b0e14; --panel:#121825; --panel-2:#182235; --border:#24314a; --text:#eef2f7; --muted:#9fb0c7;
@@ -16,26 +14,27 @@
       --accent:#2563eb;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
 
     /* Header */
-    .header{background:var(--panel);padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+    .header{background:var(--panel);padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
     .logo{width:40px;height:40px;border-radius:8px;border:1px solid var(--border);background:#0c1018;display:grid;place-items:center}
-    .logo img{width:34px;height:34px;object-fit:contain}
-    h1{margin:0;font-size:20px;font-family:"Playfair Display",serif}
-    .slogan{font-size:12px;color:var(--muted)}
+    .logo img{width:32px;height:32px;object-fit:contain}
+    .title-wrap h1{margin:0;font-size:20px}
+    .title-wrap .slogan{font-size:12px;color:var(--muted)}
     .spacer{flex:1}
     .btn{background:var(--accent);color:#061218;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
     .chip{display:flex;align-items:center;gap:6px}
-    /* Switch */
+
+    /* Switch (maldito switch, real) */
     .switch{display:flex;align-items:center;gap:8px;margin-left:12px}
     .switch label{font-size:12px;color:var(--muted);font-weight:700}
-    .switch input{width:44px;height:22px;appearance:none;background:#4b5563;border-radius:999px;position:relative;cursor:pointer;outline:none;border:1px solid var(--border)}
+    .switch input{width:52px;height:28px;appearance:none;background:#475569;border-radius:999px;position:relative;cursor:pointer;outline:none;border:1px solid var(--border);transition:.2s}
     .switch input:checked{background:var(--accent)}
-    .switch input::before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.3s}
-    .switch input:checked::before{transform:translateX(22px)}
+    .switch input::before{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:1.5px;left:1.5px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:.25s}
+    .switch input:checked::before{transform:translateX(24px)}
 
     /* Ticket News */
     .ticket{max-width:900px;margin:16px auto;padding:16px;background:var(--panel);border-radius:12px;border:1px solid var(--border)}
@@ -50,10 +49,6 @@
     /* Feed */
     .feed{max-width:900px;margin:20px auto;padding:0 16px}
     .feed-actions{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-    .filter{display:flex;gap:8px;flex-wrap:wrap}
-    .filter .chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel-2);cursor:pointer;font-weight:700}
-    .filter .chip.active{background:var(--accent);color:#061218;border-color:transparent}
-
     .post{background:var(--panel);padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid var(--border)}
     .post h3{margin:0 0 6px}
     .meta{font-size:12px;color:var(--muted);margin-bottom:8px}
@@ -63,7 +58,7 @@
     .empty{color:var(--muted);text-align:center;padding:20px}
 
     /* Modal composer */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:10}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:20}
     .modal{background:var(--panel);padding:16px;border-radius:12px;width:94%;max-width:640px;border:1px solid var(--border)}
     .modal h3{margin:0 0 10px}
     .editor{background:var(--panel-2);min-height:120px;padding:10px;border-radius:8px;margin-top:10px;color:var(--text);border:1px solid var(--border)}
@@ -75,7 +70,7 @@
     .thumb{width:120px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:#0b0d12}
 
     /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:20}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:30}
     .lightbox-content{max-width:92vw;max-height:92vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
@@ -87,7 +82,7 @@
     <div class="logo">
       <img alt="Logo SNQO" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
     </div>
-    <div>
+    <div class="title-wrap">
       <h1>SIN NADA QUE OCULTAR</h1>
       <div class="slogan">INFORMACIÓN LIBRE Y SIN SENSURA</div>
     </div>
@@ -104,7 +99,7 @@
     </div>
   </header>
 
-  <!-- Ticket News -->
+  <!-- Ticket News: titulares desde Firestore -->
   <section class="ticket">
     <h2>Últimas noticias</h2>
     <div class="ticker"><div id="marquee" class="marquee"></div></div>
@@ -114,12 +109,6 @@
   <section class="feed" id="feed">
     <div class="feed-actions">
       <button id="openComposer" class="btn">Crear publicación</button>
-      <div class="filter">
-        <span class="chip active" data-type="all">Todo</span>
-        <span class="chip" data-type="texto">Texto</span>
-        <span class="chip" data-type="imagen">Imágenes</span>
-        <span class="chip" data-type="video">Videos</span>
-      </div>
     </div>
     <div id="posts"></div>
     <div id="emptyFeed" class="empty">Aún no hay publicaciones.</div>
@@ -186,9 +175,9 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    // Cloudinary config
+    // Cloudinary config (unsigned)
     const CLOUDINARY_CLOUD_NAME = "dxbahdjk1";
-    const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace"; // unsigned
+    const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
     const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
     // Theme switch (persistente)
@@ -202,205 +191,201 @@
     });
 
     // Auth UI
-    const googleBtn=document.getElementById('googleBtn');
-    const userChip=document.getElementById('userChip');
-    const userAvatar=document.getElementById('userAvatar');
-    const userName=document.getElementById('userName');
-    const logoutBtn=document.getElementById('logoutBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const userChip = document.getElementById('userChip');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-    googleBtn.onclick=async()=>{
-      const provider=new firebase.auth.GoogleAuthProvider();
-      try{await auth.signInWithPopup(provider);}catch(e){alert("Error al iniciar sesión: "+e.message);}
+    googleBtn.onclick = async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try { await auth.signInWithPopup(provider); } catch (e) { alert("Error al iniciar sesión: " + e.message); }
     };
-    logoutBtn.onclick=()=>auth.signOut();
-    auth.onAuthStateChanged(u=>{
-      if(u){googleBtn.style.display="none";userChip.style.display="flex";userName.textContent=u.displayName||u.email;userAvatar.src=u.photoURL||('https://ui-avatars.com/api/?name='+encodeURIComponent(u.displayName||'Usuario'));}
-      else{googleBtn.style.display="inline-block";userChip.style.display="none";}
+    logoutBtn.onclick = () => auth.signOut();
+    auth.onAuthStateChanged(u => {
+      if (u) {
+        googleBtn.style.display = "none";
+        userChip.style.display = "flex";
+        userName.textContent = u.displayName || u.email;
+        userAvatar.src = u.photoURL || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(u.displayName || 'Usuario'));
+      } else {
+        googleBtn.style.display = "inline-block";
+        userChip.style.display = "none";
+      }
     });
 
     // Modal composer
-    const composerModal=document.getElementById('composerModal');
-    document.getElementById('openComposer').onclick=()=>{
-      if(!auth.currentUser){alert("Inicia sesión con Google para publicar.");return;}
-      composerModal.style.display="flex";
+    const composerModal = document.getElementById('composerModal');
+    document.getElementById('openComposer').onclick = () => {
+      if (!auth.currentUser) { alert("Inicia sesión con Google para publicar."); return; }
+      composerModal.style.display = "flex";
     };
-    document.getElementById('closeComposer').onclick=()=>composerModal.style.display="none";
-    composerModal.addEventListener('click',(e)=>{if(e.target===composerModal)composerModal.style.display="none";});
+    document.getElementById('closeComposer').onclick = () => composerModal.style.display = "none";
+    composerModal.addEventListener('click', (e) => { if (e.target === composerModal) composerModal.style.display = "none"; });
 
     // Editor toolbar
-    const editor=document.getElementById('editor');
-    document.querySelectorAll('.tool').forEach(btn=>{
-      const cmd=btn.dataset.cmd; const val=btn.dataset.value;
-      if(cmd && cmd!=='formatBlock'){btn.addEventListener('click',()=>document.execCommand(cmd,false,null));}
-      else if(cmd==='formatBlock'){btn.addEventListener('click',()=>document.execCommand('formatBlock',false,val));}
+    const editor = document.getElementById('editor');
+    document.querySelectorAll('.tool').forEach(btn => {
+      const cmd = btn.dataset.cmd; const val = btn.dataset.value;
+      if (cmd && cmd !== 'formatBlock') btn.addEventListener('click', () => document.execCommand(cmd, false, null));
+      else if (cmd === 'formatBlock') btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
     });
-    document.getElementById('linkBtn').addEventListener('click',()=>{
-      const url=prompt('URL del enlace:'); if(url) document.execCommand('createLink',false,url);
+    document.getElementById('linkBtn').addEventListener('click', () => {
+      const url = prompt('URL del enlace:'); if (url) document.execCommand('createLink', false, url);
     });
-    document.getElementById('clearFormat').addEventListener('click',()=>document.execCommand('removeFormat',false,null));
+    document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
     // Media preview
-    const mediaInput=document.getElementById('mediaInput');
-    const mediaPreview=document.getElementById('mediaPreview');
-    let selectedFiles=[];
-    mediaInput.onchange=()=>{
-      selectedFiles=Array.from(mediaInput.files).slice(0,6);
-      mediaPreview.innerHTML="";
-      selectedFiles.forEach(f=>{
-        const t=document.createElement('div'); t.className='thumb';
-        if(f.type.startsWith('image/')){const img=document.createElement('img'); img.src=URL.createObjectURL(f); t.appendChild(img);}
-        else{const v=document.createElement('video'); v.src=URL.createObjectURL(f); v.muted=true; v.loop=true; v.autoplay=true; t.appendChild(v);}
+    const mediaInput = document.getElementById('mediaInput');
+    const mediaPreview = document.getElementById('mediaPreview');
+    let selectedFiles = [];
+    mediaInput.onchange = () => {
+      selectedFiles = Array.from(mediaInput.files).slice(0, 6);
+      mediaPreview.innerHTML = "";
+      selectedFiles.forEach(f => {
+        const t = document.createElement('div'); t.className = 'thumb';
+        if (f.type.startsWith('image/')) { const img = document.createElement('img'); img.src = URL.createObjectURL(f); t.appendChild(img); }
+        else { const v = document.createElement('video'); v.src = URL.createObjectURL(f); v.muted = true; v.loop = true; v.autoplay = true; t.appendChild(v); }
         mediaPreview.appendChild(t);
       });
     };
 
     // Upload to Cloudinary
     async function uploadToCloudinary(files, uid){
-      const items=[];
-      for(const file of files){
-        const fd=new FormData();
-        fd.append('file',file);
-        fd.append('upload_preset',CLOUDINARY_UPLOAD_PRESET);
-        fd.append('folder',`snqo/${uid}`);
-        const res=await fetch(CLOUDINARY_URL,{method:'POST',body:fd});
-        if(!res.ok) throw new Error('Falló la subida a Cloudinary');
-        const data=await res.json();
-        items.push({url:data.secure_url,type:data.resource_type==='video'?'video':'image',public_id:data.public_id});
+      const items = [];
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        fd.append('folder', `snqo/${uid}`);
+        const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
+        if (!res.ok) throw new Error('Falló la subida a Cloudinary');
+        const data = await res.json();
+        items.push({ url: data.secure_url, type: data.resource_type === 'video' ? 'video' : 'image', public_id: data.public_id });
       }
       return items;
     }
 
     // Publicar
-    const titleInput=document.getElementById('titleInput');
-    const descInput=document.getElementById('descInput');
-    const tagsInput=document.getElementById('tagsInput');
-    const contentType=document.getElementById('contentType');
-    const publishBtn=document.getElementById('publishBtn');
+    const titleInput = document.getElementById('titleInput');
+    const descInput = document.getElementById('descInput');
+    const tagsInput = document.getElementById('tagsInput');
+    const contentType = document.getElementById('contentType');
+    const publishBtn = document.getElementById('publishBtn');
 
-    publishBtn.onclick=async()=>{
-      const user=auth.currentUser;
-      if(!user){alert("Inicia sesión para publicar.");return;}
-      const title=titleInput.value.trim();
-      const desc=descInput.value.trim();
-      const bodyHtml=editor.innerHTML.trim();
-      const tags=tagsInput.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
-      const type=contentType.value; // texto | imagen | video
-      if(!title||!desc||!bodyHtml){alert("Completa título, descripción y cuerpo.");return;}
-      if((type==='imagen'||type==='video') && selectedFiles.length===0){
-        const ok=confirm('Seleccionaste "'+type+'", pero no adjuntaste archivos. ¿Publicar de todas formas?'); if(!ok) return;
+    publishBtn.onclick = async () => {
+      const user = auth.currentUser;
+      if (!user) { alert("Inicia sesión para publicar."); return; }
+      const title = titleInput.value.trim();
+      const desc = descInput.value.trim();
+      const bodyHtml = editor.innerHTML.trim();
+      const tags = tagsInput.value.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+      const type = contentType.value; // texto | imagen | video
+      if (!title || !desc || !bodyHtml) { alert("Completa título, descripción y cuerpo."); return; }
+      if ((type === 'imagen' || type === 'video') && selectedFiles.length === 0) {
+        const ok = confirm(`Seleccionaste "${type}", pero no adjuntaste archivos. ¿Publicar de todas formas?`); if (!ok) return;
       }
       const original = publishBtn.textContent;
-      publishBtn.disabled=true; publishBtn.textContent="Publicando…";
-      try{
-        const mediaItems=selectedFiles.length?await uploadToCloudinary(selectedFiles,user.uid):[];
+      publishBtn.disabled = true; publishBtn.textContent = "Publicando…";
+      try {
+        const mediaItems = selectedFiles.length ? await uploadToCloudinary(selectedFiles, user.uid) : [];
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
-          author:{uid:user.uid,name:user.displayName||user.email||'Usuario',avatar:user.photoURL||null},
+          author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          media: mediaItems,
-          likesCount: 0, likedBy: []
+          media: mediaItems
         });
         // reset
-        titleInput.value=''; descInput.value=''; tagsInput.value=''; contentType.value='texto';
-        editor.innerHTML=''; mediaInput.value=''; selectedFiles=[]; mediaPreview.innerHTML='';
-        publishBtn.textContent="Publicado ✔";
-        setTimeout(()=>{ publishBtn.textContent=original; publishBtn.disabled=false; composerModal.style.display="none"; },800);
-      }catch(e){
-        alert("Error publicando: "+e.message);
-        publishBtn.textContent=original; publishBtn.disabled=false;
+        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
+        editor.innerHTML = ''; mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+        publishBtn.textContent = "Publicado ✔";
+        setTimeout(() => { publishBtn.textContent = original; publishBtn.disabled = false; composerModal.style.display = "none"; }, 800);
+      } catch (e) {
+        alert("Error publicando: " + e.message);
+        publishBtn.textContent = original; publishBtn.disabled = false;
       }
     };
 
-    // Feed + filters + headlines
-    const postsContainer=document.getElementById('posts');
-    const emptyFeed=document.getElementById('emptyFeed');
-    const typeChips=document.querySelectorAll('[data-type]');
-    let currentType='all';
-    typeChips.forEach(ch=>{
-      ch.addEventListener('click',()=>{
-        typeChips.forEach(c=>c.classList.remove('active'));
-        ch.classList.add('active');
-        currentType=ch.dataset.type;
-        renderAllPosts();
-      });
-    });
+    // Feed + titulares
+    const postsContainer = document.getElementById('posts');
+    const emptyFeed = document.getElementById('emptyFeed');
+    const marquee = document.getElementById('marquee');
 
-    let allPosts=[];
-    firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap=>{
-      allPosts=[];
-      if(snap.empty){
-        postsContainer.innerHTML=''; emptyFeed.style.display='block'; document.getElementById('marquee').innerHTML='';
-        return;
-      }
-      snap.forEach(doc=>{
-        const d=doc.data();
-        let created='—'; try{ if(d.createdAt?.toDate) created=d.createdAt.toDate().toLocaleString(); }catch(e){}
-        allPosts.push({ id: doc.id, data: { ...d, createdText: created } });
-      });
-      emptyFeed.style.display='none';
-      renderAllPosts();
-      renderHeadlines(allPosts.slice(0,20)); // últimos títulos en ticket
-    });
-
-    function renderAllPosts(){
-      postsContainer.innerHTML='';
-      const filtered = allPosts.filter(p=>{
-        if(currentType==='all') return true;
-        return (p.data.type===currentType);
-      });
-      if(!filtered.length){ postsContainer.innerHTML='<div class="empty">No hay publicaciones para el filtro.</div>'; return; }
-      filtered.forEach(p=>postsContainer.appendChild(postCard(p.id,p.data)));
+    function normalizeDoc(doc){
+      const d = doc.data();
+      let createdText = '—';
+      try { if (d.createdAt?.toDate) createdText = d.createdAt.toDate().toLocaleString(); } catch(e){}
+      return { id: doc.id, data: { ...d, createdText, title: d.title || '(sin título)', desc: d.desc || '', tags: d.tags || [], media: d.media || [], author: d.author || {} } };
     }
 
-    function postCard(id,d){
-      const card=document.createElement('article'); card.className='post';
-      const h3=document.createElement('h3'); h3.textContent=d.title;
-      const meta=document.createElement('div'); meta.className='meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
-      const tagsRow=document.createElement('div'); tagsRow.className='tags';
-      (d.tags||[]).forEach(t=>{ const s=document.createElement('span'); s.className='tag'; s.textContent='#'+t; tagsRow.appendChild(s); });
-      const desc=document.createElement('p'); desc.textContent=d.desc;
-      const body=document.createElement('div'); body.innerHTML=d.bodyHtml;
+    firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
+      const list = [];
+      if (snap.empty) {
+        postsContainer.innerHTML = ''; emptyFeed.style.display = 'block';
+        marquee.innerHTML = ''; return;
+      }
+      snap.forEach(doc => list.push(normalizeDoc(doc)));
+      emptyFeed.style.display = 'none';
+      renderFeed(list);
+      renderHeadlines(list.slice(0, 30));
+    });
 
-      const gallery=document.createElement('div'); gallery.className='post-gallery';
-      (d.media||[]).forEach(m=>{
-        if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.alt=d.title; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
-        else if(m.type==='video'){ const v=document.createElement('video'); v.src=m.url; v.controls=true; v.onclick=()=>openLightbox('video',m.url); gallery.appendChild(v); }
+    function renderFeed(list){
+      postsContainer.innerHTML = '';
+      list.forEach(p => postsContainer.appendChild(postCard(p.id, p.data)));
+    }
+
+    function postCard(id, d){
+      const card = document.createElement('article'); card.className = 'post';
+      const h3 = document.createElement('h3'); h3.textContent = d.title;
+      const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = (d.author?.name || 'Usuario') + ' • ' + d.createdText;
+      const tagsRow = document.createElement('div'); tagsRow.className = 'tags';
+      (d.tags || []).forEach(t => { const s = document.createElement('span'); s.className = 'tag'; s.textContent = '#'+t; tagsRow.appendChild(s); });
+      const desc = document.createElement('p'); desc.textContent = d.desc;
+      const body = document.createElement('div'); body.innerHTML = d.bodyHtml || '';
+
+      const gallery = document.createElement('div'); gallery.className = 'post-gallery';
+      (d.media || []).forEach(m => {
+        if (m.type === 'image') { const img = document.createElement('img'); img.src = m.url; img.alt = d.title; img.onclick = () => openLightbox('image', m.url); gallery.appendChild(img); }
+        else if (m.type === 'video') { const v = document.createElement('video'); v.src = m.url; v.controls = true; v.onclick = () => openLightbox('video', m.url); gallery.appendChild(v); }
       });
 
       card.appendChild(h3); card.appendChild(meta); card.appendChild(tagsRow); card.appendChild(desc); card.appendChild(body);
-      if((d.media||[]).length) card.appendChild(gallery);
+      if ((d.media || []).length) card.appendChild(gallery);
       return card;
     }
 
     // Headlines marquee (ticket news)
-    function renderHeadlines(posts){
-      const marquee=document.getElementById('marquee');
-      marquee.innerHTML='';
-      const seq=[...posts, ...posts]; // duplicar para loop continuo
-      seq.forEach(p=>{
-        const d=p.data||p; // soporta ambos
-        const pill=document.createElement('span'); pill.className='headline';
-        const tags=(d.tags||[]).slice(0,3).join(' • ')||'sin etiquetas';
-        pill.innerHTML=`<span class="title">📰 ${escapeHtml(d.title)}</span> <span class="tags">(${tags})</span>`;
+    function renderHeadlines(list){
+      marquee.innerHTML = '';
+      const seq = [...list, ...list]; // duplicar para loop continuo
+      seq.forEach(p => {
+        const d = p.data || p;
+        const pill = document.createElement('span'); pill.className = 'headline';
+        const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
+        pill.innerHTML = `<span class="title">📰 ${escapeHtml(d.title)}</span> <span class="tags">(${tags})</span>`;
         marquee.appendChild(pill);
       });
     }
 
     // Lightbox
-    const lightbox=document.getElementById('lightbox');
-    const lightboxContent=document.querySelector('.lightbox-content');
-    const lightboxClose=document.getElementById('lightboxClose');
-    function openLightbox(type,url){
-      lightboxContent.innerHTML='';
-      if(type==='image'){ const img=document.createElement('img'); img.src=url; lightboxContent.appendChild(img); }
-      else{ const vid=document.createElement('video'); vid.src=url; vid.controls=true; vid.autoplay=true; lightboxContent.appendChild(vid); }
-      lightbox.style.display='flex';
+    const lightbox = document.getElementById('lightbox');
+    const lightboxContent = document.querySelector('.lightbox-content');
+    const lightboxClose = document.getElementById('lightboxClose');
+    function openLightbox(type, url){
+      lightboxContent.innerHTML = '';
+      if (type === 'image') {
+        const img = document.createElement('img'); img.src = url; lightboxContent.appendChild(img);
+      } else {
+        const vid = document.createElement('video'); vid.src = url; vid.controls = true; vid.autoplay = true; lightboxContent.appendChild(vid);
+      }
+      lightbox.style.display = 'flex';
     }
-    lightboxClose.onclick=()=>lightbox.style.display='none';
-    lightbox.addEventListener('click',(e)=>{ if(e.target===lightbox) lightbox.style.display='none'; });
+    lightboxClose.onclick = () => lightbox.style.display = 'none';
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.style.display = 'none'; });
 
     // Helpers
-    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s]); }
+    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
   </script>
 </body>
 </html>
