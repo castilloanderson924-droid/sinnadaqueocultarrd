@@ -24,10 +24,12 @@
     *{box-sizing:border-box}
     html,body{
       margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
-      overscroll-behavior-y:none;
+      overscroll-behavior-y:none; overflow-x:hidden;
     }
     a{color:var(--accent);text-decoration:none}
     img,video,iframe{max-width:100%;display:block}
+    /* Evita desbordes por textos largos en móvil */
+    p, .post-content, .comment-text, .reply-text { word-wrap:break-word; overflow-wrap:break-word; }
 
     /* Header (desktop) */
     .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
@@ -71,14 +73,13 @@
     .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
-    /* Mobile-only elements: hidden by default */
-    .mobile-nav,
-    .notif-sheet { display:none; }
+    /* Mobile-only elements: hidden by default on desktop */
+    .mobile-nav, .notif-sheet { display:none; }
 
     /* Mobile bottom navbar */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
-      /* Hide desktop-only actions on mobile header */
+      /* Oculta acciones de escritorio en móvil */
       #openComposer, #mainDropdown, #googleBtn, #userChip, .switch, .notif { display:none; }
 
       .mobile-nav{
@@ -99,7 +100,7 @@
       .mobile-tab .icon{ font-size:20px; line-height:20px }
       .mobile-tab .label{ font-size:11px; font-weight:800 }
 
-      /* Convert notif panel to a bottom sheet on mobile */
+      /* Notificaciones como bottom sheet */
       .notif-sheet{
         display:none;
         position:fixed; left:0; right:0; bottom:0;
@@ -113,7 +114,7 @@
       .sheet-body{ padding:8px 14px; overflow:auto; max-height:calc(70vh - 96px) }
       .sheet-footer{ padding:10px 14px; border-top:1px solid var(--border); display:flex; justify-content:center }
 
-      /* Layout mobile padding for bottom bar */
+      /* Padding para no tapar el contenido con la navbar móvil */
       .layout{padding:12px; gap:12px; padding-bottom:92px}
     }
 
@@ -146,12 +147,26 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Galería cuadrada + video 16:9 */
-    .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-    @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
-    .post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
-    .post-gallery iframe{width:100%;aspect-ratio:16/9;height:auto;border-radius:10px;border:1px solid var(--border);background:#000}
+    /* Galería: imágenes cuadradas + YouTube grande y claro */
+    .post-gallery{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px;
+    }
+    @media(max-width:980px){ .post-gallery{ grid-template-columns:repeat(2,1fr) } }
+    @media(max-width:640px){ .post-gallery{ grid-template-columns:1fr; gap:10px } }
+    .post-gallery img{
+      width:100%; height:180px; object-fit:cover; border-radius:10px; cursor:pointer; border:1px solid var(--border)
+    }
+    /* YouTube: siempre ocupa todo el ancho del post y se ve grande */
+    .post-gallery iframe{
+      grid-column:1/-1; width:100%; aspect-ratio:16/9; height:auto;
+      border-radius:12px; border:2px solid var(--border); background:#000;
+    }
+
+    /* En escritorio, además muestra un player destacado arriba (más grande) si hay video */
+    .post .featured-video{
+      width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9; border-radius:14px; border:2px solid var(--border); background:#000;
+    }
+    @media(max-width:980px){ .post .featured-video{ max-width:100% } }
 
     .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
     .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;color:var(--text)}
@@ -181,7 +196,7 @@
     .comment-box{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:10px}
     .comment-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-bottom:6px}
     .meta-left{display:flex;align-items:center;gap:8px}
-    .comment-text{color:var(--text);font-size:14px;line-height:1.5;word-break:break-word}
+    .comment-text{color:var(--text);font-size:14px;line-height:1.5}
     .comment-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
     .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer;white-space:nowrap}
     .comment-like.active{background:var(--accent);color:#fff;border-color:transparent}
@@ -194,7 +209,7 @@
     .reply-avatar{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
     .reply-box{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px}
     .reply-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:4px}
-    .reply-text{color:var(--text);font-size:13px;word-break:break-word}
+    .reply-text{color:var(--text);font-size:13px}
     .reply-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 
     .load-more{margin-top:10px}
@@ -301,8 +316,6 @@
         </div>
       </div>
       <div class="spacer"></div>
-
-      <!-- Desktop actions -->
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
@@ -328,49 +341,33 @@
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
           <h4>Notificaciones</h4>
-          <div class="notif-list" id="notifInbox">
-            <div class="notif-empty">No hay notificaciones nuevas.</div>
-          </div>
-          <div class="notif-footer">
-            <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
-          </div>
+          <div class="notif-list" id="notifInbox"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
+          <div class="notif-footer"><button id="notifClearAll" class="notif-clear">Eliminar todas</button></div>
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- Mobile bottom navbar (hidden on desktop by default) -->
+  <!-- Mobile bottom navbar -->
   <div class="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-inner">
-      <button class="mobile-tab" id="tabHome">
-        <span class="icon">🏠</span><span class="label">Inicio</span>
-      </button>
-      <button class="mobile-tab" id="tabCompose">
-        <span class="icon">✍️</span><span class="label">Publicar</span>
-      </button>
-      <button class="mobile-tab" id="tabNotif">
-        <span class="icon">🔔</span><span class="label">Alertas</span>
-      </button>
-      <button class="mobile-tab" id="tabProfile">
-        <span class="icon">👤</span><span class="label">Perfil</span>
-      </button>
+      <button class="mobile-tab" id="tabHome"><span class="icon">🏠</span><span class="label">Inicio</span></button>
+      <button class="mobile-tab" id="tabCompose"><span class="icon">✍️</span><span class="label">Publicar</span></button>
+      <button class="mobile-tab" id="tabNotif"><span class="icon">🔔</span><span class="label">Alertas</span></button>
+      <button class="mobile-tab" id="tabProfile"><span class="icon">👤</span><span class="label">Perfil</span></button>
     </div>
   </div>
 
-  <!-- Mobile notifications sheet (hidden by default) -->
+  <!-- Mobile notifications sheet -->
   <div class="notif-sheet" id="notifSheet">
     <div class="sheet-head">
       <div class="sheet-title">Notificaciones</div>
       <button class="sheet-close" id="sheetClose">×</button>
     </div>
     <div class="sheet-body">
-      <div class="notif-list" id="notifInboxMobile">
-        <div class="notif-empty">No hay notificaciones nuevas.</div>
-      </div>
+      <div class="notif-list" id="notifInboxMobile"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
     </div>
-    <div class="sheet-footer">
-      <button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button>
-    </div>
+    <div class="sheet-footer"><button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button></div>
   </div>
 
   <section class="ticket">
@@ -411,18 +408,9 @@
           </div>
         </div>
       </div>
-      <div class="card">
-        <h4>Destacados</h4>
-        <div id="topAuthors"></div>
-      </div>
-      <div class="card">
-        <h4>Posts con más likes</h4>
-        <div id="topPosts"></div>
-      </div>
-      <div class="card">
-        <h4>Tags frecuentes</h4>
-        <div id="topTags"></div>
-      </div>
+      <div class="card"><h4>Destacados</h4><div id="topAuthors"></div></div>
+      <div class="card"><h4>Posts con más likes</h4><div id="topPosts"></div></div>
+      <div class="card"><h4>Tags frecuentes</h4><div id="topTags"></div></div>
       <div class="card">
         <h4>Tu progreso</h4>
         <div class="stat"><span>Publicaciones</span><span id="statPosts">0</span></div>
@@ -462,12 +450,10 @@
           <button class="tool" data-cmd="formatBlock" data-value="h3">H3</button>
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
-        <div id="editor" class="editor" contenteditable="true" spellcheck="true">
-          <p>Pega aquí tu contenido.</p>
-        </div>
+        <div id="editor" class="editor" contenteditable="true" spellcheck="true"><p>Pega aquí tu contenido.</p></div>
         <div class="media-row">
           <input id="mediaInput" type="file" accept="image/*" multiple>
-          <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube (admite en vivo y shorts).</span>
+          <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube.</span>
         </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
@@ -493,18 +479,9 @@
               <span class="pill" id="dashUserName">—</span>
             </div>
             <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-label">Total publicaciones</div>
-                <div class="stat-value" id="dashStatPosts">0</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Likes acumulados</div>
-                <div class="stat-value" id="dashStatLikes">0</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Donación</div>
-                <div class="stat-value" id="dashStatDonation">OFF</div>
-              </div>
+              <div class="stat-card"><div class="stat-label">Total publicaciones</div><div class="stat-value" id="dashStatPosts">0</div></div>
+              <div class="stat-card"><div class="stat-label">Likes acumulados</div><div class="stat-value" id="dashStatLikes">0</div></div>
+              <div class="stat-card"><div class="stat-label">Donación</div><div class="stat-value" id="dashStatDonation">OFF</div></div>
             </div>
             <div class="two-col">
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
@@ -524,10 +501,7 @@
             </div>
           </div>
           <div class="dash-card">
-            <div class="dash-head">
-              <div class="dash-title">Tus posts</div>
-              <span class="pill" id="dashPostsCount">0</span>
-            </div>
+            <div class="dash-head"><div class="dash-title">Tus posts</div><span class="pill" id="dashPostsCount">0</span></div>
             <div class="list-wrap" id="dashPosts"></div>
           </div>
         </div>
@@ -565,7 +539,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    /* Firebase (tus credenciales) */
+    /* Firebase */
     const firebaseConfig = {
       apiKey: "AIzaSyBWqJI7OKZcEjN2CeTZxPi8pWzo8rBMIkI",
       authDomain: "nearmemarketplace-ce82b.firebaseapp.com",
@@ -612,15 +586,6 @@
     let notifCount = 0;
     let notifications = [];
 
-    notifIcon?.addEventListener('click', () => {
-      const show = notifPanel.style.display === 'block' ? 'none' : 'block';
-      notifPanel.style.display = show;
-      if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
-    });
-    document.addEventListener('click',(e)=>{
-      if (!notif.contains(e.target)) notifPanel.style.display='none';
-    });
-
     function renderNotifications(){
       const renderInto = (container) => {
         container.innerHTML = notifications.length ? '' : '<div class="notif-empty">No hay notificaciones nuevas.</div>';
@@ -646,9 +611,18 @@
       notifBadge.style.display='none';
       renderNotifications();
     }
+
+    notifIcon?.addEventListener('click', () => {
+      const show = notifPanel.style.display === 'block' ? 'none' : 'block';
+      notifPanel.style.display = show;
+      if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
+    });
     notifClearAll.addEventListener('click', clearNotifications);
     notifClearAllMobile.addEventListener('click', clearNotifications);
     sheetClose.addEventListener('click', closeNotifSheet);
+    document.addEventListener('click',(e)=>{
+      if (!notif.contains(e.target)) notifPanel.style.display='none';
+    });
 
     /* Auth */
     const googleBtn = document.getElementById('googleBtn');
@@ -1059,6 +1033,20 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
+      /* Featured YouTube (desktop big) */
+      let hasFeaturedVideo = false;
+      (p.media || []).forEach(m=>{
+        if(!hasFeaturedVideo && m.type==='youtube' && m.videoId){
+          const fv = document.createElement('iframe');
+          fv.className='featured-video';
+          fv.src = `https://www.youtube.com/embed/${m.videoId}`;
+          fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          fv.allowFullscreen = true;
+          card.appendChild(fv);
+          hasFeaturedVideo = true;
+        }
+      });
+
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
         if (m.type === 'image') {
@@ -1124,7 +1112,7 @@
         computeDonationEligibility();
       });
 
-      /* Comments block */
+      /* Comentarios */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1148,9 +1136,7 @@
         submit.disabled = true;
         try{
           await firestore.collection('posts').doc(id).collection('comments').add({
-            text,
-            parentId: null,
-            likesCount: 0, likedBy: [],
+            text, parentId: null, likesCount: 0, likedBy: [],
             author: { uid:u.uid, name:u.displayName || u.email || 'Usuario', avatar:u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -1169,22 +1155,16 @@
         }
       });
 
-      let fullComments = [];
-      let renderLimit = 5;
-
+      let fullComments = []; let renderLimit = 5;
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
-        fullComments = [];
-        csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
+        fullComments = []; csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
         renderCommentsThread(id, commentsList, fullComments, renderLimit);
         updateLoadMoreVisibility();
       });
 
       function updateLoadMoreVisibility(){
-        if (fullComments.filter(c=>!c.parentId).length > renderLimit) {
-          loadMoreBtn.style.display='inline-block';
-        } else {
-          loadMoreBtn.style.display='none';
-        }
+        if (fullComments.filter(c=>!c.parentId).length > renderLimit) loadMoreBtn.style.display='inline-block';
+        else loadMoreBtn.style.display='none';
       }
       loadMoreBtn.addEventListener('click', ()=>{
         renderLimit += 5;
@@ -1207,13 +1187,8 @@
       container.innerHTML = '';
       const roots = comments.filter(c=>!c.parentId);
       const childrenMap = {};
-      comments.filter(c=>c.parentId).forEach(c=>{
-        (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c);
-      });
-      const showRoots = roots.slice(0, limit);
-      showRoots.forEach(c=>{
-        container.appendChild(makeCommentEl(postId, c, childrenMap));
-      });
+      comments.filter(c=>c.parentId).forEach(c=>{ (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c); });
+      roots.slice(0, limit).forEach(c=>{ container.appendChild(makeCommentEl(postId, c, childrenMap)); });
     }
 
     function makeCommentEl(postId, c, childrenMap){
@@ -1224,57 +1199,14 @@
       const meta = document.createElement('div'); meta.className='comment-meta';
       let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
       const leftMeta = document.createElement('div'); leftMeta.className='meta-left'; leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
-
       const rightMeta = document.createElement('div');
-      const me = auth.currentUser;
-      const isAuthor = me && me.uid === c.author?.uid;
-
-      const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
-      editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0  0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
-      const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0  0 1 .92.62l.62 1.38H21a1 1 0  1 1 0 2h-1v12a3 3 0  0  1-3 3H7a3 3 0  0 1-3-3V7H3a1 1 0  1 1 0-2h4.46l.62-1.38A1 1 0  0 1 9 3zm8 4H7v12a1 1 0  0  0 1 1h8a1 1 0  0  0 1-1V7zM9 9a1 1 0  0  1 1 1v7a1 1 0  1 1-2 0v-7a1 1 0  0  1 1-1zm6 0a1 1 0  0  1 1 1v7a1 1 0  1  1-2 0v-7a1 1 0  0  1 1-1z"/></svg>`;
-
-      if (isAuthor) { rightMeta.appendChild(editBtn); rightMeta.appendChild(trashBtn); }
       meta.appendChild(leftMeta); meta.appendChild(rightMeta);
 
       const text = document.createElement('div'); text.className='comment-text'; text.textContent = c.text;
-      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = c.text;
-      const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
-
-      editBtn.addEventListener('click', ()=>{
-        if (!isAuthor) return;
-        const visible = editInput.style.display==='none';
-        editInput.style.display = visible ? 'block' : 'none';
-        saveEdit.style.display = visible ? 'inline-block' : 'none';
-      });
-      saveEdit.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor) return;
-        const val = editInput.value.trim(); if (!val) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).update({ text: val });
-          text.textContent = val;
-          editInput.style.display='none'; saveEdit.style.display='none';
-        }catch(e){ alert('Error guardando edición: '+e.message); }
-      });
-
-      trashBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar este comentario? Se eliminarán también sus respuestas.'); if (!ok) return;
-        try{
-          const children = (childrenMap && childrenMap[c.id]) || [];
-          for (const child of children){
-            await firestore.collection('posts').doc(postId).collection('comments').doc(child.id).delete();
-          }
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).delete();
-        }catch(e){ alert('Error eliminando comentario: '+e.message); }
-      });
 
       const actions = document.createElement('div'); actions.className='comment-actions';
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
-
-      const meLiked = me && (c.likedBy||[]).includes(me.uid);
-      if (meLiked) like.classList.add('active');
 
       like.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
@@ -1303,32 +1235,21 @@
         replySend.disabled = true;
         try{
           await firestore.collection('posts').doc(postId).collection('comments').add({
-            text: txt,
-            parentId: c.id,
-            likesCount: 0,
-            likedBy: [],
+            text: txt, parentId: c.id, likesCount: 0, likedBy: [],
             author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
-          replyInput.value='';
-          replyForm.style.display='none';
+          replyInput.value=''; replyForm.style.display='none';
         }catch(err){ alert('Error al responder: '+err.message); }
         replySend.disabled=false;
       });
 
       actions.appendChild(like); actions.appendChild(reply);
-      box.appendChild(meta);
-      box.appendChild(text);
-      box.appendChild(editInput);
-      box.appendChild(saveEdit);
-      box.appendChild(actions);
-      box.appendChild(replyForm);
+      box.appendChild(meta); box.appendChild(text); box.appendChild(actions); box.appendChild(replyForm);
 
       const repliesWrap = document.createElement('div'); repliesWrap.className='replies-wrap';
       const children = (childrenMap && childrenMap[c.id]) || [];
-      children.forEach(child=>{
-        repliesWrap.appendChild(makeReplyEl(postId, child));
-      });
+      children.forEach(child=>{ repliesWrap.appendChild(makeReplyEl(postId, child)); });
       if (children.length) box.appendChild(repliesWrap);
 
       item.appendChild(av); item.appendChild(box);
@@ -1344,48 +1265,9 @@
       const left = document.createElement('div'); left.innerHTML = `<strong>${escapeHtml(r.author?.name || 'Usuario')}</strong> • ${ct}`;
       const right = document.createElement('div');
 
-      const me = auth.currentUser; const isAuthor = me && me.uid === r.author?.uid;
-      const editBtn = document.createElement('button'); editBtn.className='icon-btn'; editBtn.title='Editar';
-      editBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0  0 0 0-1.42l-2.34-2.34a1.003 1.003 0  0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>`;
-      const trashBtn = document.createElement('button'); trashBtn.className='icon-btn'; trashBtn.title='Eliminar';
-      trashBtn.innerHTML = `<svg class="icon-24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3h6a1 1 0  0  1 .92.62l.62 1.38H21a1 1 0  1  1 0 2h-1v12a3 3 0  0  1-3 3H7a3 3 0  0  1-3-3V7H3a1 1 0  1  1 0-2h4.46l.62-1.38A1 1 0  0  1 9 3zm8 4H7v12a1 1 0  0  0 1 1h8a1 1 0  0  0 1-1V7zM9 9a1 1 0  0  1 1 1v7a1 1 0  1  1-2 0v-7a1 1 0  0  1 1-1zm6 0a1 1 0  0  1 1 1v7a1 1 0  1  1-2 0v-7a1 1 0  0  1 1-1z"/></svg>`;
-
-      if (isAuthor) { right.appendChild(editBtn); right.appendChild(trashBtn); }
-      meta.appendChild(left); meta.appendChild(right);
-
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
-
-      const editInput = document.createElement('input'); editInput.className='comment-action'; editInput.style.display='none'; editInput.value = r.text;
-      const saveEdit = document.createElement('button'); saveEdit.className='comment-action'; saveEdit.textContent='Guardar'; saveEdit.style.display='none';
-
-      editBtn.addEventListener('click', ()=>{
-        if (!isAuthor) return;
-        const show = editInput.style.display==='none';
-        editInput.style.display = show ? 'block' : 'none';
-        saveEdit.style.display = show ? 'inline-block' : 'none';
-      });
-      saveEdit.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor) return;
-        const val = editInput.value.trim(); if (!val) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).update({ text: val });
-          text.textContent = val;
-          editInput.style.display='none'; saveEdit.style.display='none';
-        }catch(e){ alert('Error guardando edición: '+e.message); }
-      });
-
-      trashBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u || !isAuthor){ return; }
-        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete();
-        }catch(e){ alert('Error eliminando respuesta: '+e.message); }
-      });
-
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
-      const meLiked = me && (r.likedBy||[]).includes(me.uid);
-      if (meLiked) like.classList.add('active');
 
       like.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
@@ -1401,7 +1283,8 @@
       });
 
       actions.appendChild(like);
-      box.appendChild(meta); box.appendChild(text); box.appendChild(editInput); box.appendChild(saveEdit); box.appendChild(actions);
+      meta.appendChild(left); meta.appendChild(right);
+      box.appendChild(meta); box.appendChild(text); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
       return item;
     }
