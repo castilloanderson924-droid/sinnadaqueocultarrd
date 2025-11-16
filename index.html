@@ -7,65 +7,46 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Tema oscuro con alto contraste y legibilidad */
     :root{
-      --bg:#0a0f1a;            /* más profundo para contraste */
-      --panel:#111827;         /* panel oscuro legible */
-      --panel-2:#172033;       /* secundario ligeramente más claro */
-      --border:#2b3a55;        /* borde azul grisáceo */
-      --text:#eaf1ff;          /* texto claro azulado */
-      --muted:#a9bdd8;         /* texto secundario */
-      --accent:#3b82f6;        /* azul sobrio */
-      --headline:#3b82f6;
-      --danger:#ef4444;
-      --ok:#22c55e;
-      --shadow:0 12px 28px rgba(0,0,0,.35);
-      --tag-bg:#0e1524;        /* fondo pill en dark */
+      --bg:#0a0f1a; --panel:#111827; --panel-2:#172033; --border:#2b3a55;
+      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#3b82f6;
+      --danger:#ef4444; --ok:#22c55e; --shadow:0 12px 28px rgba(0,0,0,.35);
+      --tag-bg:#0e1524;
     }
-    /* Tema claro coordinado y consistente */
     body.light{
-      --bg:#f5f8fd;
-      --panel:#ffffff;
-      --panel-2:#edf3fb;
-      --border:#d5e0ee;
-      --text:#0f172a;
-      --muted:#4b5b70;
-      --accent:#2563eb;        /* azul suave */
-      --headline:#2563eb;
-      --danger:#dc2626;
-      --ok:#16a34a;
-      --shadow:0 12px 26px rgba(16,24,40,.10);
+      --bg:#f5f8fd; --panel:#ffffff; --panel-2:#edf3fb; --border:#d5e0ee;
+      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --headline:#2563eb;
+      --danger:#dc2626; --ok:#16a34a; --shadow:0 12px 26px rgba(16,24,40,.10);
       --tag-bg:#ffffff;
     }
-
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto}
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
+    video{max-width:100%;display:block}
 
-    /* Header */
+    /* Header responsive */
     .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
-    .nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:10px}
+    .nav{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px;min-width:240px}
     .brand-logo{width:42px;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
     .brand-logo img{width:34px;height:34px;object-fit:contain}
     .brand-title{line-height:1}
     .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;color:var(--text)}
     .brand-title .slogan{color:var(--muted);font-size:12px}
-    .spacer{flex:1}
+    .spacer{flex:1 1 auto}
     .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
-    .btn:hover{filter:brightness(1.06)}
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    /* Dropdown (después de Crear publicación) */
+    /* Dropdown (detrás de Crear publicación) */
     .dropdown{position:relative}
     .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
     .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none}
     .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
     .dropdown-menu a:hover{background:var(--panel-2)}
 
-    /* Theme switch */
+    /* Switch y notificaciones (campana detrás del switch) */
     .switch{display:flex;align-items:center;gap:6px}
     .switch label{font-size:12px;color:var(--muted);font-weight:800}
     .switch input{width:50px;height:26px;appearance:none;background:#4e5d75;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
@@ -73,18 +54,23 @@
     .switch input::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.25s}
     .switch input:checked::before{transform:translateX(24px)}
 
-    /* Notificaciones (después del switch) */
-    .notif{position:relative;margin-left:6px}
+    .notif{position:relative}
     .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:280px;box-shadow:var(--shadow);display:none;z-index:200}
+    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:300px;box-shadow:var(--shadow);display:none;z-index:200}
     .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
-    .notif-list{max-height:320px;overflow:auto}
-    .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text)}
-    .notif-item:last-child{border-bottom:none}
+    .notif-tabs{display:flex;border-bottom:1px solid var(--border)}
+    .notif-tab{flex:1;text-align:center;padding:8px;cursor:pointer;color:var(--text)}
+    .notif-tab.active{background:var(--panel-2);font-weight:800}
+    .notif-list{max-height:340px;overflow:auto}
+    .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .notif-item .msg{flex:1;color:var(--text)}
+    .notif-item .actions{display:flex;gap:6px}
+    .notif-item button{font-size:11px;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 6px;cursor:pointer}
+    .notif-item .secondary{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
     .notif-empty{padding:12px;color:var(--muted);font-size:13px}
 
-    /* Ticket News (marquee lento y clicable) */
+    /* Ticket News */
     .ticket{max-width:1240px;margin:16px auto;padding:0 16px}
     .rail{background:var(--panel-2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
     .rail-head{padding:10px 14px;border-bottom:1px solid var(--border);font-weight:900;color:var(--headline)}
@@ -95,9 +81,9 @@
     .headline .tag{background:var(--tag-bg);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted);border:1px solid var(--border)}
     .headline .title{font-weight:800;color:var(--text)}
 
-    /* Layout principal con sidebar profesional */
-    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 320px;gap:18px}
-    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+    /* Layout responsive */
+    .layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px}
+    @media(max-width:1024px){.layout{grid-template-columns:1fr}}
     .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
@@ -116,7 +102,7 @@
     @media(max-width:780px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:520px){.post-gallery{grid-template-columns:1fr}}
     .post-gallery img,.post-gallery video{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border)}
-    .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
+    .post-actions{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
     .like-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);cursor:pointer;color:var(--text)}
     .like-btn.active{background:var(--accent);color:#fff;border-color:transparent}
     .counts{font-size:12px;color:var(--muted)}
@@ -161,11 +147,23 @@
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
     .media-thumb img,.media-thumb video{width:100%;height:100%;object-fit:cover}
 
+    /* Publish progress */
+    .progress-btn{position:relative;overflow:hidden}
+    .progress-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0%}
+
     /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
+
+    /* Small screens tweaks */
+    @media(max-width:640px){
+      .brand-title h1{font-size:18px}
+      .nav{gap:8px}
+      .dropdown-toggle,.btn{padding:8px 10px}
+      .post-gallery img,.post-gallery video{height:160px}
+    }
   </style>
 </head>
 <body>
@@ -187,7 +185,7 @@
       <!-- Crear publicación -->
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
 
-      <!-- Menú desplegable (ubicado detrás de Crear publicación) -->
+      <!-- Menú desplegable (después de Crear publicación) -->
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
         <div class="dropdown-menu">
@@ -218,8 +216,15 @@
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
           <h4>Notificaciones</h4>
-          <div class="notif-list" id="notifList">
+          <div class="notif-tabs">
+            <div class="notif-tab active" data-tab="inbox">Recientes</div>
+            <div class="notif-tab" data-tab="archive">Archivadas</div>
+          </div>
+          <div class="notif-list" id="notifInbox">
             <div class="notif-empty">No hay notificaciones nuevas.</div>
+          </div>
+          <div class="notif-list" id="notifArchive" style="display:none">
+            <div class="notif-empty">No hay archivadas.</div>
           </div>
         </div>
       </div>
@@ -310,7 +315,10 @@
         <div id="mediaPreview" class="media-row"></div>
       </div>
       <div class="modal-actions">
-        <button id="publishBtn" class="btn btn-accent">Publicar</button>
+        <button id="publishBtn" class="btn btn-accent progress-btn">
+          Publicar
+          <span class="progress-bar" id="publishProgress"></span>
+        </button>
         <button id="resetBtn" class="btn">Reset</button>
       </div>
     </div>
@@ -337,7 +345,7 @@
     </div>
   </div>
 
-  <!-- Post view modal (desde titulares) -->
+  <!-- Post view modal (titulares) -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -398,10 +406,10 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Cloudinary (unsigned) */
+    /* Cloudinary unsigned */
     const CLOUDINARY_CLOUD_NAME = "dxbahdjk1";
     const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
-    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+    const CLOUDINARY_BASE = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}`;
 
     /* Tema persistente */
     const themeToggle = document.getElementById('themeToggle');
@@ -413,34 +421,87 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
-    /* Menú desplegable */
+    /* Dropdown */
     const mainDropdown = document.getElementById('mainDropdown');
     const ddToggle = mainDropdown.querySelector('.dropdown-toggle');
     const ddMenu = mainDropdown.querySelector('.dropdown-menu');
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notificaciones */
+    /* Notificaciones (inbox + archive, marcar como leído) */
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
     const notifPanel = document.getElementById('notifPanel');
-    const notifList = document.getElementById('notifList');
+    const notifInbox = document.getElementById('notifInbox');
+    const notifArchive = document.getElementById('notifArchive');
+    const notifTabs = document.querySelectorAll('.notif-tab');
     let notifCount = 0;
-    notifIcon.addEventListener('click', () => {
-      notifPanel.style.display = (notifPanel.style.display === 'block') ? 'none' : 'block';
-      if (notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
-    });
-    document.addEventListener('click',(e)=>{ const N = document.getElementById('notif'); if(!N.contains(e.target)) notifPanel.style.display='none'; });
+    let notifications = [];      // {id, msg, ts}
+    let notificationsArchive = [];
 
+    notifIcon.addEventListener('click', () => {
+      const show = notifPanel.style.display === 'block' ? 'none' : 'block';
+      notifPanel.style.display = show;
+      if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
+    });
+    document.addEventListener('click',(e)=>{ const N=document.getElementById('notif'); if(!N.contains(e.target)) notifPanel.style.display='none'; });
+    notifTabs.forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        notifTabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        const key = tab.dataset.tab;
+        if (key==='inbox'){ notifInbox.style.display='block'; notifArchive.style.display='none'; }
+        else { notifInbox.style.display='none'; notifArchive.style.display='block'; }
+      });
+    });
+
+    function renderNotifications(){
+      notifInbox.innerHTML = notifications.length ? '' : '<div class="notif-empty">No hay notificaciones nuevas.</div>';
+      notifications.forEach(n=>{
+        const item = document.createElement('div'); item.className='notif-item';
+        const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
+        const actions = document.createElement('div'); actions.className='actions';
+        const markBtn = document.createElement('button'); markBtn.textContent='Marcar como leído';
+        const archiveBtn = document.createElement('button'); archiveBtn.textContent='Archivar'; archiveBtn.className='secondary';
+        markBtn.addEventListener('click',()=> markNotificationRead(n.id));
+        archiveBtn.addEventListener('click',()=> archiveNotification(n.id));
+        actions.appendChild(markBtn); actions.appendChild(archiveBtn);
+        item.appendChild(msg); item.appendChild(actions);
+        notifInbox.appendChild(item);
+      });
+
+      notifArchive.innerHTML = notificationsArchive.length ? '' : '<div class="notif-empty">No hay archivadas.</div>';
+      notificationsArchive.forEach(n=>{
+        const item = document.createElement('div'); item.className='notif-item';
+        const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
+        const actions = document.createElement('div'); actions.className='actions';
+        const restoreBtn = document.createElement('button'); restoreBtn.textContent='Restaurar'; restoreBtn.className='secondary';
+        restoreBtn.addEventListener('click',()=> restoreArchived(n.id));
+        actions.appendChild(restoreBtn);
+        item.appendChild(msg); item.appendChild(actions);
+        notifArchive.appendChild(item);
+      });
+    }
     function pushNotification(text){
-      if (notifList.querySelector('.notif-empty')) notifList.innerHTML = '';
-      const item = document.createElement('div');
-      item.className='notif-item';
-      item.textContent = text;
-      notifList.prepend(item);
-      notifCount++;
-      notifBadge.textContent = notifCount;
-      notifBadge.style.display = 'inline-block';
+      const id = Date.now()+Math.random();
+      notifications.unshift({id, msg:text, ts:Date.now()});
+      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display='inline-block';
+      renderNotifications();
+    }
+    function markNotificationRead(id){
+      const idx = notifications.findIndex(n=>n.id===id);
+      if (idx>-1) notifications.splice(idx,1);
+      renderNotifications();
+    }
+    function archiveNotification(id){
+      const idx = notifications.findIndex(n=>n.id===id);
+      if (idx>-1){ notificationsArchive.unshift(notifications[idx]); notifications.splice(idx,1); }
+      renderNotifications();
+    }
+    function restoreArchived(id){
+      const idx = notificationsArchive.findIndex(n=>n.id===id);
+      if (idx>-1){ notifications.unshift(notificationsArchive[idx]); notificationsArchive.splice(idx,1); }
+      renderNotifications();
     }
 
     /* Auth UI */
@@ -468,6 +529,7 @@
         userChip.style.display = 'none';
       }
       computeDonationEligibility();
+      subscribeNotificationsForMyPosts();
     });
 
     /* Composer */
@@ -511,28 +573,66 @@
       });
     });
 
-    /* Upload Cloudinary */
-    async function uploadToCloudinary(files, uid){
-      const items = [];
-      for (const file of files) {
-        const fd = new FormData();
-        fd.append('file', file);
-        fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-        fd.append('folder', `snqo/${uid}`);
-        const res = await fetch(CLOUDINARY_URL, { method: 'POST', body: fd });
-        if (!res.ok) throw new Error('Falló la subida a Cloudinary');
-        const data = await res.json();
-        items.push({ url: data.secure_url, type: data.resource_type === 'video' ? 'video' : 'image', public_id: data.public_id });
-      }
-      return items;
+    /* Upload con progreso (Cloudinary) */
+    function uploadToCloudinaryWithProgress(files, uid, onProgress){
+      return new Promise(async (resolve, reject)=>{
+        const results = [];
+        let uploadedBytes = 0;
+        const totalBytes = files.reduce((sum,f)=>sum + (f.size||0), 0) || 1;
+
+        async function uploadSingle(file){
+          const endpoint = `${CLOUDINARY_BASE}/${file.type.startsWith('video/') ? 'video' : 'image'}/upload`;
+          const fd = new FormData();
+          fd.append('file', file);
+          fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+          fd.append('folder', `snqo/${uid}`);
+
+          // XHR para progreso
+          await new Promise((res, rej)=>{
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', endpoint);
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  const data = JSON.parse(xhr.responseText);
+                  results.push({
+                    url: data.secure_url,
+                    type: data.resource_type === 'video' ? 'video' : 'image',
+                    public_id: data.public_id
+                  });
+                  res();
+                } catch(err){ rej(err); }
+              } else {
+                rej(new Error('Falló la subida: ' + xhr.statusText));
+              }
+            };
+            xhr.onerror = () => rej(new Error('Error de red en la subida.'));
+            xhr.upload.onprogress = (evt)=>{
+              if (evt.lengthComputable) {
+                uploadedBytes += evt.loaded;
+                const pct = Math.min(100, Math.round((uploadedBytes/totalBytes)*100));
+                onProgress(pct);
+              }
+            };
+            xhr.send(fd);
+          });
+        }
+
+        try{
+          for (const f of files) { await uploadSingle(f); }
+          onProgress(100);
+          resolve(results);
+        }catch(err){ reject(err); }
+      });
     }
 
-    /* Publicar */
+    /* Publicar con progreso */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
     const contentType = document.getElementById('contentType');
     const publishBtn = document.getElementById('publishBtn');
+    const publishProgress = document.getElementById('publishProgress');
     const resetBtn = document.getElementById('resetBtn');
 
     publishBtn.addEventListener('click', async () => {
@@ -549,10 +649,20 @@
         if (!proceed) return;
       }
 
-      publishBtn.disabled = true; const originalLabel = publishBtn.textContent;
-      publishBtn.textContent = 'Publicando…';
+      publishBtn.disabled = true; const originalLabel = 'Publicar';
+      publishBtn.textContent = 'Subiendo… 0%';
+      publishBtn.appendChild(publishProgress);
+      publishProgress.style.width = '0%';
+
       try {
-        const mediaItems = selectedFiles.length ? await uploadToCloudinary(selectedFiles, user.uid) : [];
+        let mediaItems = [];
+        if (selectedFiles.length) {
+          mediaItems = await uploadToCloudinaryWithProgress(selectedFiles, user.uid, (pct)=>{
+            publishBtn.textContent = `Subiendo… ${pct}%`;
+            publishProgress.style.width = pct+'%';
+          });
+        }
+
         await firestore.collection('posts').add({
           title, desc, bodyHtml, tags, type,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
@@ -568,11 +678,13 @@
         mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
 
         publishBtn.textContent = 'Publicado ✔';
-        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; hideComposer(); }, 700);
+        publishProgress.style.width = '100%';
+        setTimeout(()=>{ publishBtn.textContent = originalLabel; publishBtn.disabled = false; publishProgress.style.width='0%'; hideComposer(); }, 800);
       } catch (e) {
-        alert('Error publicando: ' + e.message);
-        publishBtn.textContent = originalLabel;
+        alert('Error publicando: ' + e.message + '\nVerifica tu conexión y vuelve a intentar.');
+        publishBtn.textContent = 'Publicar';
         publishBtn.disabled = false;
+        publishProgress.style.width = '0%';
       }
     });
 
@@ -582,6 +694,9 @@
       mediaInput.value = '';
       selectedFiles = [];
       mediaPreview.innerHTML = '';
+      publishProgress.style.width = '0%';
+      publishBtn.textContent = 'Publicar';
+      publishBtn.disabled = false;
     });
 
     /* Feed + titulares + sidebar */
@@ -667,7 +782,7 @@
         li.appendChild(txt); topTags.appendChild(li);
       });
 
-      // Progreso de donación del usuario
+      // Progreso de donación
       const donationProgress = document.getElementById('donationProgress');
       const u = auth.currentUser;
       donationProgress.innerHTML = '';
@@ -690,14 +805,12 @@
       let totalLikes = 0;
       mineSnap.forEach(doc => { totalLikes += (doc.data().likesCount||0); });
       userDonationEligible = totalLikes >= 10000;
-
-      // Flag en todos los posts del autor
       const batch = firestore.batch();
       mineSnap.forEach(doc => { batch.update(firestore.collection('posts').doc(doc.id), { donationEnabled: userDonationEligible }); });
       await batch.commit();
     }
 
-    /* Suscribir notificaciones para mis posts (likes y comentarios) */
+    /* Suscribir notificaciones para mis posts (likes y último comentario) */
     function subscribeNotificationsForMyPosts(){
       notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
       notifUnsubs = [];
@@ -721,7 +834,7 @@
       });
     }
 
-    /* Render de Post card */
+    /* Post card */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
