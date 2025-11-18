@@ -8,22 +8,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0a0f1a; --panel:#111827; --panel-2:#172033; --border:#2b3a55;
-      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#3b82f6;
-      --danger:#ef4444; --ok:#22c55e; --shadow:0 12px 28px rgba(0,0,0,.35);
+      --bg:#070c14; --panel:#0b1322; --panel-2:#101a2e; --panel-3:#0e1628; --border:#20324f;
+      --text:#eaf1ff; --muted:#a9bdd8; --accent:#3b82f6; --headline:#7aa7ff;
+      --danger:#ef4444; --ok:#22c55e; --shadow:0 16px 36px rgba(0,0,0,.45);
       --tag-bg:#0e1524; --gold:#fbbf24;
       --safe-bottom: env(safe-area-inset-bottom);
+      --glass: rgba(255,255,255,.06);
+      --glass-b:#22324f55;
     }
     body.light{
-      --bg:#f5f8fd; --panel:#ffffff; --panel-2:#edf3fb; --border:#d5e0ee;
-      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --headline:#2563eb;
-      --danger:#dc2626; --ok:#16a34a; --shadow:0 12px 26px rgba(16,24,40,.10);
+      --bg:#f5f8fd; --panel:#ffffff; --panel-2:#edf3fb; --panel-3:#f7fbff; --border:#d5e0ee;
+      --text:#0f172a; --muted:#4b5b70; --accent:#2563eb; --headline:#5183ff;
+      --danger:#dc2626; --ok:#16a34a; --shadow:0 16px 30px rgba(16,24,40,.12);
       --tag-bg:#ffffff; --gold:#f59e0b;
+      --glass: rgba(16,24,40,.06);
+      --glass-b:#d5e0ee55;
     }
 
     *{box-sizing:border-box}
     html,body{
-      margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
+      margin:0;background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto;
       overscroll-behavior-y:none; overflow-x:hidden;
     }
     a{color:var(--accent);text-decoration:none}
@@ -36,29 +42,43 @@
       .wrap, .nav, .ticket, .layout, .footer-inner { max-width:100%; padding:0 12px; }
     }
 
-    /* Header (desktop) */
-    .header{position:sticky;top:0;z-index:150;background:var(--panel);border-bottom:1px solid var(--border)}
-    .nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand-logo{width:42px;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center}
+    /* Header (desktop) — modern glass */
+    .header{
+      position:sticky;top:0;z-index:180;
+      background:linear-gradient(180deg, var(--panel-3) 0%, var(--panel) 100%);
+      border-bottom:1px solid var(--border);
+      box-shadow:0 10px 24px rgba(0,0,0,.28);
+      backdrop-filter:saturate(1.2) blur(8px);
+    }
+    .nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{
+      width:44px;height:44px;border-radius:12px;overflow:hidden;
+      border:1px solid var(--border);background:var(--panel-2);
+      display:grid;place-items:center; box-shadow:var(--shadow)
+    }
     .brand-logo img{width:34px;height:34px;object-fit:contain}
     .brand-title{line-height:1}
-    .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;color:var(--text)}
+    .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;color:var(--text);letter-spacing:.3px}
     .brand-title .slogan{color:var(--muted);font-size:12px}
     .spacer{flex:1 1 auto}
-    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+    .btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
     .btn:hover{filter:brightness(1.06)}
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
     /* Dropdown */
     .dropdown{position:relative}
-    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
-    .dropdown-menu{position:absolute;top:110%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:220px;box-shadow:var(--shadow);display:none}
+    .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
+    .dropdown-menu{
+      position:absolute;top:110%;right:0;background:var(--panel);
+      border:1px solid var(--border);border-radius:12px;min-width:220px;
+      box-shadow:var(--shadow);display:none;overflow:hidden
+    }
     .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
     .dropdown-menu a:hover{background:var(--panel-2)}
 
-    /* Switch + Notifications (desktop) */
+    /* Theme switch */
     .switch{display:flex;align-items:center;gap:6px}
     .switch label{font-size:12px;color:var(--muted);font-weight:800}
     .switch input{width:50px;height:26px;appearance:none;background:#4e5d75;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
@@ -66,22 +86,40 @@
     .switch input::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.25s}
     .switch input:checked::before{transform:translateX(24px)}
 
+    /* Notifications — modern */
     .notif{position:relative}
-    .notif-icon{cursor:pointer;font-size:20px;line-height:20px}
+    .notif-icon{
+      cursor:pointer;font-size:20px;line-height:20px;
+      display:inline-flex;align-items:center;gap:6px;
+    }
     .notif-badge{position:absolute;top:-4px;right:-6px;background:var(--danger);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px;display:none}
-    .notif-panel{position:absolute;top:120%;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;min-width:360px;box-shadow:var(--shadow);display:none;z-index:200}
-    .notif-panel h4{margin:0;padding:10px;border-bottom:1px solid var(--border)}
-    .notif-list{max-height:380px;overflow:auto}
-    .notif-item{padding:10px 12px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .notif-panel{
+      position:absolute;top:120%;right:0;background:var(--panel);
+      border:1px solid var(--border);border-radius:14px;min-width:420px;
+      box-shadow:var(--shadow);display:none;z-index:200;overflow:hidden
+    }
+    .notif-panel-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 12px;border-bottom:1px solid var(--border);background:var(--panel-2)
+    }
+    .notif-panel h4{margin:0;font-size:14px}
+    .notif-actions{display:flex;align-items:center;gap:8px}
+    .notif-list{max-height:420px;overflow:auto}
+    .notif-item{
+      padding:10px 12px;border-bottom:1px solid var(--border);
+      font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between
+    }
     .notif-item .msg{flex:1;color:var(--text)}
+    .notif-item .meta{color:var(--muted);font-size:11px;margin-left:8px}
     .notif-empty{padding:12px;color:var(--muted);font-size:13px}
     .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
+    .notif-mark{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
     /* Mobile-only elements hidden by default */
     .mobile-nav, .notif-sheet { display:none; }
 
-    /* Mobile bottom navbar with material-like icons */
+    /* Mobile bottom navbar */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
       #openComposer, #mainDropdown, #googleBtn, #userChip, .switch, .notif { display:none; }
@@ -90,6 +128,7 @@
         display:block; position:fixed; left:0; right:0; bottom:0;
         background:var(--panel); border-top:1px solid var(--border);
         z-index:160; padding:8px 12px calc(8px + var(--safe-bottom));
+        backdrop-filter: blur(8px);
       }
       .mobile-nav-inner{
         max-width:820px; margin:0 auto;
@@ -147,7 +186,10 @@
     /* Layout */
     .layout{padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
     @media(max-width:1100px){.layout{grid-template-columns:1fr}}
-    .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    .panel{
+      background:linear-gradient(180deg, var(--panel-3), var(--panel));
+      border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)
+    }
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
@@ -170,12 +212,9 @@
     .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
 
-    /* Force left alignment for specific cards on all breakpoints */
+    /* Force left alignment */
     .card.left-list { text-align:left; }
     .card.left-list .list-row { justify-content:flex-start; }
-    .card.left-list #topAuthors,
-    .card.left-list #topPosts,
-    .card.left-list #topTags { text-align:left; }
 
     /* Ad box */
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
@@ -185,7 +224,10 @@
     .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
     /* Post */
-    .post{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+    .post{
+      background:var(--panel);border:1px solid var(--border);
+      border-radius:16px;padding:16px;margin-bottom:16px; box-shadow:var(--shadow)
+    }
     .post-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
     .post-title{font-size:20px;margin:0;color:var(--text)}
     .post-meta{font-size:12px;color:var(--muted)}
@@ -197,7 +239,8 @@
 
     /* Featured YouTube */
     .post .featured-video{
-      width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9; border-radius:14px; border:2px solid var(--border); background:#000;
+      width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9;
+      border-radius:14px; border:2px solid var(--border); background:#000;
     }
     @media(max-width:980px){ .post .featured-video{ max-width:100% } }
 
@@ -253,7 +296,7 @@
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
 
     /* Modals */
-    .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:180}
+    .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:220}
     .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
     .modal-title{font-weight:800;color:var(--text)}
@@ -289,7 +332,7 @@
     .progress-pill .bar > span{ position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px; }
 
     /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:220}
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:300}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
@@ -354,15 +397,21 @@
         <input type="checkbox" id="themeToggle">
       </div>
       <div class="notif" id="notif">
-        <span class="notif-icon" id="notifIcon">🔔</span>
+        <span class="notif-icon" id="notifIcon">🔔 <span style="font-size:12px;color:var(--muted)">Alertas</span></span>
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
-          <h4>Notificaciones</h4>
+          <div class="notif-panel-head">
+            <h4>Notificaciones</h4>
+            <div class="notif-actions">
+              <button id="notifMarkRead" class="notif-mark">Marcar todas como leídas</button>
+              <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
+            </div>
+          </div>
           <div class="notif-list" id="notifInbox">
             <div class="notif-empty">No hay notificaciones nuevas.</div>
           </div>
           <div class="notif-footer">
-            <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
+            <button id="notifClosePanel" class="notif-mark">Cerrar</button>
           </div>
         </div>
       </div>
@@ -403,6 +452,7 @@
       </div>
     </div>
     <div class="sheet-footer">
+      <button id="notifMarkReadMobile" class="notif-mark">Marcar todas como leídas</button>
       <button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button>
     </div>
   </div>
@@ -429,7 +479,7 @@
       <div class="feed-controls">
         <div class="feed-tabs">
           <button id="tabAll" class="feed-tab active">Todos</button>
-          <button id="tabFollowing" class="feed-tab">Seguidos</button>
+          <button id="tabFollowingFeed" class="feed-tab">Seguidos</button>
         </div>
         <div class="feed-search">
           <input id="searchInput" class="search-input" type="text" placeholder="Buscar por título, etiqueta o cuenta…">
@@ -588,6 +638,29 @@
     </div>
   </div>
 
+  <!-- Post edit modal -->
+  <div id="postEditModal" class="backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title">Editar publicación</div>
+        <button class="close-x" id="closePostEdit">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="inputs">
+          <input id="editTitleInput" type="text" placeholder="Título del post" maxlength="120">
+          <textarea id="editDescInput" placeholder="Descripción breve" rows="3" maxlength="280"></textarea>
+          <input id="editTagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
+          <input id="editYoutubeInput" type="url" placeholder="URL de YouTube (videos, shorts y en vivo)">
+        </div>
+        <div id="editEditor" class="editor" contenteditable="true" spellcheck="true"></div>
+      </div>
+      <div class="modal-actions">
+        <button id="savePostEditBtn" class="btn btn-accent">Guardar cambios</button>
+        <button id="cancelPostEditBtn" class="btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Post view modal -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
@@ -649,55 +722,96 @@
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notifications sync */
+    /* Notifications — Firestore-backed */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
     const notifPanel = document.getElementById('notifPanel');
     const notifInbox = document.getElementById('notifInbox');
     const notifClearAll = document.getElementById('notifClearAll');
+    const notifMarkRead = document.getElementById('notifMarkRead');
+    const notifClosePanel = document.getElementById('notifClosePanel');
 
     const notifSheet = document.getElementById('notifSheet');
     const notifInboxMobile = document.getElementById('notifInboxMobile');
     const notifClearAllMobile = document.getElementById('notifClearAllMobile');
+    const notifMarkReadMobile = document.getElementById('notifMarkReadMobile');
     const sheetClose = document.getElementById('sheetClose');
 
     let notifCount = 0;
     let notifications = [];
+    let notifUnsub = null;
+
+    function notifColRef(uid){
+      return firestore.collection('users').doc(uid).collection('notifications');
+    }
 
     function renderNotifications(){
       const renderInto = (container) => {
         container.innerHTML = notifications.length ? '' : '<div class="notif-empty">No hay notificaciones nuevas.</div>';
         notifications.forEach(n=>{
           const item = document.createElement('div'); item.className='notif-item';
+          const left = document.createElement('div'); left.style.display='flex'; left.style.alignItems='center'; left.style.gap='8px';
           const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
-          item.appendChild(msg);
+          const meta = document.createElement('div'); meta.className='meta'; meta.textContent = new Date(n.ts).toLocaleString();
+          left.appendChild(msg); left.appendChild(meta);
+
+          const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
+          const del = document.createElement('button'); del.className='notif-clear'; del.textContent='Eliminar';
+          del.addEventListener('click', async ()=>{
+            try {
+              await notifColRef(n.uidOwner).doc(n.id).delete();
+            } catch(e){ alert('Error eliminando notificación: '+e.message); }
+          });
+          const mark = document.createElement('button'); mark.className='notif-mark'; mark.textContent= n.read ? 'Leída' : 'Marcar leída';
+          mark.disabled = n.read;
+          mark.addEventListener('click', async ()=>{
+            try{ await notifColRef(n.uidOwner).doc(n.id).set({ read:true }, { merge:true }); } catch(e){ alert('Error: '+e.message); }
+          });
+
+          right.appendChild(mark); right.appendChild(del);
+          item.appendChild(left); item.appendChild(right);
           container.appendChild(item);
         });
       };
       renderInto(notifInbox);
       renderInto(notifInboxMobile);
+      const unread = notifications.filter(n=>!n.read).length;
+      notifCount = unread;
+      notifBadge.textContent = unread;
+      notifBadge.style.display = unread ? 'inline-block' : 'none';
     }
-    function pushNotification(text){
-      const id = Date.now()+Math.random();
-      notifications.unshift({id, msg:text, ts:Date.now()});
-      notifCount++; notifBadge.textContent = notifCount; notifBadge.style.display = 'inline-block';
-      renderNotifications();
+
+    async function pushNotification(toUid, text){
+      const id = String(Date.now()+Math.random());
+      await notifColRef(toUid).doc(id).set({ id, uidOwner: toUid, msg:text, ts: Date.now(), read:false });
     }
-    function clearNotifications(){
-      notifications = [];
-      notifCount = 0;
-      notifBadge.style.display='none';
-      renderNotifications();
+
+    async function clearNotificationsAll(){
+      const u = auth.currentUser; if (!u) return;
+      const snap = await notifColRef(u.uid).get();
+      const batch = firestore.batch();
+      snap.forEach(doc=> batch.delete(doc.ref));
+      await batch.commit();
+    }
+
+    async function markAllRead(){
+      const u = auth.currentUser; if (!u) return;
+      const snap = await notifColRef(u.uid).get();
+      const batch = firestore.batch();
+      snap.forEach(doc=> batch.update(doc.ref, { read:true }));
+      await batch.commit();
     }
 
     notifIcon?.addEventListener('click', () => {
       const show = notifPanel.style.display === 'block' ? 'none' : 'block';
       notifPanel.style.display = show;
-      if (show === 'block' && notifCount > 0) { notifCount = 0; notifBadge.style.display = 'none'; }
     });
-    notifClearAll.addEventListener('click', clearNotifications);
-    notifClearAllMobile.addEventListener('click', clearNotifications);
+    notifClearAll.addEventListener('click', async ()=>{ await clearNotificationsAll(); });
+    notifClearAllMobile.addEventListener('click', async ()=>{ await clearNotificationsAll(); });
+    notifMarkRead.addEventListener('click', async ()=>{ await markAllRead(); });
+    notifMarkReadMobile.addEventListener('click', async ()=>{ await markAllRead(); });
+    notifClosePanel.addEventListener('click', ()=>{ notifPanel.style.display='none'; });
     sheetClose.addEventListener('click', closeNotifSheet);
     document.addEventListener('click',(e)=>{ if (!notif.contains(e.target)) notifPanel.style.display='none'; });
 
@@ -728,6 +842,8 @@
     }
 
     auth.onAuthStateChanged(async user => {
+      if (notifUnsub) { try{notifUnsub();}catch{} notifUnsub=null; }
+
       if (user) {
         googleBtn.style.display = 'none';
         userChip.style.display = 'inline-flex';
@@ -737,15 +853,23 @@
         document.getElementById('profileAvatar').src = avatarSrc;
         document.getElementById('profileName').textContent = user.displayName || 'Usuario';
         document.getElementById('profileEmail').textContent = user.email || '';
+
+        // Subscribe notifications live
+        notifUnsub = notifColRef(user.uid).orderBy('ts','desc').onSnapshot(s=>{
+          notifications = [];
+          s.forEach(d=> notifications.push(d.data()));
+          renderNotifications();
+        });
       } else {
         googleBtn.style.display = 'inline-flex';
         userChip.style.display = 'none';
+        notifications = []; renderNotifications();
       }
       await refreshFollowing();
       computeDonationEligibility();
       subscribeNotificationsForMyPosts();
       loadRightColumnStats();
-      renderFeed(); // ensure feed re-filters on auth change
+      renderFeed();
     });
 
     /* Body lock helpers */
@@ -903,7 +1027,7 @@
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
 
-        pushNotification(`Publicaste "${title}"`);
+        await pushNotification(user.uid, `Publicaste "${title}"`);
       } catch (e) {
         alert('Error publicando: ' + e.message);
         unmountProgressPill();
@@ -925,11 +1049,12 @@
 
     let postsCache = [];
     let userDonationEligible = false;
+    let postNotifsUnsubs = [];
     let notifUnsubs = [];
 
     /* Feed controls state */
     const tabAll = document.getElementById('tabAll');
-    const tabFollowing = document.getElementById('tabFollowing');
+    const tabFollowingFeed = document.getElementById('tabFollowingFeed');
     const searchInput = document.getElementById('searchInput');
     const clearSearch = document.getElementById('clearSearch');
     let feedMode = 'all'; // 'all' | 'following'
@@ -938,11 +1063,11 @@
     function setFeedMode(mode){
       feedMode = mode;
       tabAll.classList.toggle('active', mode==='all');
-      tabFollowing.classList.toggle('active', mode==='following');
+      tabFollowingFeed.classList.toggle('active', mode==='following');
       renderFeed();
     }
     tabAll.addEventListener('click', ()=> setFeedMode('all'));
-    tabFollowing.addEventListener('click', ()=> setFeedMode('following'));
+    tabFollowingFeed.addEventListener('click', ()=> setFeedMode('following'));
 
     let searchDebounce;
     searchInput.addEventListener('input', ()=>{
@@ -987,12 +1112,10 @@
       postsContainer.innerHTML = '';
       let list = [...postsCache];
 
-      // filter by following
       if (feedMode === 'following' && auth.currentUser) {
         list = list.filter(p => myFollowingSet.has(p.data.author?.uid));
       }
 
-      // filter by search: title, tags, author name
       if (searchQuery) {
         list = list.filter(p=>{
           const t = (p.data.title||'').toLowerCase();
@@ -1087,16 +1210,16 @@
       await batch.commit();
     }
 
-    /* Notifications subscriptions */
+    /* Post notifications subscriptions */
     function subscribeNotificationsForMyPosts(){
-      notifUnsubs.forEach(unsub => { try{unsub();}catch{} });
-      notifUnsubs = [];
+      postNotifsUnsubs.forEach(unsub => { try{unsub();}catch{} });
+      postNotifsUnsubs = [];
       const u = auth.currentUser;
       if (!u) return;
       postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
         const unsubLikes = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
           const d = s.data(); if (!d) return;
-          pushNotification(`Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`);
+          pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`);
         });
         const unsubComments = firestore.collection('posts').doc(p.id).collection('comments')
           .orderBy('createdAt','desc').limit(1)
@@ -1104,10 +1227,10 @@
             cs.forEach(cdoc=>{
               const c = cdoc.data();
               if (!c || !c.author) return;
-              pushNotification(`Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`);
+              pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`);
             });
           });
-        notifUnsubs.push(unsubLikes, unsubComments);
+        postNotifsUnsubs.push(unsubLikes, unsubComments);
       });
     }
 
@@ -1154,10 +1277,64 @@
         }
       });
 
-      // Update local following cache and refilter feed if in "following" mode
       await refreshFollowing();
       if (feedMode === 'following') renderFeed();
     }
+
+    /* Post edit modal state */
+    const postEditModal = document.getElementById('postEditModal');
+    const closePostEdit = document.getElementById('closePostEdit');
+    const editTitleInput = document.getElementById('editTitleInput');
+    const editDescInput = document.getElementById('editDescInput');
+    const editTagsInput = document.getElementById('editTagsInput');
+    const editYoutubeInput = document.getElementById('editYoutubeInput');
+    const editEditor = document.getElementById('editEditor');
+    const savePostEditBtn = document.getElementById('savePostEditBtn');
+    const cancelPostEditBtn = document.getElementById('cancelPostEditBtn');
+    let editingPostId = null;
+    let originalPostData = null;
+
+    function openPostEditModal(id, p){
+      editingPostId = id;
+      originalPostData = p;
+      editTitleInput.value = p.title || '';
+      editDescInput.value = p.desc || '';
+      editTagsInput.value = (p.tags||[]).join(', ');
+      const yt = (p.media||[]).find(m=>m.type==='youtube');
+      editYoutubeInput.value = yt ? `https://www.youtube.com/watch?v=${yt.videoId}` : '';
+      editEditor.innerHTML = p.bodyHtml || '';
+      postEditModal.style.display='flex';
+      lockBody();
+    }
+    function closePostEditModal(){
+      editingPostId = null;
+      originalPostData = null;
+      postEditModal.style.display='none';
+      unlockBody();
+    }
+    closePostEdit.addEventListener('click', closePostEditModal);
+    cancelPostEditBtn.addEventListener('click', closePostEditModal);
+    postEditModal.addEventListener('click',(e)=>{ if(e.target===postEditModal){ closePostEditModal(); } });
+
+    savePostEditBtn.addEventListener('click', async ()=>{
+      const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+      if (!editingPostId){ return; }
+      const title = editTitleInput.value.trim();
+      const desc = editDescInput.value.trim();
+      const bodyHtml = editEditor.innerHTML.trim();
+      const tags = editTagsInput.value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
+      const ytId = extractYouTubeId(editYoutubeInput.value.trim());
+      let media = (originalPostData.media||[]).filter(m=>m.type!=='youtube');
+      if (ytId) media = [{ type:'youtube', videoId:ytId }, ...media];
+
+      try{
+        await firestore.collection('posts').doc(editingPostId).set({
+          title, desc, bodyHtml, tags, media
+        }, { merge:true });
+        await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`);
+        closePostEditModal();
+      }catch(e){ alert('Error guardando edición: '+e.message); }
+    });
 
     /* Render Post */
     function renderPostCard(id, p){
@@ -1200,21 +1377,18 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube — ensure only one video rendered */
+      /* Featured YouTube — only one */
       let hasFeaturedVideo = false;
-      let firstYouTubeId = null;
-      (p.media || []).forEach(m=>{
-        if(!hasFeaturedVideo && m.type==='youtube' && m.videoId){
-          firstYouTubeId = m.videoId;
-          const fv = document.createElement('iframe');
-          fv.className='featured-video';
-          fv.src = `https://www.youtube.com/embed/${m.videoId}`;
-          fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-          fv.allowFullscreen = true;
-          card.appendChild(fv);
-          hasFeaturedVideo = true;
-        }
-      });
+      const yt = (p.media||[]).find(m=>m.type==='youtube' && m.videoId);
+      if (yt){
+        const fv = document.createElement('iframe');
+        fv.className='featured-video';
+        fv.src = `https://www.youtube.com/embed/${yt.videoId}`;
+        fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        fv.allowFullscreen = true;
+        card.appendChild(fv);
+        hasFeaturedVideo = true;
+      }
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
       (p.media || []).forEach(m => {
@@ -1222,20 +1396,8 @@
           const img = document.createElement('img'); img.src = m.url; img.alt = p.title || '';
           img.addEventListener('click', () => openLightbox('image', m.url));
           gallery.appendChild(img);
-        } else if (m.type === 'youtube' && m.videoId) {
-          // Skip adding YouTube into gallery if a featured video is already rendered
-          if (!hasFeaturedVideo && !firstYouTubeId) {
-            // Fallback: if for some reason no featured was created, allow one in gallery
-            const ifr = document.createElement('iframe');
-            ifr.src = `https://www.youtube.com/embed/${m.videoId}`;
-            ifr.title = "YouTube video player";
-            ifr.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-            ifr.allowFullscreen = true;
-            gallery.appendChild(ifr);
-            firstYouTubeId = m.videoId;
-          }
-          // Otherwise do nothing to avoid duplicates
         }
+        // YouTube not added to gallery to avoid duplicado
       });
 
       const actions = document.createElement('div'); actions.className = 'post-actions';
@@ -1257,14 +1419,18 @@
         actions.appendChild(donation);
       }
 
+      // Author actions: Editar / Eliminar
       if (user && user.uid === p.author?.uid) {
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
         const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-        editBtn.addEventListener('click', () => openEditModal?.(id, p));
+        editBtn.addEventListener('click', () => openPostEditModal(id, p));
         deleteBtn.addEventListener('click', async () => {
           const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
-          try { await firestore.collection('posts').doc(id).delete(); } catch(e){ alert('Error eliminando: ' + e.message); }
+          try {
+            await firestore.collection('posts').doc(id).delete();
+            await pushNotification(user.uid, `Eliminaste el post "${p.title || '(sin título)'}"`);
+          } catch(e){ alert('Error eliminando: ' + e.message); }
         });
         authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
         actions.appendChild(authorActions);
@@ -1396,6 +1562,10 @@
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
 
+      // Edit & Delete for comments (permitir edición/eliminación)
+      const editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
+      const delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
+
       like.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
         const ref = firestore.collection('posts').doc(postId).collection('comments').doc(c.id);
@@ -1409,14 +1579,39 @@
         });
       });
 
+      reply.addEventListener('click', ()=> {
+        replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
+      });
+
+      editBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const newText = prompt('Editar comentario:', text.textContent);
+        if (newText===null) return;
+        const safe = newText.trim();
+        try{
+          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).set({ text: safe }, { merge:true });
+        }catch(e){ alert('Error editando comentario: '+e.message); }
+      });
+
+      delBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
+        try{
+          // Eliminar hijos también
+          const ref = firestore.collection('posts').doc(postId).collection('comments');
+          const snap = await ref.where('parentId','==',c.id).get();
+          const batch = firestore.batch();
+          snap.forEach(doc=> batch.delete(doc.ref));
+          batch.delete(ref.doc(c.id));
+          await batch.commit();
+        }catch(e){ alert('Error eliminando comentario: '+e.message); }
+      });
+
       const replyForm = document.createElement('div'); replyForm.className='comment-form'; replyForm.style.display='none';
       const replyInput = document.createElement('input'); replyInput.className='comment-input'; replyInput.placeholder='Tu respuesta…';
       const replySend = document.createElement('button'); replySend.className='comment-btn'; replySend.textContent='Enviar';
       replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
 
-      reply.addEventListener('click', ()=> {
-        replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
-      });
       replySend.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
         const txt = replyInput.value.trim(); if (!txt) return;
@@ -1436,7 +1631,7 @@
         replySend.disabled=false;
       });
 
-      actions.appendChild(like); actions.appendChild(reply);
+      actions.appendChild(like); actions.appendChild(reply); actions.appendChild(editBtn); actions.appendChild(delBtn);
       box.appendChild(meta);
       box.appendChild(text);
       box.appendChild(actions);
@@ -1465,6 +1660,8 @@
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
+      const editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
+      const delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
 
       like.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
@@ -1479,7 +1676,22 @@
         });
       });
 
-      actions.appendChild(like);
+      editBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const newText = prompt('Editar respuesta:', text.textContent);
+        if (newText===null) return;
+        const safe = newText.trim();
+        try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).set({ text: safe }, { merge:true }); }
+        catch(e){ alert('Error editando respuesta: '+e.message); }
+      });
+      delBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
+        try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete(); }
+        catch(e){ alert('Error eliminando respuesta: '+e.message); }
+      });
+
+      actions.appendChild(like); actions.appendChild(editBtn); actions.appendChild(delBtn);
       meta.appendChild(left); meta.appendChild(right);
       box.appendChild(meta); box.appendChild(text); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
@@ -1500,30 +1712,22 @@
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
       const gallery = document.createElement('div'); gallery.className='post-gallery';
-
       let featuredAdded = false;
+      const yt = (d.media||[]).find(m=>m.type==='youtube' && m.videoId);
+      if (yt){
+        const fv=document.createElement('iframe');
+        fv.className='featured-video';
+        fv.src=`https://www.youtube.com/embed/${yt.videoId}`;
+        fv.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        fv.allowFullscreen=true;
+        pvBody.appendChild(fv);
+        featuredAdded = true;
+      }
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
-        else if(m.type==='youtube' && m.videoId){
-          if(!featuredAdded){
-            const iframe=document.createElement('iframe');
-            iframe.src=`https://www.youtube.com/embed/${m.videoId}`;
-            iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-            iframe.allowFullscreen=true;
-            // Render only once
-            featuredAdded = true;
-            // Show as full-width element above gallery to match featured style
-            const fv=document.createElement('iframe');
-            fv.className='featured-video';
-            fv.src=`https://www.youtube.com/embed/${m.videoId}`;
-            fv.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-            fv.allowFullscreen=true;
-            pvBody.appendChild(fv);
-          }
-        }
       });
       pvBody.appendChild(meta); pvBody.appendChild(body);
-      if ((d.media||[]).some(m=>m.type==='image')) pvBody.appendChild(gallery);
+      if ((d.media||[]).some(x=>x.type==='image')) pvBody.appendChild(gallery);
       postViewModal.style.display='flex'; lockBody();
     }
     closePostView.addEventListener('click',()=>{ postViewModal.style.display='none'; unlockBody(); });
@@ -1660,7 +1864,6 @@
     tabNotif.addEventListener('click', ()=>{
       activateTab(tabNotif);
       openNotifSheet();
-      if (notifCount > 0){ notifCount = 0; notifBadge.style.display='none'; }
     });
     tabProfile.addEventListener('click', async ()=>{
       activateTab(tabProfile);
