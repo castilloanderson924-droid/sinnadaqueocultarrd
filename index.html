@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>SIN NADA QUE OCULTAR</title>
+  <title>SIN NADA QUE OCULTAR — Foro noticioso</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -122,8 +122,8 @@
     /* Mobile bottom navbar */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
-      /* Mostrar theme switch en móvil: NO ocultar .switch */
       #openComposer, #mainDropdown, #googleBtn, #userChip, .notif { display:none; }
+      /* Mantener switch visible en móvil (no se oculta) */
 
       .mobile-nav{
         display:block; position:fixed; left:0; right:0; bottom:0;
@@ -373,7 +373,7 @@
         </div>
         <div class="brand-title">
           <h1>SIN NADA QUE OCULTAR</h1>
-          <div class="slogan">Periódico del pueblo y para el pueblo</div>
+          <div class="slogan">Información libre y periodismo de comunidad</div>
         </div>
       </div>
       <div class="spacer"></div>
@@ -474,7 +474,7 @@
 
   <section class="layout">
     <div class="panel">
-      <h3>Feed de noticias</h3>
+      <h3>Feed</h3>
       <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
 
       <!-- Feed controls: tabs + search -->
@@ -683,6 +683,7 @@
   <footer class="footer">
     <div class="footer-inner">
       <div>© 2025 SIN NADA QUE OCULTAR. Todos los derechos reservados.</div>
+      <div>Hecho con comunidad, claridad y criterio.</div>
     </div>
   </footer>
 
@@ -705,6 +706,20 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const firestore = firebase.firestore();
+
+    /* Cloudinary config: reemplaza con tu cloud_name y upload_preset */
+    const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/tu_cloud_name/upload";
+    const CLOUDINARY_UPLOAD_PRESET = "tu_upload_preset";
+
+    async function uploadToCloudinary(file){
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      const res = await fetch(CLOUDINARY_URL, { method:"POST", body:formData });
+      if (!res.ok) throw new Error("Error subiendo a Cloudinary");
+      const data = await res.json();
+      return data.secure_url;
+    }
 
     /* Theme */
     const themeToggle = document.getElementById('themeToggle');
@@ -855,6 +870,10 @@
         myFollowingSet = new Set(arr);
       }
     }
+
+    // Mapas para evitar notificaciones de "likes" al suscribirse (solo cambios reales)
+    const likesBaseline = new Map(); // postId -> likesCount
+    const firstCommentsLoaded = new Map(); // postId -> boolean
 
     auth.onAuthStateChanged(async user => {
       if (notifUnsub) { try{notifUnsub();}catch{} notifUnsub=null; }
@@ -1011,16 +1030,12 @@
         if (selectedFiles.length){
           const total = selectedFiles.length;
           let done = 0;
-          const items = await Promise.all(selectedFiles.map(f => new Promise(res=>{
-            const reader = new FileReader();
-            reader.onload = () => {
-              done++;
-              setProgressElegant(5 + Math.round(60*(done/total)));
-              res({ url: reader.result, type: 'image' });
-            };
-            reader.readAsDataURL(f);
-          })));
-          mediaItems = mediaItems.concat(items);
+          for (const f of selectedFiles){
+            const url = await uploadToCloudinary(f);
+            done++;
+            setProgressElegant(5 + Math.round(60*(done/total)));
+            mediaItems.push({ type:'image', url });
+          }
         }
 
         setProgressElegant(85);
@@ -1100,6 +1115,7 @@
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsCache = [];
+      likesBaseline.clear();
       if (snap.empty) {
         postsContainer.innerHTML = '';
         emptyFeed.style.display = 'block';
@@ -1113,6 +1129,7 @@
         const d = doc.data();
         let createdText = '—'; try { if (d.createdAt?.toDate) createdText = d.createdAt.toDate().toLocaleString(); } catch(e){}
         postsCache.push({ id: doc.id, data: { ...d, createdText } });
+        likesBaseline.set(doc.id, d.likesCount || 0);
       });
 
       renderFeed();
@@ -1225,26 +1242,48 @@
       await batch.commit();
     }
 
-    /* Post notifications subscriptions */
+    /* Post notifications subscriptions (debounced to avoid immediate after clear) */
     function subscribeNotificationsForMyPosts(){
       postNotifsUnsubs.forEach(unsub => { try{unsub();}catch{} });
       postNotifsUnsubs = [];
+      firstCommentsLoaded.clear();
+
       const u = auth.currentUser;
       if (!u) return;
+
       postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
+        // Likes changes: solo notificar incrementos, y evitar primera carga
+        let firstLikeSnap = true;
         const unsubLikes = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
           const d = s.data(); if (!d) return;
-          pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`, { postId: p.id });
+          const prev = likesBaseline.get(p.id);
+          const curr = d.likesCount || 0;
+          // La primera vez: actualizar baseline y no notificar
+          if (firstLikeSnap) { likesBaseline.set(p.id, curr); firstLikeSnap = false; return; }
+          // Solo notificar si hubo incremento real
+          if (prev != null && curr > prev) {
+            likesBaseline.set(p.id, curr);
+            pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${curr} likes`, { postId: p.id });
+          } else {
+            likesBaseline.set(p.id, curr);
+          }
         });
+
+        // Nuevo comentario: evitar notificación en primera carga del snapshot
         const unsubComments = firestore.collection('posts').doc(p.id).collection('comments')
           .orderBy('createdAt','desc').limit(1)
           .onSnapshot(cs=>{
+            if (!firstCommentsLoaded.get(p.id)) {
+              firstCommentsLoaded.set(p.id, true);
+              return; // no notificar en la primera carga
+            }
             cs.forEach(cdoc=>{
               const c = cdoc.data();
               if (!c || !c.author) return;
               pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`, { postId: p.id, commentId: cdoc.id });
             });
           });
+
         postNotifsUnsubs.push(unsubLikes, unsubComments);
       });
     }
@@ -1260,9 +1299,9 @@
       });
     }
 
-    /* Follow system */
+    /* Follow system (envía notificación al seguido) */
     async function toggleFollow(targetUid, name, avatar, btn){
-      const u = auth.currentUser;
+      const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
       if (u.uid === targetUid){ alert('No puedes seguirte a ti mismo.'); return; }
 
@@ -1289,6 +1328,13 @@
           const nowFollowing = !isFollowing;
           btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir';
           btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
+        }
+
+        // Notificación al usuario seguido si es nuevo follow
+        if (!isFollowing) {
+          try{
+            await pushNotification(targetUid, `${u.displayName || 'Usuario'} te siguió`, null);
+          }catch(e){}
         }
       });
 
@@ -1393,7 +1439,6 @@
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
       /* Featured YouTube — only one */
-      let hasFeaturedVideo = false;
       const yt = (p.media||[]).find(m=>m.type==='youtube' && m.videoId);
       if (yt){
         const fv = document.createElement('iframe');
@@ -1402,7 +1447,6 @@
         fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         fv.allowFullscreen = true;
         card.appendChild(fv);
-        hasFeaturedVideo = true;
       }
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
@@ -1412,7 +1456,6 @@
           img.addEventListener('click', () => openLightbox('image', m.url));
           gallery.appendChild(img);
         }
-        // YouTube not added to gallery to avoid duplicado
       });
 
       const actions = document.createElement('div'); actions.className = 'post-actions';
@@ -1773,7 +1816,6 @@
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
       const gallery = document.createElement('div'); gallery.className='post-gallery';
-      let featuredAdded = false;
       const yt = (d.media||[]).find(m=>m.type==='youtube' && m.videoId);
       if (yt){
         const fv=document.createElement('iframe');
@@ -1782,7 +1824,6 @@
         fv.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         fv.allowFullscreen=true;
         pvBody.appendChild(fv);
-        featuredAdded = true;
       }
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
@@ -1792,7 +1833,7 @@
 
       postViewModal.style.display='flex'; lockBody();
 
-      // Si hay commentId, cargar comentarios del post y hacer scroll al específico
+      // Comentarios dentro del modal y scroll a comentario específico si aplica
       const commentsContainer = document.createElement('div'); commentsContainer.className='comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${postId}-modal`;
@@ -1975,4 +2016,3 @@
   </script>
 </body>
 </html>
-
