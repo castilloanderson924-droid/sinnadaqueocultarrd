@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>SIN NADA QUE OCULTAR — Foro noticioso</title>
+  <title>SIN NADA QUE OCULTAR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -36,13 +36,11 @@
     img,video,iframe{max-width:100%;display:block}
     p, .post-content, .comment-text, .reply-text { word-wrap:break-word; overflow-wrap:break-word; }
 
-    /* Containers centered */
     .wrap, .nav, .ticket, .layout, .footer-inner { max-width:1240px; margin:0 auto; }
     @media(max-width:640px){
       .wrap, .nav, .ticket, .layout, .footer-inner { max-width:100%; padding:0 12px; }
     }
 
-    /* Header (desktop) — modern glass */
     .header{
       position:sticky;top:0;z-index:180;
       background:linear-gradient(180deg, var(--panel-3) 0%, var(--panel) 100%);
@@ -67,7 +65,6 @@
     .btn-accent{background:var(--accent);color:#fff;border-color:transparent}
     .avatar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);object-fit:cover}
 
-    /* Dropdown */
     .dropdown{position:relative}
     .dropdown-toggle{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
     .dropdown-menu{
@@ -78,7 +75,6 @@
     .dropdown-menu a{display:block;padding:10px 12px;color:var(--text)}
     .dropdown-menu a:hover{background:var(--panel-2)}
 
-    /* Theme switch */
     .switch{display:flex;align-items:center;gap:6px}
     .switch label{font-size:12px;color:var(--muted);font-weight:800}
     .switch input{width:50px;height:26px;appearance:none;background:#4e5d75;border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--border)}
@@ -86,7 +82,6 @@
     .switch input::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.25s}
     .switch input:checked::before{transform:translateX(24px)}
 
-    /* Notifications — modern */
     .notif{position:relative}
     .notif-icon{
       cursor:pointer;font-size:20px;line-height:20px;
@@ -116,10 +111,8 @@
     .notif-clear{border:1px solid var(--border);background:var(--danger);color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
     .notif-mark{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 
-    /* Mobile-only elements hidden by default */
     .mobile-nav, .notif-sheet { display:none; }
 
-    /* Mobile bottom navbar */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
       #openComposer, #mainDropdown, #googleBtn, #userChip, .switch, .notif { display:none; }
@@ -158,7 +151,6 @@
       .layout{padding:12px; gap:12px; padding-bottom:92px}
     }
 
-    /* Ticket News — profesional */
     .ticket{margin:16px auto; padding:0 16px}
     .rail{
       background:linear-gradient(135deg, var(--panel-2), var(--panel));
@@ -183,7 +175,6 @@
     .headline .title{font-weight:800;color:var(--text)}
     .headline .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block }
 
-    /* Layout */
     .layout{padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}
     @media(max-width:1100px){.layout{grid-template-columns:1fr}}
     .panel{
@@ -193,7 +184,6 @@
     .panel h3{margin:0 0 10px;font-size:18px;color:var(--text)}
     .panel-sub{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 
-    /* Feed controls */
     .feed-controls{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 14px}
     .feed-tabs{display:flex;gap:6px}
     .feed-tab{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:6px 10px;border-radius:999px;font-weight:800;cursor:pointer;font-size:12px}
@@ -203,7 +193,6 @@
     .search-input::placeholder{color:var(--muted)}
     .search-clear{border:1px solid var(--border);background:var(--panel-2);color:var(--text);padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
 
-    /* Right column cards */
     .right-col .card{
       background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);margin-bottom:14px;
     }
@@ -211,19 +200,15 @@
     .list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
     .list-left{display:flex;align-items:center;gap:8px}
     .stat{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:6px}
-
-    /* Force left alignment */
     .card.left-list { text-align:left; }
     .card.left-list .list-row { justify-content:flex-start; }
 
-    /* Ad box */
     .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
     .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
     .ad-label{font-weight:900;color:var(--gold);font-size:16px}
     .ad-sub{margin-top:4px;color:var(--muted);font-size:12px}
     .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
 
-    /* Post */
     .post{
       background:var(--panel);border:1px solid var(--border);
       border-radius:16px;padding:16px;margin-bottom:16px; box-shadow:var(--shadow)
@@ -237,14 +222,12 @@
     .post-content{margin-top:8px;color:var(--text)}
     .post-content a{color:var(--accent)}
 
-    /* Featured YouTube */
     .post .featured-video{
       width:100%; max-width:980px; margin:10px auto; aspect-ratio:16/9;
       border-radius:14px; border:2px solid var(--border); background:#000;
     }
     @media(max-width:980px){ .post .featured-video{ max-width:100% } }
 
-    /* Gallery */
     .post-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
     @media(max-width:980px){.post-gallery{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:640px){.post-gallery{grid-template-columns:1fr}}
@@ -269,7 +252,6 @@
     .btn-follow{ background:var(--accent); color:#fff; }
     .btn-following{ background:var(--panel-2); color:var(--text); }
 
-    /* Comments */
     .comments{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
     .comments h4{margin:0 0 10px;color:var(--text)}
     .comment-form{display:flex;gap:8px;margin-top:8px}
@@ -295,7 +277,6 @@
     .load-more{margin-top:10px}
     .load-more-btn{border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;cursor:pointer}
 
-    /* Modals */
     .backdrop{position:fixed;inset:0;background:rgba(6,8,12,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:220}
     .modal{width:clamp(360px,92vw,900px);background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
     .modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--panel-2)}
@@ -308,7 +289,6 @@
       .modal-body{overflow:auto; max-height:calc(90vh - 104px)}
     }
 
-    /* Composer */
     .inputs{display:grid;gap:10px;margin-bottom:10px}
     .inputs input,.inputs textarea,.inputs select{width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px}
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
@@ -319,7 +299,6 @@
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
     .media-thumb img{width:100%;height:100%;object-fit:cover}
 
-    /* Publish progress pill */
     .progress-pill{
       display:inline-flex;align-items:center;justify-content:center;
       gap:8px; min-width:180px; height:42px; border-radius:999px;
@@ -331,18 +310,15 @@
     .progress-pill .bar{ position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden; }
     .progress-pill .bar > span{ position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px; }
 
-    /* Lightbox */
     .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:300}
     .lightbox-content{max-width:90vw;max-height:90vh}
     .lightbox-content img,.lightbox-content video{max-width:100%;max-height:100%;border-radius:12px}
     .lightbox-close{position:absolute;top:16px;right:16px;background:#000;color:#fff;border:1px solid #333;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
 
-    /* Footer */
     .footer{margin-top:24px;background:var(--panel);border-top:1px solid var(--border)}
     .footer-inner{padding:16px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     .footer a{color:var(--muted)}
 
-    /* Dashboard clean styles */
     .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
     @media(max-width:900px){ .dash-grid{grid-template-columns:1fr} }
     .dash-card{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -362,7 +338,6 @@
   </style>
 </head>
 <body>
-  <!-- Header (desktop) -->
   <header class="header">
     <nav class="nav">
       <div class="brand">
@@ -371,7 +346,7 @@
         </div>
         <div class="brand-title">
           <h1>SIN NADA QUE OCULTAR</h1>
-          <div class="slogan">Información libre y periodismo de comunidad</div>
+          <div class="slogan">Un periódico del pueblo y para el pueblo</div>
         </div>
       </div>
       <div class="spacer"></div>
@@ -418,7 +393,6 @@
     </nav>
   </header>
 
-  <!-- Mobile bottom navbar -->
   <div class="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-inner">
       <button class="mobile-tab active" id="tabHome" aria-label="Inicio">
@@ -440,7 +414,6 @@
     </div>
   </div>
 
-  <!-- Mobile notifications sheet -->
   <div class="notif-sheet" id="notifSheet">
     <div class="sheet-head">
       <div class="sheet-title">Notificaciones</div>
@@ -472,10 +445,9 @@
 
   <section class="layout">
     <div class="panel">
-      <h3>Feed</h3>
-      <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
+      <h3>Feed de noticias</h3>
+      <div class="panel-sub">Publicaciones de la comunidad</div>
 
-      <!-- Feed controls: tabs + search -->
       <div class="feed-controls">
         <div class="feed-tabs">
           <button id="tabAll" class="feed-tab active">Todos</button>
@@ -535,7 +507,6 @@
     </aside>
   </section>
 
-  <!-- Composer -->
   <div id="composerModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -581,7 +552,6 @@
     </div>
   </div>
 
-  <!-- Dashboard -->
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -638,7 +608,6 @@
     </div>
   </div>
 
-  <!-- Post edit modal -->
   <div id="postEditModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -661,7 +630,6 @@
     </div>
   </div>
 
-  <!-- Post view modal -->
   <div id="postViewModal" class="backdrop">
     <div class="modal">
       <div class="modal-head">
@@ -672,7 +640,6 @@
     </div>
   </div>
 
-  <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <button id="lightboxClose" class="lightbox-close">Cerrar ✕</button>
     <div class="lightbox-content"></div>
@@ -681,17 +648,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <div>© 2025 SIN NADA QUE OCULTAR. Todos los derechos reservados.</div>
-      <div>Hecho con comunidad, claridad y criterio.</div>
     </div>
   </footer>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <script>
-    /* Firebase */
     const firebaseConfig = {
       apiKey: "AIzaSyBWqJI7OKZcEjN2CeTZxPi8pWzo8rBMIkI",
       authDomain: "nearmemarketplace-ce82b.firebaseapp.com",
@@ -705,7 +669,6 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Theme */
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('snqo_theme');
     if (savedTheme === 'light') { document.body.classList.add('light'); themeToggle.checked = true; }
@@ -715,14 +678,12 @@
       localStorage.setItem('snqo_theme', light ? 'light' : 'dark');
     });
 
-    /* Dropdown */
     const mainDropdown = document.getElementById('mainDropdown');
     const ddToggle = mainDropdown.querySelector('.dropdown-toggle');
     const ddMenu = mainDropdown.querySelector('.dropdown-menu');
     ddToggle.addEventListener('click',()=>{ ddMenu.style.display = ddMenu.style.display==='block' ? 'none' : 'block'; });
     document.addEventListener('click',(e)=>{ if(!mainDropdown.contains(e.target)) ddMenu.style.display='none'; });
 
-    /* Notifications — Firestore-backed */
     const notif = document.getElementById('notif');
     const notifIcon = document.getElementById('notifIcon');
     const notifBadge = document.getElementById('notifBadge');
@@ -759,14 +720,14 @@
           const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
           const del = document.createElement('button'); del.className='notif-clear'; del.textContent='Eliminar';
           del.addEventListener('click', async ()=>{
-            try {
-              await notifColRef(n.uidOwner).doc(n.id).delete();
-            } catch(e){ alert('Error eliminando notificación: '+e.message); }
+            try { await notifColRef(n.uidOwner).doc(n.id).delete(); }
+            catch(e){ alert('Error eliminando notificación: '+e.message); }
           });
           const mark = document.createElement('button'); mark.className='notif-mark'; mark.textContent= n.read ? 'Leída' : 'Marcar leída';
           mark.disabled = n.read;
           mark.addEventListener('click', async ()=>{
-            try{ await notifColRef(n.uidOwner).doc(n.id).set({ read:true }, { merge:true }); } catch(e){ alert('Error: '+e.message); }
+            try{ await notifColRef(n.uidOwner).doc(n.id).set({ read:true }, { merge:true }); }
+            catch(e){ alert('Error: '+e.message); }
           });
 
           right.appendChild(mark); right.appendChild(del);
@@ -815,7 +776,6 @@
     sheetClose.addEventListener('click', closeNotifSheet);
     document.addEventListener('click',(e)=>{ if (!notif.contains(e.target)) notifPanel.style.display='none'; });
 
-    /* Auth */
     const googleBtn = document.getElementById('googleBtn');
     const userChip = document.getElementById('userChip');
     const userAvatar = document.getElementById('userAvatar');
@@ -828,9 +788,7 @@
     });
     logoutBtn.addEventListener('click', async () => { await auth.signOut(); });
 
-    /* Following cache for filtering */
     let myFollowingSet = new Set();
-
     async function refreshFollowing(){
       const u = auth.currentUser; myFollowingSet = new Set();
       if (!u) return;
@@ -854,7 +812,6 @@
         document.getElementById('profileName').textContent = user.displayName || 'Usuario';
         document.getElementById('profileEmail').textContent = user.email || '';
 
-        // Subscribe notifications live
         notifUnsub = notifColRef(user.uid).orderBy('ts','desc').onSnapshot(s=>{
           notifications = [];
           s.forEach(d=> notifications.push(d.data()));
@@ -872,13 +829,11 @@
       renderFeed();
     });
 
-    /* Body lock helpers */
     function lockBody(){ document.body.style.overflow='hidden'; }
     function unlockBody(){ document.body.style.overflow=''; }
     function openNotifSheet(){ notifSheet.style.display='block'; lockBody(); }
     function closeNotifSheet(){ notifSheet.style.display='none'; unlockBody(); }
 
-    /* Composer modal */
     const composerModal = document.getElementById('composerModal');
     const openComposer = document.getElementById('openComposer');
     const closeComposer = document.getElementById('closeComposer');
@@ -888,7 +843,6 @@
     closeComposer.addEventListener('click', hideComposer);
     composerModal.addEventListener('click', (e) => { if (e.target === composerModal) hideComposer(); });
 
-    /* Editor toolbar */
     const editor = document.getElementById('editor');
     document.querySelectorAll('.tool').forEach(btn => {
       const cmd = btn.dataset.cmd;
@@ -901,7 +855,6 @@
     });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
-    /* YouTube helper */
     const youtubeInput = document.getElementById('youtubeInput');
     function extractYouTubeId(url){
       if (!url) return null;
@@ -918,7 +871,6 @@
       return null;
     }
 
-    /* Media preview */
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
@@ -932,7 +884,6 @@
       });
     });
 
-    /* Publish progress */
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
     const tagsInput = document.getElementById('tagsInput');
@@ -991,7 +942,7 @@
       try {
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
-        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId }); // solo un video máximo
+        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
         if (selectedFiles.length){
           const total = selectedFiles.length;
@@ -1042,7 +993,6 @@
       mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
     });
 
-    /* Feed + titulares + stats */
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
     const marquee = document.getElementById('marquee');
@@ -1052,12 +1002,11 @@
     let postNotifsUnsubs = [];
     let notifUnsubs = [];
 
-    /* Feed controls state */
     const tabAll = document.getElementById('tabAll');
     const tabFollowingFeed = document.getElementById('tabFollowingFeed');
     const searchInput = document.getElementById('searchInput');
     const clearSearch = document.getElementById('clearSearch');
-    let feedMode = 'all'; // 'all' | 'following'
+    let feedMode = 'all';
     let searchQuery = '';
 
     function setFeedMode(mode){
@@ -1197,7 +1146,6 @@
       });
     }
 
-    /* Donation eligibility */
     async function computeDonationEligibility(){
       const u = auth.currentUser;
       if (!u) { userDonationEligible = false; return; }
@@ -1210,7 +1158,6 @@
       await batch.commit();
     }
 
-    /* Post notifications subscriptions */
     function subscribeNotificationsForMyPosts(){
       postNotifsUnsubs.forEach(unsub => { try{unsub();}catch{} });
       postNotifsUnsubs = [];
@@ -1245,7 +1192,6 @@
       });
     }
 
-    /* Follow system */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
@@ -1281,7 +1227,6 @@
       if (feedMode === 'following') renderFeed();
     }
 
-    /* Post edit modal state */
     const postEditModal = document.getElementById('postEditModal');
     const closePostEdit = document.getElementById('closePostEdit');
     const editTitleInput = document.getElementById('editTitleInput');
@@ -1328,15 +1273,12 @@
       if (ytId) media = [{ type:'youtube', videoId:ytId }, ...media];
 
       try{
-        await firestore.collection('posts').doc(editingPostId).set({
-          title, desc, bodyHtml, tags, media
-        }, { merge:true });
+        await firestore.collection('posts').doc(editingPostId).set({ title, desc, bodyHtml, tags, media }, { merge:true });
         await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`);
         closePostEditModal();
       }catch(e){ alert('Error guardando edición: '+e.message); }
     });
 
-    /* Render Post */
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
@@ -1377,8 +1319,6 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube — only one */
-      let hasFeaturedVideo = false;
       const yt = (p.media||[]).find(m=>m.type==='youtube' && m.videoId);
       if (yt){
         const fv = document.createElement('iframe');
@@ -1387,7 +1327,6 @@
         fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         fv.allowFullscreen = true;
         card.appendChild(fv);
-        hasFeaturedVideo = true;
       }
 
       const gallery = document.createElement('div'); gallery.className = 'post-gallery';
@@ -1397,7 +1336,6 @@
           img.addEventListener('click', () => openLightbox('image', m.url));
           gallery.appendChild(img);
         }
-        // YouTube not added to gallery to avoid duplicado
       });
 
       const actions = document.createElement('div'); actions.className = 'post-actions';
@@ -1419,7 +1357,6 @@
         actions.appendChild(donation);
       }
 
-      // Author actions: Editar / Eliminar
       if (user && user.uid === p.author?.uid) {
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
@@ -1453,7 +1390,6 @@
         computeDonationEligibility();
       });
 
-      /* Comments block */
       const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
@@ -1561,8 +1497,6 @@
       const actions = document.createElement('div'); actions.className='comment-actions';
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
-
-      // Edit & Delete for comments (permitir edición/eliminación)
       const editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
       const delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
 
@@ -1579,39 +1513,14 @@
         });
       });
 
-      reply.addEventListener('click', ()=> {
-        replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
-      });
-
-      editBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const newText = prompt('Editar comentario:', text.textContent);
-        if (newText===null) return;
-        const safe = newText.trim();
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).set({ text: safe }, { merge:true });
-        }catch(e){ alert('Error editando comentario: '+e.message); }
-      });
-
-      delBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
-        try{
-          // Eliminar hijos también
-          const ref = firestore.collection('posts').doc(postId).collection('comments');
-          const snap = await ref.where('parentId','==',c.id).get();
-          const batch = firestore.batch();
-          snap.forEach(doc=> batch.delete(doc.ref));
-          batch.delete(ref.doc(c.id));
-          await batch.commit();
-        }catch(e){ alert('Error eliminando comentario: '+e.message); }
-      });
-
       const replyForm = document.createElement('div'); replyForm.className='comment-form'; replyForm.style.display='none';
       const replyInput = document.createElement('input'); replyInput.className='comment-input'; replyInput.placeholder='Tu respuesta…';
       const replySend = document.createElement('button'); replySend.className='comment-btn'; replySend.textContent='Enviar';
       replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
 
+      reply.addEventListener('click', ()=> {
+        replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
+      });
       replySend.addEventListener('click', async ()=>{
         const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
         const txt = replyInput.value.trim(); if (!txt) return;
@@ -1629,6 +1538,29 @@
           replyForm.style.display='none';
         }catch(err){ alert('Error al responder: '+err.message); }
         replySend.disabled=false;
+      });
+
+      editBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const newText = prompt('Editar comentario:', text.textContent);
+        if (newText===null) return;
+        const safe = newText.trim();
+        try{
+          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).set({ text: safe }, { merge:true });
+        }catch(e){ alert('Error editando comentario: '+e.message); }
+      });
+
+      delBtn.addEventListener('click', async ()=>{
+        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
+        const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
+        try{
+          const ref = firestore.collection('posts').doc(postId).collection('comments');
+          const snap = await ref.where('parentId','==',c.id).get();
+          const batch = firestore.batch();
+          snap.forEach(doc=> batch.delete(doc.ref));
+          batch.delete(ref.doc(c.id));
+          await batch.commit();
+        }catch(e){ alert('Error eliminando comentario: '+e.message); }
       });
 
       actions.appendChild(like); actions.appendChild(reply); actions.appendChild(editBtn); actions.appendChild(delBtn);
@@ -1698,7 +1630,6 @@
       return item;
     }
 
-    /* Post view modal */
     const postViewModal = document.getElementById('postViewModal');
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
@@ -1712,7 +1643,6 @@
       const meta = document.createElement('div'); meta.className='post-meta'; meta.textContent=(d.author?.name||'Usuario')+' • '+d.createdText;
       const body = document.createElement('div'); body.className='post-content'; body.innerHTML=d.bodyHtml||'';
       const gallery = document.createElement('div'); gallery.className='post-gallery';
-      let featuredAdded = false;
       const yt = (d.media||[]).find(m=>m.type==='youtube' && m.videoId);
       if (yt){
         const fv=document.createElement('iframe');
@@ -1721,7 +1651,6 @@
         fv.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
         fv.allowFullscreen=true;
         pvBody.appendChild(fv);
-        featuredAdded = true;
       }
       (d.media||[]).forEach(m=>{
         if(m.type==='image'){ const img=document.createElement('img'); img.src=m.url; img.onclick=()=>openLightbox('image',m.url); gallery.appendChild(img); }
@@ -1733,7 +1662,6 @@
     closePostView.addEventListener('click',()=>{ postViewModal.style.display='none'; unlockBody(); });
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal){ postViewModal.style.display='none'; unlockBody(); } });
 
-    /* Dashboard open */
     const dashboardModal = document.getElementById('dashboardModal');
     const closeDashboard = document.getElementById('closeDashboard');
     function openDashboardModal(){ dashboardModal.style.display='flex'; lockBody(); }
@@ -1817,7 +1745,6 @@
     document.getElementById('openDashboard').addEventListener('click', loadDashboard);
     document.getElementById('openDashboardSide').addEventListener('click', loadDashboard);
 
-    /* Lightbox */
     const lightbox = document.getElementById('lightbox');
     const lightboxContent = document.querySelector('.lightbox-content');
     const lightboxClose = document.getElementById('lightboxClose');
@@ -1833,7 +1760,6 @@
     lightboxClose.addEventListener('click', () => { lightbox.style.display = 'none'; unlockBody(); });
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) { lightbox.style.display = 'none'; unlockBody(); } });
 
-    /* Ad mailto */
     const adSolicitarBtn = document.getElementById('adSolicitarBtn');
     adSolicitarBtn.addEventListener('click', ()=>{
       const subject = encodeURIComponent('Solicitud de anuncio — SIN NADA QUE OCULTAR');
@@ -1841,7 +1767,6 @@
       window.location.href = `mailto:sinnadaqueocultar.com@gmail.com?subject=${subject}&body=${body}`;
     });
 
-    /* Mobile navbar interactions */
     const tabHome = document.getElementById('tabHome');
     const tabCompose = document.getElementById('tabCompose');
     const tabNotif = document.getElementById('tabNotif');
@@ -1875,13 +1800,11 @@
       }
     });
 
-    /* Ticket controls */
     const pauseTicker = document.getElementById('pauseTicker');
     const resumeTicker = document.getElementById('resumeTicker');
     pauseTicker.addEventListener('click', ()=>{ marquee.style.animationPlayState = 'paused'; });
     resumeTicker.addEventListener('click', ()=>{ marquee.style.animationPlayState = 'running'; });
 
-    /* Helpers */
     function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s])); }
   </script>
 </body>
