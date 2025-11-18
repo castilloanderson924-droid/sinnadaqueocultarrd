@@ -35,6 +35,7 @@
     .brand{display:flex;align-items:center;gap:12px}
     .brand-logo{width:44px;height:44px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--panel-2);display:grid;place-items:center;box-shadow:var(--shadow)}
     .brand-logo img{width:34px;height:34px;object-fit:contain}
+    .brand-title{line-height:1}
     .brand-title h1{font-family:"Playfair Display",serif;font-size:20px;margin:0;color:var(--text);letter-spacing:.3px}
     .brand-title .slogan{color:var(--muted);font-size:12px}
     .spacer{flex:1 1 auto}
@@ -77,14 +78,30 @@
       .nav{ padding:8px 12px; }
       #openComposer, #mainDropdown, #googleBtn, #userChip, .notif { display:none; }
 
-      .mobile-nav{display:block; position:fixed; left:0; right:0; bottom:0;background:var(--panel); border-top:1px solid var(--border);z-index:160; padding:8px 12px calc(8px + var(--safe-bottom));backdrop-filter: blur(8px)}
-      .mobile-nav-inner{max-width:820px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:8px;}
-      .mobile-tab{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:var(--muted); background:transparent; border:none; cursor:pointer; padding:6px 8px; border-radius:10px;}
+      .mobile-nav{
+        display:block; position:fixed; left:0; right:0; bottom:0;
+        background:var(--panel); border-top:1px solid var(--border);
+        z-index:160; padding:8px 12px calc(8px + var(--safe-bottom));
+      }
+      .mobile-nav-inner{
+        max-width:820px; margin:0 auto;
+        display:flex; align-items:center; justify-content:space-between; gap:8px;
+      }
+      .mobile-tab{
+        flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+        color:var(--muted); background:transparent; border:none; cursor:pointer; padding:6px 8px; border-radius:10px;
+      }
       .mobile-tab.active{ color:var(--text); background:var(--panel-2); }
       .mobile-tab svg{ width:22px; height:22px; }
       .mobile-tab .label{ font-size:11px; font-weight:800 }
 
-      .notif-sheet{display:none; position:fixed; left:0; right:0; bottom:0; background:var(--panel); border-top:1px solid var(--border); border-radius:16px 16px 0 0; box-shadow:var(--shadow); max-height:70vh; z-index:180;}
+      .notif-sheet{
+        display:none;
+        position:fixed; left:0; right:0; bottom:0;
+        background:var(--panel); border-top:1px solid var(--border);
+        border-radius:16px 16px 0 0; box-shadow:var(--shadow);
+        max-height:70vh; z-index:180;
+      }
       .sheet-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--border); }
       .sheet-title{ font-weight:800; }
       .sheet-close{ background:transparent; border:0; color:var(--muted); font-weight:800; font-size:18px; cursor:pointer }
@@ -101,7 +118,7 @@
     .rail-btn{border:1px solid var(--border); background:var(--panel); color:var(--text); padding:6px 10px; border-radius:8px; font-size:12px; cursor:pointer;}
     .ticker{overflow:hidden;white-space:nowrap;padding:10px 14px}
     .marquee{display:inline-block;animation:marq 60s linear infinite}
-    .marquee:hover{ animation-play-state:paused; }
+    .marquee.paused{animation-play-state:paused}
     @keyframes marq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
     .headline{display:inline-flex;align-items:center;gap:8px;margin-right:36px;cursor:pointer}
     .headline .tag{background:var(--tag-bg);padding:4px 8px;border-radius:999px;font-weight:700;color:var(--muted);border:1px solid var(--border)}
@@ -121,7 +138,8 @@
     .card.left-list { text-align:left; }
     .card.left-list .list-row { justify-content:flex-start; }
 
-    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg,var(--panel),var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
+    .ad-box{display:grid;place-items:center;background:linear-gradient(135deg, var(--panel), var(--panel-2));border:2px dashed var(--border);border-radius:12px;aspect-ratio:1/1;color:var(--muted);text-align:center}
+    .ad-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
     .ad-label{font-weight:900;color:var(--gold);font-size:16px}
     .ad-sub{margin-top:4px;color:var(--muted);font-size:12px}
     .ad-cta{margin-top:10px;border:1px solid var(--border);padding:6px 10px;border-radius:8px;color:var(--text);background:var(--panel);cursor:pointer}
@@ -197,11 +215,12 @@
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border:1px solid var(--border);background:var(--panel-2);padding:8px;border-radius:12px}
     .tool{background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-weight:700;cursor:pointer}
     .editor{background:var(--panel-2);border:1px solid var(--border);min-height:160px;border-radius:12px;padding:12px;line-height:1.6;color:var(--text)}
+    .editor a{color:var(--accent)}
     .media-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
     .media-thumb{width:120px;height:80px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0d12;display:flex;align-items:center;justify-content:center}
     .media-thumb img{width:100%;height:100%;object-fit:cover}
 
-    .progress-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px; min-width:180px; height:42px; border-radius:999px;background:linear-gradient(135deg,var(--accent),#7aa7ff);color:#fff; font-weight:900; letter-spacing:.3px; border:none; box-shadow:0 8px 20px rgba(59,130,246,.35)}
+    .progress-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px; min-width:180px; height:42px; border-radius:999px;background:linear-gradient(135deg, var(--accent), #7aa7ff);color:#fff; font-weight:900; letter-spacing:.3px; border:none; box-shadow:0 8px 20px rgba(59,130,246,.35)}
     .progress-pill .pct{font-variant-numeric:tabular-nums}
     .progress-pill .bar{ position:relative; width:84px; height:6px; border-radius:999px; background:rgba(255,255,255,.25); overflow:hidden; }
     .progress-pill .bar > span{ position:absolute; left:0; top:0; height:100%; width:0%; background:#fff; border-radius:999px; }
@@ -220,14 +239,24 @@
   <header class="header">
     <nav class="nav">
       <div class="brand">
-        <div class="brand-logo"><img alt="Logo SNQO" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png"></div>
-        <div class="brand-title"><h1>SIN NADA QUE OCULTAR</h1><div class="slogan">Información libre y periodismo de comunidad</div></div>
+        <div class="brand-logo">
+          <img alt="Logo SNQO" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png">
+        </div>
+        <div class="brand-title">
+          <h1>SIN NADA QUE OCULTAR</h1>
+          <div class="slogan">Información libre y periodismo de comunidad</div>
+        </div>
       </div>
       <div class="spacer"></div>
+
       <button id="openComposer" class="btn btn-accent">Crear publicación</button>
       <div class="dropdown" id="mainDropdown">
         <button class="dropdown-toggle">Menú</button>
-        <div class="dropdown-menu"><a href="#">Sobre nosotros</a><a href="#">CEO</a><a href="#">Soporte</a></div>
+        <div class="dropdown-menu">
+          <a href="#">Sobre nosotros</a>
+          <a href="#">CEO</a>
+          <a href="#">Soporte</a>
+        </div>
       </div>
       <button id="googleBtn" class="btn">Iniciar con Google</button>
       <div id="userChip" style="display:none;align-items:center;gap:8px">
@@ -244,9 +273,19 @@
         <span class="notif-icon" id="notifIcon">🔔 <span style="font-size:12px;color:var(--muted)">Alertas</span></span>
         <span class="notif-badge" id="notifBadge">0</span>
         <div class="notif-panel" id="notifPanel">
-          <div class="notif-panel-head"><h4>Notificaciones</h4><div class="notif-actions"><button id="notifMarkRead" class="notif-mark">Marcar todas como leídas</button><button id="notifClearAll" class="notif-clear">Eliminar todas</button></div></div>
-          <div class="notif-list" id="notifInbox"><div class="notif-empty">No hay notificaciones nuevas.</div></div>
-          <div class="notif-footer"><button id="notifClosePanel" class="notif-mark">Cerrar</button></div>
+          <div class="notif-panel-head">
+            <h4>Notificaciones</h4>
+            <div class="notif-actions">
+              <button id="notifMarkRead" class="notif-mark">Marcar todas como leídas</button>
+              <button id="notifClearAll" class="notif-clear">Eliminar todas</button>
+            </div>
+          </div>
+          <div class="notif-list" id="notifInbox">
+            <div class="notif-empty">No hay notificaciones nuevas.</div>
+          </div>
+          <div class="notif-footer">
+            <button id="notifClosePanel" class="notif-mark">Cerrar</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -254,23 +293,51 @@
 
   <div class="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-inner">
-      <button class="mobile-tab active" id="tabHome" aria-label="Inicio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="label">Inicio</span></button>
-      <button class="mobile-tab" id="tabCompose" aria-label="Publicar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg><span class="label">Publicar</span></button>
-      <button class="mobile-tab" id="tabNotif" aria-label="Alertas"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><span class="label">Alertas</span></button>
-      <button class="mobile-tab" id="tabProfile" aria-label="Perfil"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span class="label">Perfil</span></button>
+      <button class="mobile-tab active" id="tabHome" aria-label="Inicio">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="label">Inicio</span>
+      </button>
+      <button class="mobile-tab" id="tabCompose" aria-label="Publicar">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        <span class="label">Publicar</span>
+      </button>
+      <button class="mobile-tab" id="tabNotif" aria-label="Alertas">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="label">Alertas</span>
+      </button>
+      <button class="mobile-tab" id="tabProfile" aria-label="Perfil">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+        <span class="label">Perfil</span>
+      </button>
     </div>
   </div>
 
   <div class="notif-sheet" id="notifSheet">
-    <div class="sheet-head"><div class="sheet-title">Notificaciones</div><button class="sheet-close" id="sheetClose">×</button></div>
-    <div class="sheet-body"><div class="notif-list" id="notifInboxMobile"><div class="notif-empty">No hay notificaciones nuevas.</div></div></div>
-    <div class="sheet-footer"><button id="notifMarkReadMobile" class="notif-mark">Marcar todas como leídas</button><button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button></div>
+    <div class="sheet-head">
+      <div class="sheet-title">Notificaciones</div>
+      <button class="sheet-close" id="sheetClose">×</button>
+    </div>
+    <div class="sheet-body">
+      <div class="notif-list" id="notifInboxMobile">
+        <div class="notif-empty">No hay notificaciones nuevas.</div>
+      </div>
+    </div>
+    <div class="sheet-footer">
+      <button id="notifMarkReadMobile" class="notif-mark">Marcar todas como leídas</button>
+      <button id="notifClearAllMobile" class="notif-clear">Eliminar todas</button>
+    </div>
   </div>
 
   <section class="ticket">
     <div class="rail">
-      <div class="rail-head"><span>Últimos titulares</span><div class="rail-actions"><button id="pauseTicker" class="rail-btn">Pausar</button><button id="resumeTicker" class="rail-btn">Reanudar</button></div></div>
-      <div class="ticker"><div id="marquee" class="marquee"></div></div>
+      <div class="rail-head">
+        <span>Últimos titulares</span>
+        <div class="rail-actions">
+          <button id="pauseTicker" class="rail-btn">Pausar</button>
+          <button id="resumeTicker" class="rail-btn">Reanudar</button>
+        </div>
+      </div>
+      <div class="ticker"><div id="marquee" class="marquee" aria-hidden="true"></div></div>
     </div>
   </section>
 
@@ -278,9 +345,10 @@
     <div class="panel">
       <h3>Feed</h3>
       <div class="panel-sub">Publicaciones de la comunidad en tiempo real</div>
+
       <div class="feed-controls" style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
         <div style="display:flex;gap:8px">
-          <button id="tabAll" class="feed-tab btn" style="font-weight:800">Todos</button>
+          <button id="tabAll" class="feed-tab btn btn-accent" style="font-weight:800">Todos</button>
           <button id="tabFollowingFeed" class="feed-tab btn" style="font-weight:800">Seguidos</button>
         </div>
         <div style="flex:1;display:flex;gap:8px;align-items:center">
@@ -288,29 +356,72 @@
           <button id="clearSearch" class="btn">Limpiar</button>
         </div>
       </div>
+
       <div id="posts"></div>
       <div id="emptyFeed" class="panel-sub">Aún no hay publicaciones.</div>
     </div>
     <aside class="right-col">
-      <div class="card"><h4>Tu perfil</h4><div class="list-row"><div class="list-left"><img id="profileAvatar" class="avatar" alt="Yo"><div><div id="profileName" style="font-weight:800"></div><div id="profileEmail" class="panel-sub"></div></div></div><button id="openDashboardSide" class="btn-mini">Dashboard</button></div></div>
-      <div class="card"><h4>Anuncio</h4><div class="ad-box"><div class="ad-content"><div class="ad-label">Anúnciate aquí</div><div class="ad-sub">Espacio cuadrado 1:1</div><button class="ad-cta" id="adSolicitarBtn">Solicitar</button></div></div></div>
-      <div class="card left-list"><h4>Destacados</h4><div id="topAuthors"></div></div>
-      <div class="card left-list"><h4>Posts con más likes</h4><div id="topPosts"></div></div>
-      <div class="card left-list"><h4>Tags frecuentes</h4><div id="topTags"></div></div>
-      <div class="card"><h4>Tu progreso</h4><div class="stat"><span>Publicaciones</span><span id="statPosts">0</span></div><div class="stat"><span>Likes acumulados</span><span id="statLikes">0</span></div><div class="stat"><span>Donación</span><span id="statDonation">OFF</span></div></div>
+      <div class="card">
+        <h4>Tu perfil</h4>
+        <div class="list-row">
+          <div class="list-left">
+            <img id="profileAvatar" class="avatar" alt="Yo">
+            <div>
+              <div id="profileName" style="font-weight:800"></div>
+              <div id="profileEmail" class="panel-sub"></div>
+            </div>
+          </div>
+          <button id="openDashboardSide" class="btn-mini">Dashboard</button>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Anuncio</h4>
+        <div class="ad-box">
+          <div class="ad-content">
+            <div class="ad-label">Anúnciate aquí</div>
+            <div class="ad-sub">Espacio cuadrado 1:1</div>
+            <button class="ad-cta" id="adSolicitarBtn">Solicitar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card left-list">
+        <h4>Destacados</h4>
+        <div id="topAuthors"></div>
+      </div>
+      <div class="card left-list">
+        <h4>Posts con más likes</h4>
+        <div id="topPosts"></div>
+      </div>
+      <div class="card left-list">
+        <h4>Tags frecuentes</h4>
+        <div id="topTags"></div>
+      </div>
+      <div class="card">
+        <h4>Tu progreso</h4>
+        <div class="stat"><span>Publicaciones</span><span id="statPosts">0</span></div>
+        <div class="stat"><span>Likes acumulados</span><span id="statLikes">0</span></div>
+        <div class="stat"><span>Donación</span><span id="statDonation">OFF</span></div>
+      </div>
     </aside>
   </section>
 
   <div id="composerModal" class="backdrop">
     <div class="modal">
-      <div class="modal-head"><div class="modal-title">Crear publicación</div><button class="close-x" id="closeComposer">×</button></div>
+      <div class="modal-head">
+        <div class="modal-title">Crear publicación</div>
+        <button class="close-x" id="closeComposer">×</button>
+      </div>
       <div class="modal-body">
         <div class="inputs">
           <input id="titleInput" type="text" placeholder="Título del post" maxlength="120">
           <textarea id="descInput" placeholder="Descripción breve" rows="3" maxlength="280"></textarea>
           <input id="tagsInput" type="text" placeholder="Etiquetas (coma: política, sociedad)">
           <input id="youtubeInput" type="url" placeholder="URL de YouTube (videos, shorts y en vivo)">
-          <select id="contentType"><option value="texto">Texto</option><option value="imagen">Imágenes</option><option value="video">Video de YouTube</option></select>
+          <select id="contentType">
+            <option value="texto">Texto</option>
+            <option value="imagen">Imágenes</option>
+            <option value="video">Video de YouTube</option>
+          </select>
         </div>
         <div class="toolbar">
           <button class="tool" data-cmd="bold">Negrita</button>
@@ -323,35 +434,71 @@
           <button class="tool" data-cmd="formatBlock" data-value="h3">H3</button>
           <button class="tool" id="clearFormat">Limpiar formato</button>
         </div>
-        <div id="editor" class="editor" contenteditable="true" spellcheck="true"><p>Pega aquí tu contenido.</p></div>
-        <div class="media-row"><input id="mediaInput" type="file" accept="image/*" multiple><span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube.</span></div>
+        <div id="editor" class="editor" contenteditable="true" spellcheck="true">
+          <p>Pega aquí tu contenido.</p>
+        </div>
+        <div class="media-row">
+          <input id="mediaInput" type="file" accept="image/*" multiple>
+          <span class="panel-sub"><strong>Solo imágenes</strong>. Para videos, pegue una URL de YouTube.</span>
+        </div>
         <div id="mediaPreview" class="media-row"></div>
       </div>
-      <div class="modal-actions"><button id="publishBtn" class="btn btn-accent">Publicar</button><button id="resetBtn" class="btn">Reset</button></div>
+      <div class="modal-actions">
+        <button id="publishBtn" class="btn btn-accent">Publicar</button>
+        <button id="resetBtn" class="btn">Reset</button>
+      </div>
     </div>
   </div>
 
   <div id="dashboardModal" class="backdrop">
     <div class="modal">
-      <div class="modal-head"><div class="modal-title">Dashboard</div><button class="close-x" id="closeDashboard">×</button></div>
+      <div class="modal-head">
+        <div class="modal-title">Dashboard</div>
+        <button class="close-x" id="closeDashboard">×</button>
+      </div>
       <div class="modal-body">
         <div class="dash-grid">
           <div class="dash-card">
-            <div class="dash-head"><div class="dash-title">Resumen</div><span class="pill" id="dashUserName">—</span></div>
-            <div class="stats-grid"><div class="stat-card"><div class="stat-label">Total publicaciones</div><div class="stat-value" id="dashStatPosts">0</div></div><div class="stat-card"><div class="stat-label">Likes acumulados</div><div class="stat-value" id="dashStatLikes">0</div></div><div class="stat-card"><div class="stat-label">Donación</div><div class="stat-value" id="dashStatDonation">OFF</div></div></div>
+            <div class="dash-head">
+              <div class="dash-title">Resumen</div>
+              <span class="pill" id="dashUserName">—</span>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Total publicaciones</div>
+                <div class="stat-value" id="dashStatPosts">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Likes acumulados</div>
+                <div class="stat-value" id="dashStatLikes">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Donación</div>
+                <div class="stat-value" id="dashStatDonation">OFF</div>
+              </div>
+            </div>
             <div class="two-col">
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
-                <div class="dash-head" style="padding:10px 16px;border-bottom:1px solid var(--border)"><div class="dash-title">Siguiendo</div><span class="pill"># <span id="countFollowing">0</span></span></div>
+                <div class="dash-head" style="padding:10px 16px;border-bottom:1px solid var(--border)">
+                  <div class="dash-title">Siguiendo</div>
+                  <span class="pill"># <span id="countFollowing">0</span></span>
+                </div>
                 <div class="list-wrap" id="dashFollowing"></div>
               </div>
               <div class="dash-card" style="border:none;box-shadow:none;background:transparent">
-                <div class="dash-head" style="padding:10px 16px;border-bottom:1px solid var(--border)"><div class="dash-title">Te siguen</div><span class="pill"># <span id="countFollowers">0</span></span></div>
+                <div class="dash-head" style="padding:10px 16px;border-bottom:1px solid var(--border)">
+                  <div class="dash-title">Te siguen</div>
+                  <span class="pill"># <span id="countFollowers">0</span></span>
+                </div>
                 <div class="list-wrap" id="dashFollowers"></div>
               </div>
             </div>
           </div>
           <div class="dash-card">
-            <div class="dash-head"><div class="dash-title">Tus posts</div><span class="pill" id="dashPostsCount">0</span></div>
+            <div class="dash-head">
+              <div class="dash-title">Tus posts</div>
+              <span class="pill" id="dashPostsCount">0</span>
+            </div>
             <div class="list-wrap" id="dashPosts"></div>
           </div>
         </div>
@@ -361,7 +508,10 @@
 
   <div id="postEditModal" class="backdrop">
     <div class="modal">
-      <div class="modal-head"><div class="modal-title">Editar publicación</div><button class="close-x" id="closePostEdit">×</button></div>
+      <div class="modal-head">
+        <div class="modal-title">Editar publicación</div>
+        <button class="close-x" id="closePostEdit">×</button>
+      </div>
       <div class="modal-body">
         <div class="inputs">
           <input id="editTitleInput" type="text" placeholder="Título del post" maxlength="120">
@@ -377,7 +527,10 @@
 
   <div id="postViewModal" class="backdrop">
     <div class="modal">
-      <div class="modal-head"><div class="modal-title" id="pvTitle">Post</div><button class="close-x" id="closePostView">×</button></div>
+      <div class="modal-head">
+        <div class="modal-title" id="pvTitle">Post</div>
+        <button class="close-x" id="closePostView">×</button>
+      </div>
       <div class="modal-body" id="pvBody"></div>
     </div>
   </div>
@@ -443,14 +596,17 @@
         const msg = document.createElement('div'); msg.className='msg'; msg.textContent = n.msg;
         const meta = document.createElement('div'); meta.className='meta'; meta.textContent = new Date(n.ts).toLocaleString();
         left.appendChild(msg); left.appendChild(meta);
+
         const right = document.createElement('div'); right.style.display='flex'; right.style.gap='8px';
         const del = document.createElement('button'); del.className='notif-clear'; del.textContent='Eliminar';
         del.addEventListener('click', async ()=>{
-          try { await notifColRef(n.uidOwner).doc(n.id).delete(); } catch(e){ alert('Error eliminando notificación: '+e.message); }
+          try { await notifColRef(n.uidOwner).doc(n.id).delete(); }
+          catch(e){ alert('Error eliminando notificación: '+e.message); }
         });
         const mark = document.createElement('button'); mark.className='notif-mark'; mark.textContent= n.read ? 'Leída' : 'Marcar leída';
         mark.disabled = n.read;
         mark.addEventListener('click', async ()=>{ try{ await notifColRef(n.uidOwner).doc(n.id).set({ read:true }, { merge:true }); } catch(e){ alert('Error: '+e.message); } });
+
         right.appendChild(mark); right.appendChild(del);
         item.appendChild(left); item.appendChild(right);
         container.appendChild(item);
@@ -509,11 +665,15 @@
       const u = auth.currentUser; myFollowingSet = new Set();
       if (!u) return;
       const snap = await firestore.collection('users').doc(u.uid).get();
-      if (snap.exists) { const arr = Array.from(new Set((snap.data().following)||[])); myFollowingSet = new Set(arr); }
+      if (snap.exists) {
+        const arr = Array.from(new Set((snap.data().following)||[]));
+        myFollowingSet = new Set(arr);
+      }
     }
 
     auth.onAuthStateChanged(async user => {
       if (notifUnsub) { try{ notifUnsub(); }catch{} notifUnsub=null; }
+
       if (user) {
         googleBtn.style.display = 'none';
         userChip.style.display = 'inline-flex';
@@ -523,6 +683,7 @@
         document.getElementById('profileAvatar').src = avatarSrc;
         document.getElementById('profileName').textContent = user.displayName || 'Usuario';
         document.getElementById('profileEmail').textContent = user.email || '';
+
         notifUnsub = notifColRef(user.uid).orderBy('ts','desc').onSnapshot(s=>{
           notifications = [];
           s.forEach(d=> notifications.push(d.data()));
@@ -561,16 +722,39 @@
       if (cmd && cmd !== 'formatBlock') btn.addEventListener('click', () => document.execCommand(cmd, false, null));
       else if (cmd === 'formatBlock') btn.addEventListener('click', () => document.execCommand('formatBlock', false, val));
     });
-    document.getElementById('linkBtn').addEventListener('click', () => { const url = prompt('URL del enlace:'); if (url) document.execCommand('createLink', false, url); });
+    document.getElementById('linkBtn').addEventListener('click', () => {
+      const url = prompt('URL del enlace:'); if (url) document.execCommand('createLink', false, url);
+    });
     document.getElementById('clearFormat').addEventListener('click', () => document.execCommand('removeFormat', false, null));
 
     const youtubeInput = document.getElementById('youtubeInput');
-    function extractYouTubeId(url){ if (!url) return null; try{ const u = new URL(url); if (u.hostname.includes('youtube.com')) { if (u.pathname.startsWith('/live/')) return u.pathname.split('/live/')[1]; const shorts = u.pathname.match(/^\/shorts\/([A-Za-z0-9_-]+)/); if (shorts) return shorts[1]; return u.searchParams.get('v'); } if (u.hostname.includes('youtu.be')) return u.pathname.replace('/',''); }catch{} return null; }
+    function extractYouTubeId(url){
+      if (!url) return null;
+      try{
+        const u = new URL(url);
+        if (u.hostname.includes('youtube.com')) {
+          if (u.pathname.startsWith('/live/')) return u.pathname.split('/live/')[1];
+          const shorts = u.pathname.match(/^\/shorts\/([A-Za-z0-9_-]+)/);
+          if (shorts) return shorts[1];
+          return u.searchParams.get('v');
+        }
+        if (u.hostname.includes('youtu.be')) return u.pathname.replace('/','');
+      }catch{}
+      return null;
+    }
 
     const mediaInput = document.getElementById('mediaInput');
     const mediaPreview = document.getElementById('mediaPreview');
     let selectedFiles = [];
-    mediaInput.addEventListener('change', () => { selectedFiles = Array.from(mediaInput.files); mediaPreview.innerHTML = ''; selectedFiles.forEach(file => { const div = document.createElement('div'); div.className = 'media-thumb'; const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img); mediaPreview.appendChild(div); }); });
+    mediaInput.addEventListener('change', () => {
+      selectedFiles = Array.from(mediaInput.files);
+      mediaPreview.innerHTML = '';
+      selectedFiles.forEach(file => {
+        const div = document.createElement('div'); div.className = 'media-thumb';
+        const img = document.createElement('img'); img.alt = file.name; img.src = URL.createObjectURL(file); div.appendChild(img);
+        mediaPreview.appendChild(div);
+      });
+    });
 
     const titleInput = document.getElementById('titleInput');
     const descInput = document.getElementById('descInput');
@@ -597,17 +781,24 @@
       const type = contentType.value;
       if (!title || !desc || !bodyHtml) { alert('Título, descripción y cuerpo son obligatorios.'); return; }
 
-      mountProgressPill(); setProgressElegant(5);
+      mountProgressPill();
+      setProgressElegant(5);
+
       try {
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
         if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
         if (selectedFiles.length){
-          const total = selectedFiles.length; let done = 0;
+          const total = selectedFiles.length;
+          let done = 0;
           const items = await Promise.all(selectedFiles.map(f => new Promise(res=>{
             const reader = new FileReader();
-            reader.onload = () => { done++; setProgressElegant(5 + Math.round(60*(done/total))); res({ url: reader.result, type: 'image' }); };
+            reader.onload = () => {
+              done++;
+              setProgressElegant(5 + Math.round(60*(done/total)));
+              res({ url: reader.result, type: 'image' });
+            };
             reader.readAsDataURL(f);
           })));
           mediaItems = mediaItems.concat(items);
@@ -615,20 +806,34 @@
 
         setProgressElegant(85);
         await firestore.collection('posts').add({
-          title, desc, bodyHtml, tags, type, media: mediaItems,
+          title, desc, bodyHtml, tags, type,
+          media: mediaItems,
           author: { uid: user.uid, name: user.displayName || user.email || 'Usuario', avatar: user.photoURL || null },
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(), likesCount: 0, likedBy: [], donationEnabled: false
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          likesCount: 0, likedBy: [],
+          donationEnabled: false
         });
         setProgressElegant(100);
-        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto'; youtubeInput.value = '';
-        editor.innerHTML = '<p>Pega aquí tu contenido.</p>'; mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+
+        titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
+        youtubeInput.value = '';
+        editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
+        mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
+
         await pushNotification(auth.currentUser.uid, `Publicaste "${title}"`);
       } catch (e) { alert('Error publicando: ' + e.message); unmountProgressPill(); }
     }
     publishBtn.addEventListener('click', onPublishClick);
-    resetBtn.addEventListener('click', () => { titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto'; youtubeInput.value = ''; editor.innerHTML = '<p>Pega aquí tu contenido.</p>'; mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = ''; });
+
+    resetBtn.addEventListener('click', () => {
+      titleInput.value = ''; descInput.value = ''; tagsInput.value = ''; contentType.value = 'texto';
+      youtubeInput.value = '';
+      editor.innerHTML = '<p>Pega aquí tu contenido.</p>';
+      mediaInput.value = ''; selectedFiles = []; mediaPreview.innerHTML = '';
+    });
 
     const postsContainer = document.getElementById('posts');
     const emptyFeed = document.getElementById('emptyFeed');
@@ -637,6 +842,7 @@
     let postsCache = [];
     let userDonationEligible = false;
     let postNotifsUnsubs = [];
+    let notifUnsubs = [];
 
     const tabAll = document.getElementById('tabAll');
     const tabFollowingFeed = document.getElementById('tabFollowingFeed');
@@ -645,22 +851,46 @@
     let feedMode = 'all';
     let searchQuery = '';
 
-    tabAll.addEventListener('click', ()=>{ feedMode = 'all'; tabAll.classList.add('btn-accent'); tabFollowingFeed.classList.remove('btn-accent'); renderFeed(); });
-    tabFollowingFeed.addEventListener('click', ()=>{ feedMode = 'following'; tabFollowingFeed.classList.add('btn-accent'); tabAll.classList.remove('btn-accent'); renderFeed(); });
+    function setFeedMode(mode){
+      feedMode = mode;
+      tabAll.classList.toggle('btn-accent', mode==='all');
+      tabFollowingFeed.classList.toggle('btn-accent', mode==='following');
+      renderFeed();
+    }
+    tabAll.addEventListener('click', ()=> setFeedMode('all'));
+    tabFollowingFeed.addEventListener('click', ()=> setFeedMode('following'));
 
     let searchDebounce;
-    searchInput.addEventListener('input', ()=>{ clearTimeout(searchDebounce); searchDebounce = setTimeout(()=>{ searchQuery = searchInput.value.trim().toLowerCase(); renderFeed(); }, 180); });
-    clearSearch.addEventListener('click', ()=>{ searchInput.value = ''; searchQuery = ''; renderFeed(); });
+    searchInput.addEventListener('input', ()=>{
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(()=>{
+        searchQuery = searchInput.value.trim().toLowerCase();
+        renderFeed();
+      }, 180);
+    });
+    clearSearch.addEventListener('click', ()=>{
+      searchInput.value = '';
+      searchQuery = '';
+      renderFeed();
+    });
 
     firestore.collection('posts').orderBy('createdAt','desc').onSnapshot(snap => {
       postsCache = [];
-      if (snap.empty) { postsContainer.innerHTML = ''; emptyFeed.style.display = 'block'; marquee.innerHTML = ''; renderSidebar([]); return; }
+      if (snap.empty) {
+        postsContainer.innerHTML = '';
+        emptyFeed.style.display = 'block';
+        marquee.innerHTML = '';
+        renderSidebar([]);
+        return;
+      }
       emptyFeed.style.display = 'none';
+
       snap.forEach(doc => {
         const d = doc.data();
         let createdText = '—'; try { if (d.createdAt?.toDate) createdText = d.createdAt.toDate().toLocaleString(); } catch(e){}
         postsCache.push({ id: doc.id, data: { ...d, createdText } });
       });
+
       renderFeed();
       renderHeadlines(postsCache.slice(0, 60));
       renderSidebar(postsCache);
@@ -672,37 +902,102 @@
     function renderFeed(){
       postsContainer.innerHTML = '';
       let list = [...postsCache];
-      if (feedMode === 'following' && auth.currentUser) list = list.filter(p => myFollowingSet.has(p.data.author?.uid));
-      if (searchQuery) list = list.filter(p=>{
-        const t = (p.data.title||'').toLowerCase(); const d = (p.data.desc||'').toLowerCase(); const a = (p.data.author?.name||'usuario').toLowerCase(); const tags = (p.data.tags||[]).join(' ').toLowerCase();
-        return t.includes(searchQuery) || d.includes(searchQuery) || a.includes(searchQuery) || tags.includes(searchQuery);
-      });
-      if (!list.length) emptyFeed.style.display = 'block'; else { emptyFeed.style.display = 'none'; list.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data))); }
+
+      if (feedMode === 'following' && auth.currentUser) {
+        list = list.filter(p => myFollowingSet.has(p.data.author?.uid));
+      }
+
+      if (searchQuery) {
+        list = list.filter(p=>{
+          const t = (p.data.title||'').toLowerCase();
+          const d = (p.data.desc||'').toLowerCase();
+          const a = (p.data.author?.name||'Usuario').toLowerCase();
+          const tags = (p.data.tags||[]).join(' ').toLowerCase();
+          return t.includes(searchQuery) || d.includes(searchQuery) || a.includes(searchQuery) || tags.includes(searchQuery);
+        });
+      }
+
+      if (!list.length) {
+        emptyFeed.style.display = 'block';
+      } else {
+        emptyFeed.style.display = 'none';
+        list.forEach(p => postsContainer.appendChild(renderPostCard(p.id, p.data)));
+      }
     }
 
     function renderHeadlines(list){
       marquee.innerHTML = '';
+      if (!list.length) return;
       const seq = [...list, ...list];
-      seq.forEach(p => { const d = p.data; const pill = document.createElement('span'); pill.className = 'headline'; const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas'; pill.innerHTML = `<span class="tag">${tags}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`; marquee.appendChild(pill); });
+      seq.forEach(p => {
+        const d = p.data;
+        const pill = document.createElement('span'); pill.className = 'headline';
+        const tags = (d.tags || []).slice(0,3).join(' • ') || 'sin etiquetas';
+        pill.innerHTML = `<span class="tag">${escapeHtml(tags)}</span> <span class="title">📰 ${escapeHtml(d.title || '(sin título)')}</span>`;
+        marquee.appendChild(pill);
+      });
+      marquee.classList.remove('paused');
+      void marquee.offsetWidth;
+      marquee.classList.add('marquee');
     }
 
     function renderSidebar(list){
-      const topAuthors = document.getElementById('topAuthors'); const authorMap = {};
-      list.forEach(p => { const uid = p.data.author?.uid || 'anon'; authorMap[uid] = authorMap[uid] || { uid, name: p.data.author?.name || 'Usuario', avatar: p.data.author?.avatar || null, likes: 0, posts: 0 }; authorMap[uid].likes += (p.data.likesCount || 0); authorMap[uid].posts += 1; });
+      const topAuthors = document.getElementById('topAuthors');
+      const authorMap = {};
+      list.forEach(p => {
+        const uid = p.data.author?.uid || 'anon';
+        authorMap[uid] = authorMap[uid] || { uid, name: p.data.author?.name || 'Usuario', avatar: p.data.author?.avatar || null, likes: 0, posts: 0 };
+        authorMap[uid].likes += (p.data.likesCount || 0);
+        authorMap[uid].posts += 1;
+      });
       const sortedAuthors = Object.values(authorMap).sort((a,b)=>b.likes-a.likes).slice(0,6);
-      topAuthors.innerHTML = ''; sortedAuthors.forEach(a=>{ const row = document.createElement('div'); row.className='list-row'; const left = document.createElement('div'); left.className='list-left'; const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name)); const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="panel-sub">${a.posts} posts • ${a.likes} likes</div>`; left.appendChild(av); left.appendChild(txt); row.appendChild(left); topAuthors.appendChild(row); });
+      topAuthors.innerHTML = '';
+      sortedAuthors.forEach(a=>{
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const av = document.createElement('img'); av.className='avatar'; av.src = a.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(a.name));
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="panel-sub">${a.posts} posts • ${a.likes} likes</div>`;
+        left.appendChild(av); left.appendChild(txt);
+        row.appendChild(left);
+        topAuthors.appendChild(row);
+      });
 
-      const topPosts = document.getElementById('topPosts'); const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6); topPosts.innerHTML = '';
-      sortedPosts.forEach(p=>{ const row = document.createElement('div'); row.className='list-row'; const left = document.createElement('div'); left.className='list-left'; const av = document.createElement('img'); av.className='avatar'; av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Usuario')); const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong><div class="panel-sub">${p.data.likesCount||0} likes • ${escapeHtml(p.data.author?.name||'Usuario')}</div>`; left.appendChild(av); left.appendChild(txt); row.appendChild(left); topPosts.appendChild(row); });
+      const topPosts = document.getElementById('topPosts');
+      const sortedPosts = [...list].sort((a,b)=> (b.data.likesCount||0)-(a.data.likesCount||0)).slice(0,6);
+      topPosts.innerHTML = '';
+      sortedPosts.forEach(p=>{
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const av = document.createElement('img'); av.className='avatar'; av.src = p.data.author?.avatar || ('https://ui-avatars.com/api/?name='+encodeURIComponent(p.data.author?.name||'Usuario'));
+        const txt = document.createElement('div'); txt.innerHTML = `<strong>${escapeHtml(p.data.title||'(sin título)')}</strong><div class="panel-sub">${p.data.likesCount||0} likes • ${escapeHtml(p.data.author?.name||'Usuario')}</div>`;
+        left.appendChild(av); left.appendChild(txt);
+        row.appendChild(left);
+        topPosts.appendChild(row);
+      });
 
-      const topTags = document.getElementById('topTags'); const tagCounts = {}; list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1)); const sortedTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8); topTags.innerHTML = '';
-      sortedTags.forEach(([t,c])=>{ const row = document.createElement('div'); row.className='list-row'; const left = document.createElement('div'); left.className='list-left'; const label = document.createElement('div'); label.innerHTML = `<strong>#${escapeHtml(t)}</strong>`; const right = document.createElement('div'); right.className='panel-sub'; right.textContent = `${c} apariciones`; left.appendChild(label); row.appendChild(left); row.appendChild(right); topTags.appendChild(row); });
+      const topTags = document.getElementById('topTags');
+      const tagCounts = {};
+      list.forEach(p => (p.data.tags||[]).forEach(t => tagCounts[t]=(tagCounts[t]||0)+1));
+      const sortedTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+      topTags.innerHTML = '';
+      sortedTags.forEach(([t,c])=>{
+        const row = document.createElement('div'); row.className='list-row';
+        const left = document.createElement('div'); left.className='list-left';
+        const label = document.createElement('div'); label.innerHTML = `<strong>#${escapeHtml(t)}</strong>`;
+        const right = document.createElement('div'); right.className='panel-sub'; right.textContent = `${c} apariciones`;
+        left.appendChild(label);
+        row.appendChild(left);
+        row.appendChild(right);
+        topTags.appendChild(row);
+      });
     }
 
     async function computeDonationEligibility(){
-      const u = auth.currentUser; if (!u) { userDonationEligible = false; return; }
+      const u = auth.currentUser;
+      if (!u) { userDonationEligible = false; return; }
       const mineSnap = await firestore.collection('posts').where('author.uid','==',u.uid).get();
-      let totalLikes = 0; mineSnap.forEach(doc => { totalLikes += (doc.data().likesCount||0); });
+      let totalLikes = 0;
+      mineSnap.forEach(doc => { totalLikes += (doc.data().likesCount||0); });
       userDonationEligible = totalLikes >= 10000;
       const batch = firestore.batch();
       mineSnap.forEach(doc => { batch.update(firestore.collection('posts').doc(doc.id), { donationEnabled: userDonationEligible }); });
@@ -712,38 +1007,70 @@
     function subscribeNotificationsForMyPosts(){
       postNotifsUnsubs.forEach(unsub => { try{unsub();}catch{} });
       postNotifsUnsubs = [];
-      const u = auth.currentUser; if (!u) return;
+      const u = auth.currentUser;
+      if (!u) return;
       postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
         const unsubLikes = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
           const d = s.data(); if (!d) return;
           pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`);
         });
-        const unsubComments = firestore.collection('posts').doc(p.id).collection('comments').orderBy('createdAt','desc').limit(1).onSnapshot(cs=>{
-          cs.forEach(cdoc=>{ const c = cdoc.data(); if (!c || !c.author) return; pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`); });
-        });
+        const unsubComments = firestore.collection('posts').doc(p.id).collection('comments')
+          .orderBy('createdAt','desc').limit(1)
+          .onSnapshot(cs=>{
+            cs.forEach(cdoc=>{
+              const c = cdoc.data();
+              if (!c || !c.author) return;
+              pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`);
+            });
+          });
         postNotifsUnsubs.push(unsubLikes, unsubComments);
       });
     }
 
     function loadRightColumnStats(){
       const u = auth.currentUser; if (!u) return;
-      firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{ let totalPosts=0, totalLikes=0, donationFlag=false; snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; }); document.getElementById('statPosts').textContent = totalPosts; document.getElementById('statLikes').textContent = totalLikes; document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF'; });
+      firestore.collection('posts').where('author.uid','==',u.uid).get().then(snap=>{
+        let totalPosts=0, totalLikes=0, donationFlag=false;
+        snap.forEach(doc=>{ const d=doc.data(); totalPosts++; totalLikes += (d.likesCount||0); donationFlag = donationFlag || d.donationEnabled===true; });
+        document.getElementById('statPosts').textContent = totalPosts;
+        document.getElementById('statLikes').textContent = totalLikes;
+        document.getElementById('statDonation').textContent = (totalLikes >= 10000 || donationFlag) ? 'ON' : 'OFF';
+      });
     }
 
     async function toggleFollow(targetUid, name, avatar, btn){
-      const u = auth.currentUser; if (!u){ alert('Inicia sesión para seguir.'); return; } if (u.uid === targetUid){ alert('No puedes seguirte a ti mismo.'); return; }
-      const meRef = firestore.collection('users').doc(u.uid); const targetRef = firestore.collection('users').doc(targetUid);
+      const u = auth.currentUser; 
+      if (!u){ alert('Inicia sesión para seguir.'); return; }
+      if (u.uid === targetUid){ alert('No puedes seguirte a ti mismo.'); return; }
+
+      const meRef = firestore.collection('users').doc(u.uid);
+      const targetRef = firestore.collection('users').doc(targetUid);
+
       await firestore.runTransaction(async (tx)=>{
-        const meSnap = await tx.get(meRef); const targetSnap = await tx.get(targetRef);
-        const meData = meSnap.exists ? meSnap.data() : { following: [] }; const targetData = targetSnap.exists ? targetSnap.data() : { followers: [] };
-        const followingSet = new Set(meData.following || []); const followersSet = new Set(targetData.followers || []);
+        const meSnap = await tx.get(meRef);
+        const targetSnap = await tx.get(targetRef);
+        const meData = meSnap.exists ? meSnap.data() : { following: [] };
+        const targetData = targetSnap.exists ? targetSnap.data() : { followers: [] };
+
+        const followingSet = new Set(meData.following || []);
+        const followersSet = new Set(targetData.followers || []);
         const isFollowing = followingSet.has(targetUid);
-        if (isFollowing) { followingSet.delete(targetUid); followersSet.delete(u.uid); } else { followingSet.add(targetUid); followersSet.add(u.uid); }
+
+        if (isFollowing) { followingSet.delete(targetUid); followersSet.delete(u.uid); }
+        else { followingSet.add(targetUid); followersSet.add(u.uid); }
+
         tx.set(meRef, { name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null, following: Array.from(followingSet) }, { merge:true });
         tx.set(targetRef, { name, avatar, followers: Array.from(followersSet) }, { merge:true });
-        if (btn){ const nowFollowing = !isFollowing; btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir'; btn.className = nowFollowing ? 'btn-following' : 'btn-follow'; }
+
+        if (btn){
+          const nowFollowing = !isFollowing;
+          btn.textContent = nowFollowing ? 'Siguiendo' : 'Seguir';
+          btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
+        }
       });
-      await refreshFollowing(); if (feedMode === 'following') renderFeed();
+
+      await refreshFollowing();
+      if (feedMode === 'following') renderFeed();
     }
 
     const postEditModal = document.getElementById('postEditModal');
@@ -759,23 +1086,30 @@
     let originalPostData = null;
 
     function openPostEditModal(id, p){
-      editingPostId = id; originalPostData = p;
+      editingPostId = id;
+      originalPostData = p;
       editTitleInput.value = p.title || '';
       editDescInput.value = p.desc || '';
       editTagsInput.value = (p.tags||[]).join(', ');
       const yt = (p.media||[]).find(m=>m.type==='youtube');
       editYoutubeInput.value = yt ? `https://www.youtube.com/watch?v=${yt.videoId}` : '';
       editEditor.innerHTML = p.bodyHtml || '';
-      postEditModal.style.display='flex'; lockBody();
+      postEditModal.style.display='flex';
+      lockBody();
     }
-    function closePostEditModal(){ editingPostId = null; originalPostData = null; postEditModal.style.display='none'; unlockBody(); }
+    function closePostEditModal(){
+      editingPostId = null;
+      originalPostData = null;
+      postEditModal.style.display='none';
+      unlockBody();
+    }
     closePostEdit.addEventListener('click', closePostEditModal);
     cancelPostEditBtn.addEventListener('click', closePostEditModal);
     postEditModal.addEventListener('click',(e)=>{ if(e.target===postEditModal){ closePostEditModal(); } });
 
     savePostEditBtn.addEventListener('click', async ()=>{
       const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-      if (!editingPostId) return;
+      if (!editingPostId){ return; }
       const postRef = firestore.collection('posts').doc(editingPostId);
       const snap = await postRef.get();
       if (!snap.exists) { alert('La publicación no existe.'); return; }
@@ -788,103 +1122,17 @@
       const ytId = extractYouTubeId(editYoutubeInput.value.trim());
       let media = (originalPostData.media||[]).filter(m=>m.type!=='youtube');
       if (ytId) media = [{ type:'youtube', videoId:ytId }, ...media];
-      try{ await postRef.set({ title, desc, bodyHtml, tags, media }, { merge:true }); await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`); closePostEditModal(); } catch(e){ alert('Error guardando edición: '+e.message); }
+
+      try{
+        await postRef.set({ title, desc, bodyHtml, tags, media }, { merge:true });
+        await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`);
+        closePostEditModal();
+      }catch(e){ alert('Error guardando edición: '+e.message); }
     });
 
     function renderPostCard(id, p){
       const user = auth.currentUser;
       const card = document.createElement('article'); card.className = 'post';
+
       const head = document.createElement('div'); head.className = 'post-head';
-      const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name || 'autor'; avatar.src = p.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author?.name || 'Usuario');
-      const metaWrap = document.createElement('div'); const titleEl = document.createElement('h4'); titleEl.className = 'post-title'; titleEl.textContent = p.title || '(sin título)'; const metaEl = document.createElement('div'); metaEl.className = 'post-meta'; metaEl.textContent = (p.author?.name || 'Usuario') + ' • ' + p.createdText; metaWrap.appendChild(titleEl); metaWrap.appendChild(metaEl);
-      const followBtn = document.createElement('button');
-      const currentUid = auth.currentUser?.uid;
-      if (currentUid && currentUid === p.author?.uid) { followBtn.style.display='none'; } else {
-        followBtn.textContent = 'Seguir'; followBtn.className = 'btn-follow';
-        followBtn.addEventListener('click', ()=> toggleFollow(p.author?.uid, p.author?.name, p.author?.avatar, followBtn));
-        if (currentUid) { firestore.collection('users').doc(currentUid).get().then(snap=>{ const following = (snap.data()?.following)||[]; const isFollowing = following.includes(p.author?.uid); followBtn.textContent = isFollowing ? 'Siguiendo' : 'Seguir'; followBtn.className = isFollowing ? 'btn-following' : 'btn-follow'; }); }
-      }
-      head.appendChild(avatar); head.appendChild(metaWrap); head.appendChild(followBtn);
-
-      const tagRow = document.createElement('div'); tagRow.className = 'tag-row'; (p.tags || []).forEach(t => { const span=document.createElement('span'); span.className='tag'; span.textContent='#'+t; tagRow.appendChild(span); });
-      const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
-      const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
-
-      const yt = (p.media||[]).find(m=>m.type==='youtube' && m.videoId);
-      if (yt){ const fv = document.createElement('iframe'); fv.className='featured-video'; fv.src = `https://www.youtube.com/embed/${yt.videoId}`; fv.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"; fv.allowFullscreen = true; card.appendChild(fv); }
-
-      const gallery = document.createElement('div'); gallery.className = 'post-gallery';
-      (p.media || []).forEach(m => { if (m.type === 'image') { const img = document.createElement('img'); img.src = m.url; img.alt = p.title || ''; img.addEventListener('click', () => openLightbox('image', m.url)); gallery.appendChild(img); } });
-
-      const actions = document.createElement('div'); actions.className = 'post-actions';
-      const likeBtn = document.createElement('button'); likeBtn.className = 'like-btn';
-      const liked = user && (p.likedBy || []).includes(user?.uid);
-      likeBtn.classList.toggle('active', !!liked); likeBtn.innerHTML = liked ? '❤️ Me gusta' : '🤍 Me gusta';
-      const counts = document.createElement('span'); counts.className = 'counts'; counts.id = `counts-${id}`; counts.textContent = ` ${p.likesCount || 0} likes`;
-      actions.appendChild(likeBtn); actions.appendChild(counts);
-
-      const showDonation = (user && user.uid === p.author?.uid && (p.donationEnabled===true || userDonationEligible));
-      if (showDonation){ const donation = document.createElement('span'); donation.className = 'donation-pill'; donation.textContent = 'Donación habilitada'; actions.appendChild(donation); }
-
-      if (user && user.uid === p.author?.uid){ const authorActions = document.createElement('div'); authorActions.className = 'author-actions'; const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar'; const deleteBtn = document.createElement('button'); deleteBtn.className = 'btn-mini btn-danger'; deleteBtn.textContent = 'Eliminar';
-        editBtn.addEventListener('click', () => openPostEditModal(id, p));
-        deleteBtn.addEventListener('click', async () => { const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return; try { await firestore.collection('posts').doc(id).delete(); await pushNotification(user.uid, `Eliminaste el post "${p.title || '(sin título)'}"`); } catch(e){ alert('Error eliminando: ' + e.message); }});
-        authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn); actions.appendChild(authorActions);
-      }
-
-      likeBtn.addEventListener('click', async () => {
-        const u = auth.currentUser; if (!u) { alert('Inicia sesión para dar like.'); return; }
-        const postRef = firestore.collection('posts').doc(id);
-        await firestore.runTransaction(async (tx) => {
-          const snap = await tx.get(postRef); if (!snap.exists) return;
-          const data = snap.data(); const likedBy = data.likedBy || []; const hasLike = likedBy.includes(u.uid);
-          const newLikedBy = hasLike ? likedBy.filter(x => x !== u.uid) : [...likedBy, u.uid]; const delta = hasLike ? -1 : 1;
-          tx.update(postRef, { likedBy: newLikedBy, likesCount: (data.likesCount || 0) + delta });
-        });
-        computeDonationEligibility();
-      });
-
-      const commentsWrap = document.createElement('div'); commentsWrap.className = 'comments';
-      const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
-      const commentsList = document.createElement('div'); commentsList.id = `comments-${id}`;
-      const loadMoreHolder = document.createElement('div'); loadMoreHolder.className='load-more'; const loadMoreBtn = document.createElement('button'); loadMoreBtn.className='load-more-btn'; loadMoreBtn.textContent='Ver más comentarios'; loadMoreHolder.appendChild(loadMoreBtn);
-      const form = document.createElement('div'); form.className='comment-form'; const input = document.createElement('input'); input.className='comment-input'; input.placeholder='Escribe un comentario…'; const submit = document.createElement('button'); submit.className='comment-btn'; submit.textContent='Comentar'; form.appendChild(input); form.appendChild(submit);
-      commentsWrap.appendChild(commentsTitle); commentsWrap.appendChild(commentsList); commentsWrap.appendChild(loadMoreHolder); commentsWrap.appendChild(form);
-
-      submit.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión para comentar.'); return; }
-        const text = input.value.trim(); if (!text) return; submit.disabled = true;
-        try{ await firestore.collection('posts').doc(id).collection('comments').add({ text, parentId: null, likesCount: 0, likedBy: [], author: { uid:u.uid, name:u.displayName || u.email || 'Usuario', avatar:u.photoURL || null }, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); input.value=''; }catch(e){ alert('Error al comentar: '+e.message); }
-        submit.disabled = false;
-      });
-
-      firestore.collection('posts').doc(id).onSnapshot(s => { const d = s.data(); if (!d) return; counts.textContent = ` ${d.likesCount || 0} likes`; if (auth.currentUser) { const isLiked = (d.likedBy || []).includes(auth.currentUser.uid); likeBtn.classList.toggle('active', isLiked); likeBtn.innerHTML = isLiked ? '❤️ Me gusta' : '🤍 Me gusta'; } });
-
-      let fullComments = []; let renderLimit = 5;
-      firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => { fullComments = []; csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() })); renderCommentsThread(id, commentsList, fullComments, renderLimit); updateLoadMoreVisibility(); });
-      function updateLoadMoreVisibility(){ if (fullComments.filter(c=>!c.parentId).length > renderLimit) loadMoreBtn.style.display='inline-block'; else loadMoreBtn.style.display='none'; }
-      loadMoreBtn.addEventListener('click', ()=>{ renderLimit += 5; renderCommentsThread(id, commentsList, fullComments, renderLimit); updateLoadMoreVisibility(); });
-
-      card.appendChild(head); card.appendChild(tagRow); card.appendChild(descEl); card.appendChild(bodyEl);
-      if ((p.media||[]).some(m=>m.type==='image')) card.appendChild(gallery);
-      card.appendChild(actions); card.appendChild(commentsWrap);
-      return card;
-    }
-
-    function renderCommentsThread(postId, container, comments, limit){
-      container.innerHTML = '';
-      const roots = comments.filter(c=>!c.parentId);
-      const childrenMap = {};
-      comments.filter(c=>c.parentId).forEach(c=>{ (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c); });
-      const showRoots = roots.slice(0, limit);
-      showRoots.forEach(c=>{ container.appendChild(makeCommentEl(postId, c, childrenMap)); });
-    }
-
-    function makeCommentEl(postId, c, childrenMap){
-      const item = document.createElement('div'); item.className='comment-item';
-      const av = document.createElement('img'); av.className='comment-avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
-      const box = document.createElement('div'); box.className='comment-box';
-      const meta = document.createElement('div'); meta.className='comment-meta';
-      let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
-      const leftMeta = document.createElement('div'); leftMeta.className='meta-left'; leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
-      const text = document.createElement('div'); text.className='comment
+      const avatar = document.createElement('img'); avatar.className = 'avatar'; avatar.alt = p.author?.name
