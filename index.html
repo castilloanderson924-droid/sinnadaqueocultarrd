@@ -109,7 +109,7 @@
       padding:10px 12px;border-bottom:1px solid var(--border);
       font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between
     }
-    .notif-item .msg{flex:1;color:var(--text)}
+    .notif-item .msg{flex:1;color:var(--text);cursor:pointer;text-decoration:underline}
     .notif-item .meta{color:var(--muted);font-size:11px;margin-left:8px}
     .notif-empty{padding:12px;color:var(--muted);font-size:13px}
     .notif-footer{display:flex;justify-content:center;padding:10px;border-top:1px solid var(--border)}
@@ -122,7 +122,8 @@
     /* Mobile bottom navbar */
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
-      #openComposer, #mainDropdown, #googleBtn, #userChip, .switch, .notif { display:none; }
+      /* Mostrar theme switch en móvil: NO ocultar .switch */
+      #openComposer, #mainDropdown, #googleBtn, #userChip, .notif { display:none; }
 
       .mobile-nav{
         display:block; position:fixed; left:0; right:0; bottom:0;
@@ -280,6 +281,7 @@
     .comment-box{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:10px}
     .comment-meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-bottom:6px}
     .meta-left{display:flex;align-items:center;gap:8px}
+    .author-badge{background:var(--gold); color:#1f2937; font-weight:900; font-size:10px; padding:2px 6px; border-radius:999px; border:1px solid var(--border)}
     .comment-text{color:var(--text);font-size:14px;line-height:1.5}
     .comment-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
     .comment-action{font-size:12px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:8px;padding:4px 8px;cursor:pointer;white-space:nowrap}
@@ -769,6 +771,15 @@
             try{ await notifColRef(n.uidOwner).doc(n.id).set({ read:true }, { merge:true }); } catch(e){ alert('Error: '+e.message); }
           });
 
+          // Navegar al post/comentario específico al hacer click en el mensaje
+          msg.addEventListener('click', ()=>{
+            if (n.target && n.target.postId) {
+              openPostView(n.target.postId, n.target.commentId || null);
+              notifPanel.style.display='none';
+              closeNotifSheet();
+            }
+          });
+
           right.appendChild(mark); right.appendChild(del);
           item.appendChild(left); item.appendChild(right);
           container.appendChild(item);
@@ -782,9 +793,11 @@
       notifBadge.style.display = unread ? 'inline-block' : 'none';
     }
 
-    async function pushNotification(toUid, text){
+    async function pushNotification(toUid, text, target=null){
       const id = String(Date.now()+Math.random());
-      await notifColRef(toUid).doc(id).set({ id, uidOwner: toUid, msg:text, ts: Date.now(), read:false });
+      const payload = { id, uidOwner: toUid, msg:text, ts: Date.now(), read:false };
+      if (target) payload.target = target; // { postId, commentId }
+      await notifColRef(toUid).doc(id).set(payload);
     }
 
     async function clearNotificationsAll(){
@@ -793,6 +806,9 @@
       const batch = firestore.batch();
       snap.forEach(doc=> batch.delete(doc.ref));
       await batch.commit();
+      // Después de eliminar, la bandeja debe mostrar vacío sin badge
+      notifications = [];
+      renderNotifications();
     }
 
     async function markAllRead(){
@@ -1027,7 +1043,7 @@
         setTimeout(()=>{ hideComposer(); }, 300);
         setTimeout(()=>{ unmountProgressPill(); }, 600);
 
-        await pushNotification(user.uid, `Publicaste "${title}"`);
+        await pushNotification(user.uid, `Publicaste "${title}"`, null);
       } catch (e) {
         alert('Error publicando: ' + e.message);
         unmountProgressPill();
@@ -1219,7 +1235,7 @@
       postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
         const unsubLikes = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
           const d = s.data(); if (!d) return;
-          pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`);
+          pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${d.likesCount||0} likes`, { postId: p.id });
         });
         const unsubComments = firestore.collection('posts').doc(p.id).collection('comments')
           .orderBy('createdAt','desc').limit(1)
@@ -1227,7 +1243,7 @@
             cs.forEach(cdoc=>{
               const c = cdoc.data();
               if (!c || !c.author) return;
-              pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`);
+              pushNotification(u.uid, `Nuevo comentario de ${c.author.name||'Usuario'} en "${p.data.title || '(sin título)'}"`, { postId: p.id, commentId: cdoc.id });
             });
           });
         postNotifsUnsubs.push(unsubLikes, unsubComments);
@@ -1247,7 +1263,7 @@
 
     /* Follow system */
     async function toggleFollow(targetUid, name, avatar, btn){
-      const u = auth.currentUser; 
+      const u = auth.currentUser;
       if (!u){ alert('Inicia sesión para seguir.'); return; }
       if (u.uid === targetUid){ alert('No puedes seguirte a ti mismo.'); return; }
 
@@ -1331,7 +1347,7 @@
         await firestore.collection('posts').doc(editingPostId).set({
           title, desc, bodyHtml, tags, media
         }, { merge:true });
-        await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`);
+        await pushNotification(u.uid, `Editaste "${title || '(sin título)'}" correctamente`, { postId: editingPostId });
         closePostEditModal();
       }catch(e){ alert('Error guardando edición: '+e.message); }
     });
@@ -1429,7 +1445,7 @@
           const ok = confirm('¿Eliminar esta publicación?'); if (!ok) return;
           try {
             await firestore.collection('posts').doc(id).delete();
-            await pushNotification(user.uid, `Eliminaste el post "${p.title || '(sin título)'}"`);
+            await pushNotification(user.uid, `Eliminaste el post "${p.title || '(sin título)'}"`, { postId: id });
           } catch(e){ alert('Error eliminando: ' + e.message); }
         });
         authorActions.appendChild(editBtn); authorActions.appendChild(deleteBtn);
@@ -1476,7 +1492,7 @@
         const text = input.value.trim(); if (!text) return;
         submit.disabled = true;
         try{
-          await firestore.collection('posts').doc(id).collection('comments').add({
+          const docRef = await firestore.collection('posts').doc(id).collection('comments').add({
             text,
             parentId: null,
             likesCount: 0, likedBy: [],
@@ -1484,6 +1500,10 @@
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           input.value='';
+          // Notificación al autor del post (si es otro) con enlace directo
+          if (p.author?.uid && p.author.uid !== u.uid) {
+            await pushNotification(p.author.uid, `${u.displayName || 'Usuario'} comentó en tu publicación "${p.title || '(sin título)'}"`, { postId: id, commentId: docRef.id });
+          }
         }catch(e){ alert('Error al comentar: '+e.message); }
         submit.disabled = false;
       });
@@ -1504,7 +1524,7 @@
       firestore.collection('posts').doc(id).collection('comments').orderBy('createdAt','asc').onSnapshot(csnap => {
         fullComments = [];
         csnap.forEach(cdoc => fullComments.push({ id: cdoc.id, ...cdoc.data() }));
-        renderCommentsThread(id, commentsList, fullComments, renderLimit);
+        renderCommentsThread(id, p, commentsList, fullComments, renderLimit);
         updateLoadMoreVisibility();
       });
 
@@ -1517,7 +1537,7 @@
       }
       loadMoreBtn.addEventListener('click', ()=>{
         renderLimit += 5;
-        renderCommentsThread(id, commentsList, fullComments, renderLimit);
+        renderCommentsThread(id, p, commentsList, fullComments, renderLimit);
         updateLoadMoreVisibility();
       });
 
@@ -1532,7 +1552,7 @@
       return card;
     }
 
-    function renderCommentsThread(postId, container, comments, limit){
+    function renderCommentsThread(postId, postData, container, comments, limit){
       container.innerHTML = '';
       const roots = comments.filter(c=>!c.parentId);
       const childrenMap = {};
@@ -1541,18 +1561,25 @@
       });
       const showRoots = roots.slice(0, limit);
       showRoots.forEach(c=>{
-        container.appendChild(makeCommentEl(postId, c, childrenMap));
+        container.appendChild(makeCommentEl(postId, postData, c, childrenMap));
       });
     }
 
-    function makeCommentEl(postId, c, childrenMap){
-      const item = document.createElement('div'); item.className='comment-item';
+    function makeCommentEl(postId, postData, c, childrenMap){
+      const item = document.createElement('div'); item.className='comment-item'; item.id = `comment-${c.id}`;
       const av = document.createElement('img'); av.className='comment-avatar'; av.src = c.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.author?.name || 'Usuario');
 
       const box = document.createElement('div'); box.className='comment-box';
       const meta = document.createElement('div'); meta.className='comment-meta';
       let ct = '—'; try { if (c.createdAt?.toDate) ct = c.createdAt.toDate().toLocaleString(); } catch(e){}
-      const leftMeta = document.createElement('div'); leftMeta.className='meta-left'; leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
+      const leftMeta = document.createElement('div'); leftMeta.className='meta-left';
+      leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
+
+      // Badge "autor" si el comentarista es el autor del post
+      if (c.author?.uid && postData.author?.uid && c.author.uid === postData.author.uid) {
+        const badge = document.createElement('span'); badge.className='author-badge'; badge.textContent='autor';
+        leftMeta.appendChild(badge);
+      }
 
       const rightMeta = document.createElement('div');
 
@@ -1562,50 +1589,58 @@
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
 
-      // Edit & Delete for comments (permitir edición/eliminación)
-      const editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
-      const delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
+      // Solo permitir editar/eliminar si el comentario es del usuario actual
+      const u = auth.currentUser;
+      let editBtn = null;
+      let delBtn = null;
+      if (u && c.author?.uid === u.uid) {
+        editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
+        delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
+      }
 
       like.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+        const cu = auth.currentUser; if (!cu) { alert('Inicia sesión.'); return; }
         const ref = firestore.collection('posts').doc(postId).collection('comments').doc(c.id);
         await firestore.runTransaction(async (tx)=>{
           const snap = await tx.get(ref); if (!snap.exists) return;
           const d = snap.data(); const likedBy = d.likedBy || [];
-          const has = likedBy.includes(u.uid);
-          const newLikedBy = has ? likedBy.filter(x=>x!==u.uid) : [...likedBy, u.uid];
+          const has = likedBy.includes(cu.uid);
+          const newLikedBy = has ? likedBy.filter(x=>x!==cu.uid) : [...likedBy, cu.uid];
           const delta = has ? -1 : 1;
           tx.update(ref, { likedBy: newLikedBy, likesCount: (d.likesCount||0) + delta });
         });
       });
 
-      reply.addEventListener('click', ()=> {
+      reply.addEventListener('click', ()=>{
         replyForm.style.display = (replyForm.style.display==='none') ? 'flex' : 'none';
       });
 
-      editBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const newText = prompt('Editar comentario:', text.textContent);
-        if (newText===null) return;
-        const safe = newText.trim();
-        try{
-          await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).set({ text: safe }, { merge:true });
-        }catch(e){ alert('Error editando comentario: '+e.message); }
-      });
+      if (editBtn) {
+        editBtn.addEventListener('click', async ()=>{
+          const cu = auth.currentUser; if (!cu){ alert('Inicia sesión.'); return; }
+          const newText = prompt('Editar comentario:', text.textContent);
+          if (newText===null) return;
+          const safe = newText.trim();
+          try{
+            await firestore.collection('posts').doc(postId).collection('comments').doc(c.id).set({ text: safe }, { merge:true });
+          }catch(e){ alert('Error editando comentario: '+e.message); }
+        });
+      }
 
-      delBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
-        try{
-          // Eliminar hijos también
-          const ref = firestore.collection('posts').doc(postId).collection('comments');
-          const snap = await ref.where('parentId','==',c.id).get();
-          const batch = firestore.batch();
-          snap.forEach(doc=> batch.delete(doc.ref));
-          batch.delete(ref.doc(c.id));
-          await batch.commit();
-        }catch(e){ alert('Error eliminando comentario: '+e.message); }
-      });
+      if (delBtn) {
+        delBtn.addEventListener('click', async ()=>{
+          const cu = auth.currentUser; if (!cu){ alert('Inicia sesión.'); return; }
+          const ok = confirm('¿Eliminar este comentario?'); if (!ok) return;
+          try{
+            const ref = firestore.collection('posts').doc(postId).collection('comments');
+            const snap = await ref.where('parentId','==',c.id).get();
+            const batch = firestore.batch();
+            snap.forEach(doc=> batch.delete(doc.ref));
+            batch.delete(ref.doc(c.id));
+            await batch.commit();
+          }catch(e){ alert('Error eliminando comentario: '+e.message); }
+        });
+      }
 
       const replyForm = document.createElement('div'); replyForm.className='comment-form'; replyForm.style.display='none';
       const replyInput = document.createElement('input'); replyInput.className='comment-input'; replyInput.placeholder='Tu respuesta…';
@@ -1613,25 +1648,32 @@
       replyForm.appendChild(replyInput); replyForm.appendChild(replySend);
 
       replySend.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+        const cu = auth.currentUser; if (!cu) { alert('Inicia sesión.'); return; }
         const txt = replyInput.value.trim(); if (!txt) return;
         replySend.disabled = true;
         try{
-          await firestore.collection('posts').doc(postId).collection('comments').add({
+          const rDoc = await firestore.collection('posts').doc(postId).collection('comments').add({
             text: txt,
             parentId: c.id,
             likesCount: 0,
             likedBy: [],
-            author: { uid: u.uid, name: u.displayName || u.email || 'Usuario', avatar: u.photoURL || null },
+            author: { uid: cu.uid, name: cu.displayName || cu.email || 'Usuario', avatar: cu.photoURL || null },
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           replyInput.value='';
           replyForm.style.display='none';
+          // Notificación al autor del post (si no es el mismo usuario)
+          if (postData.author?.uid && postData.author.uid !== cu.uid) {
+            await pushNotification(postData.author.uid, `${cu.displayName || 'Usuario'} respondió en tu publicación "${postData.title || '(sin título)'}"`, { postId: postId, commentId: rDoc.id });
+          }
         }catch(err){ alert('Error al responder: '+err.message); }
         replySend.disabled=false;
       });
 
-      actions.appendChild(like); actions.appendChild(reply); actions.appendChild(editBtn); actions.appendChild(delBtn);
+      actions.appendChild(like);
+      actions.appendChild(reply);
+      if (editBtn) actions.appendChild(editBtn);
+      if (delBtn) actions.appendChild(delBtn);
       box.appendChild(meta);
       box.appendChild(text);
       box.appendChild(actions);
@@ -1640,7 +1682,7 @@
       const repliesWrap = document.createElement('div'); repliesWrap.className='replies-wrap';
       const children = (childrenMap && childrenMap[c.id]) || [];
       children.forEach(child=>{
-        repliesWrap.appendChild(makeReplyEl(postId, child));
+        repliesWrap.appendChild(makeReplyEl(postId, postData, child));
       });
       if (children.length) box.appendChild(repliesWrap);
 
@@ -1648,50 +1690,70 @@
       return item;
     }
 
-    function makeReplyEl(postId, r){
-      const item = document.createElement('div'); item.className='reply-item';
+    function makeReplyEl(postId, postData, r){
+      const item = document.createElement('div'); item.className='reply-item'; item.id = `comment-${r.id}`;
       const av = document.createElement('img'); av.className='reply-avatar'; av.src = r.author?.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(r.author?.name || 'Usuario');
       const box = document.createElement('div'); box.className='reply-box';
       const meta = document.createElement('div'); meta.className='reply-meta';
       let ct = '—'; try { if (r.createdAt?.toDate) ct = r.createdAt.toDate().toLocaleString(); } catch(e){}
-      const left = document.createElement('div'); left.innerHTML = `<strong>${escapeHtml(r.author?.name || 'Usuario')}</strong> • ${ct}`;
+      const left = document.createElement('div');
+      left.innerHTML = `<strong>${escapeHtml(r.author?.name || 'Usuario')}</strong> • ${ct}`;
+      // Badge "autor" si la respuesta es del autor del post
+      if (r.author?.uid && postData.author?.uid && r.author.uid === postData.author.uid) {
+        const badge = document.createElement('span'); badge.className='author-badge'; badge.textContent='autor';
+        left.appendChild(badge);
+      }
       const right = document.createElement('div');
 
       const text = document.createElement('div'); text.className='reply-text'; text.textContent = r.text;
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
-      const editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
-      const delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
+
+      // Solo permitir editar/eliminar si la respuesta es del usuario actual
+      const u = auth.currentUser;
+      let editBtn = null;
+      let delBtn = null;
+      if (u && r.author?.uid === u.uid) {
+        editBtn = document.createElement('button'); editBtn.className='comment-action'; editBtn.textContent='Editar';
+        delBtn = document.createElement('button'); delBtn.className='comment-action'; delBtn.textContent='Eliminar';
+      }
 
       like.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u) { alert('Inicia sesión.'); return; }
+        const cu = auth.currentUser; if (!cu) { alert('Inicia sesión.'); return; }
         const ref = firestore.collection('posts').doc(postId).collection('comments').doc(r.id);
         await firestore.runTransaction(async (tx)=>{
           const snap = await tx.get(ref); if (!snap.exists) return;
           const d = snap.data(); const likedBy = d.likedBy || [];
-          const has = likedBy.includes(u.uid);
-          const newLikedBy = has ? likedBy.filter(x=>x!==u.uid) : [...likedBy, u.uid];
+          const has = likedBy.includes(cu.uid);
+          const newLikedBy = has ? likedBy.filter(x=>x!==cu.uid) : [...likedBy, cu.uid];
           const delta = has ? -1 : 1;
           tx.update(ref, { likedBy: newLikedBy, likesCount: (d.likesCount||0) + delta });
         });
       });
 
-      editBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const newText = prompt('Editar respuesta:', text.textContent);
-        if (newText===null) return;
-        const safe = newText.trim();
-        try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).set({ text: safe }, { merge:true }); }
-        catch(e){ alert('Error editando respuesta: '+e.message); }
-      });
-      delBtn.addEventListener('click', async ()=>{
-        const u = auth.currentUser; if (!u){ alert('Inicia sesión.'); return; }
-        const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
-        try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete(); }
-        catch(e){ alert('Error eliminando respuesta: '+e.message); }
-      });
+      if (editBtn) {
+        editBtn.addEventListener('click', async ()=>{
+          const cu = auth.currentUser; if (!cu){ alert('Inicia sesión.'); return; }
+          const newText = prompt('Editar respuesta:', text.textContent);
+          if (newText===null) return;
+          const safe = newText.trim();
+          try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).set({ text: safe }, { merge:true }); }
+          catch(e){ alert('Error editando respuesta: '+e.message); }
+        });
+      }
 
-      actions.appendChild(like); actions.appendChild(editBtn); actions.appendChild(delBtn);
+      if (delBtn) {
+        delBtn.addEventListener('click', async ()=>{
+          const cu = auth.currentUser; if (!cu){ alert('Inicia sesión.'); return; }
+          const ok = confirm('¿Eliminar esta respuesta?'); if (!ok) return;
+          try{ await firestore.collection('posts').doc(postId).collection('comments').doc(r.id).delete(); }
+          catch(e){ alert('Error eliminando respuesta: '+e.message); }
+        });
+      }
+
+      actions.appendChild(like);
+      if (editBtn) actions.appendChild(editBtn);
+      if (delBtn) actions.appendChild(delBtn);
       meta.appendChild(left); meta.appendChild(right);
       box.appendChild(meta); box.appendChild(text); box.appendChild(actions);
       item.appendChild(av); item.appendChild(box);
@@ -1703,7 +1765,7 @@
     const pvTitle = document.getElementById('pvTitle');
     const pvBody = document.getElementById('pvBody');
     const closePostView = document.getElementById('closePostView');
-    function openPostView(postId){
+    function openPostView(postId, commentId=null){
       const found = postsCache.find(p=>p.id===postId);
       if(!found){ return; }
       const d = found.data;
@@ -1728,7 +1790,35 @@
       });
       pvBody.appendChild(meta); pvBody.appendChild(body);
       if ((d.media||[]).some(x=>x.type==='image')) pvBody.appendChild(gallery);
+
       postViewModal.style.display='flex'; lockBody();
+
+      // Si hay commentId, cargar comentarios del post y hacer scroll al específico
+      const commentsContainer = document.createElement('div'); commentsContainer.className='comments';
+      const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
+      const commentsList = document.createElement('div'); commentsList.id = `comments-${postId}-modal`;
+      commentsContainer.appendChild(commentsTitle);
+      commentsContainer.appendChild(commentsList);
+      pvBody.appendChild(commentsContainer);
+
+      firestore.collection('posts').doc(postId).collection('comments').orderBy('createdAt','asc').get().then(csnap=>{
+        const comments = [];
+        csnap.forEach(cdoc=> comments.push({ id: cdoc.id, ...cdoc.data() }));
+        const roots = comments.filter(c=>!c.parentId);
+        const childrenMap = {};
+        comments.filter(c=>c.parentId).forEach(c=>{
+          (childrenMap[c.parentId] = childrenMap[c.parentId] || []).push(c);
+        });
+        roots.forEach(c=>{
+          commentsList.appendChild(makeCommentEl(postId, d, c, childrenMap));
+        });
+        if (commentId) {
+          setTimeout(()=>{
+            const targetEl = document.getElementById(`comment-${commentId}`);
+            if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 250);
+        }
+      });
     }
     closePostView.addEventListener('click',()=>{ postViewModal.style.display='none'; unlockBody(); });
     postViewModal.addEventListener('click',(e)=>{ if(e.target===postViewModal){ postViewModal.style.display='none'; unlockBody(); } });
