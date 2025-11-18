@@ -123,7 +123,7 @@
     @media (max-width:640px){
       .nav{ padding:8px 12px; }
       #openComposer, #mainDropdown, #googleBtn, #userChip, .notif { display:none; }
-      /* Mantener switch visible en móvil (no se oculta) */
+      /* Switch visible en móvil (no ocultarlo) */
 
       .mobile-nav{
         display:block; position:fixed; left:0; right:0; bottom:0;
@@ -707,17 +707,30 @@
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
-    /* Cloudinary config: reemplaza con tu cloud_name y upload_preset */
-    const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/tu_cloud_name/upload";
-    const CLOUDINARY_UPLOAD_PRESET = "nearmemarketplace";
+    /* Cloudinary client config (restaurado) */
+    window.CLOUDINARY = {
+      cloudName: "dxbahdjk1",
+      unsignedPreset: "nearmemarketplace",
+      folder: "nearmemarketplace/"
+    };
 
     async function uploadToCloudinary(file){
+      const cloudName = window.CLOUDINARY.cloudName;
+      const preset = window.CLOUDINARY.unsignedPreset;
+      const folder = window.CLOUDINARY.folder;
+
+      const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-      const res = await fetch(CLOUDINARY_URL, { method:"POST", body:formData });
-      if (!res.ok) throw new Error("Error subiendo a Cloudinary");
+      formData.append("upload_preset", preset);
+      if (folder) formData.append("folder", folder);
+
+      const res = await fetch(url, { method:"POST", body:formData });
       const data = await res.json();
+      if (!res.ok || !data.secure_url) {
+        const err = data.error?.message || "Error subiendo a Cloudinary";
+        throw new Error(err);
+      }
       return data.secure_url;
     }
 
@@ -820,7 +833,6 @@
       const batch = firestore.batch();
       snap.forEach(doc=> batch.delete(doc.ref));
       await batch.commit();
-      // Después de eliminar, la bandeja debe mostrar vacío sin badge
       notifications = [];
       renderNotifications();
     }
@@ -871,9 +883,8 @@
       }
     }
 
-    // Mapas para evitar notificaciones de "likes" al suscribirse (solo cambios reales)
-    const likesBaseline = new Map(); // postId -> likesCount
-    const firstCommentsLoaded = new Map(); // postId -> boolean
+    const likesBaseline = new Map();
+    const firstCommentsLoaded = new Map();
 
     auth.onAuthStateChanged(async user => {
       if (notifUnsub) { try{notifUnsub();}catch{} notifUnsub=null; }
@@ -888,7 +899,6 @@
         document.getElementById('profileName').textContent = user.displayName || 'Usuario';
         document.getElementById('profileEmail').textContent = user.email || '';
 
-        // Subscribe notifications live
         notifUnsub = notifColRef(user.uid).orderBy('ts','desc').onSnapshot(s=>{
           notifications = [];
           s.forEach(d=> notifications.push(d.data()));
@@ -1025,7 +1035,7 @@
       try {
         let mediaItems = [];
         const ytId = extractYouTubeId(youtubeInput.value.trim());
-        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId }); // solo un video máximo
+        if (ytId) mediaItems.push({ type:'youtube', videoId: ytId });
 
         if (selectedFiles.length){
           const total = selectedFiles.length;
@@ -1242,7 +1252,7 @@
       await batch.commit();
     }
 
-    /* Post notifications subscriptions (debounced to avoid immediate after clear) */
+    /* Post notifications subscriptions */
     function subscribeNotificationsForMyPosts(){
       postNotifsUnsubs.forEach(unsub => { try{unsub();}catch{} });
       postNotifsUnsubs = [];
@@ -1252,15 +1262,12 @@
       if (!u) return;
 
       postsCache.filter(p=>p.data.author?.uid===u.uid).forEach(p=>{
-        // Likes changes: solo notificar incrementos, y evitar primera carga
         let firstLikeSnap = true;
         const unsubLikes = firestore.collection('posts').doc(p.id).onSnapshot(s=>{
           const d = s.data(); if (!d) return;
           const prev = likesBaseline.get(p.id);
           const curr = d.likesCount || 0;
-          // La primera vez: actualizar baseline y no notificar
           if (firstLikeSnap) { likesBaseline.set(p.id, curr); firstLikeSnap = false; return; }
-          // Solo notificar si hubo incremento real
           if (prev != null && curr > prev) {
             likesBaseline.set(p.id, curr);
             pushNotification(u.uid, `Tu post "${d.title || '(sin título)'}" tiene ${curr} likes`, { postId: p.id });
@@ -1269,13 +1276,12 @@
           }
         });
 
-        // Nuevo comentario: evitar notificación en primera carga del snapshot
         const unsubComments = firestore.collection('posts').doc(p.id).collection('comments')
           .orderBy('createdAt','desc').limit(1)
           .onSnapshot(cs=>{
             if (!firstCommentsLoaded.get(p.id)) {
               firstCommentsLoaded.set(p.id, true);
-              return; // no notificar en la primera carga
+              return;
             }
             cs.forEach(cdoc=>{
               const c = cdoc.data();
@@ -1299,7 +1305,7 @@
       });
     }
 
-    /* Follow system (envía notificación al seguido) */
+    /* Follow system */
     async function toggleFollow(targetUid, name, avatar, btn){
       const u = auth.currentUser; 
       if (!u){ alert('Inicia sesión para seguir.'); return; }
@@ -1330,11 +1336,8 @@
           btn.className = nowFollowing ? 'btn-following' : 'btn-follow';
         }
 
-        // Notificación al usuario seguido si es nuevo follow
         if (!isFollowing) {
-          try{
-            await pushNotification(targetUid, `${u.displayName || 'Usuario'} te siguió`, null);
-          }catch(e){}
+          try{ await pushNotification(targetUid, `${u.displayName || 'Usuario'} te siguió`, null); }catch(e){}
         }
       });
 
@@ -1438,7 +1441,6 @@
       const descEl = document.createElement('p'); descEl.className = 'post-desc'; descEl.textContent = p.desc || '';
       const bodyEl = document.createElement('div'); bodyEl.className = 'post-content'; bodyEl.innerHTML = p.bodyHtml || '';
 
-      /* Featured YouTube — only one */
       const yt = (p.media||[]).find(m=>m.type==='youtube' && m.videoId);
       if (yt){
         const fv = document.createElement('iframe');
@@ -1477,7 +1479,6 @@
         actions.appendChild(donation);
       }
 
-      // Author actions: Editar / Eliminar
       if (user && user.uid === p.author?.uid) {
         const authorActions = document.createElement('div'); authorActions.className = 'author-actions';
         const editBtn = document.createElement('button'); editBtn.className = 'btn-mini'; editBtn.textContent = 'Editar';
@@ -1542,7 +1543,6 @@
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           input.value='';
-          // Notificación al autor del post (si es otro) con enlace directo
           if (p.author?.uid && p.author.uid !== u.uid) {
             await pushNotification(p.author.uid, `${u.displayName || 'Usuario'} comentó en tu publicación "${p.title || '(sin título)'}"`, { postId: id, commentId: docRef.id });
           }
@@ -1617,7 +1617,6 @@
       const leftMeta = document.createElement('div'); leftMeta.className='meta-left';
       leftMeta.innerHTML = `<strong>${escapeHtml(c.author?.name || 'Usuario')}</strong> • ${ct}`;
 
-      // Badge "autor" si el comentarista es el autor del post
       if (c.author?.uid && postData.author?.uid && c.author.uid === postData.author.uid) {
         const badge = document.createElement('span'); badge.className='author-badge'; badge.textContent='autor';
         leftMeta.appendChild(badge);
@@ -1631,7 +1630,6 @@
       const like = document.createElement('button'); like.className='comment-action comment-like'; like.textContent = `👍 ${c.likesCount||0}`;
       const reply = document.createElement('button'); reply.className='comment-action'; reply.textContent='Responder';
 
-      // Solo permitir editar/eliminar si el comentario es del usuario actual
       const u = auth.currentUser;
       let editBtn = null;
       let delBtn = null;
@@ -1704,7 +1702,6 @@
           });
           replyInput.value='';
           replyForm.style.display='none';
-          // Notificación al autor del post (si no es el mismo usuario)
           if (postData.author?.uid && postData.author.uid !== cu.uid) {
             await pushNotification(postData.author.uid, `${cu.displayName || 'Usuario'} respondió en tu publicación "${postData.title || '(sin título)'}"`, { postId: postId, commentId: rDoc.id });
           }
@@ -1740,7 +1737,6 @@
       let ct = '—'; try { if (r.createdAt?.toDate) ct = r.createdAt.toDate().toLocaleString(); } catch(e){}
       const left = document.createElement('div');
       left.innerHTML = `<strong>${escapeHtml(r.author?.name || 'Usuario')}</strong> • ${ct}`;
-      // Badge "autor" si la respuesta es del autor del post
       if (r.author?.uid && postData.author?.uid && r.author.uid === postData.author.uid) {
         const badge = document.createElement('span'); badge.className='author-badge'; badge.textContent='autor';
         left.appendChild(badge);
@@ -1751,7 +1747,6 @@
       const actions = document.createElement('div'); actions.className='reply-actions';
       const like = document.createElement('button'); like.className='comment-action'; like.textContent = `👍 ${r.likesCount||0}`;
 
-      // Solo permitir editar/eliminar si la respuesta es del usuario actual
       const u = auth.currentUser;
       let editBtn = null;
       let delBtn = null;
@@ -1833,7 +1828,6 @@
 
       postViewModal.style.display='flex'; lockBody();
 
-      // Comentarios dentro del modal y scroll a comentario específico si aplica
       const commentsContainer = document.createElement('div'); commentsContainer.className='comments';
       const commentsTitle = document.createElement('h4'); commentsTitle.textContent = 'Comentarios';
       const commentsList = document.createElement('div'); commentsList.id = `comments-${postId}-modal`;
@@ -2016,4 +2010,3 @@
   </script>
 </body>
 </html>
-
