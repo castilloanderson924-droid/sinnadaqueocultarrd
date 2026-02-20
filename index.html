@@ -7,9 +7,6 @@
 <meta name="description" content="Periódico digital con diseño avanzado, animaciones y dinámica innovadora." />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* -------------------------
-     Variables y reset
-     ------------------------- */
   :root{
     --bg:#0f1724;
     --card:#0b1220;
@@ -22,7 +19,7 @@
     --radius:12px;
     --shadow:0 12px 40px rgba(2,6,23,0.6);
     --max-width:1200px;
-    --transition:260ms cubic-bezier(.2,.9,.3,1);
+    --transition:220ms cubic-bezier(.2,.9,.3,1);
   }
   [data-theme="light"]{
     --bg:#f6f8fb;
@@ -37,51 +34,41 @@
   }
 
   *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-text-size-adjust:100%}
+  html,body{height:100%;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
   body{
     background:
-      radial-gradient(1000px 500px at 8% 12%, rgba(143,230,255,0.04), transparent),
+      radial-gradient(1000px 500px at 8% 12%, rgba(143,230,255,0.03), transparent),
       radial-gradient(700px 300px at 92% 88%, rgba(79,179,255,0.02), transparent),
       var(--bg);
     color:var(--text);
     transition:background var(--transition), color var(--transition);
-    overflow-x:hidden; /* evita desplazamiento horizontal en móviles */
+    overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
   }
 
   img, video, iframe { max-width:100%; height:auto; display:block; }
 
-  /* -------------------------
-     Contenedor principal centrado y seguro
-     ------------------------- */
-  .outer {
-    width:100%;
-    display:flex;
-    justify-content:center;
-    padding-left:12px;
-    padding-right:12px;
-  }
+  /* Layout */
+  .outer { width:100%; display:flex; justify-content:center; padding:18px 12px; }
   .wrap{
     width:100%;
     max-width:var(--max-width);
     margin:0 auto;
     display:grid;
-    grid-template-columns:1fr 340px;
-    gap:22px;
+    grid-template-columns: 1fr 320px;
+    gap:24px;
     align-items:start;
-    /* ensure internal padding doesn't cause overflow */
-    padding:0;
+    min-width:0;
   }
 
-  /* -------------------------
-     Header
-     ------------------------- */
+  /* Header */
   header.site-header{
     grid-column:1/-1;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:12px 16px;
+    gap:12px;
+    padding:14px;
     border-radius:12px;
     background:var(--card);
     border:1px solid var(--glass-border);
@@ -92,45 +79,42 @@
     min-width:0;
   }
   .brand{display:flex;gap:12px;align-items:center;min-width:0}
-  .logo{width:56px;height:56px;border-radius:8px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .logo{width:56px;height:56px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .logo img{width:100%;height:100%;object-fit:contain;display:block}
   .brand h1{margin:0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .brand p{margin:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  .header-controls{display:flex;gap:10px;align-items:center;flex-shrink:0}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;cursor:pointer;transition:transform var(--transition)}
+  nav.primary{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042033;font-weight:700;cursor:pointer;transition:transform var(--transition)}
   .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
   .btn.small{padding:8px 10px;font-size:13px}
-  .icon-btn{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--glass-border);cursor:pointer}
 
   .social{display:flex;gap:8px;align-items:center}
   .social a{width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass-border);color:var(--text);text-decoration:none}
   .social svg{width:18px;height:18px;display:block}
 
-  /* -------------------------
-     Search
-     ------------------------- */
+  /* Search */
   .search-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:12px}
   .searchbar{display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:12px;border:1px solid var(--glass-border);width:100%;max-width:980px}
   .searchbar input{flex:1;padding:8px;border-radius:8px;border:0;background:transparent;color:var(--text);outline:none;font-size:14px;min-width:0}
   .searchbar .btn-ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
 
-  /* -------------------------
-     Ticker
-     ------------------------- */
+  /* Ticker */
   .ticker{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);overflow:hidden}
   .ticker .label{font-weight:800;color:var(--muted);font-size:13px;white-space:nowrap}
-  .marquee{flex:1;overflow:hidden;position:relative;height:34px}
+  .marquee{flex:1;overflow:hidden;position:relative;height:36px}
   .track{position:absolute;left:0;top:0;white-space:nowrap;display:inline-block;animation-name:marquee;animation-timing-function:linear;animation-iteration-count:infinite;animation-play-state:running}
   @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%)}}
   .marquee .item{display:inline-flex;align-items:center;gap:10px;padding:0 20px;color:var(--text);font-weight:700;white-space:nowrap}
   .marquee .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--accent);font-weight:800;border:1px solid rgba(255,255,255,0.02)}
   .marquee:hover .track{animation-play-state:paused}
 
-  /* -------------------------
-     Feed / Cards
-     ------------------------- */
-  main.feed{padding:18px;border-radius:12px;min-height:60vh;min-width:0}
+  /* Ad banner */
+  .ad-banner{grid-column:1/-1;display:flex;justify-content:center;margin:14px 0}
+  .ad-banner img{width:100%;max-width:728px;height:auto;border-radius:8px;border:1px solid var(--glass-border);box-shadow:0 8px 30px rgba(0,0,0,0.25)}
+
+  /* Feed / Cards */
+  main.feed{padding:18px;border-radius:12px;min-height:60vh;min-width:0;background:transparent}
   .magazine{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .card{background:var(--card);border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition);cursor:pointer;min-height:220px;min-width:0}
   .card:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,0.35)}
@@ -147,9 +131,7 @@
   .featured{grid-column:span 2;min-height:380px}
   .featured .media{height:300px}
 
-  /* -------------------------
-     Sidebar
-     ------------------------- */
+  /* Sidebar */
   aside.sidebar{position:sticky;top:32px;display:flex;flex-direction:column;gap:14px;min-width:0}
   .card.small{padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--glass-border)}
   .mission{display:flex;flex-direction:column;gap:12px;align-items:stretch}
@@ -162,22 +144,18 @@
   .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);color:var(--muted);cursor:pointer;font-weight:700}
   .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042033;border:0;box-shadow:0 10px 30px rgba(79,179,255,0.12)}
 
-  /* -------------------------
-     Featured bubble
-     ------------------------- */
+  /* Featured bubble */
   .featured-bubble{
     position:fixed;right:22px;bottom:110px;width:64px;height:64px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#042033;font-weight:900;box-shadow:0 18px 50px rgba(79,179,255,0.18);z-index:220;cursor:pointer;transition:transform 220ms ease,opacity 220ms ease;
   }
   .featured-bubble:hover{transform:translateY(-6px) scale(1.03)}
 
-  /* -------------------------
-     Reader modal (large, centered, mobile-friendly)
-     ------------------------- */
+  /* Reader modal */
   .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.55);z-index:260;opacity:0;pointer-events:none;transition:opacity 260ms ease;backdrop-filter: blur(6px)}
   .modal.open{opacity:1;pointer-events:auto}
   .reader{
-    width:96vw;
-    max-width:1200px;
+    width:92vw;
+    max-width:1100px;
     height:92vh;
     max-height:92vh;
     background:var(--card);
@@ -190,11 +168,8 @@
     flex-direction:column;
     overflow:hidden;
     transform-origin:center;
-    animation:readerIn 320ms cubic-bezier(.2,.9,.3,1);
   }
-  @keyframes readerIn{from{opacity:0;transform:translateY(8px) scale(.995)}to{opacity:1;transform:none}}
-
-  .reader .close{position:absolute;right:18px;top:18px;background:transparent;border:0;color:var(--text);font-size:20px;cursor:pointer;padding:8px;border-radius:8px;z-index:30}
+  .reader .close{position:absolute;right:18px;top:18px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#042033;font-size:18px;cursor:pointer;padding:8px 12px;border-radius:10px;box-shadow:0 8px 30px rgba(79,179,255,0.12)}
   .reader-header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 12px;margin-bottom:12px}
   .reader-header h2{margin:6px 0 6px;font-size:26px;color:var(--text);line-height:1.15;max-width:88ch;overflow-wrap:break-word}
   .reader-meta-line{display:flex;gap:10px;align-items:center;justify-content:center;color:var(--muted);font-size:14px;flex-wrap:wrap;margin-bottom:6px}
@@ -212,28 +187,67 @@
   .font-controls{display:flex;gap:8px;align-items:center}
   .font-controls button{padding:6px 8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--card);color:var(--text);cursor:pointer}
 
-  /* -------------------------
-     To top & footer
-     ------------------------- */
+  /* Comandantes panel (opaque background for readability) */
+  .comandantes-panel {
+    position:fixed;
+    right:20px;
+    bottom:110px;
+    width:360px;
+    max-width:calc(100% - 40px);
+    background:var(--card); /* solid background for readability */
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.45);
+    z-index:350;
+    overflow:hidden;
+    transform:translateY(12px) scale(.98);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 220ms ease, transform 220ms cubic-bezier(.2,.9,.3,1);
+    display:flex;
+    flex-direction:column;
+  }
+  .comandantes-panel.open{
+    transform:translateY(0) scale(1);
+    opacity:1;
+    pointer-events:auto;
+  }
+  .panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.03)}
+  .panel-header h3{margin:0;font-size:15px;color:var(--text)}
+  .panel-body{padding:12px;display:flex;flex-direction:column;gap:10px;max-height:56vh;overflow:auto}
+  .comandante{display:flex;gap:12px;align-items:center;padding:8px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.02)}
+  .comandante img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,255,255,0.03)}
+  .comandante .info{display:flex;flex-direction:column;gap:4px}
+  .comandante .name{font-weight:800;color:var(--text);font-size:14px}
+  .comandante .role{font-size:12px;color:var(--muted)}
+  .panel-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-top:1px solid rgba(255,255,255,0.02);gap:8px}
+  .panel-footer .close-btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;padding:8px 12px;border-radius:10px;color:#042033;cursor:pointer;font-weight:800;box-shadow:0 10px 30px rgba(79,179,255,0.12)}
+
+  /* To top */
   .to-top{position:fixed;right:22px;bottom:28px;width:48px;height:48px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:200;transition:transform 220ms ease,opacity 220ms ease}
   .to-top.hidden{opacity:0;transform:translateY(12px);pointer-events:none}
 
   footer{grid-column:1/-1;margin-top:18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);flex-wrap:wrap;gap:8px}
 
-  /* -------------------------
-     Responsive fixes to ensure centering on small screens
-     ------------------------- */
+  /* Ads card layout inside sidebar */
+  .ads-card{display:flex;flex-direction:column;gap:12px;align-items:center}
+  .ads-card .ad-item{width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--glass-border);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:8px}
+  .ads-card .ad-item img{display:block;margin:0 auto;border-radius:8px;max-width:100%}
+  .ads-card .ad-video{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--glass-border)}
+  .ads-card .ad-caption{font-size:13px;color:var(--muted);text-align:center;padding-top:6px}
+
+  /* Responsive */
   @media (max-width:1100px){
     .wrap{grid-template-columns:1fr;gap:18px;padding:0}
     .magazine{grid-template-columns:repeat(2,1fr)}
     .featured{grid-column:auto}
     aside.sidebar{position:relative;top:auto}
     .searchbar{max-width:100%}
-    .featured-bubble{right:14px;bottom:100px}
+    .ad-banner img{max-width:600px}
+    .comandantes-panel{right:14px;left:14px;width:auto;max-width:calc(100% - 28px)}
   }
   @media (max-width:700px){
     header.site-header{padding:10px;flex-direction:column;align-items:stretch;gap:8px}
-    .brand{justify-content:flex-start}
     .brand h1{font-size:16px}
     .magazine{grid-template-columns:1fr}
     .reader{width:96vw;height:92vh;padding:14px}
@@ -241,19 +255,21 @@
     .to-top{right:12px;bottom:18px}
     .featured-bubble{right:12px;bottom:120px}
     .reader-header h2{font-size:20px}
-    .header-controls{gap:6px;justify-self:end}
     .logo{width:48px;height:48px}
     .wrap{padding-left:8px;padding-right:8px}
+    .ad-banner img{max-width:320px}
+    .comandante img{width:56px;height:56px}
+    .comandantes-panel{bottom:80px;right:12px;left:12px}
   }
 
-  /* Ensure mission hero text visible in light theme */
-  [data-theme="light"] .mission .hero::before{background:linear-gradient(180deg, rgba(255,255,255,0.0) 20%, rgba(0,0,0,0.35) 100%)}
-  [data-theme="light"] .mission .hero .hero-text{color:#fff}
+  /* Prevent horizontal overflow */
+  html,body{max-width:100vw;overflow-x:hidden}
 </style>
 </head>
 <body data-theme="dark">
   <div class="outer">
     <div class="wrap" id="appWrap">
+      <!-- Header -->
       <header class="site-header" role="banner" aria-label="Cabecera del sitio">
         <div class="brand" style="min-width:0">
           <div class="logo" aria-hidden="true">
@@ -265,7 +281,13 @@
           </div>
         </div>
 
-        <div class="header-controls" role="toolbar" aria-label="Controles">
+        <nav class="primary" aria-label="Navegación principal">
+          <button class="btn small ghost" id="navSobre">Sobre nosotros</button>
+          <button class="btn small ghost" id="navContacto">Contacto</button>
+          <button class="btn small ghost" id="btnComandantes" title="Comandantes generales">Comandantes generales</button>
+        </nav>
+
+        <div style="display:flex;align-items:center;gap:8px">
           <button id="viewToggle" class="btn small ghost" title="Cambiar vista">Revista</button>
           <button id="themeToggle" class="btn small ghost" title="Cambiar tema">Tema</button>
           <nav class="social" aria-label="Redes sociales">
@@ -277,6 +299,7 @@
         </div>
       </header>
 
+      <!-- Search -->
       <div class="search-row">
         <div class="searchbar" role="search" aria-label="Buscar noticias">
           <input id="searchInput" placeholder="Buscar titulares, secciones..." aria-label="Buscar noticias" />
@@ -284,11 +307,10 @@
         </div>
       </div>
 
-      <div style="grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;">
-        <div id="featuredWrap" style="flex:1;min-width:0"></div>
-        <div style="width:340px;max-width:30vw;min-width:220px"></div>
-      </div>
+      <!-- Featured bubble -->
+      <div id="featuredBubble" class="featured-bubble" title="Noticia destacada" aria-label="Noticia destacada">★</div>
 
+      <!-- Ticker -->
       <div class="ticker" aria-live="polite">
         <div class="label">Últimas</div>
         <div class="marquee" aria-hidden="true">
@@ -296,6 +318,12 @@
         </div>
       </div>
 
+      <!-- Ad banner under ticker -->
+      <div class="ad-banner" aria-hidden="false" role="region" aria-label="Anuncio">
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgSfeOUH6q30M9e_2dI2dO3STGql1eW4jDil2FHSgP2hmE__vdklKAw_g2gOPBjnGzM8WM4z2YMolxpFLfS5Xw2-A0W-_AVcYdTGBfy7d7tU9OwaRRL0xeoediwUyP4v-7Vt9pHNSoLeHMLdmMG9Q6Xjutwi_H87zK_jwS4MNSRB11eDR7ZFKf5XUZ9cgM=s708" alt="Anuncio 728x90" loading="lazy">
+      </div>
+
+      <!-- Feed -->
       <main class="feed" id="feed" aria-label="Noticias">
         <section class="magazine" id="magazine" aria-live="polite"></section>
         <div id="loadMore" class="center" style="padding:18px;">
@@ -303,6 +331,7 @@
         </div>
       </main>
 
+      <!-- Sidebar -->
       <aside class="sidebar" aria-label="Barra lateral">
         <div class="card small mission">
           <div class="hero mission-hero" style="background-image:url('https://blogger.googleusercontent.com/img/a/AVvXsEiLuxEI6sntEpw34QLSTSHhTDQl6A75MdiFIGdiWP0GUvG33Q_pnoS2PjKxcZMhKgM6hrN5IpyI1_quZm46Fb2kvtGt9HOXuDV7TWo14MM905qm-4rEmQd-AwgXbUGkps9wCLPDNyy-Dg0IkQ8NnFWu0JXlDrMN2oTrdTNd12Ytd7tB0QhlQNjcoOx9fj8=s300')">
@@ -321,6 +350,32 @@
               Convertirnos en el medio digital líder en República Dominicana, reconocido por su integridad y compromiso con la verdad.
             </p>
             <p style="margin-top:10px;font-weight:700">Correo: <a href="mailto:sinnadaqueocultar.com@gmail.com" style="color:var(--accent-2);text-decoration:underline">sinnadaqueocultar.com@gmail.com</a></p>
+          </div>
+        </div>
+
+        <!-- Ads and media block (organized and attractive) -->
+        <div class="card small">
+          <strong>Anuncios y multimedia</strong>
+          <div class="ads-card" style="margin-top:12px">
+            <div class="ad-item" aria-hidden="false">
+              <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhIVIf21OLGsGp3hDX400ootHrTRctAOyGcDWj8NQMpcHucjaVEh6LB6jYWLP-RiwgbfIwrIOCyMc2bEfkjOzVBDVLMo_N7mYnc1e-T-HYSdHogbiyPEKH9pwrII24y7n2Vx8Ypl06zU7N9KPY6GV-tHw9MwPdHvTijwdRNFKBvEl4vtECGESTVo1po7F0=s300" alt="Anuncio lateral" loading="lazy">
+              <div class="ad-caption">Anuncio</div>
+            </div>
+
+            <div class="ad-item">
+              <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgmKhw-ub4qNg4E_pO_LvpEL3k8Tejb0ryQFsGn6S6ZYNf0h2UwjSCBhaJFJ2qh7FNFXYkg0H4Iu6AEZ0BuUGGD9hk5YWJbwJUSZ8kYS_OnQmTQMMsBpQDwrw99X5Tui1YtHMXNe3hkSq3_fYHey2yFP2JsqJcGGFlmXul_MQ2d85E0cJB6W15ynBE1XKs=s300" alt="Imagen informativa" loading="lazy">
+              <div class="ad-caption">Información destacada</div>
+            </div>
+
+            <div class="ad-video" aria-hidden="false">
+              <!-- Responsive iframe container -->
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/_bDSFIN9Hdo" title="Compromiso del ministerio de interior y policía." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+            </div>
+
+            <div class="ad-item">
+              <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgbuX-PStM7f7pEKH0zDVCgQCGb95h3f9oDT59kXvcaX_HWnGlKa2_VO541kIGhO9ImT3GljmSb1P_a3SzwEemOaCGgk1TVBQJWUvkK-Y8HFuaVw7ILWTvQDVLLPLmRIwInzBXuAqoNTw3Z1gRbw4ixsVHZnFoYtewqqwwtdYGX26MZXKWxbFMb_9PC2dU=s300" alt="Imagen adicional" loading="lazy">
+              <div class="ad-caption">Patrocinador</div>
+            </div>
           </div>
         </div>
 
@@ -345,6 +400,24 @@
     </div>
   </div>
 
+  <!-- Comandantes generales floating panel (opaque for readability) -->
+  <div id="comandantesPanel" class="comandantes-panel" role="dialog" aria-modal="false" aria-hidden="true" aria-label="Comandantes generales">
+    <div class="panel-header">
+      <h3>Comandantes generales</h3>
+      <div>
+        <button id="comandantesClose" class="panel-close close-btn" aria-label="Cerrar panel">✕</button>
+      </div>
+    </div>
+    <div class="panel-body" id="comandantesBody" tabindex="0" aria-live="polite">
+      <!-- Injected by JS -->
+    </div>
+    <div class="panel-footer">
+      <div style="font-size:13px;color:var(--muted)">Última actualización: <span id="comandantesUpdated">—</span></div>
+      <div><button id="comandantesMore" class="btn small ghost">Ver más</button></div>
+    </div>
+  </div>
+
+  <!-- To top -->
   <div id="toTop" class="to-top hidden" title="Ir al primer post" aria-hidden="true">↑</div>
 
   <footer>
@@ -405,23 +478,23 @@
   </div>
 
 <script>
-/* ===== Blogger API constants (kept) ===== */
+/* Blogger API constants (kept) */
 const BLOG_ID = '5213119795675357751';
 const API_KEY = 'AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI';
 
-/* ===== Minimal safe fallback data (kept) ===== */
+/* Fallback articles */
 const FALLBACK = [
   { id:1, title:"Revolución urbana transforma el centro histórico", section:"cultura", kicker:"Reportaje", excerpt:"Un proyecto de regeneración urbana está cambiando el casco antiguo.", img:"https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1400&auto=format&fit=crop", author:"ANDRÉS CASTILLO", date:"2026-02-19T08:00:00Z", location:"Boca chica", content:"<p>Contenido de ejemplo con <strong>negritas</strong> y <em>cursivas</em>.</p><p><img src='https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop' alt='ejemplo'></p>", labels:["Cultura","Urbanismo"] },
   { id:2, title:"Economía local crece pese a incertidumbre global", section:"economia", kicker:"Análisis", excerpt:"Los indicadores muestran resiliencia en sectores clave.", img:"https://images.unsplash.com/photo-1542223616-1b9b1b1f9b9b?q=80&w=1400&auto=format&fit=crop", author:"Carlos Méndez", date:"2026-02-19T10:00:00Z", location:"Santo Domingo", content:"<p>Contenido de ejemplo 2.</p>", labels:["Economía","Mercados"] }
 ];
 
-/* ===== State ===== */
+/* State */
 let state = { theme:'dark', view:'magazine', filter:'all', query:'', pageToken:null, articles:[], perPage:6 };
 
-/* ===== Elements ===== */
+/* Elements */
 const magazine = document.getElementById('magazine');
 const tickerTrack = document.getElementById('tickerTrack');
-const featuredWrap = document.getElementById('featuredWrap');
+const featuredBubble = document.getElementById('featuredBubble');
 const tagsList = document.getElementById('tagsList');
 
 const modal = document.getElementById('modal');
@@ -445,7 +518,16 @@ const tvModal = document.getElementById('tvModal');
 let utterance = null;
 let voices = [];
 
-/* ===== Init ===== */
+/* Comandantes data */
+const COMANDANTES = [
+  { name: 'Ministro de Defensa Teniente General Carlos Antonio Fernández Onofre ERD', role: 'Ministro de Defensa', img: 'https://blogger.googleusercontent.com/img/a/AVvXsEjSnMuCTCKmBCYZpdxR4Ioa6R6qBPOcjzVXrCvXdBvDsZnfK32NDLPraCl8TGmts95x5KPe0qj2YVrMHgdK879NAlxetnEfiucxNFyEAQzOLG2A0KDuWvjUhhe15NUYxvN0fiLPFrIKHkz46MmBMUrr3IyKo5glW7OYWoeRb0YiZTSOQULlokqSRhVUCg=s250' },
+  { name: 'Viceministro de Defensa - Mayor General Carlos R. Febrillet Rodríguez FARD', role: 'Viceministro de Defensa', img: 'https://blogger.googleusercontent.com/img/a/AVvXsEgT20-F4andXgpmwlyxNpdp7DIiECTbdJvYsBanBMK5292fzeNjpwn7jPi27IcV2VMz4L924TDGzWLt1Ayk4UexJs6Bhorjmogy2OVtTzbn5sdKkff1dlKTzSl6KsqQcpLHpyyfOshZdwAnN8jZ6vJAolPdYRw_7p9V-_QAPKT-UAsuSNfrKPR03FTctQ=s300' },
+  { name: 'Comandante Gral. del ERD - Mayor General Jorge Iván Camino Pérez', role: 'Comandante General ERD', img: 'https://blogger.googleusercontent.com/img/a/AVvXsEgT20-F4andXgpmwlyxNpdp7DIiECTbdJvYsBanBMK5292fzeNjpwn7jPi27IcV2VMz4L924TDGzWLt1Ayk4UexJs6Bhorjmogy2OVtTzbn5sdKkff1dlKTzSl6KsqQcpLHpyyfOshZdwAnN8jZ6vJAolPdYRw_7p9V-_QAPKT-UAsuSNfrKPR03FTctQ=s300' },
+  { name: 'VICEALMIRANTE JUAN BIENVENIDO CRISÓSTOMO MARTÍNEZ ARD - COMANDANTE GRAL DE LA ARMADA DOMINICANA', role: 'Comandante General Armada', img: 'https://blogger.googleusercontent.com/img/a/AVvXsEhH8V0Udme76Q5WGleT8LRt0Z75E5T7ysAC8j1haFWkfeHv03reXvb9OR33hCFrekMx0Ho450dec622TdpE5UkFYGHA6QGuCd_xHq__psk5w5Cog2aank3KX2BfyyAqj_nTGLy2zeiVxtcJTe0LvrVr6gpx6A-dpUfP7siODvQtOIm7rhscG5afAHNjWoM=s323' },
+  { name: 'Director General de la Policía Nacional - Mayor General Andrés Modesto Cruz Cruz PN', role: 'Director General Policía', img: 'https://www.policianacional.gob.do/wp-content/uploads/2026/02/802c74f2-d2f7-4e1c-8a96-63a2fc31e846-808x1024.jpeg' }
+];
+
+/* Init */
 document.addEventListener('DOMContentLoaded', init);
 async function init(){
   try{
@@ -461,28 +543,23 @@ async function init(){
   attachEvents();
   populateVoices();
   updateTickerSpeed();
-  // ensure centered on load
   centerWrap();
-  window.addEventListener('resize', centerWrap);
+  renderComandantes();
+  window.addEventListener('resize', () => { updateTickerSpeed(); centerWrap(); });
 }
 
-/* ===== Centering helper (ensures wrap stays centered on all devices) ===== */
+/* Centering helper */
 function centerWrap(){
-  const outer = document.querySelector('.outer');
-  if(!outer) return;
-  // remove any accidental horizontal scroll by ensuring no child exceeds viewport
+  const wrap = document.querySelector('.wrap');
+  if(!wrap) return;
+  const pad = 36;
+  const vw = Math.max(document.documentElement.clientWidth || window.innerWidth, 320);
+  wrap.style.maxWidth = Math.min(1200, Math.max(320, vw - pad)) + 'px';
   document.documentElement.style.overflowX = 'hidden';
   document.body.style.overflowX = 'hidden';
-  // small safety: clamp wrap max-width to viewport minus padding
-  const wrap = document.querySelector('.wrap');
-  if(wrap){
-    const pad = 24; // left+right padding
-    const vw = Math.max(document.documentElement.clientWidth || window.innerWidth, 320);
-    wrap.style.maxWidth = Math.min(1200, Math.max(320, vw - pad)) + 'px';
-  }
 }
 
-/* ===== Blogger fetch (paged) ===== */
+/* Blogger fetch (paged) */
 async function fetchBloggerPage(pageToken = null){
   const params = new URLSearchParams({ key: API_KEY, maxResults: state.perPage });
   if(pageToken) params.set('pageToken', pageToken);
@@ -492,7 +569,7 @@ async function fetchBloggerPage(pageToken = null){
   return await res.json();
 }
 
-/* ===== Load more posts (button only) ===== */
+/* Load more posts (button only) */
 async function loadMorePosts(){
   try{
     const data = await fetchBloggerPage(state.pageToken);
@@ -517,7 +594,7 @@ async function loadMorePosts(){
   }
 }
 
-/* ===== Map Blogger post to internal shape ===== */
+/* Map Blogger post */
 function mapBloggerPost(p){
   let img = '';
   if(p.images && p.images.length) img = p.images[0].url;
@@ -542,7 +619,7 @@ function mapBloggerPost(p){
   };
 }
 
-/* ===== Build ticker ===== */
+/* Build ticker */
 function buildTicker(){
   const items = state.articles.map(a => ({tag:a.section, text:`${a.kicker}: ${a.title}`}));
   const doubled = items.concat(items);
@@ -550,18 +627,18 @@ function buildTicker(){
   updateTickerSpeed();
 }
 
-/* ===== Update ticker speed ===== */
+/* Update ticker speed */
 function updateTickerSpeed(){
   requestAnimationFrame(() => {
     const track = tickerTrack;
     if(!track) return;
     const trackWidth = track.scrollWidth || 1200;
-    const duration = Math.max(28, Math.min(50, Math.floor(trackWidth / 40)));
+    const duration = Math.max(22, Math.min(60, Math.floor(trackWidth / 36)));
     track.style.animationDuration = duration + 's';
   });
 }
 
-/* ===== Render feed ===== */
+/* Render feed */
 function render(reset=false){
   magazine.innerHTML = '';
   const list = filteredArticles();
@@ -577,7 +654,7 @@ function render(reset=false){
   });
 }
 
-/* ===== Create card ===== */
+/* Create card */
 function createCard(a, featured=false){
   const el = document.createElement('article');
   el.className = 'card';
@@ -632,19 +709,15 @@ function createCard(a, featured=false){
   return el;
 }
 
-/* ===== Featured bubble ===== */
+/* Featured bubble */
 function renderFeatured(){
   const first = state.articles[0] || FALLBACK[0];
   if(!first) return;
-  featuredWrap.innerHTML = ''; // keep feed as-is; bubble opens first post
-  const bubble = document.querySelector('.featured-bubble');
-  if(bubble){
-    bubble.onclick = () => openReader(first);
-    bubble.title = first.title;
-  }
+  featuredBubble.onclick = () => openReader(first);
+  featuredBubble.title = first.title;
 }
 
-/* ===== Tags from articles ===== */
+/* Build tags */
 function buildTagsFromArticles(){
   const labelSet = new Map();
   state.articles.forEach(a => {
@@ -654,8 +727,8 @@ function buildTagsFromArticles(){
       labelSet.set(key.toLowerCase(), key);
     });
   });
-  const labels = Array.from(labelSet.values()).slice(0,30);
   const placeholders = ['Actualidad','Opinión','Ciencia','Salud','Internacional','Local','Cultura','Tecnología','Economía','Deportes','Educación','Medioambiente','Sociedad','Política','Arte','Música','Cine','Viajes','Gastronomía','Estilo','Emprendimiento','Innovación','Seguridad','Justicia','Tribuna','Entrevistas','Reportajes','Análisis','Tendencias','Eventos'];
+  const labels = Array.from(labelSet.values());
   for(let i=0; labels.length<30 && i<placeholders.length; i++){
     if(!labels.includes(placeholders[i])) labels.push(placeholders[i]);
   }
@@ -667,7 +740,24 @@ function buildTagsFromArticles(){
   }));
 }
 
-/* ===== Filtering & search ===== */
+/* Render comandantes into floating panel */
+function renderComandantes(){
+  const panelBody = document.getElementById('comandantesBody');
+  if(!panelBody) return;
+  panelBody.innerHTML = COMANDANTES.map(c => `
+    <div class="comandante" role="group" aria-label="${escapeHtml(c.name)}">
+      <img src="${c.img}" alt="${escapeHtml(c.name)}" loading="lazy">
+      <div class="info">
+        <div class="name">${escapeHtml(c.name)}</div>
+        <div class="role">${escapeHtml(c.role)}</div>
+      </div>
+    </div>
+  `).join('');
+  const now = new Date();
+  document.getElementById('comandantesUpdated').textContent = now.toLocaleString();
+}
+
+/* Filtering & search */
 function filteredArticles(){
   const q = state.query.trim().toLowerCase();
   return state.articles.filter(a => {
@@ -678,9 +768,8 @@ function filteredArticles(){
   });
 }
 
-/* ===== Open reader ===== */
+/* Open reader */
 function openReader(article){
-  // hide header to avoid overlap on small screens and emphasize reading
   const header = document.querySelector('header.site-header');
   if(header) header.style.display = 'none';
   document.body.classList.add('modal-open');
@@ -705,7 +794,7 @@ function openReader(article){
   setTimeout(()=> { const btn = document.getElementById('closeModal'); if(btn) btn.focus(); }, 120);
 }
 
-/* ===== Close reader ===== */
+/* Close reader */
 function closeReader(){
   stopTTS();
   modal.classList.remove('open');
@@ -717,7 +806,7 @@ function closeReader(){
   readerProgress.style.width = '0%';
 }
 
-/* ===== Sanitize while preserving formatting ===== */
+/* Sanitize while preserving formatting */
 function sanitizePreserveHtml(html){
   if(!html) return '';
   const parser = new DOMParser();
@@ -748,7 +837,7 @@ function sanitizePreserveHtml(html){
   return doc.body.innerHTML;
 }
 
-/* ===== TTS (Web Speech API) ===== */
+/* TTS */
 function populateVoices(){
   voices = speechSynthesis.getVoices() || [];
   voiceSelect.innerHTML = voices.map((v,i) => `<option value="${i}">${v.name} ${v.lang}</option>`).join('');
@@ -772,11 +861,11 @@ function pauseTTS(){ speechSynthesis.pause(); }
 function resumeTTS(){ speechSynthesis.resume(); }
 function stopTTS(){ speechSynthesis.cancel(); utterance = null; }
 
-/* ===== Font controls ===== */
+/* Font controls */
 function setReaderFontSize(px){ readerContent.style.fontSize = px + 'px'; }
 function changeReaderFontSize(delta){ const current = parseFloat(getComputedStyle(readerContent).fontSize) || 18; const next = Math.max(14, Math.min(28, Math.round((current + delta) * 10) / 10)); setReaderFontSize(next); }
 
-/* ===== Reader progress ===== */
+/* Reader progress */
 function updateReaderProgress(){
   requestAnimationFrame(() => {
     if(!modal.classList.contains('open')) return;
@@ -788,7 +877,7 @@ function updateReaderProgress(){
   });
 }
 
-/* ===== Program TV (demo) ===== */
+/* Program TV */
 function openTvModal(){
   const schedule = [
     {time:'06:00', title:'Mañanas con Nova'},
@@ -804,13 +893,13 @@ function openTvModal(){
 }
 function closeTvModal(){ if(tvModal){ tvModal.classList.remove('open'); tvModal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
 
-/* ===== Utilities ===== */
+/* Utilities */
 function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
 function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
 function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 function stripHtml(html){ return String(html || '').replace(/<[^>]*>/g, ''); }
 
-/* ===== Throttle helper ===== */
+/* Throttle helper */
 function throttle(fn, wait){
   let last = 0, timer = null;
   return function(...args){
@@ -826,12 +915,11 @@ function throttle(fn, wait){
   };
 }
 
-/* ===== Events wiring ===== */
+/* Events wiring */
 function attachEvents(){
   document.getElementById('themeToggle').addEventListener('click', () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', state.theme === 'dark' ? 'dark' : 'light');
-    document.querySelectorAll('.mission .hero .hero-text').forEach(el => el.style.color = '#fff');
   });
 
   document.getElementById('viewToggle').addEventListener('click', (e) => {
@@ -873,9 +961,9 @@ function attachEvents(){
   ttsRate.addEventListener('input', () => { if(utterance) utterance.rate = parseFloat(ttsRate.value); });
   voiceSelect.addEventListener('change', () => { if(utterance){ const idx = parseInt(voiceSelect.value || 0, 10); if(voices[idx]) utterance.voice = voices[idx]; } });
 
-  document.getElementById('fontIncrease').addEventListener('click', () => changeReaderFontSize(2));
-  document.getElementById('fontDecrease').addEventListener('click', () => changeReaderFontSize(-2));
-  document.getElementById('fontReset').addEventListener('click', () => setReaderFontSize(18));
+  document.getElementById('fontIncrease')?.addEventListener('click', () => changeReaderFontSize(2));
+  document.getElementById('fontDecrease')?.addEventListener('click', () => changeReaderFontSize(-2));
+  document.getElementById('fontReset')?.addEventListener('click', () => setReaderFontSize(18));
 
   readerContent.addEventListener('scroll', throttle(updateReaderProgress, 80), { passive:true });
 
@@ -895,10 +983,41 @@ function attachEvents(){
     else window.scrollTo({ top:0, behavior:'smooth' });
   });
 
+  // Comandantes panel open/close
+  document.getElementById('btnComandantes').addEventListener('click', () => openComandantesPanel());
+  document.getElementById('comandantesClose').addEventListener('click', () => closeComandantesPanel());
+  document.getElementById('comandantesMore').addEventListener('click', () => alert('Abrir sección completa de Comandantes (demo).'));
+
+  // Simple nav buttons
+  ['navSobre','navContacto'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click', ()=> { alert(el.textContent + ' — sección (demo)'); });
+  });
+
+  // Pause ticker on pointer enter (extra safety)
+  const marquee = document.querySelector('.marquee');
+  marquee?.addEventListener('pointerenter', () => { tickerTrack.style.animationPlayState = 'paused'; });
+  marquee?.addEventListener('pointerleave', () => { tickerTrack.style.animationPlayState = 'running'; });
+
   window.addEventListener('resize', throttle(() => { updateTickerSpeed(); centerWrap(); }, 180));
 }
 
-/* ===== Scroll-to-top visibility ===== */
+/* Comandantes panel controls */
+function openComandantesPanel(){
+  renderComandantes();
+  const panel = document.getElementById('comandantesPanel');
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  setTimeout(()=> document.getElementById('comandantesBody')?.focus(), 120);
+}
+function closeComandantesPanel(){
+  const panel = document.getElementById('comandantesPanel');
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.getElementById('btnComandantes')?.focus();
+}
+
+/* Scroll-to-top visibility */
 function handleScrollForToTop(scrollY){
   const threshold = 420;
   if(scrollY > threshold){
@@ -910,7 +1029,7 @@ function handleScrollForToTop(scrollY){
   }
 }
 
-/* ===== Initial fallback render if no posts loaded ===== */
+/* Initial fallback render if no posts loaded */
 setTimeout(()=> {
   if(state.articles.length === 0){
     state.articles = FALLBACK.slice();
@@ -921,10 +1040,10 @@ setTimeout(()=> {
   }
 }, 700);
 
-/* ===== Expose small helpers for debugging ===== */
+/* Expose small helpers for debugging */
 window.__diarioNova = { buildTicker, updateTickerSpeed, render };
 
-/* ===== Utility duplicates (safe) ===== */
+/* Utility duplicates */
 function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
 function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
 function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
