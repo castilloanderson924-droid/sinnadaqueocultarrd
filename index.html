@@ -7,7 +7,9 @@
 <meta name="description" content="Periódico digital con diseño avanzado, animaciones y dinámica innovadora." />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Reset & base ---------- */
+  /* -------------------------
+     Variables y reset
+     ------------------------- */
   :root{
     --bg:#0f1724;
     --card:#0b1220;
@@ -35,36 +37,67 @@
   }
 
   *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-text-size-adjust:100%}
+  html,body{height:100%;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-text-size-adjust:100%}
   body{
     background:
       radial-gradient(1000px 500px at 8% 12%, rgba(143,230,255,0.04), transparent),
       radial-gradient(700px 300px at 92% 88%, rgba(79,179,255,0.02), transparent),
       var(--bg);
     color:var(--text);
-    padding:20px;
     transition:background var(--transition), color var(--transition);
-    overflow-x:hidden; /* prevent horizontal scroll on mobile */
+    overflow-x:hidden; /* evita desplazamiento horizontal en móviles */
+    -webkit-overflow-scrolling:touch;
   }
 
-  /* ---------- Layout ---------- */
-  .wrap{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+  img, video, iframe { max-width:100%; height:auto; display:block; }
+
+  /* -------------------------
+     Contenedor principal centrado y seguro
+     ------------------------- */
+  .outer {
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding-left:12px;
+    padding-right:12px;
+  }
+  .wrap{
+    width:100%;
+    max-width:var(--max-width);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 340px;
+    gap:22px;
+    align-items:start;
+    /* ensure internal padding doesn't cause overflow */
+    padding:0;
+  }
+
+  /* -------------------------
+     Header
+     ------------------------- */
   header.site-header{
     grid-column:1/-1;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:12px 16px;border-radius:12px;background:var(--card);
-    border:1px solid var(--glass-border);box-shadow:var(--shadow);
-    position:sticky;top:14px;z-index:120;
-    backdrop-filter: blur(6px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 16px;
+    border-radius:12px;
+    background:var(--card);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:14px;
+    z-index:120;
+    min-width:0;
   }
-
   .brand{display:flex;gap:12px;align-items:center;min-width:0}
   .logo{width:56px;height:56px;border-radius:8px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .logo img{width:100%;height:100%;object-fit:contain;display:block}
   .brand h1{margin:0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .brand p{margin:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  .header-controls{display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
+  .header-controls{display:flex;gap:10px;align-items:center;flex-shrink:0}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;cursor:pointer;transition:transform var(--transition)}
   .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
   .btn.small{padding:8px 10px;font-size:13px}
@@ -74,11 +107,17 @@
   .social a{width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass-border);color:var(--text);text-decoration:none}
   .social svg{width:18px;height:18px;display:block}
 
+  /* -------------------------
+     Search
+     ------------------------- */
   .search-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:12px}
   .searchbar{display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:12px;border:1px solid var(--glass-border);width:100%;max-width:980px}
   .searchbar input{flex:1;padding:8px;border-radius:8px;border:0;background:transparent;color:var(--text);outline:none;font-size:14px;min-width:0}
   .searchbar .btn-ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
 
+  /* -------------------------
+     Ticker
+     ------------------------- */
   .ticker{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);overflow:hidden}
   .ticker .label{font-weight:800;color:var(--muted);font-size:13px;white-space:nowrap}
   .marquee{flex:1;overflow:hidden;position:relative;height:34px}
@@ -88,7 +127,10 @@
   .marquee .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--accent);font-weight:800;border:1px solid rgba(255,255,255,0.02)}
   .marquee:hover .track{animation-play-state:paused}
 
-  main.feed{padding:18px;border-radius:12px;min-height:60vh}
+  /* -------------------------
+     Feed / Cards
+     ------------------------- */
+  main.feed{padding:18px;border-radius:12px;min-height:60vh;min-width:0}
   .magazine{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .card{background:var(--card);border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition);cursor:pointer;min-height:220px;min-width:0}
   .card:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,0.35)}
@@ -105,7 +147,10 @@
   .featured{grid-column:span 2;min-height:380px}
   .featured .media{height:300px}
 
-  aside.sidebar{position:sticky;top:32px;display:flex;flex-direction:column;gap:14px}
+  /* -------------------------
+     Sidebar
+     ------------------------- */
+  aside.sidebar{position:sticky;top:32px;display:flex;flex-direction:column;gap:14px;min-width:0}
   .card.small{padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--glass-border)}
   .mission{display:flex;flex-direction:column;gap:12px;align-items:stretch}
   .mission .hero{position:relative;border-radius:12px;overflow:hidden;height:220px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:16px;color:white}
@@ -117,13 +162,17 @@
   .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);color:var(--muted);cursor:pointer;font-weight:700}
   .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042033;border:0;box-shadow:0 10px 30px rgba(79,179,255,0.12)}
 
-  /* Floating featured bubble */
+  /* -------------------------
+     Featured bubble
+     ------------------------- */
   .featured-bubble{
     position:fixed;right:22px;bottom:110px;width:64px;height:64px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#042033;font-weight:900;box-shadow:0 18px 50px rgba(79,179,255,0.18);z-index:220;cursor:pointer;transition:transform 220ms ease,opacity 220ms ease;
   }
   .featured-bubble:hover{transform:translateY(-6px) scale(1.03)}
 
-  /* ---------- Reader modal (large, mobile-first friendly) ---------- */
+  /* -------------------------
+     Reader modal (large, centered, mobile-friendly)
+     ------------------------- */
   .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.55);z-index:260;opacity:0;pointer-events:none;transition:opacity 260ms ease;backdrop-filter: blur(6px)}
   .modal.open{opacity:1;pointer-events:auto}
   .reader{
@@ -153,7 +202,7 @@
 
   .reader .controls{display:flex;gap:10px;align-items:center;margin:12px 0;flex-wrap:wrap;justify-content:center}
   .reader .content{overflow:auto;padding:12px 18px;line-height:1.85;color:var(--text);font-size:18px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-  .reader .content img{display:block;margin:18px auto;border-radius:10px;max-width:92%;height:auto}
+  .reader .content img{display:block;margin:18px auto;border-radius:10px;max-width:92%}
   .reader .content p{margin:14px 0}
   .reader .content h1,h2,h3{margin:18px 0 8px;color:var(--text)}
   .reader .content a{color:inherit;text-decoration:underline}
@@ -163,14 +212,19 @@
   .font-controls{display:flex;gap:8px;align-items:center}
   .font-controls button{padding:6px 8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--card);color:var(--text);cursor:pointer}
 
+  /* -------------------------
+     To top & footer
+     ------------------------- */
   .to-top{position:fixed;right:22px;bottom:28px;width:48px;height:48px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:200;transition:transform 220ms ease,opacity 220ms ease}
   .to-top.hidden{opacity:0;transform:translateY(12px);pointer-events:none}
 
   footer{grid-column:1/-1;margin-top:18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);flex-wrap:wrap;gap:8px}
 
-  /* ---------- Responsive adjustments ---------- */
+  /* -------------------------
+     Responsive fixes to ensure centering on small screens
+     ------------------------- */
   @media (max-width:1100px){
-    .wrap{grid-template-columns:1fr;gap:18px;padding:12px}
+    .wrap{grid-template-columns:1fr;gap:18px;padding:0}
     .magazine{grid-template-columns:repeat(2,1fr)}
     .featured{grid-column:auto}
     aside.sidebar{position:relative;top:auto}
@@ -178,7 +232,8 @@
     .featured-bubble{right:14px;bottom:100px}
   }
   @media (max-width:700px){
-    header.site-header{padding:10px}
+    header.site-header{padding:10px;flex-direction:column;align-items:stretch;gap:8px}
+    .brand{justify-content:flex-start}
     .brand h1{font-size:16px}
     .magazine{grid-template-columns:1fr}
     .reader{width:96vw;height:92vh;padding:14px}
@@ -186,13 +241,9 @@
     .to-top{right:12px;bottom:18px}
     .featured-bubble{right:12px;bottom:120px}
     .reader-header h2{font-size:20px}
-    .header-controls{gap:6px}
-    .searchbar{padding:6px}
-    .searchbar input{font-size:15px}
-    .card{min-height:180px}
+    .header-controls{gap:6px;justify-self:end}
     .logo{width:48px;height:48px}
-    .brand h1{font-size:15px}
-    footer{padding:12px}
+    .wrap{padding-left:8px;padding-right:8px}
   }
 
   /* Ensure mission hero text visible in light theme */
@@ -201,102 +252,99 @@
 </style>
 </head>
 <body data-theme="dark">
-  <div class="wrap" id="appWrap">
-    <!-- Header -->
-    <header class="site-header" role="banner" aria-label="Cabecera">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png" alt="Logo Sin Nada Que Ocultar RD">
-        </div>
-        <div>
-          <h1>Sin Nada Que Ocultar RD</h1>
-          <p class="muted">Periódico Digital Dominicano</p>
-        </div>
-      </div>
-
-      <!-- Theme and view toggles (outside modal) -->
-      <div class="header-controls" role="toolbar" aria-label="Controles">
-        <button id="viewToggle" class="btn small ghost" title="Cambiar vista">Revista</button>
-        <button id="themeToggle" class="btn small ghost" title="Cambiar tema">Tema</button>
-        <nav class="social" aria-label="Redes sociales">
-          <a href="#" title="Twitter / X" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43.36a9.05 9.05 0 0 1-2.88 1.1A4.52 4.52 0 0 0 16.11 0c-2.5 0-4.52 2.03-4.52 4.53 0 .35.04.69.11 1.02A12.84 12.84 0 0 1 1.64.9a4.5 4.5 0 0 0-.61 2.28c0 1.57.8 2.96 2.02 3.78A4.5 4.5 0 0 1 .9 6.9v.06c0 2.2 1.57 4.04 3.66 4.46a4.5 4.5 0 0 1-2.04.08c.58 1.8 2.26 3.12 4.25 3.16A9.06 9.06 0 0 1 0 19.54 12.8 12.8 0 0 0 6.92 21c8.3 0 12.84-6.88 12.84-12.84v-.58A9.2 9.2 0 0 0 23 3z" stroke-width="0.8"/></svg></a>
-          <a href="#" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="0.9"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke-width="0.9"/><path d="M17.5 6.5h.01" stroke-width="1"/></svg></a>
-          <a href="#" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z" stroke-width="0.9"/></svg></a>
-          <a href="#" title="YouTube" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29.36 29.36 0 0 0 1 12a29.36 29.36 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29.36 29.36 0 0 0 23 12a29.36 29.36 0 0 0-.46-5.58z" stroke-width="0.9"/><path d="M10 15l5-3-5-3v6z" stroke-width="0.9"/></svg></a>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Search -->
-    <div class="search-row">
-      <div class="searchbar" role="search" aria-label="Buscar noticias">
-        <input id="searchInput" placeholder="Buscar titulares, secciones..." aria-label="Buscar noticias" />
-        <button id="clearSearch" class="btn-ghost">Limpiar</button>
-      </div>
-    </div>
-
-    <!-- Featured bubble (floating) -->
-    <div id="featuredBubble" class="featured-bubble" title="Noticia destacada" aria-label="Noticia destacada">★</div>
-
-    <!-- Ticker -->
-    <div class="ticker" aria-live="polite">
-      <div class="label">Últimas</div>
-      <div class="marquee" aria-hidden="true">
-        <div class="track" id="tickerTrack" style="animation-duration:28s"></div>
-      </div>
-    </div>
-
-    <!-- Feed -->
-    <main class="feed" id="feed" aria-label="Noticias">
-      <section class="magazine" id="magazine" aria-live="polite"></section>
-      <div id="loadMore" class="center" style="padding:18px;">
-        <button id="loadBtn" class="btn ghost">Cargar más</button>
-      </div>
-    </main>
-
-    <!-- Sidebar -->
-    <aside class="sidebar" aria-label="Barra lateral">
-      <div class="card small mission">
-        <div class="hero mission-hero" style="background-image:url('https://blogger.googleusercontent.com/img/a/AVvXsEiLuxEI6sntEpw34QLSTSHhTDQl6A75MdiFIGdiWP0GUvG33Q_pnoS2PjKxcZMhKgM6hrN5IpyI1_quZm46Fb2kvtGt9HOXuDV7TWo14MM905qm-4rEmQd-AwgXbUGkps9wCLPDNyy-Dg0IkQ8NnFWu0JXlDrMN2oTrdTNd12Ytd7tB0QhlQNjcoOx9fj8=s300')">
-          <div class="hero-text">
-            <h3>Periodista Andrés Castillo</h3>
-            <small style="opacity:0.95">Transparencia • Verdad • Periodismo</small>
+  <div class="outer">
+    <div class="wrap" id="appWrap">
+      <header class="site-header" role="banner" aria-label="Cabecera del sitio">
+        <div class="brand" style="min-width:0">
+          <div class="logo" aria-hidden="true">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjS8LXAzi1Yiook-sOoY1qALICMCqeaZIYKCGeGogvvyhP85GNNKH2nPshVJBRtdggNYOAB4JYP10iMRH7FD4887JXS9yiaY6g0dtRqkgj9Vmbuql5VqpzJ0gwUxsMzERwBlKxHbwUTFIwtBWJVPT-Du-HSg8gsbkIz4cl32AWD9fjbtm9p3FDnq4_Wpdc/s320/gg843.png" alt="Logo Sin Nada Que Ocultar RD">
+          </div>
+          <div style="min-width:0;overflow:hidden">
+            <h1>Sin Nada Que Ocultar RD</h1>
+            <p class="muted">Periódico Digital Dominicano</p>
           </div>
         </div>
-        <div style="padding:12px">
-          <h4 style="margin:8px 0 6px">Misión</h4>
-          <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">
-            En <strong>Sin Nada Que Ocultar RD</strong> estamos comprometidos a brindar una cobertura auténtica y oportuna de las noticias locales e internacionales más impactantes. Nuestra misión es ser un referente en transparencia y responsabilidad periodística.
-          </p>
-          <h4 style="margin-top:12px">Visión</h4>
-          <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">
-            Convertirnos en el medio digital líder en República Dominicana, reconocido por su integridad y compromiso con la verdad.
-          </p>
-          <p style="margin-top:10px;font-weight:700">Correo: <a href="mailto:sinnadaqueocultar.com@gmail.com" style="color:var(--accent-2);text-decoration:underline">sinnadaqueocultar.com@gmail.com</a></p>
+
+        <div class="header-controls" role="toolbar" aria-label="Controles">
+          <button id="viewToggle" class="btn small ghost" title="Cambiar vista">Revista</button>
+          <button id="themeToggle" class="btn small ghost" title="Cambiar tema">Tema</button>
+          <nav class="social" aria-label="Redes sociales">
+            <a href="#" title="Twitter / X" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43.36a9.05 9.05 0 0 1-2.88 1.1A4.52 4.52 0 0 0 16.11 0c-2.5 0-4.52 2.03-4.52 4.53 0 .35.04.69.11 1.02A12.84 12.84 0 0 1 1.64.9a4.5 4.5 0 0 0-.61 2.28c0 1.57.8 2.96 2.02 3.78A4.5 4.5 0 0 1 .9 6.9v.06c0 2.2 1.57 4.04 3.66 4.46a4.5 4.5 0 0 1-2.04.08c.58 1.8 2.26 3.12 4.25 3.16A9.06 9.06 0 0 1 0 19.54 12.8 12.8 0 0 0 6.92 21c8.3 0 12.84-6.88 12.84-12.84v-.58A9.2 9.2 0 0 0 23 3z" stroke-width="0.8"/></svg></a>
+            <a href="#" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="0.9"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke-width="0.9"/><path d="M17.5 6.5h.01" stroke-width="1"/></svg></a>
+            <a href="#" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z" stroke-width="0.9"/></svg></a>
+            <a href="#" title="YouTube" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29.36 29.36 0 0 0 1 12a29.36 29.36 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29.36 29.36 0 0 0 23 12a29.36 29.36 0 0 0-.46-5.58z" stroke-width="0.9"/><path d="M10 15l5-3-5-3v6z" stroke-width="0.9"/></svg></a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="search-row">
+        <div class="searchbar" role="search" aria-label="Buscar noticias">
+          <input id="searchInput" placeholder="Buscar titulares, secciones..." aria-label="Buscar noticias" />
+          <button id="clearSearch" class="btn-ghost">Limpiar</button>
         </div>
       </div>
 
-      <div class="card small">
-        <strong>Etiquetas</strong>
-        <div id="tagsList" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;max-height:360px;overflow:auto;padding-right:6px"></div>
+      <div style="grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;">
+        <div id="featuredWrap" style="flex:1;min-width:0"></div>
+        <div style="width:340px;max-width:30vw;min-width:220px"></div>
       </div>
 
-      <div class="card small">
-        <strong>Programa TV</strong>
-        <p class="muted" style="margin-top:8px">Consulta la programación diaria y activa recordatorios.</p>
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <button id="openTv" class="btn small ghost">Ver TV</button>
-          <button id="subscribeTv" class="btn small ghost">Recordar</button>
+      <div class="ticker" aria-live="polite">
+        <div class="label">Últimas</div>
+        <div class="marquee" aria-hidden="true">
+          <div class="track" id="tickerTrack" style="animation-duration:28s"></div>
         </div>
       </div>
 
-      <div class="card small center">
-        <small class="muted">Diseño experimental • Responsive</small>
-      </div>
-    </aside>
+      <main class="feed" id="feed" aria-label="Noticias">
+        <section class="magazine" id="magazine" aria-live="polite"></section>
+        <div id="loadMore" class="center" style="padding:18px;">
+          <button id="loadBtn" class="btn ghost">Cargar más</button>
+        </div>
+      </main>
+
+      <aside class="sidebar" aria-label="Barra lateral">
+        <div class="card small mission">
+          <div class="hero mission-hero" style="background-image:url('https://blogger.googleusercontent.com/img/a/AVvXsEiLuxEI6sntEpw34QLSTSHhTDQl6A75MdiFIGdiWP0GUvG33Q_pnoS2PjKxcZMhKgM6hrN5IpyI1_quZm46Fb2kvtGt9HOXuDV7TWo14MM905qm-4rEmQd-AwgXbUGkps9wCLPDNyy-Dg0IkQ8NnFWu0JXlDrMN2oTrdTNd12Ytd7tB0QhlQNjcoOx9fj8=s300')">
+            <div class="hero-text">
+              <h3>Periodista Andrés Castillo</h3>
+              <small style="opacity:0.95">Transparencia • Verdad • Periodismo</small>
+            </div>
+          </div>
+          <div style="padding:12px">
+            <h4 style="margin:8px 0 6px">Misión</h4>
+            <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">
+              En <strong>Sin Nada Que Ocultar RD</strong> estamos comprometidos a brindar una cobertura auténtica y oportuna de las noticias locales e internacionales más impactantes. Nuestra misión es ser un referente en transparencia y responsabilidad periodística.
+            </p>
+            <h4 style="margin-top:12px">Visión</h4>
+            <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.45">
+              Convertirnos en el medio digital líder en República Dominicana, reconocido por su integridad y compromiso con la verdad.
+            </p>
+            <p style="margin-top:10px;font-weight:700">Correo: <a href="mailto:sinnadaqueocultar.com@gmail.com" style="color:var(--accent-2);text-decoration:underline">sinnadaqueocultar.com@gmail.com</a></p>
+          </div>
+        </div>
+
+        <div class="card small">
+          <strong>Etiquetas</strong>
+          <div id="tagsList" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;max-height:360px;overflow:auto;padding-right:6px"></div>
+        </div>
+
+        <div class="card small">
+          <strong>Programa TV</strong>
+          <p class="muted" style="margin-top:8px">Consulta la programación diaria y activa recordatorios.</p>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button id="openTv" class="btn small ghost">Ver TV</button>
+            <button id="subscribeTv" class="btn small ghost">Recordar</button>
+          </div>
+        </div>
+
+        <div class="card small center">
+          <small class="muted">Diseño experimental • Responsive</small>
+        </div>
+      </aside>
+    </div>
   </div>
 
-  <!-- Floating to-top -->
   <div id="toTop" class="to-top hidden" title="Ir al primer post" aria-hidden="true">↑</div>
 
   <footer>
@@ -357,33 +405,23 @@
   </div>
 
 <script>
-/* =========================
-   Config / Blogger constants (kept)
-   ========================= */
+/* ===== Blogger API constants (kept) ===== */
 const BLOG_ID = '5213119795675357751';
 const API_KEY = 'AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI';
 
-/* ===== Fallback sample articles ===== */
+/* ===== Minimal safe fallback data (kept) ===== */
 const FALLBACK = [
-  { id:1, title:"Revolución urbana transforma el centro histórico", section:"cultura", kicker:"Reportaje", excerpt:"Un proyecto de regeneración urbana está cambiando la fisonomía del casco antiguo con espacios verdes y arte público.", img:"https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1400&auto=format&fit=crop", author:"ANDRÉS CASTILLO", date:"2026-02-19T08:00:00Z", location:"Boca chica", content:"<p>Contenido completo del artículo de ejemplo. Aquí se muestra texto y <strong>imágenes</strong>.</p><p><img src='https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop' alt='ejemplo'></p>", labels:["Cultura","Urbanismo"] },
-  { id:2, title:"Economía local crece pese a incertidumbre global", section:"economia", kicker:"Análisis", excerpt:"Los indicadores muestran resiliencia en sectores clave.", img:"https://images.unsplash.com/photo-1542223616-1b9b1b1f9b9b?q=80&w=1400&auto=format&fit=crop", author:"Carlos Méndez", date:"2026-02-19T10:00:00Z", location:"Santo Domingo", content:"<p>Contenido completo del artículo de ejemplo 2.</p>", labels:["Economía","Mercados"] }
+  { id:1, title:"Revolución urbana transforma el centro histórico", section:"cultura", kicker:"Reportaje", excerpt:"Un proyecto de regeneración urbana está cambiando el casco antiguo.", img:"https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1400&auto=format&fit=crop", author:"ANDRÉS CASTILLO", date:"2026-02-19T08:00:00Z", location:"Boca chica", content:"<p>Contenido de ejemplo con <strong>negritas</strong> y <em>cursivas</em>.</p><p><img src='https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop' alt='ejemplo'></p>", labels:["Cultura","Urbanismo"] },
+  { id:2, title:"Economía local crece pese a incertidumbre global", section:"economia", kicker:"Análisis", excerpt:"Los indicadores muestran resiliencia en sectores clave.", img:"https://images.unsplash.com/photo-1542223616-1b9b1b1f9b9b?q=80&w=1400&auto=format&fit=crop", author:"Carlos Méndez", date:"2026-02-19T10:00:00Z", location:"Santo Domingo", content:"<p>Contenido de ejemplo 2.</p>", labels:["Economía","Mercados"] }
 ];
 
 /* ===== State ===== */
-let state = {
-  theme:'dark',
-  view:'magazine',
-  filter:'all',
-  query:'',
-  pageToken:null,
-  articles:[],
-  perPage:6
-};
+let state = { theme:'dark', view:'magazine', filter:'all', query:'', pageToken:null, articles:[], perPage:6 };
 
 /* ===== Elements ===== */
 const magazine = document.getElementById('magazine');
 const tickerTrack = document.getElementById('tickerTrack');
-const featuredBubble = document.getElementById('featuredBubble');
+const featuredWrap = document.getElementById('featuredWrap');
 const tagsList = document.getElementById('tagsList');
 
 const modal = document.getElementById('modal');
@@ -391,8 +429,8 @@ const readerTitle = document.getElementById('readerTitle');
 const readerAuthor = document.getElementById('readerAuthor');
 const readerDate = document.getElementById('readerDate');
 const readerLocation = document.getElementById('readerLocation');
-const readerTime = document.getElementById('readerTime');
 const readerContent = document.getElementById('readerContent');
+const readerTime = document.getElementById('readerTime');
 const readerProgress = document.getElementById('readerProgress');
 
 const ttsPlay = document.getElementById('ttsPlay');
@@ -407,11 +445,9 @@ const tvModal = document.getElementById('tvModal');
 let utterance = null;
 let voices = [];
 
-/* ===== Initialization ===== */
+/* ===== Init ===== */
 document.addEventListener('DOMContentLoaded', init);
-
 async function init(){
-  // Load first page (button-driven further loads)
   try{
     await loadMorePosts();
   }catch(e){
@@ -422,13 +458,28 @@ async function init(){
     buildTagsFromArticles();
     renderFeatured();
   }
-
   attachEvents();
   populateVoices();
   updateTickerSpeed();
+  // ensure centered on load
+  centerWrap();
+  window.addEventListener('resize', centerWrap);
+}
 
-  // Accessibility: ensure no horizontal overflow on small screens
+/* ===== Centering helper (ensures wrap stays centered on all devices) ===== */
+function centerWrap(){
+  const outer = document.querySelector('.outer');
+  if(!outer) return;
+  // remove any accidental horizontal scroll by ensuring no child exceeds viewport
   document.documentElement.style.overflowX = 'hidden';
+  document.body.style.overflowX = 'hidden';
+  // small safety: clamp wrap max-width to viewport minus padding
+  const wrap = document.querySelector('.wrap');
+  if(wrap){
+    const pad = 24; // left+right padding
+    const vw = Math.max(document.documentElement.clientWidth || window.innerWidth, 320);
+    wrap.style.maxWidth = Math.min(1200, Math.max(320, vw - pad)) + 'px';
+  }
 }
 
 /* ===== Blogger fetch (paged) ===== */
@@ -491,7 +542,7 @@ function mapBloggerPost(p){
   };
 }
 
-/* ===== Build ticker (duplicate items for continuous scroll) ===== */
+/* ===== Build ticker ===== */
 function buildTicker(){
   const items = state.articles.map(a => ({tag:a.section, text:`${a.kicker}: ${a.title}`}));
   const doubled = items.concat(items);
@@ -499,7 +550,7 @@ function buildTicker(){
   updateTickerSpeed();
 }
 
-/* ===== Update ticker speed (moderate, stable) ===== */
+/* ===== Update ticker speed ===== */
 function updateTickerSpeed(){
   requestAnimationFrame(() => {
     const track = tickerTrack;
@@ -510,7 +561,7 @@ function updateTickerSpeed(){
   });
 }
 
-/* ===== Render feed (no auto-loading) ===== */
+/* ===== Render feed ===== */
 function render(reset=false){
   magazine.innerHTML = '';
   const list = filteredArticles();
@@ -526,7 +577,7 @@ function render(reset=false){
   });
 }
 
-/* ===== Create card element (animated, titles not cut) ===== */
+/* ===== Create card ===== */
 function createCard(a, featured=false){
   const el = document.createElement('article');
   el.className = 'card';
@@ -554,7 +605,6 @@ function createCard(a, featured=false){
     el.querySelector('.media').style.height = '300px';
   }
 
-  // lightweight hover parallax using requestAnimationFrame to avoid jank
   let raf = null;
   el.addEventListener('mousemove', e => {
     if(raf) cancelAnimationFrame(raf);
@@ -582,15 +632,19 @@ function createCard(a, featured=false){
   return el;
 }
 
-/* ===== Featured bubble behavior ===== */
+/* ===== Featured bubble ===== */
 function renderFeatured(){
   const first = state.articles[0] || FALLBACK[0];
   if(!first) return;
-  featuredBubble.onclick = () => openReader(first);
-  featuredBubble.title = first.title;
+  featuredWrap.innerHTML = ''; // keep feed as-is; bubble opens first post
+  const bubble = document.querySelector('.featured-bubble');
+  if(bubble){
+    bubble.onclick = () => openReader(first);
+    bubble.title = first.title;
+  }
 }
 
-/* ===== Tags: build from articles (up to 30) ===== */
+/* ===== Tags from articles ===== */
 function buildTagsFromArticles(){
   const labelSet = new Map();
   state.articles.forEach(a => {
@@ -606,7 +660,7 @@ function buildTagsFromArticles(){
     if(!labels.includes(placeholders[i])) labels.push(placeholders[i]);
   }
   tagsList.innerHTML = labels.slice(0,30).map(t => `<button class="chip" data-tag="${escapeHtml(t.toLowerCase())}">${escapeHtml(t)}</button>`).join('');
-  tagsList.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', (e) => {
+  tagsList.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => {
     const tag = btn.dataset.tag;
     state.filter = tag;
     render(true);
@@ -624,10 +678,11 @@ function filteredArticles(){
   });
 }
 
-/* ===== Open reader (preserve formatting, centered metadata) ===== */
+/* ===== Open reader ===== */
 function openReader(article){
   // hide header to avoid overlap on small screens and emphasize reading
-  document.querySelector('header.site-header').style.display = 'none';
+  const header = document.querySelector('header.site-header');
+  if(header) header.style.display = 'none';
   document.body.classList.add('modal-open');
 
   readerTitle.textContent = article.title;
@@ -636,42 +691,33 @@ function openReader(article){
   readerLocation.textContent = article.location || '';
   readerContent.innerHTML = sanitizePreserveHtml(article.content || `<p>${escapeHtml(article.excerpt)}</p>`);
 
-  // reading time
   const text = readerContent.innerText || readerContent.textContent || '';
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 200));
   readerTime.textContent = `${minutes} min lectura`;
 
-  // set comfortable font size for mobile and desktop
   setReaderFontSize(18);
-
-  // open modal
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
   document.body.style.overflow = 'hidden';
-
-  // prepare TTS
   prepareUtterance(text);
-
-  // reset progress and attach scroll listener
   updateReaderProgress();
-
-  // focus close button for accessibility
-  setTimeout(()=> document.getElementById('closeModal').focus(), 120);
+  setTimeout(()=> { const btn = document.getElementById('closeModal'); if(btn) btn.focus(); }, 120);
 }
 
-/* ===== Close reader (reliable) ===== */
+/* ===== Close reader ===== */
 function closeReader(){
   stopTTS();
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden','true');
   document.body.style.overflow = '';
   document.body.classList.remove('modal-open');
-  document.querySelector('header.site-header').style.display = '';
+  const header = document.querySelector('header.site-header');
+  if(header) header.style.display = '';
   readerProgress.style.width = '0%';
 }
 
-/* ===== Sanitize while preserving formatting (basic) ===== */
+/* ===== Sanitize while preserving formatting ===== */
 function sanitizePreserveHtml(html){
   if(!html) return '';
   const parser = new DOMParser();
@@ -726,11 +772,11 @@ function pauseTTS(){ speechSynthesis.pause(); }
 function resumeTTS(){ speechSynthesis.resume(); }
 function stopTTS(){ speechSynthesis.cancel(); utterance = null; }
 
-/* ===== Reader font controls ===== */
+/* ===== Font controls ===== */
 function setReaderFontSize(px){ readerContent.style.fontSize = px + 'px'; }
 function changeReaderFontSize(delta){ const current = parseFloat(getComputedStyle(readerContent).fontSize) || 18; const next = Math.max(14, Math.min(28, Math.round((current + delta) * 10) / 10)); setReaderFontSize(next); }
 
-/* ===== Reader progress (local) ===== */
+/* ===== Reader progress ===== */
 function updateReaderProgress(){
   requestAnimationFrame(() => {
     if(!modal.classList.contains('open')) return;
@@ -742,7 +788,7 @@ function updateReaderProgress(){
   });
 }
 
-/* ===== Program TV (simple demo schedule) ===== */
+/* ===== Program TV (demo) ===== */
 function openTvModal(){
   const schedule = [
     {time:'06:00', title:'Mañanas con Nova'},
@@ -753,20 +799,18 @@ function openTvModal(){
     {time:'21:00', title:'Noche Informativa'}
   ];
   const ul = document.getElementById('tvSchedule');
-  ul.innerHTML = schedule.map(s => `<li><strong>${s.time}</strong> — ${escapeHtml(s.title)}</li>`).join('');
-  tvModal.classList.add('open');
-  tvModal.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
+  if(ul) ul.innerHTML = schedule.map(s => `<li><strong>${s.time}</strong> — ${escapeHtml(s.title)}</li>`).join('');
+  if(tvModal){ tvModal.classList.add('open'); tvModal.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
 }
-function closeTvModal(){ tvModal.classList.remove('open'); tvModal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+function closeTvModal(){ if(tvModal){ tvModal.classList.remove('open'); tvModal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
 
-/* ===== Utility helpers ===== */
+/* ===== Utilities ===== */
 function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
 function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
 function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 function stripHtml(html){ return String(html || '').replace(/<[^>]*>/g, ''); }
 
-/* ===== Throttle helper to avoid jank ===== */
+/* ===== Throttle helper ===== */
 function throttle(fn, wait){
   let last = 0, timer = null;
   return function(...args){
@@ -782,17 +826,14 @@ function throttle(fn, wait){
   };
 }
 
-/* ===== Events wiring (keeps previous options) ===== */
+/* ===== Events wiring ===== */
 function attachEvents(){
-  // theme toggle (header)
   document.getElementById('themeToggle').addEventListener('click', () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', state.theme === 'dark' ? 'dark' : 'light');
-    // ensure mission hero text remains visible
     document.querySelectorAll('.mission .hero .hero-text').forEach(el => el.style.color = '#fff');
   });
 
-  // view toggle (header)
   document.getElementById('viewToggle').addEventListener('click', (e) => {
     state.view = state.view === 'magazine' ? 'list' : 'magazine';
     e.currentTarget.textContent = state.view === 'magazine' ? 'Revista' : 'Lista';
@@ -802,7 +843,6 @@ function attachEvents(){
     render(true);
   });
 
-  // load more button (explicit)
   document.getElementById('loadBtn').addEventListener('click', async () => {
     try{
       const added = await loadMorePosts();
@@ -813,7 +853,6 @@ function attachEvents(){
     }
   });
 
-  // search
   document.getElementById('searchInput').addEventListener('input', (e) => {
     state.query = e.target.value;
     render(true);
@@ -824,51 +863,42 @@ function attachEvents(){
     render(true);
   });
 
-  // tags (built dynamically)
-  // close modal (reliable)
   document.getElementById('closeModal').addEventListener('click', closeReader);
   modal.addEventListener('click', (e) => { if(e.target === modal) closeReader(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeReader(); });
 
-  // TTS controls
   ttsPlay.addEventListener('click', () => { if(speechSynthesis.paused) resumeTTS(); else playTTS(); });
   ttsPause.addEventListener('click', () => { pauseTTS(); });
   ttsStop.addEventListener('click', () => { stopTTS(); });
   ttsRate.addEventListener('input', () => { if(utterance) utterance.rate = parseFloat(ttsRate.value); });
   voiceSelect.addEventListener('change', () => { if(utterance){ const idx = parseInt(voiceSelect.value || 0, 10); if(voices[idx]) utterance.voice = voices[idx]; } });
 
-  // font controls
   document.getElementById('fontIncrease').addEventListener('click', () => changeReaderFontSize(2));
   document.getElementById('fontDecrease').addEventListener('click', () => changeReaderFontSize(-2));
   document.getElementById('fontReset').addEventListener('click', () => setReaderFontSize(18));
 
-  // reader scroll progress (throttled)
   readerContent.addEventListener('scroll', throttle(updateReaderProgress, 80), { passive:true });
 
-  // toTop show/hide (throttled)
   window.addEventListener('scroll', throttle(() => {
     const y = window.scrollY || window.pageYOffset;
     handleScrollForToTop(y);
   }, 120), { passive:true });
 
-  // toTop click
+  document.getElementById('openTv')?.addEventListener('click', openTvModal);
+  document.getElementById('subscribeTv')?.addEventListener('click', () => alert('Recordatorio activado (demo).'));
+  document.getElementById('closeTv')?.addEventListener('click', closeTvModal);
+  tvModal.addEventListener('click', (e) => { if(e.target === tvModal) closeTvModal(); });
+
   toTop.addEventListener('click', () => {
     const first = document.querySelector('#magazine article');
     if(first) first.scrollIntoView({ behavior:'smooth', block:'start' });
     else window.scrollTo({ top:0, behavior:'smooth' });
   });
 
-  // TV modal
-  document.getElementById('openTv')?.addEventListener('click', openTvModal);
-  document.getElementById('subscribeTv')?.addEventListener('click', () => alert('Recordatorio activado (demo).'));
-  document.getElementById('closeTv')?.addEventListener('click', closeTvModal);
-  tvModal.addEventListener('click', (e) => { if(e.target === tvModal) closeTvModal(); });
-
-  // resize adjust ticker speed (throttled)
-  window.addEventListener('resize', throttle(updateTickerSpeed, 180));
+  window.addEventListener('resize', throttle(() => { updateTickerSpeed(); centerWrap(); }, 180));
 }
 
-/* ===== Scroll-to-top visibility handler ===== */
+/* ===== Scroll-to-top visibility ===== */
 function handleScrollForToTop(scrollY){
   const threshold = 420;
   if(scrollY > threshold){
@@ -880,18 +910,7 @@ function handleScrollForToTop(scrollY){
   }
 }
 
-/* ===== Initial render if articles already loaded ===== */
-function initialRenderIfNeeded(){
-  if(state.articles.length > 0){
-    buildTicker();
-    render(true);
-    buildTagsFromArticles();
-    renderFeatured();
-  }
-}
-initialRenderIfNeeded();
-
-/* ===== Small fallback if nothing loaded after short delay ===== */
+/* ===== Initial fallback render if no posts loaded ===== */
 setTimeout(()=> {
   if(state.articles.length === 0){
     state.articles = FALLBACK.slice();
@@ -902,10 +921,10 @@ setTimeout(()=> {
   }
 }, 700);
 
-/* ===== Expose small helpers for debugging if needed ===== */
+/* ===== Expose small helpers for debugging ===== */
 window.__diarioNova = { buildTicker, updateTickerSpeed, render };
 
-/* ===== Utility functions used above (duplicate-safe) ===== */
+/* ===== Utility duplicates (safe) ===== */
 function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
 function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
 function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
