@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Sin Nada Que Ocultar RD - Periódico Digital Dominicano</title>
 <meta name="description" content="Periódico digital con diseño avanzado, animaciones y dinámica innovadora." />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* ---------- Reset & base ---------- */
   :root{
     --bg:#0f1724;
     --card:#0b1220;
@@ -20,7 +21,6 @@
     --shadow:0 12px 40px rgba(2,6,23,0.6);
     --max-width:1200px;
     --transition:260ms cubic-bezier(.2,.9,.3,1);
-    --ticker-min-duration:28s;
   }
   [data-theme="light"]{
     --bg:#f6f8fb;
@@ -34,8 +34,8 @@
     --shadow:0 10px 30px rgba(11,18,32,0.06);
   }
 
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; -webkit-text-size-adjust:100%}
   body{
     background:
       radial-gradient(1000px 500px at 8% 12%, rgba(143,230,255,0.04), transparent),
@@ -44,36 +44,41 @@
     color:var(--text);
     padding:20px;
     transition:background var(--transition), color var(--transition);
+    overflow-x:hidden; /* prevent horizontal scroll on mobile */
   }
 
-  /* Layout */
+  /* ---------- Layout ---------- */
   .wrap{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
-  header.site-header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);box-shadow:var(--shadow);position:sticky;top:14px;z-index:120}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:56px;height:56px;border-radius:8px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center}
-  .logo img{width:100%;height:100%;object-fit:contain;display:block}
-  .brand h1{margin:0;font-size:18px}
-  .brand p{margin:0;font-size:12px;color:var(--muted)}
+  header.site-header{
+    grid-column:1/-1;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 16px;border-radius:12px;background:var(--card);
+    border:1px solid var(--glass-border);box-shadow:var(--shadow);
+    position:sticky;top:14px;z-index:120;
+    backdrop-filter: blur(6px);
+  }
 
-  /* Header controls */
-  .header-controls{display:flex;gap:10px;align-items:center}
+  .brand{display:flex;gap:12px;align-items:center;min-width:0}
+  .logo{width:56px;height:56px;border-radius:8px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .logo img{width:100%;height:100%;object-fit:contain;display:block}
+  .brand h1{margin:0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand p{margin:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .header-controls{display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;cursor:pointer;transition:transform var(--transition)}
   .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
   .btn.small{padding:8px 10px;font-size:13px}
   .icon-btn{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--glass-border);cursor:pointer}
 
-  /* Social icons */
   .social{display:flex;gap:8px;align-items:center}
   .social a{width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass-border);color:var(--text);text-decoration:none}
   .social svg{width:18px;height:18px;display:block}
 
-  /* Search row */
   .search-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:12px}
   .searchbar{display:flex;align-items:center;gap:8px;background:var(--card);padding:8px;border-radius:12px;border:1px solid var(--glass-border);width:100%;max-width:980px}
-  .searchbar input{flex:1;padding:8px;border-radius:8px;border:0;background:transparent;color:var(--text);outline:none;font-size:14px}
+  .searchbar input{flex:1;padding:8px;border-radius:8px;border:0;background:transparent;color:var(--text);outline:none;font-size:14px;min-width:0}
   .searchbar .btn-ghost{background:transparent;border:1px solid var(--glass-border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
 
-  /* Ticker */
   .ticker{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);overflow:hidden}
   .ticker .label{font-weight:800;color:var(--muted);font-size:13px;white-space:nowrap}
   .marquee{flex:1;overflow:hidden;position:relative;height:34px}
@@ -83,15 +88,14 @@
   .marquee .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--accent);font-weight:800;border:1px solid rgba(255,255,255,0.02)}
   .marquee:hover .track{animation-play-state:paused}
 
-  /* Feed */
   main.feed{padding:18px;border-radius:12px;min-height:60vh}
   .magazine{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:var(--card);border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition);cursor:pointer;min-height:220px}
+  .card{background:var(--card);border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition);cursor:pointer;min-height:220px;min-width:0}
   .card:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,0.35)}
   .media{height:160px;background-size:cover;background-position:center;flex-shrink:0;transition:transform 420ms ease}
-  .meta{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .meta{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1;min-width:0}
   .kicker{font-size:12px;color:var(--accent);font-weight:800}
-  .title{font-size:16px;font-weight:800;line-height:1.25;margin:0;word-break:break-word;hyphens:auto}
+  .title{font-size:16px;font-weight:800;line-height:1.25;margin:0;word-break:break-word;hyphens:auto;overflow-wrap:break-word}
   .excerpt{color:var(--muted);font-size:13px;line-height:1.45}
   .footer{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-top:8px}
 
@@ -101,12 +105,10 @@
   .featured{grid-column:span 2;min-height:380px}
   .featured .media{height:300px}
 
-  /* Sidebar */
   aside.sidebar{position:sticky;top:32px;display:flex;flex-direction:column;gap:14px}
   .card.small{padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--glass-border)}
   .mission{display:flex;flex-direction:column;gap:12px;align-items:stretch}
   .mission .hero{position:relative;border-radius:12px;overflow:hidden;height:220px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:16px;color:white}
-  /* overlay to keep text visible in light theme */
   .mission .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.0) 20%, rgba(0,0,0,0.55) 100%);pointer-events:none}
   .mission .hero .hero-text{position:relative;z-index:2;color:white;text-shadow:0 6px 18px rgba(0,0,0,0.45)}
   .mission h3{margin:0;font-size:18px}
@@ -121,7 +123,7 @@
   }
   .featured-bubble:hover{transform:translateY(-6px) scale(1.03)}
 
-  /* Reader modal: much larger, centered metadata */
+  /* ---------- Reader modal (large, mobile-first friendly) ---------- */
   .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.55);z-index:260;opacity:0;pointer-events:none;transition:opacity 260ms ease;backdrop-filter: blur(6px)}
   .modal.open{opacity:1;pointer-events:auto}
   .reader{
@@ -145,30 +147,28 @@
 
   .reader .close{position:absolute;right:18px;top:18px;background:transparent;border:0;color:var(--text);font-size:20px;cursor:pointer;padding:8px;border-radius:8px;z-index:30}
   .reader-header{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 12px;margin-bottom:12px}
-  .reader-header h2{margin:6px 0 6px;font-size:26px;color:var(--text);line-height:1.15}
+  .reader-header h2{margin:6px 0 6px;font-size:26px;color:var(--text);line-height:1.15;max-width:88ch;overflow-wrap:break-word}
   .reader-meta-line{display:flex;gap:10px;align-items:center;justify-content:center;color:var(--muted);font-size:14px;flex-wrap:wrap;margin-bottom:6px}
   .reader-meta-line .meta-item{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);font-weight:700}
 
   .reader .controls{display:flex;gap:10px;align-items:center;margin:12px 0;flex-wrap:wrap;justify-content:center}
   .reader .content{overflow:auto;padding:12px 18px;line-height:1.85;color:var(--text);font-size:18px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-  .reader .content img{display:block;margin:18px auto;border-radius:10px;max-width:92%}
+  .reader .content img{display:block;margin:18px auto;border-radius:10px;max-width:92%;height:auto}
   .reader .content p{margin:14px 0}
   .reader .content h1,h2,h3{margin:18px 0 8px;color:var(--text)}
   .reader .content a{color:inherit;text-decoration:underline}
   .reader-progress-wrap{height:6px;background:rgba(255,255,255,0.02);border-radius:6px;overflow:hidden;margin-top:12px}
   .reader-progress{height:6px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 80ms linear}
 
-  /* Font controls */
   .font-controls{display:flex;gap:8px;align-items:center}
   .font-controls button{padding:6px 8px;border-radius:8px;border:1px solid var(--glass-border);background:var(--card);color:var(--text);cursor:pointer}
 
-  /* Scroll to top */
   .to-top{position:fixed;right:22px;bottom:28px;width:48px;height:48px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:200;transition:transform 220ms ease,opacity 220ms ease}
   .to-top.hidden{opacity:0;transform:translateY(12px);pointer-events:none}
 
-  footer{grid-column:1/-1;margin-top:18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+  footer{grid-column:1/-1;margin-top:18px;padding:14px;border-radius:12px;background:var(--card);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);flex-wrap:wrap;gap:8px}
 
-  /* Responsive */
+  /* ---------- Responsive adjustments ---------- */
   @media (max-width:1100px){
     .wrap{grid-template-columns:1fr;gap:18px;padding:12px}
     .magazine{grid-template-columns:repeat(2,1fr)}
@@ -186,6 +186,13 @@
     .to-top{right:12px;bottom:18px}
     .featured-bubble{right:12px;bottom:120px}
     .reader-header h2{font-size:20px}
+    .header-controls{gap:6px}
+    .searchbar{padding:6px}
+    .searchbar input{font-size:15px}
+    .card{min-height:180px}
+    .logo{width:48px;height:48px}
+    .brand h1{font-size:15px}
+    footer{padding:12px}
   }
 
   /* Ensure mission hero text visible in light theme */
@@ -350,20 +357,30 @@
   </div>
 
 <script>
-/* Blogger API constants (kept) */
+/* =========================
+   Config / Blogger constants (kept)
+   ========================= */
 const BLOG_ID = '5213119795675357751';
 const API_KEY = 'AIzaSyCARk0pc3s7y3VLUTi6LNuSpP-FD2l7OtI';
 
-/* Fallback articles */
+/* ===== Fallback sample articles ===== */
 const FALLBACK = [
   { id:1, title:"Revolución urbana transforma el centro histórico", section:"cultura", kicker:"Reportaje", excerpt:"Un proyecto de regeneración urbana está cambiando la fisonomía del casco antiguo con espacios verdes y arte público.", img:"https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1400&auto=format&fit=crop", author:"ANDRÉS CASTILLO", date:"2026-02-19T08:00:00Z", location:"Boca chica", content:"<p>Contenido completo del artículo de ejemplo. Aquí se muestra texto y <strong>imágenes</strong>.</p><p><img src='https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop' alt='ejemplo'></p>", labels:["Cultura","Urbanismo"] },
   { id:2, title:"Economía local crece pese a incertidumbre global", section:"economia", kicker:"Análisis", excerpt:"Los indicadores muestran resiliencia en sectores clave.", img:"https://images.unsplash.com/photo-1542223616-1b9b1b1f9b9b?q=80&w=1400&auto=format&fit=crop", author:"Carlos Méndez", date:"2026-02-19T10:00:00Z", location:"Santo Domingo", content:"<p>Contenido completo del artículo de ejemplo 2.</p>", labels:["Economía","Mercados"] }
 ];
 
-/* State */
-let state = { theme:'dark', view:'magazine', filter:'all', query:'', pageToken:null, articles:[], perPage:6 };
+/* ===== State ===== */
+let state = {
+  theme:'dark',
+  view:'magazine',
+  filter:'all',
+  query:'',
+  pageToken:null,
+  articles:[],
+  perPage:6
+};
 
-/* Elements */
+/* ===== Elements ===== */
 const magazine = document.getElementById('magazine');
 const tickerTrack = document.getElementById('tickerTrack');
 const featuredBubble = document.getElementById('featuredBubble');
@@ -390,9 +407,11 @@ const tvModal = document.getElementById('tvModal');
 let utterance = null;
 let voices = [];
 
-/* Init */
+/* ===== Initialization ===== */
 document.addEventListener('DOMContentLoaded', init);
+
 async function init(){
+  // Load first page (button-driven further loads)
   try{
     await loadMorePosts();
   }catch(e){
@@ -403,13 +422,16 @@ async function init(){
     buildTagsFromArticles();
     renderFeatured();
   }
+
   attachEvents();
   populateVoices();
   updateTickerSpeed();
-  document.getElementById('searchInput').focus();
+
+  // Accessibility: ensure no horizontal overflow on small screens
+  document.documentElement.style.overflowX = 'hidden';
 }
 
-/* Fetch Blogger page */
+/* ===== Blogger fetch (paged) ===== */
 async function fetchBloggerPage(pageToken = null){
   const params = new URLSearchParams({ key: API_KEY, maxResults: state.perPage });
   if(pageToken) params.set('pageToken', pageToken);
@@ -419,7 +441,7 @@ async function fetchBloggerPage(pageToken = null){
   return await res.json();
 }
 
-/* Load more posts (button only) */
+/* ===== Load more posts (button only) ===== */
 async function loadMorePosts(){
   try{
     const data = await fetchBloggerPage(state.pageToken);
@@ -444,7 +466,7 @@ async function loadMorePosts(){
   }
 }
 
-/* Map Blogger post */
+/* ===== Map Blogger post to internal shape ===== */
 function mapBloggerPost(p){
   let img = '';
   if(p.images && p.images.length) img = p.images[0].url;
@@ -469,7 +491,7 @@ function mapBloggerPost(p){
   };
 }
 
-/* Build ticker */
+/* ===== Build ticker (duplicate items for continuous scroll) ===== */
 function buildTicker(){
   const items = state.articles.map(a => ({tag:a.section, text:`${a.kicker}: ${a.title}`}));
   const doubled = items.concat(items);
@@ -477,7 +499,7 @@ function buildTicker(){
   updateTickerSpeed();
 }
 
-/* Update ticker speed */
+/* ===== Update ticker speed (moderate, stable) ===== */
 function updateTickerSpeed(){
   requestAnimationFrame(() => {
     const track = tickerTrack;
@@ -488,7 +510,7 @@ function updateTickerSpeed(){
   });
 }
 
-/* Render feed */
+/* ===== Render feed (no auto-loading) ===== */
 function render(reset=false){
   magazine.innerHTML = '';
   const list = filteredArticles();
@@ -504,7 +526,7 @@ function render(reset=false){
   });
 }
 
-/* Create card */
+/* ===== Create card element (animated, titles not cut) ===== */
 function createCard(a, featured=false){
   const el = document.createElement('article');
   el.className = 'card';
@@ -532,6 +554,7 @@ function createCard(a, featured=false){
     el.querySelector('.media').style.height = '300px';
   }
 
+  // lightweight hover parallax using requestAnimationFrame to avoid jank
   let raf = null;
   el.addEventListener('mousemove', e => {
     if(raf) cancelAnimationFrame(raf);
@@ -559,7 +582,7 @@ function createCard(a, featured=false){
   return el;
 }
 
-/* Featured bubble */
+/* ===== Featured bubble behavior ===== */
 function renderFeatured(){
   const first = state.articles[0] || FALLBACK[0];
   if(!first) return;
@@ -567,7 +590,7 @@ function renderFeatured(){
   featuredBubble.title = first.title;
 }
 
-/* Build tags from articles */
+/* ===== Tags: build from articles (up to 30) ===== */
 function buildTagsFromArticles(){
   const labelSet = new Map();
   state.articles.forEach(a => {
@@ -577,20 +600,20 @@ function buildTagsFromArticles(){
       labelSet.set(key.toLowerCase(), key);
     });
   });
+  const labels = Array.from(labelSet.values()).slice(0,30);
   const placeholders = ['Actualidad','Opinión','Ciencia','Salud','Internacional','Local','Cultura','Tecnología','Economía','Deportes','Educación','Medioambiente','Sociedad','Política','Arte','Música','Cine','Viajes','Gastronomía','Estilo','Emprendimiento','Innovación','Seguridad','Justicia','Tribuna','Entrevistas','Reportajes','Análisis','Tendencias','Eventos'];
-  const labels = Array.from(labelSet.values());
   for(let i=0; labels.length<30 && i<placeholders.length; i++){
     if(!labels.includes(placeholders[i])) labels.push(placeholders[i]);
   }
   tagsList.innerHTML = labels.slice(0,30).map(t => `<button class="chip" data-tag="${escapeHtml(t.toLowerCase())}">${escapeHtml(t)}</button>`).join('');
-  tagsList.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => {
+  tagsList.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', (e) => {
     const tag = btn.dataset.tag;
     state.filter = tag;
     render(true);
   }));
 }
 
-/* Filtering & search */
+/* ===== Filtering & search ===== */
 function filteredArticles(){
   const q = state.query.trim().toLowerCase();
   return state.articles.filter(a => {
@@ -601,39 +624,54 @@ function filteredArticles(){
   });
 }
 
-/* Open reader (centered metadata) */
+/* ===== Open reader (preserve formatting, centered metadata) ===== */
 function openReader(article){
+  // hide header to avoid overlap on small screens and emphasize reading
+  document.querySelector('header.site-header').style.display = 'none';
   document.body.classList.add('modal-open');
+
   readerTitle.textContent = article.title;
   readerAuthor.textContent = article.author || 'Redacción';
   readerDate.textContent = formatDate(article.date);
   readerLocation.textContent = article.location || '';
-  readerTime.textContent = '—';
   readerContent.innerHTML = sanitizePreserveHtml(article.content || `<p>${escapeHtml(article.excerpt)}</p>`);
+
+  // reading time
   const text = readerContent.innerText || readerContent.textContent || '';
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 200));
   readerTime.textContent = `${minutes} min lectura`;
+
+  // set comfortable font size for mobile and desktop
   setReaderFontSize(18);
+
+  // open modal
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
   document.body.style.overflow = 'hidden';
+
+  // prepare TTS
   prepareUtterance(text);
+
+  // reset progress and attach scroll listener
   updateReaderProgress();
-  setTimeout(()=> { const btn = document.getElementById('closeModal'); if(btn) btn.focus(); }, 120);
+
+  // focus close button for accessibility
+  setTimeout(()=> document.getElementById('closeModal').focus(), 120);
 }
 
-/* Close reader */
+/* ===== Close reader (reliable) ===== */
 function closeReader(){
   stopTTS();
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden','true');
   document.body.style.overflow = '';
   document.body.classList.remove('modal-open');
+  document.querySelector('header.site-header').style.display = '';
   readerProgress.style.width = '0%';
 }
 
-/* Sanitize while preserving formatting */
+/* ===== Sanitize while preserving formatting (basic) ===== */
 function sanitizePreserveHtml(html){
   if(!html) return '';
   const parser = new DOMParser();
@@ -664,7 +702,7 @@ function sanitizePreserveHtml(html){
   return doc.body.innerHTML;
 }
 
-/* TTS */
+/* ===== TTS (Web Speech API) ===== */
 function populateVoices(){
   voices = speechSynthesis.getVoices() || [];
   voiceSelect.innerHTML = voices.map((v,i) => `<option value="${i}">${v.name} ${v.lang}</option>`).join('');
@@ -688,11 +726,11 @@ function pauseTTS(){ speechSynthesis.pause(); }
 function resumeTTS(){ speechSynthesis.resume(); }
 function stopTTS(){ speechSynthesis.cancel(); utterance = null; }
 
-/* Font controls */
+/* ===== Reader font controls ===== */
 function setReaderFontSize(px){ readerContent.style.fontSize = px + 'px'; }
 function changeReaderFontSize(delta){ const current = parseFloat(getComputedStyle(readerContent).fontSize) || 18; const next = Math.max(14, Math.min(28, Math.round((current + delta) * 10) / 10)); setReaderFontSize(next); }
 
-/* Reader progress */
+/* ===== Reader progress (local) ===== */
 function updateReaderProgress(){
   requestAnimationFrame(() => {
     if(!modal.classList.contains('open')) return;
@@ -704,7 +742,7 @@ function updateReaderProgress(){
   });
 }
 
-/* Program TV (demo) */
+/* ===== Program TV (simple demo schedule) ===== */
 function openTvModal(){
   const schedule = [
     {time:'06:00', title:'Mañanas con Nova'},
@@ -715,18 +753,20 @@ function openTvModal(){
     {time:'21:00', title:'Noche Informativa'}
   ];
   const ul = document.getElementById('tvSchedule');
-  if(ul) ul.innerHTML = schedule.map(s => `<li><strong>${s.time}</strong> — ${escapeHtml(s.title)}</li>`).join('');
-  if(tvModal){ tvModal.classList.add('open'); tvModal.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  ul.innerHTML = schedule.map(s => `<li><strong>${s.time}</strong> — ${escapeHtml(s.title)}</li>`).join('');
+  tvModal.classList.add('open');
+  tvModal.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
 }
-function closeTvModal(){ if(tvModal){ tvModal.classList.remove('open'); tvModal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
+function closeTvModal(){ tvModal.classList.remove('open'); tvModal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
 
-/* Utilities */
+/* ===== Utility helpers ===== */
 function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
 function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
 function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 function stripHtml(html){ return String(html || '').replace(/<[^>]*>/g, ''); }
 
-/* Throttle helper */
+/* ===== Throttle helper to avoid jank ===== */
 function throttle(fn, wait){
   let last = 0, timer = null;
   return function(...args){
@@ -742,19 +782,17 @@ function throttle(fn, wait){
   };
 }
 
-/* Events wiring */
+/* ===== Events wiring (keeps previous options) ===== */
 function attachEvents(){
-  // Theme toggle (header)
+  // theme toggle (header)
   document.getElementById('themeToggle').addEventListener('click', () => {
     state.theme = state.theme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', state.theme === 'dark' ? 'dark' : 'light');
     // ensure mission hero text remains visible
-    document.querySelectorAll('.mission .hero .hero-text').forEach(el => {
-      el.style.color = '#fff';
-    });
+    document.querySelectorAll('.mission .hero .hero-text').forEach(el => el.style.color = '#fff');
   });
 
-  // View toggle (header)
+  // view toggle (header)
   document.getElementById('viewToggle').addEventListener('click', (e) => {
     state.view = state.view === 'magazine' ? 'list' : 'magazine';
     e.currentTarget.textContent = state.view === 'magazine' ? 'Revista' : 'Lista';
@@ -764,7 +802,7 @@ function attachEvents(){
     render(true);
   });
 
-  // Load more
+  // load more button (explicit)
   document.getElementById('loadBtn').addEventListener('click', async () => {
     try{
       const added = await loadMorePosts();
@@ -775,7 +813,7 @@ function attachEvents(){
     }
   });
 
-  // Search
+  // search
   document.getElementById('searchInput').addEventListener('input', (e) => {
     state.query = e.target.value;
     render(true);
@@ -786,47 +824,51 @@ function attachEvents(){
     render(true);
   });
 
-  // Modal close
+  // tags (built dynamically)
+  // close modal (reliable)
   document.getElementById('closeModal').addEventListener('click', closeReader);
   modal.addEventListener('click', (e) => { if(e.target === modal) closeReader(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeReader(); });
 
-  // TTS
+  // TTS controls
   ttsPlay.addEventListener('click', () => { if(speechSynthesis.paused) resumeTTS(); else playTTS(); });
   ttsPause.addEventListener('click', () => { pauseTTS(); });
   ttsStop.addEventListener('click', () => { stopTTS(); });
   ttsRate.addEventListener('input', () => { if(utterance) utterance.rate = parseFloat(ttsRate.value); });
   voiceSelect.addEventListener('change', () => { if(utterance){ const idx = parseInt(voiceSelect.value || 0, 10); if(voices[idx]) utterance.voice = voices[idx]; } });
 
-  // Font controls
+  // font controls
   document.getElementById('fontIncrease').addEventListener('click', () => changeReaderFontSize(2));
   document.getElementById('fontDecrease').addEventListener('click', () => changeReaderFontSize(-2));
   document.getElementById('fontReset').addEventListener('click', () => setReaderFontSize(18));
 
-  // Reader scroll progress
+  // reader scroll progress (throttled)
   readerContent.addEventListener('scroll', throttle(updateReaderProgress, 80), { passive:true });
 
-  // toTop show/hide
+  // toTop show/hide (throttled)
   window.addEventListener('scroll', throttle(() => {
     const y = window.scrollY || window.pageYOffset;
     handleScrollForToTop(y);
   }, 120), { passive:true });
 
-  document.getElementById('openTv')?.addEventListener('click', openTvModal);
-  document.getElementById('subscribeTv')?.addEventListener('click', () => alert('Recordatorio activado (demo).'));
-  document.getElementById('closeTv')?.addEventListener('click', closeTvModal);
-  tvModal.addEventListener('click', (e) => { if(e.target === tvModal) closeTvModal(); });
-
+  // toTop click
   toTop.addEventListener('click', () => {
     const first = document.querySelector('#magazine article');
     if(first) first.scrollIntoView({ behavior:'smooth', block:'start' });
     else window.scrollTo({ top:0, behavior:'smooth' });
   });
 
+  // TV modal
+  document.getElementById('openTv')?.addEventListener('click', openTvModal);
+  document.getElementById('subscribeTv')?.addEventListener('click', () => alert('Recordatorio activado (demo).'));
+  document.getElementById('closeTv')?.addEventListener('click', closeTvModal);
+  tvModal.addEventListener('click', (e) => { if(e.target === tvModal) closeTvModal(); });
+
+  // resize adjust ticker speed (throttled)
   window.addEventListener('resize', throttle(updateTickerSpeed, 180));
 }
 
-/* Scroll-to-top visibility */
+/* ===== Scroll-to-top visibility handler ===== */
 function handleScrollForToTop(scrollY){
   const threshold = 420;
   if(scrollY > threshold){
@@ -838,7 +880,18 @@ function handleScrollForToTop(scrollY){
   }
 }
 
-/* Initial fallback render if no posts loaded */
+/* ===== Initial render if articles already loaded ===== */
+function initialRenderIfNeeded(){
+  if(state.articles.length > 0){
+    buildTicker();
+    render(true);
+    buildTagsFromArticles();
+    renderFeatured();
+  }
+}
+initialRenderIfNeeded();
+
+/* ===== Small fallback if nothing loaded after short delay ===== */
 setTimeout(()=> {
   if(state.articles.length === 0){
     state.articles = FALLBACK.slice();
@@ -849,10 +902,14 @@ setTimeout(()=> {
   }
 }, 700);
 
-/* Expose small helpers for debugging */
+/* ===== Expose small helpers for debugging if needed ===== */
 window.__diarioNova = { buildTicker, updateTickerSpeed, render };
 
-/* End */
+/* ===== Utility functions used above (duplicate-safe) ===== */
+function formatDate(d){ const dt = new Date(d); return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+function capitalize(s){ return String(s || '').charAt(0).toUpperCase() + String(s || '').slice(1); }
+function escapeHtml(str){ return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+function stripHtml(html){ return String(html || '').replace(/<[^>]*>/g, ''); }
 </script>
 </body>
 </html>
